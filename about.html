@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>About</title>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+      
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const menuToggle = document.querySelector(".menu-toggle");
+              const nav = document.querySelector("nav");
+              const navLinks = document.querySelectorAll("nav ul li a");
+          
+              // Toggle menu + button animation
+              menuToggle.addEventListener("click", () => {
+                nav.classList.toggle("active");
+                menuToggle.classList.toggle("active");
+              });
+          
+              // Close menu when clicking a link
+              navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                  nav.classList.remove("active");
+                  menuToggle.classList.remove("active");
+                });
+              });
+            });
+          </script>
+      </head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <!-- Hamburger Button -->
+  <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+  </button>
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html" class="active">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_about">
+  <!-- Title Section -->
+<section class="page-title about-page">
+  <div class="com_column">
+    <h2>ABOUT CROSSFIT</h2>
+    <p class="sub-title">CrossFitとは</p>
+  </div>
+</section>
+
+<ul class="com_page_link">
+  <li>
+    <a href="about.html#attraction" class="active">
+      <p class="jp">CrossFitの魅力</p>
+      <p class="en font_proxima">ATTRACTION</p>
+    </a>
+  </li>
+  <li>
+    <a href="about.html#feature">
+      <p class="jp">Roppongiの特長</p>
+      <p class="en font_proxima">FEATURES</p>
+    </a>
+  </li>
+  <li>
+    <a href="about.html#flow">
+      <p class="jp">トレーニングの流れ</p>
+      <p class="en font_proxima">FLOW</p>
+    </a>
+  </li>
+  <li>
+    <a href="about.html#voice">
+      <p class="jp">お客さまの声</p>
+      <p class="en font_proxima">VOICE</p>
+    </a>
+  </li>
+</ul>
+
+<!---------------- CrossFitの魅力 -------------->
+<div id="attraction" class="com_in_page_link"></div>
+  <section class="sec_about">
+		<div class="com_column">
+			<h2 class="com_small_title fadeup scrollin">
+				<p class="en font_proxima">ATTRACTION</p>
+				<p class="jp">CrossFitの魅力</p>
+			</h2>
+			<div class="text_area">
+				<h3 class="com_large_title fadeup scrollin">
+					<p class="jp">やり遂げる達成感があるから、<br class="br_pc">夢中になって打ち込める。</p>
+				</h3>
+				<p class="text_jp fadeup scrollin">CrossFitは、世界中で支持されるアメリカ発祥のトレーニングです。<br>日常生活で繰り返し行う動きをベースに、短時間・高強度のトレーニングを行い、基礎身体能力を高めていきます。<br><br>ダンベル、バーベル、メディシンボール、スクワット、縄跳び、ランニング、バイク、ローイング、鉄棒。<br>数百種類の動作を組み合わせ、毎回異なるプログラムを行うことで、普段の何気ない動作がスムーズに、そして力強く変わっていきます。<br><br>できなかったことができるようになる達成感や、自分を追い込み、汗を流す爽快感。<br>苦しい時に励まし、高め合う仲間との一体感。<br>CrossFit Roppongiには、飽きずに楽しくトレーニングできる環境が整っています。</p>
+				<p class="text_en font_proxima fadeup scrollin">The joy of accomplishment will leave you coming back for more.<br><br>CrossFit is a training method that originated in the United States with practitioners all over the world.<br>CrossFit uses a base of functional, everyday movements to provide short-term, high-intensity training that improves your fitness.<br><br>Train with dumbbells, barbells, medicine balls, jump ropes, running, biking, rowing, pull-ups, and more.<br>By combining hundreds of movement variations into programs that differ every session, CrossFit helps train you to be more smooth, graceful, and powerful when performing functional, everyday movements - both in and out of the gym.<br><br>Experience the accomplishment of doing what you couldn't do before. Feel the exhilaration that comes from pushing your limits.<br>Make new friends who will both share your successes, as well as encourage and support you through difficult times.<br>At CrossFit Roppongi, we offer an environment where training is always new and interesting!</p>
+
+				<div class="movie_wrap fadeup scrollin">
+					<iframe width="700" height="392" src="https://www.youtube.com/embed/mlVrkiCoKkg" title="Let Me Tell You About CrossFit" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				</div>
+			</div>
+		</div>
+	</section>
+
+<!---------------- Roppongiの特長 -------------->
+<div id="feature" class="com_in_page_link"></div>
+  <section class="sec_feature">
+		<div class="com_inner">
+			<h2 class="com_large_title fadeup scrollin">
+				<p class="jp">CrossFit Roppongiの4つの特長</p>
+				<p class="text_en font_proxima">Four Features of CrossFit Roppongi</p>
+			</h2>
+			<ul class="feature_list fade_list">
+				<li class="scrollin">
+					<div class="text_wrap">
+						<h3 class="title">定期的にイベントを開催、<br>メンバー間の親交を深めています</h3>
+						<p class="text_jp">CrossFit Roppongiは、BBQや山登りなどメンバー同士が交流できるイベントを開催しています。目標を共有できる仲間が増え、コミュニティが広がることで、ライフスタイルもより楽しく変化していきます。</p>
+						<p class="text_en font_proxima">Regular Events<br>Build friendships with other members<br>CrossFit Roppongi holds barbecues, hikes, and many other fun events where members have the opportunuity to get to know each other. Join a vibrant, growing community and find new friends that share your goals. Lifestyle change has never been easier!</p>
+					</div>
+					<div class="photo">
+						<img src="assets/img/feature_01.webp" alt="定期的にイベントを開催、メンバー間の親交を深めています">
+					</div>
+				</li>
+				<li class="scrollin">
+					<div class="text_wrap">
+						<h3 class="title">世界最大のフィットネス競技、<br>クロスフィットオープン参加者国内最多</h3>
+						<p class="text_jp">クロスフィットオープンは、各ボックスに所属しているクロスフィッター達がしのぎを削るCrossFit界のビッグイベントです。CrossFit Roppongiでは、実績のあるコーチ陣が競技の内容や対策、練習方法などを指導します。</p>
+						<p class="text_en font_proxima">The Most CrossFit Open Participants in Japan<br>The CrossFit Open is a big event in the CrossFit world. CrossFitters from various Boxes come to compete in the world's largest fitness competition. At CrossFit Roppongi, our proven coaches will help prepare you for the contest with information, strategies, training methods, and more.</p>
+					</div>
+					<div class="photo">
+						<img src="assets/img/feature_02.webp" alt="世界最大のフィットネス競技、クロスフィットオープン参加者国内最多">
+					</div>
+				</li>
+				<li class="scrollin">
+					<div class="text_wrap">
+						<h3 class="title">運動量をデータ化<br>アプリで目標達成をサポートします</h3>
+						<p class="text_jp">計測・記録・確認が目標達成への近道です。アプリを使って運動量を記録し、成果を振り返ることで、持続性やモチベーションを高めます。また、クラスの予約や変更などもアプリで簡単に管理することができます。</p>
+						<p class="text_en font_proxima">Track Your Training and Achieve Your Goals With Our App<br>Shortcut your goals by measuring, tracking, and reviewing your training. Stay consistent and motivated with our app, which lets you track your training and review your accomplishments. The app also lets you easily book, change, and manage your classes.</p>
+					</div>
+					<div class="photo">
+						<img src="assets/img/feature_03.webp" alt="運動量をデータ化アプリで目標達成をサポートします">
+					</div>
+				</li>
+				<li class="scrollin">
+					<div class="text_wrap">
+						<h3 class="title">目的次第でカスタマイズ可能な<br>パーソナルトレーニング</h3>
+						<p class="text_jp">CrossFit Roppongiでは、完全予約制のパーソナルトレーニングも行っています。パフォーマンス向上や苦手分野の克服など、目的に合わせてマンツーマンで指導します。ご家族、ご友人と一緒に少人数でのプライベートトレーニングも可能です。<br>※月会費とは別途、チケットをご購入いただきます。</p>
+						<p class="text_en font_proxima">Personal Training Customized Toward Your Goals<br>CrossFit Roppongi proudly offers personal training by appointment only. From performance improvement to overcoming weak points, our coaches provide one-on-one guidance to help accelerate you on the path to achieving your goals. We also offer private training in small groups of family or friends.<br>* Requires ticket purchases separate from the monthly membership fee.</p>
+					</div>
+					<div class="photo">
+						<img src="assets/img/feature_04.webp" alt="目的次第でカスタマイズ可能なパーソナルトレーニング">
+					</div>
+				</li>
+			</ul>
+		</div>
+	</section>
+  <!-- gallery Section -->
+  <section class="com_sec_gallery">
+    <div class="gallery_left fade_g scrollin">
+        <picture>	
+            <source media="(max-width:767px)" srcset="assets/img/gallery01_left_sp_1.webp">
+            <img src="assets/img/gallery01_left_1.webp" alt="CrossFit Roppongiのトレーニング">
+        </picture>
+    </div>
+    <div class="gallery_right fade_g scrollin">
+        <img src="assets/img/gallery01_right_1.jpg" alt="CrossFit Roppongiのトレーニング">
+    </div>
+  </section>
+<!---------------- トレーニングの流れ -------------->
+<div id="flow" class="com_in_page_link"></div>
+<section class="sec_flow">			
+  <div class="com_column">
+    <h2 class="com_small_title fadeup scrollin">
+      <p class="en font_proxima">FLOW</p>
+      <p class="jp">トレーニングの流れ</p>
+    </h2>
+    <div class="text_area">
+      <h3 class="com_large_title">
+        <p class="jp fadeup scrollin">正しく鍛える。<br>60分間のファンクショナルトレーニング。</p>
+        <p class="text_en font_proxima fadeup scrollin">Train the right way.<br>60 minutes of functional fitness training.</p>
+      </h3>
+    </div>  
+  </div>
+  <ul class="flow_list fade_list">
+    <li class="scrollin">
+      <div class="title_wrap">
+        <h4 class="title">ウォームアップ</h4>
+        <p class="time font_proxima">10MIN</p>
+      </div>
+      <div class="text_wrap">
+        <p class="text_jp">その日のプログラム(WOD)に合わせた、ストレッチや体幹トレーニング、有酸素運動などを取り入れます。軽く息が上がる程度に体を温め、本格的なトレーニングへの準備を行います。</p>
+        <p class="text_en font_proxima">Warm-Up<br>We provide a menu of dynamic stretching, core training, and low-intensity aerobic work to effectively prepare you for each day's strength training and WOD (workout of the day).</p>
+      </div>
+      <div class="photo">
+        <img src="assets/img/flow_01.webp" alt="ウォームアップ">
+      </div>
+    </li>
+    <li class="scrollin">
+      <div class="title_wrap">
+        <h4 class="title">スキル・<br class="br_pc">ストレングス</h4>
+        <p class="time font_proxima">10MIN</p>
+      </div>
+      <div class="text_wrap">
+        <p class="text_jp">一人ひとりのレベルに合わせて、動きの変更、負荷の調整を行います。器械体操やウエイトリフティングなど、動作のメカニズムを習得するための練習を行います。</p>
+        <p class="text_en font_proxima">Skills &amp; Strength<br>Movements and loads are scaled according to individual abilities. Practice and learn the movements used in a variety of sports, such as gymnastics, weightlifting, and more.</p>
+      </div>
+      <div class="photo">
+        <img src="assets/img/flow_02.webp" alt="スキル・ストレングス">
+      </div>
+    </li>
+    <li class="scrollin">
+      <div class="title_wrap">
+        <h4 class="title">WOD<span>ワークアウト・オブ・ザ・デイ</span></h4>
+        <p class="time font_proxima">30MIN</p>
+      </div>
+      <div class="text_wrap">
+        <p class="text_jp">CrossFitのメインワークアウトの時間です。さまざまなエクササイズを組み合わせ、自分にとって少しきつい負荷をかけながら、その日のプログラム（WOD）に挑戦します。</p>
+        <p class="text_en font_proxima">WOD<br>CrossFit's main workout of the day (WOD) is a combination of strength and aerobic exercises that will push and challenge you to expand your limits.</p>
+      </div>
+      <div class="photo">
+        <img src="assets/img/flow_03.webp" alt="WOD ワークアウト・オブ・ザ・デイ">
+      </div>
+    </li>
+    <li class="scrollin">
+      <div class="title_wrap">
+        <h4 class="title">クールダウン</h4>
+        <p class="time font_proxima">10MIN</p>
+      </div>
+      <div class="text_wrap">
+        <p class="text_jp">疲労が蓄積して筋肉が固くならないよう、使った筋肉を緩めて、ゆっくりと無理のない範囲で、筋肉をほぐします。</p>
+        <p class="text_en font_proxima">Cooldown<br>Decrease post-workout muscle soreness and stiffness by gently and safely stretching the muscles used during the workout.</p>
+      </div>
+      <div class="photo">
+        <img src="assets/img/flow_04.webp" alt="クールダウン">
+      </div>
+    </li>
+  </ul>
+</section>
+<!---------------- お客さまの声 -------------->
+<div id="voice" class="com_in_page_link"></div>
+<section class="sec_voice bg_gray">	
+  <div class="com_column">
+    <h2 class="com_small_title fadeup scrollin">
+      <p class="en font_proxima">VOICE</p>
+      <p class="jp">お客さまの声</p>
+    </h2>
+    <div class="text_area">
+      <h3 class="com_large_title">
+        <p class="jp fadeup scrollin">CrossFit Roppongiに通うお客さまの声</p>
+        <p class="text_en font_proxima fadeup scrollin">What CrossFit Roppongi members are saying</p>
+      </h3>
+    </div>
+  </div>
+  <ul class="voice_list fade_list">
+    <li class="scrollin">
+      <div class="voice_top">
+        <p class="name"><span class="large-size">S</span>さん</p>
+        <p class="profile">30代 ｜男性</p>
+      </div>
+      <div class="voice_btm">
+        <h4 class="com_title"><p class="jp">的確な指導で<br class="br_sp">ゴールに近づける。<br>トレーニングを習慣化できています。</p></h4>
+        <p class="text_jp">通い始めて3年半、最も満足していることは、経験豊富なコーチ陣に自分の現状やゴールに合った的確な指導を受けられることです。自分にとって少しきつめの負荷をかけるトレーニングもありますが、その分達成感があります。<br>また、たくさんのメンバーと仲良くなり、トレーニングが一層楽しくなりました。「苦しい」というよりも「リフレッシュ」に近い感覚なので、継続して通うことができています。</p>
+      </div>
+    </li>
+    <li class="scrollin">
+      <div class="voice_top">
+        <p class="name"><span class="large-size">E</span>さん</p>
+        <p class="profile">50代 ｜ 女性</p>
+      </div>
+      <div class="voice_btm">
+        <h4 class="com_title"><p class="jp">ダイエットと体力UPに成功、<br class="br_pc">自分に自信が持てるようになりました。</p></h4>
+        <p class="text_jp">50代になり、ダイエットと体力アップを目的に入会しました。30年ぶりの運動で不安もありましたが、私に合ったプランを的確に指導いただき、目標を達成することができました。今では、新たな目標として30代のプロポーションを目指して頑張っています。<br>今まで長続きしなかった運動を習慣化できていますし、なによりCrossFit Roppongiに出会って、自分に自信を持てるようになったことがとても嬉しいです。</p>
+      </div>
+    </li>
+    <li class="scrollin">
+      <div class="voice_top">
+        <p class="name"><span class="large-size">Y</span>さん</p>
+        <p class="profile">30代 ｜男性</p>
+      </div>
+      <div class="voice_btm">
+        <h4 class="com_title"><p class="jp">ただ鍛えるだけじゃない、<br class="br_pc">励まし合える仲間ができる。</p></h4>
+        <p class="text_jp">コーチの皆さんは知識が豊富で、一人ひとりに合わせて丁寧にアドバイスをくれます。トレーニングの合間にコーチや他のメンバーと気軽に話ができるので、雰囲気がアットホームなところも魅力的です。<br>CrossFit Roppongiのメンバーは多種多様なバックグラウンドを持った方々ばかりで、とても楽しいコミュニティです。<br>ただ鍛えるだけでなく、たくさんの仲間と出会えるので、新しいライフスタイルを築くことができました。</p>
+      </div>
+    </li>
+    <li class="scrollin">
+      <div class="voice_top">
+        <p class="name"><span class="large-size">D</span>さん</p>
+        <p class="profile">20代 ｜女性</p>
+      </div>
+      <div class="voice_btm">
+        <p class="text_en font_proxima">The first and the main thing why I love this place is our strong “family”, you will not find anywhere so friendly, open minded , supportive community, from coaches to each individual member of our team - everyone are always ready to give you a hand, explain or just give an advice. Even we are all different levels, we are sharing and handling all together.No less important is the atmosphere, after a hard day at work, you come here and literally relax and forget about all the problems, there is no time to think, everyone are pushing, and you push together with everyone. 負けない！</p>
+      </div>
+    </li>
+  </ul>
+</section>
+  <!-- gallery Section -->
+<section class="com_sec_gallery">
+  <div class="gallery_left fade_g scrollin">
+      <picture>	
+          <source media="(max-width:767px)" srcset="assets/img/gallery02_left_sp.webp">
+          <img src="assets/img/gallery02_left.webp" alt="CrossFit Roppongiのトレーニング">
+      </picture>
+  </div>
+  <div class="gallery_right fade_g scrollin">
+      <img src="assets/img/gallery02_right.webp" alt="CrossFit Roppongiのトレーニング">
+  </div>
+</section>
+  <!-- com_sec_link Section -->
+  <section class="com_sec_link">
+	<ul class="link_list">
+		<li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+		<li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+		<li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+	</ul>
+  </section>
+  <!-- sec_taiken section -->
+  <section class="sec_taiken">
+	<div class="inner">
+		<h2 class="copy">
+			<img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc">
+			<span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
+		</h2>
+		<div class="inner2">
+			<div class="text_wrap">
+				<p class="text_jp">体験レッスンでは、あなたのレベルやコンディションに合わせた<br class="br_pc">効果的な60分のトレーニングを¥3,300でご体験いただけます。<br>世界中で支持されるCrossFitを、ぜひ体感してください。</p>
+				<p class="text_en font_proxima">Try CrossFit<br>We offer 60-minute trial lessons that are custom-designed to your current level and condition.<br>For just ¥3,300, you'll see what people all over the world are talking about. Come try the CrossFit experience!</p>
+			</div>
+			<a href="trial.html" class="grad_btn">
+				<span class="jp">体験レッスンについて</span>
+				<span class="en font_proxima">ABOUT TRIAL</span>
+			</a>
+		</div>
+	</div>
+</section>
+<!-- sec_reserve Section -->
+<section class="sec_reserve">
+	<ul class="reserve_list">
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
+				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
+				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+	</ul>
+</section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+<div class="inner">
+  <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+  <div class="text_wrap">
+    <div class="footer_l">
+      <p class="company font_proxima">CrossFit Roppongi</p>
+      <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+      <ul class="sns_list">
+        <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+        <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+      </ul>
+    </div>
+    <div class="footer_r">
+      <ul class="footer_nav">
+        <li>
+          <a href="index.html">
+            <p class="jp"><span>トップページ</span></p>
+            <p class="en font_proxima"><span>HOME</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="about.html">
+            <p class="jp"><span>CrossFitとは</span></p>
+            <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="facility.html">
+            <p class="jp"><span>施設・設備</span></p>
+            <p class="en font_proxima"><span>FACILITY</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="coach.html">
+            <p class="jp"><span>コーチ</span></p>
+            <p class="en font_proxima"><span>COACHES</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="plan.html">
+            <p class="jp"><span>プラン・料金</span></p>
+            <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="schedule.html">
+            <p class="jp"><span>スケジュール</span></p>
+            <p class="en font_proxima"><span>SCHEDULE</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="access.html">
+            <p class="jp"><span>アクセス</span></p>
+            <p class="en font_proxima"><span>ACCESS</span></p>
+          </a>
+        </li>
+      </ul>
+      <ul class="footer_nav">
+        <li>
+          <a href="career.html">
+            <p class="jp"><span>採用情報</span></p>
+            <p class="en font_proxima"><span>CAREER</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="contact.html">
+            <p class="jp"><span>お問い合わせ</span></p>
+            <p class="en font_proxima"><span>CONTACT</span></p>
+          </a>
+        </li>
+        <li>
+          <a href="privacy.html">
+            <p class="jp"><span>プライバシーポリシー</span></p>
+            <p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+  <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+    <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+  </a>
+</div>
+</footer>
+
+<a href="about.html#" id="totop" style="bottom: 30px;">
+<picture>	
+  <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+  <img src="assets/img/totop.webp" alt="TOP">
+</picture>
+</a>
+  
+  <script>
+    const toTopBtn = document.getElementById("totop");
+  
+    // Show button after scrolling down
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        toTopBtn.classList.add("show");
+      } else {
+        toTopBtn.classList.remove("show");
+      }
+    });
+  
+    // Smooth scroll to top on click
+    toTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  
+    // ✅ Smooth scroll for all internal links inside .com_page_link
+    document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+  </script>  
+  
+</body>
+</html>

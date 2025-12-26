@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thank you!</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:720px;margin:40px auto}
+  .card{border:1px solid #e5e7eb;border-radius:12px;padding:20px}
+  .meta{color:#6b7280}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="headline">Payment complete ✔</h2>
+    <p>We’ve recorded your booking. You’ll receive a confirmation shortly.</p>
+    <p id="meta" class="meta"></p>
+  </div>
+<script>
+  const p = new URLSearchParams(location.search);
+  const type = p.get("type") || "Class";
+  const booking = p.get("booking") || "";
+  document.getElementById("headline").textContent = `${type} payment complete ✔`;
+  document.getElementById("meta").textContent = booking ? `Booking ID: ${booking}` : "";
+</script>
+</body>
+</html>

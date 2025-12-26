@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SPARTAN</title>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+      
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const menuToggle = document.querySelector(".menu-toggle");
+              const nav = document.querySelector("nav");
+              const navLinks = document.querySelectorAll("nav ul li a");
+          
+              // Toggle menu + button animation
+              menuToggle.addEventListener("click", () => {
+                nav.classList.toggle("active");
+                menuToggle.classList.toggle("active");
+              });
+          
+              // Close menu when clicking a link
+              navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                  nav.classList.remove("active");
+                  menuToggle.classList.remove("active");
+                });
+              });
+            });
+          </script>
+      </head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <!-- Hamburger Button -->
+  <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+  </button>
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html" class="active">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_spartan">
+  <!-- Title Section -->
+<section class="page-title spartan-page">
+  <div class="com_column">
+    <h2>SPARTAN TRAINING</h2>
+    <p class="sub-title">スパルタン・トレーニング</p>
+  </div>
+</section>
+<!-- sec_spartan -->
+<section class="sec_spartan">
+  <div class="com_inner">
+    <h3 class="com_large_title">
+      <p class="jp"><font dir="auto" style="vertical-align: inherit;"></font><br class="br_pc"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Spartan SGX認定コーチによる<br></font><font dir="auto" style="vertical-align: inherit;">スパルタンレースに向けたトレーニング。</font></font></p>
+      <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Spartan Race training with a Spartan SGX Certified Coach</font></font></p>
+    </h3>
+
+    <div class="text_wrap">
+      <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">CrossFit Roppongiでは、世界最大の参加型障害物レース「スパルタンレース」に向けたプログラムをご用意しています。</font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">スパルタントレーニングは、CrossFit Roppongi非会員およびCrossFit未経験の方もご利用いただけます。</font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">運ぶ、登る、這う、投げる、つかむ、走る、などレースで必要な実践的な動作を4つのテーマ(バランス／パワー／エンデュランス／ストレングス）に沿って行います。</font></font></p>
+      <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Whether you are training for a Spartan Race or just enjoy pushing your mental and physical limits in a fun group setting, CrossFit Roppongi's Spartan Class is for you! </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Non-gym members are welcome and your class fee is all that is required. Workouts can be scaled to match all levels, from CrossFitters to total beginners. </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our class is focused on improving cardio conditoning, stamina, and obstacle-related skill and strength through use of running, bodyweight exercises, and simple movements including kettlebells and medcine balls. We also train obstacle skills, such as rope climbs, twister, and more.</font></font></p>
+    </div>
+    <div class="movie_wrap">
+      <iframe width="700" height="392" src="https://www.youtube.com/embed/a51IfqOCyyI" title="What is HYROX? | The Race Format" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+<!------Com Section Coach---->
+<section class="sec_coach bg_gray" style="background-color: #f2f2f2;">
+  <div class="com_inner">
+    <div class="text_wrap">
+      <p class="t_gray2 font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">COACH</font></font></p>
+      <p class="t_gray3"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Spartan SGX Certified Coach</font></font></p>
+      <h3 class="name font_proxima extra"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">MARC</font></font></h3>
+      <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Spartan SGX認定コーチであるマークが担当します。</font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">25年以上のコーチ歴と、数千人以上への指導経験を活かし、効果的かつ実践的なプログラムを提供しています。なかでも得意とするのが、効果的なランニングフォームの指導。スパルタンレースでの重要なカギとなるランニングのパフォーマンス向上を目指し、本番を想定したペースでの指導を行っています。その実力はリーボックジャパンでも認められ、エリートコーチとしてランニングセミナーも開催しています。
+
+      </font></font></p>
+      <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training is led by Marc Keen, Japan's 1st Spartan SGX certified coach and multiple-race podium finisher. </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Marc is also a CrossFit L1 trainer and ACSM personal trainer with over 20 years experience. He has helped prepare thousands of racers since the start of Spartan Race Japan in 2016. Competing in Spartan racing since 2011, Marc knows well as both a coach and athlete what is needed to finish strong in races.</font></font></p>
+      <a href="https://www.instagram.com/coachmarc.official/" target="_blank" class="insta_link font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">@coachmarc.official</font></font></a>
+    </div>
+    <div class="photo">
+      <picture>	
+        <source media="(max-width:767px)" srcset="assets/img/coach_sp.jpg">
+        <img src="assets/img/coach2.jpg" alt="Spartan SGX Certified Coach MARC">
+      </picture>
+    </div>
+  </div>
+</section>
+<!------Com Section Lession---->
+<section class="com_sec_lesson spartan">
+  <div class="com_inner">
+    <ul class="info_list">
+      <li>
+        <h4 class="com_title">
+          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Fee</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">PRICE</font></font></p>
+        </h4>
+        <div class="content price_area">
+          <p class="tax">
+            <span class="jp"><font dir="auto" style="vertical-align: inherit;"></font></span>
+            <font dir="auto" style="vertical-align: inherit;"><span class="en font_proxima"><font dir="auto" style="vertical-align: inherit;">Pay as </font></span><span class="jp"><font dir="auto" style="vertical-align: inherit;">you go (tax included)　 </font></span></font><span class="en font_proxima"><font dir="auto" style="vertical-align: inherit;"></font></span>
+          </p>
+          <p class="price font_proxima extra"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">¥4,400</font></font></p>
+          <p class="tax">
+            <span class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Premium Plan Membership (tax included)　</font></font></span>
+            <span class="en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">PREMIUM (TAX INCLUDED)</font></font></span>
+          </p>
+          <p class="price font_proxima extra"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">¥3,400</font></font></p>
+          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">*Premium members have a different reservation method. Please contact us for details.</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">* Reservation method differs for Premium Members. Please contact us for more information.</font></font></p>
+        </div>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">subject</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ELIGIBILITY</font></font></p>
+        </h4>
+        <div class="content">
+          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Anyone can participate, </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">including non-CrossFit Roppongi members and those with no prior CrossFit experience.</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Open to anyone and no experience is needed. </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Spartan training is available to both non-members, as well as members of CrossFit Roppongi.</font></font></p>
+        </div>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">schedule</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SCHEDULE</font></font></p>
+        </h4>
+        <div class="content">
+          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Every Saturday 16:00-17:00 / 60 minutes</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Saturdays 4:00-5:00pm / 60min</font></font></p>
+        </div>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">What to bring</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">WHAT TO BRING</font></font></p>
+        </h4>
+        <div class="content">
+          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Sports shoes / training wear / drinks / towels </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">*Bath towels / sports shoes / training wear can be rented (¥400 each) </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">*Water (¥100, ¥200) / socks (¥500) are available for purchase.</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Athletic shoes, activewear, drink(s), towel </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">* Bath towels, shoes, and activewear are available for rental (¥400 each). </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">* Water (¥100, ¥200), socks (¥500) are available for purchase.</font></font></p>
+        </div>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">facility</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">FACILITY</font></font></p>
+        </h4>
+        <div class="content">
+          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information,</font></font><a href="facility.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Facilities and equipment</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please see.</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information, see our</font></font><a href="facility.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">FACILITY</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">.</font></font></p>
+        </div>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">access</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ACCESS</font></font></p>
+        </h4>
+        <div class="content">
+          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information,</font></font><a href="access.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">access</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please see.</font></font></p>
+          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information, see our</font></font><a href="access.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ACCESS</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">.</font></font></p>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</section>
+<!------Reserve Section------->
+<div id="spartan_reserve" class="com_in_page_link"></div>
+<section class="sec_reserve2">
+  <div class="reserve_top">
+    <div class="com_inner">
+      <h3 class="com_large_title">
+        <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Book a Spartan Training</font></font></p>
+      </h3>
+      <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please confirm the terms of use before making a reservation. Select the desired date and time from the calendar and proceed to the payment screen.</font></font></p>
+      <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Book Spartan Training </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please check our Terms &amp; Conditions before making a booking. Select the desired date and time from the calendar and proceed to the payment screen.</font></font></p>
+    </div>
+  </div>
+  <div class="reserve_btm com_inner">
+    <div class="kiyaku_box">
+      <h4 class="title jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">&lt; </font></font><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Terms of Use</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> &gt;</font></font></h4>
+      <ul class="kiyaku_list">
+        <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Payment is required to confirm your reservation. If payment is not completed, your reservation will not be confirmed.</font></font></li>
+        <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please note that we have a set limit on the number of participants for all booked training sessions, and therefore we are unable to offer refunds regardless of attendance.</font></font></li>
+        <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">If you wish to change the date and time of your appointment, please contact us by email or phone at least 48 hours before the appointment. Changes are allowed only once.</font></font></li> 
+      </ul>
+      <h4 class="title en"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">＜</font></font><span class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Terms &amp; Conditions</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">＞</font></font></h4>
+      <ul class="kiyaku_list">
+        <li class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">To secure your booking, we require full payment to be completed.</font></font></li>
+        <li class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please note that our classes have limited spots available and we adjust the number of attendees accordingly. Therefore, bookings are strictly non-refundable, regardless of attendance or reason.</font></font></li>
+        <li class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">If you need to change the date or time of your booking, please let us know at least 48 hours in advance by email or phone. You may only change your booking once.</font></font></li>
+      </ul>
+    </div>
+    <div id="calendar">
+      
+    </div>
+  </div>
+</section>
+<!------Form Section------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Class Booking Form</title>
+<style>
+  :root {
+    --accent: #e11d48; /* red */
+    --border: #e5e7eb; /* gray-200 */
+    --text: #111827;   /* gray-900 */
+    --muted: #6b7280;  /* gray-500 */
+  }
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: var(--text); }
+  form { max-width: 720px; margin: 24px auto; padding: 20px; border: 1px solid var(--border); border-radius: 12px; }
+  h2 { margin: 0 0 12px; }
+  .grid { display: grid; gap: 12px; }
+  .two { grid-template-columns: 1fr 1fr; }
+  label { font-weight: 600; margin-top: 8px; display: block; }
+  input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; }
+  textarea { resize: vertical; }
+  hr { border: 0; height: 1px; background: var(--border); margin: 18px 0; }
+
+  /* Session picker */
+  .picker-wrap { margin-top: 8px; }
+  .picker-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 👉 arrows on the right */
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .nav-btn {
+    border: none;
+    background: #f3f4f6;
+    color: var(--text);
+    font-size: 20px;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+  }
+  .nav-btn:hover { background: #e5e7eb; }
+  .sessions { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .session-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; cursor: pointer;
+    background: white;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .session-btn:hover { border-color: #d1d5db; }
+  .session-btn[aria-checked="true"] {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+  .session-btn[aria-checked="true"] .meta { color: #ffe4e6; }
+  .meta { font-size: 12px; color: var(--muted); }
+  .btn {
+    appearance: none; border: none; border-radius: 10px;
+    padding: 12px 16px; font-weight: 700; cursor: pointer;
+    background: #111827; color: #fff;
+  }
+  .btn:hover { background: #0b1220; }
+  .btn[disabled] { opacity: 0.65; cursor: not-allowed; }
+  .status {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--muted);
+    min-height: 20px;
+  }
+  .status.error { color: #b91c1c; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+
+<form action="/api/square/bookings" method="POST" id="booking-form" novalidate>
+  <h2>Class Booking Form</h2>
+
+  <div class="grid one">
+    
+       <div><label>生年月日 (Date of Birth)</label><input type="date" name="dob" required></div>
+    <div>
+      <label>性別 (Sex)</label>
+      <select name="sex" required>
+        <option value="">-- Select --</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+    </div>
+   
+  </div>
+
+  <hr>
+
+  <h2>Choose Your Class</h2>
+  <!-- removed the explanatory "Showing 6 classes..." line -->
+
+  <!-- Hidden fields for Formspree -->
+  <input type="hidden" name="class_iso" id="class_iso" />
+  <input type="hidden" name="class_display" id="class_display" />
+  <input type="hidden" name="class_date" id="class_date" />
+  <input type="hidden" name="class_time" id="class_time" />
+  <input class="sr-only" id="class_required" required aria-hidden="true" />
+
+  <div class="picker-wrap">
+    <div class="picker-toolbar">
+      <!-- arrows aligned right -->
+      <button type="button" id="prevBtn" class="nav-btn" title="Previous">←</button>
+      <button type="button" id="nextBtn" class="nav-btn" title="Next">→</button>
+    </div>
+    <div class="sessions" id="sessions"></div>
+  </div>
+
+  <p id="booking-status" class="status" role="status" aria-live="polite"></p>
+  <div style="margin-top:16px;">
+    <button type="submit" class="btn">Proceed to Payment</button>
+  </div>
+</form>
+
+<script>
+(function () {
+  // ====== Schedule: Only Saturdays at 4:00 PM ======
+  const SCHEDULE = [
+    [6, 16, 0],   // Saturday 4:00 PM
+  ];
+
+  const WINDOW_DAYS = 180;   // look ahead up to ~6 months for base list
+  const DISPLAY_COUNT = 6;   // 6 per page
+  const MAX_CLASSES = 26;    // show 26 total
+
+  // Holiday/override options
+  const BLACKOUT_DATES = [
+    // '2025-12-28'
+  ];
+  const REPLACEMENTS = {
+    // '2025-12-14T16:00': '2025-12-15T16:00'
+  };
+  const ADDITIONAL_SESSIONS = [
+    // '2025-12-22T16:00'
+  ];
+
+  // DOM elements
+  const sessionsEl = document.getElementById('sessions');
+  const hiddenISO = document.getElementById('class_iso');
+  const hiddenDisplay = document.getElementById('class_display');
+  const hiddenDate = document.getElementById('class_date');
+  const hiddenTime = document.getElementById('class_time');
+  const requiredGhost = document.getElementById('class_required');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const bookingForm = document.getElementById('booking-form');
+  const submitBtn = bookingForm?.querySelector('button[type="submit"]') || null;
+  const statusEl = document.getElementById('booking-status');
+  const API_ENDPOINT = '/api/square/bookings';
+
+  let page = 0;
+  let list = [];
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function ordinal(n){ const s=["th","st","nd","rd"],v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
+  function fmtDisplay(dt){
+    const day = dt.toLocaleDateString(undefined, { weekday: 'long' });
+    const month = dt.toLocaleDateString(undefined, { month: 'long' });
+    const dom = ordinal(dt.getDate());
+    const time = dt.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+    return `${day} ${month} ${dom}, ${time}`;
+  }
+  function toISOLocal(dt){ return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`; }
+  function toDateOnly(dt){ return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`; }
+  function toTime12h(dt){ return dt.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true }); }
+
+  function nextOccurrence(start, weekday, hour, minute){
+    const dt = new Date(start.getFullYear(), start.getMonth(), start.getDate(), hour, minute, 0, 0);
+    const diff = (weekday - dt.getDay() + 7) % 7;
+    if (diff > 0) dt.setDate(dt.getDate() + diff);
+    if (diff === 0 && dt < start) dt.setDate(dt.getDate() + 7);
+    return dt;
+  }
+
+  function* baseSessions(from, days, schedule){
+    const until = new Date(from);
+    until.setDate(until.getDate() + days);
+    const cursors = schedule.map(([wd, h, m]) => nextOccurrence(from, wd, h, m));
+
+    while (true) {
+      let idx = -1, min = null;
+      for (let i = 0; i < cursors.length; i++){
+        const d = cursors[i];
+        if (d < until && (min === null || d < min)){ min = d; idx = i; }
+      }
+      if (idx === -1) return;
+      yield new Date(cursors[idx]);
+      cursors[idx].setDate(cursors[idx].getDate() + 7);
+    }
+  }
+
+  function applyOverrides(candidateDates, from, days){
+    const until = new Date(from); until.setDate(until.getDate() + days);
+    const replaced = [];
+    for (const dt of candidateDates){
+      const iso = toISOLocal(dt);
+      if (REPLACEMENTS[iso]) {
+        const repl = new Date(REPLACEMENTS[iso].replace(' ', 'T'));
+        if (repl >= from && repl < until && !BLACKOUT_DATES.includes(toDateOnly(repl))) replaced.push(repl);
+      } else {
+        replaced.push(dt);
+      }
+    }
+    for (const iso of ADDITIONAL_SESSIONS){
+      const extra = new Date(iso.replace(' ', 'T'));
+      if (extra >= from && extra < until && !BLACKOUT_DATES.includes(toDateOnly(extra))) replaced.push(extra);
+    }
+    return Array.from(new Map(replaced.map(d => [toISOLocal(d), d])).values())
+      .filter(d => !BLACKOUT_DATES.includes(toDateOnly(d)))
+      .sort((a,b)=>a-b);
+  }
+
+  function renderPage(){
+    const start = page * DISPLAY_COUNT;
+    const items = list.slice(start, start + DISPLAY_COUNT);
+    sessionsEl.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    items.forEach((dt) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'session-btn';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-checked', 'false');
+      btn.dataset.iso = toISOLocal(dt);
+      btn.dataset.date = toDateOnly(dt);
+      btn.dataset.time = toTime12h(dt);
+      btn.innerHTML = `<span>${fmtDisplay(dt)}</span><span class="meta">${dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' })}</span>`;
+      btn.addEventListener('click', () => selectSession(btn));
+      frag.appendChild(btn);
+    });
+    sessionsEl.appendChild(frag);
+
+    // Update nav state without showing "Page x of y"
+    prevBtn.disabled = page === 0;
+    nextBtn.disabled = start + DISPLAY_COUNT >= list.length;
+  }
+
+  function selectSession(btn){
+    sessionsEl.querySelectorAll('.session-btn[aria-checked="true"]').forEach(el => el.setAttribute('aria-checked','false'));
+    btn.setAttribute('aria-checked','true');
+    hiddenISO.value = btn.dataset.iso;
+    hiddenDisplay.value = btn.textContent.trim();
+    hiddenDate.value = btn.dataset.date;
+    hiddenTime.value = btn.dataset.time;
+    requiredGhost.value = 'selected';
+  }
+
+  prevBtn.addEventListener('click', () => { if (page > 0) { page--; renderPage(); }});
+  nextBtn.addEventListener('click', () => { if ((page+1)*DISPLAY_COUNT < list.length) { page++; renderPage(); }});
+
+  bookingForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl?.classList.remove('error');
+    if (!hiddenISO.value) {
+      requiredGhost.reportValidity();
+      if (statusEl) {
+        statusEl.textContent = 'Please choose a class date and time.';
+        statusEl.classList.add('error');
+      }
+      return;
+    }
+
+    const formData = new FormData(bookingForm);
+    const payload = {
+      dob: formData.get('dob'),
+      sex: formData.get('sex'),
+      class_iso: hiddenISO.value,
+      class_display: hiddenDisplay.value,
+      class_date: hiddenDate.value,
+      class_time: hiddenTime.value,
+    };
+
+    if (!payload.dob || !payload.sex) {
+      if (statusEl) {
+        statusEl.textContent = 'Please complete all required fields.';
+        statusEl.classList.add('error');
+      }
+      return;
+    }
+
+    const redirectBase = typeof window.location.origin === 'string' &&
+      window.location.origin.startsWith('http')
+      ? window.location.origin
+      : null;
+    if (redirectBase) {
+      payload.redirectUrl = `${redirectBase}/spartan.html?checkout=complete`;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.dataset.originalText = submitBtn.dataset.originalText || submitBtn.textContent;
+      submitBtn.textContent = 'Securing checkout...';
+    }
+    if (statusEl) {
+      statusEl.textContent = 'Creating a secure Square checkout...';
+    }
+
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.message || 'Unable to start checkout.');
+      }
+      if (!data.checkoutUrl) {
+        throw new Error('Checkout link missing from response.');
+      }
+      if (statusEl) {
+        statusEl.textContent = 'Redirecting to Square...';
+      }
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      if (statusEl) {
+        statusEl.textContent = err?.message || 'Unable to start checkout.';
+        statusEl.classList.add('error');
+      }
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitBtn.dataset.originalText || 'Proceed to Payment';
+      }
+    }
+  });
+
+  function init(){
+    const now = new Date();
+    const base = Array.from(baseSessions(now, WINDOW_DAYS, SCHEDULE));
+    list = applyOverrides(base, now, WINDOW_DAYS).slice(0, MAX_CLASSES);
+    renderPage();
+  }
+
+  init();
+
+
+  
+})();
+</script>
+</body>
+</html>
+
+<!------Form Section END--->
+
+
+
+
+<!-- com_sec_link Section -->
+<section class="com_sec_link">
+<ul class="link_list">
+  <li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+  <li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+  <li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+</ul>
+</section>
+<!-- sec_reserve Section -->
+<section class="sec_reserve">
+	<ul class="reserve_list">
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
+				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
+				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+	</ul>
+</section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="inner">
+    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+    <div class="text_wrap">
+      <div class="footer_l">
+        <p class="company font_proxima">CrossFit Roppongi</p>
+        <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+        <ul class="sns_list">
+          <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+        </ul>
+      </div>
+      <div class="footer_r">
+        <ul class="footer_nav">
+          <li>
+            <a href="index.html">
+              <p class="jp"><span>トップページ</span></p>
+              <p class="en font_proxima"><span>HOME</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="about.html">
+              <p class="jp"><span>CrossFitとは</span></p>
+              <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="facility.html">
+              <p class="jp"><span>施設・設備</span></p>
+              <p class="en font_proxima"><span>FACILITY</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="coach.html">
+              <p class="jp"><span>コーチ</span></p>
+              <p class="en font_proxima"><span>COACHES</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="plan.html">
+              <p class="jp"><span>プラン・料金</span></p>
+              <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="schedule.html">
+              <p class="jp"><span>スケジュール</span></p>
+              <p class="en font_proxima"><span>SCHEDULE</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="access.html">
+              <p class="jp"><span>アクセス</span></p>
+              <p class="en font_proxima"><span>ACCESS</span></p>
+            </a>
+          </li>
+        </ul>
+        <ul class="footer_nav">
+					<li>
+						<a href="trial.html">
+							<p class="jp"><span>体験レッスン</span></p>
+							<p class="en font_proxima"><span>TRIAL</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="dropin.html">
+							<p class="jp"><span>ドロップイン</span></p>
+							<p class="en font_proxima"><span>DROP IN</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="spartan.html">
+							<p class="jp"><span>スパルタントレーニング</span></p>
+							<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="career.html">
+							<p class="jp"><span>採用情報</span></p>
+							<p class="en font_proxima"><span>CAREER</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<p class="jp"><span>お問い合わせ</span></p>
+							<p class="en font_proxima"><span>CONTACT</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="privacy.html">
+							<p class="jp"><span>プライバシーポリシー</span></p>
+							<p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+						</a>
+					</li>
+				</ul>
+      </div>
+    </div>
+    <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+    <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+    </a>
+  </div>
+  </footer>
+  
+  <a href="spartan.html#" id="totop" style="bottom: 30px;">
+  <picture>	
+    <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+    <img src="assets/img/totop.webp" alt="TOP">
+  </picture>
+  </a>
+  
+  <script>
+    const toTopBtn = document.getElementById("totop");
+  
+    // Show button after scrolling down
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        toTopBtn.classList.add("show");
+      } else {
+        toTopBtn.classList.remove("show");
+      }
+    });
+  
+    // Smooth scroll to top on click
+    toTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  
+    // ✅ Smooth scroll for all internal links inside .com_page_link
+    document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+  </script>  
+  
+</body>
+</html>

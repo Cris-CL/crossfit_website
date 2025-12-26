@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MEMBERSHIP PRICING</title>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+      
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const menuToggle = document.querySelector(".menu-toggle");
+              const nav = document.querySelector("nav");
+              const navLinks = document.querySelectorAll("nav ul li a");
+          
+              // Toggle menu + button animation
+              menuToggle.addEventListener("click", () => {
+                nav.classList.toggle("active");
+                menuToggle.classList.toggle("active");
+              });
+          
+              // Close menu when clicking a link
+              navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                  nav.classList.remove("active");
+                  menuToggle.classList.remove("active");
+                });
+              });
+            });
+          </script>
+      </head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <!-- Hamburger Button -->
+  <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+  </button>
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html" class="active">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_plan">
+  <!-- Title Section -->
+<section class="page-title plan-page">
+  <div class="com_column">
+    <h2>MEMBERSHIP<br>PRICING</h2>
+    <p class="sub-title">プラン・料金</p>
+  </div>
+</section>
+
+<ul class="com_page_link">
+  <li>
+    <a href="plan.html#general" class="active">
+      <p class="jp">個人プラン</p>
+      <p class="en font_proxima">INDIVIDUAL PLAN</p>
+    </a>
+  </li>
+  <li>
+    <a href="plan.html#corporate">
+      <p class="jp">法人プラン</p>
+      <p class="en font_proxima">CORPORATE PALN</p>
+    </a>
+  </li>
+</ul>
+
+<!---------------- 個人プラン -------------->
+<div id="general" class="com_in_page_link"></div>
+<section class="sec_plan">
+  <div class="com_inner">
+    <h3 class="com_small_title">
+      <p class="en font_proxima">INDIVIDUAL PLAN</p>
+      <p class="jp">個人プラン</p>
+      <br>
+      <p class="tax">
+        
+    <!----------------<div style="background-color:red;color:white;padding:2%;">【サマーキャンペーン】入会金無料！！</p>	-------------->
+  
+    </p></h3>
+    
+    <!---------------- 入会金 -------------->
+    <ul class="info_list">
+      <li>
+        <h4 class="com_title">
+          <p class="jp">入会金</p>
+          <p class="text_en font_proxima">ADMISSION FEE</p>
+        </h4>
+        <div class="content price_area">
+          <p class="price font_proxima extra">¥18,500</p>
+          &nbsp; &nbsp; &nbsp;
+      
+          <!----------------<p class="price font_proxima extra"> &nbsp;   <s>(¥18,500)</s></p>-------------->
+          <p class="tax">
+            <span class="jp">（税込 / </span>
+            <span class="en font_proxima">TAX INCLUDED）</span></p>
+        </div>					
+      </li>
+      <li>
+        <h4 class="com_title tetsuzuki">
+          <p class="jp">入会手続きに必要なもの</p>
+          <p class="text_en font_proxima">WHAT YOU NEED FOR<br>THE ENROLLMENT PROCESS</p>
+        </h4>
+        <div class="content tetsuzuki">
+          <p class="text_jp">身分証明書 ／ キャッシュカード  ／  入会金  ／ ファウンデーションプログラム料金（CrossFit経験者の方は不要） ／ <br>初月分月会費（CrossFit経験者の方は初月分+次月分）<br>月会費をお支払いいただくにあたり、会員区分をお選びいただきます。</p>
+          <p class="text_en font_proxima">What you need for the enrollment process<br>ID, cash card, admission fee, Foundation Program fee (not required for those with CrossFit experience), first month's monthly membership fee (for those with CrossFit experience, the first month's fee plus the following month's fee)<br>You will be asked to select a membership category when paying the monthly membership fee.</p>
+        </div>
+      </li>
+    </ul>
+    
+    <!---------------- プラン -------------->
+    <ul class="plan_list">
+      <!---------------- ビギナー -------------->
+      <li>
+        <h4 class="plan_title com_title">
+          <p class="jp">ビギナープログラム</p>
+          <p class="text_en font_proxima">BEGINNERS</p>
+        </h4>
+        <ul class="detail_list">
+          <!---------------- ファウンデーションプログラム -------------->
+          <li>
+            <h5 class="title com_title">
+              <p class="jp">ファウンデーション<br class="br_pc">プログラム<span>（1ヶ月間有効）</span></p>
+              <p class="text_en font_proxima">FOUNDATION PROGRAM<br> (VALID FOR 1 MONTH)</p>
+            </h5>
+            <div class="text_wrap">
+              <p class="text_jp"><span class="color_red">CrossFit初心者の方に受講いただくプログラムです。</span><br>通常クラスにご参加いただく前に、CrossFit に必要な動作や知識をパーソナルトレーニング形式で学びます。プログラム終了後、残りの期間は会員区分を問わず無制限でご利用いただけます。2ヶ月目以降は入会時にお選びいただく会員区分に自動的に移行します。</p>
+              <p class="text_en font_proxima">This is a program for beginners to CrossFit.<br>Before attending regular classes, the Foundation Program will use a personal training format to teach you the movements and knowledge required for CrossFit. After completing the program, you will have unlimited access to classes, regardless of membership category. From the second month onward, you will be automatically transferred to the membership category that was selected when signing up.</p>
+            </div>
+            <div class="price_wrap">
+              <p class="tax">
+                <span class="jp">初月のみ(税込)</span>
+                <span class="en font_proxima">FIRST MONTH ONLY (TAX INCLUDED)</span>
+              </p>
+              <p class="price font_proxima extra">¥18,500</p>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <!---------------- 通常プラン （月会費） -------------->
+      <li>
+        <h4 class="plan_title com_title">
+          <p class="jp">通常プラン<span>（月会費）</span></p>
+          <p class="text_en font_proxima">REGULAR</p>
+        </h4>
+        <ul class="detail_list">
+          <!---------------- プレミアムプラン -------------->
+          <li>
+            <h5 class="title com_title">
+              <p class="jp">プレミアムプラン</p>
+              <p class="text_en font_proxima">PREMIUM PLAN</p>
+            </h5>
+            <div class="text_wrap">
+              <p class="text_jp">全てのクラスを回数無制限でご利用いただけます。(シューズボックス付き)</p>
+              <p class="text_en font_proxima">Unlimited classes at all times. (Shoebox included.)</p>
+            </div>
+            <div class="price_wrap">
+              <p class="tax">
+                <span class="jp">月額(税込) </span>
+                <span class="en font_proxima">MONTHLY FEE (TAX INCLUDED)</span>
+              </p>
+              <p class="price font_proxima extra">¥36,000</p>
+            </div>
+          </li>
+          <!---------------- 月8回プラン -------------->
+          <li>
+            <h5 class="title com_title">
+              <p class="jp">月8回プラン</p>
+              <p class="text_en font_proxima">8x/MONTH PLAN</p>
+            </h5>
+            <div class="text_wrap">
+              <p class="text_jp">月に8回ご利用いただけます。同日内であれば、複数のクラスやオープンジムをご利用いただいても1回分のカウントとなります。</p>
+              <p class="text_en font_proxima">Take eight classes a month. Attending multiple classes or using Open Gym on the same day counts as a single use.</p>
+            </div>
+            <div class="price_wrap">
+              <p class="tax">
+                <span class="jp">月額(税込) </span>
+                <span class="en font_proxima">MONTHLY FEE (TAX INCLUDED)</span>
+              </p>
+              <p class="price font_proxima extra">¥24,500</p>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <!---------------- オプション -------------->
+      <li>
+        <h4 class="plan_title com_title title2">
+          <p class="jp">オプション</p>
+          <p class="text_en font_proxima">OPTION</p>
+        </h4>
+        <ul class="detail_list">
+          <!---------------- ドロップイン -------------->
+          <li>
+            <h5 class="title com_title">
+              <p class="jp">ドロップイン</p>
+              <p class="text_en font_proxima">DROP IN</p>
+            </h5>
+            <div class="text_wrap">
+              <p class="text_jp">CrossFit 経験者・ファウンデーションプログラム修了者が対象です。1回のご利用ごとに料金をお支払いいただく都度利用制(要予約)です。有効期限は購入日から１ヶ月です。詳しくはドロップインページをご覧ください。</p>
+              <p class="text_en font_proxima">Drop-in classes are available for those with CrossFit experience or who have completed the Foundation Program. Drop-in classes operate on a pay-as-you-go system (reservations required). Purchases are valid for one month from the date of purchase. For details, see the drop-in page.</p>
+              
+              <a href="dropin.html" class="link_btn dropin font_proxima"><span>ABOUT DROP IN</span></a>
+              <a href="dropin.html#dropin_reserve" class="link_btn dropin font_proxima"><span>BOOKING A DROP IN</span></a>
+            </div>
+            <div class="price_wrap">
+              <p class="tax">
+                <span class="jp">都度利用（税込）</span>
+                <span class="en font_proxima">PAY-AS-YOU-GO(TAX INCLUDED)</span>
+              </p>
+              <ul class="price_list">
+                <li>
+                  <p class="kaisu">
+                    <span class="jp">1回</span>
+                    <span class="en font_proxima">ONCE</span>
+                  </p>
+                  <p class="price font_proxima extra">¥4,950</p>
+                </li>
+                <li>
+                  <p class="kaisu">
+                    <span class="jp">3回</span>
+                    <span class="en font_proxima">THREE TIMES</span>
+                  </p>
+                  <p class="price font_proxima extra">¥11,557</p>
+                </li>
+              </ul>
+              <ul class="kome_list_jp">
+                <li>3回分の購入は予約方法が異なります。詳しくはお問い合わせください。</li>
+              </ul>
+              <ul class="kome_list_en font_proxima">
+                <li>For those wishing to purchase 3 or more drop-in classes, the reservation method differs. Please contact us for more information.</li>
+              </ul>
+            </div>
+          </li>
+          <!---------------- パーソナルトレーニング -------------->
+          <li>
+            <h5 class="title com_title">
+              <p class="jp">パーソナルトレーニング</p>
+              <p class="text_en font_proxima">PERSONAL TRAINING</p>
+            </h5>
+            <div class="text_wrap price_none">
+              <p class="text_jp"><span class="color_red">オープンジムの時間帯に行います。（平日9:00〜10:00 / 11:00〜12:00 / 16:30〜18:00）</span><br>会員価格（税込）<br>1回 ¥8,800 ｜ 4回 ¥33,000（1ヶ月有効） ｜ 6回 ¥46,200（2ヶ月有効）<br>8回 ¥57,200（3ヶ月有効） ｜ 12回 ¥79,200（4ヶ月有効）<br><br>非会員価格（税込）<br>1回 ¥11,000 ｜ 4回 ¥41,800（1ヶ月有効） ｜ 6回 ¥59,400（2ヶ月有効）<br>8回 ¥74,800（3ヶ月有効） ｜ 12回 ¥105,600（4ヶ月有効）</p>
+              <p class="text_en font_proxima">Personal Training<br>Personal training is available during Open Gym hours. (Weekdays 9:00–10:00 a.m / 11:00 a.m.–12:00 p.m. / 4:30–6:00 p.m.)<br>Member Pricing (tax included)<br>1 session ¥8,800 ｜ 4 sessions ¥33,000 (valid for 1 month) ｜ 6 sessions ¥46,200 (valid for 2 months)<br>
+8 sessions ¥57,200 (valid for 3 months) ｜ 12 sessions ¥79,200 (valid for 4 months)<br><br>Non-Member Pricing (tax included)<br>1 session ¥11,000 ｜ 4 session ¥41,800 (valid for 1 month) ｜ 6 session ¥ 59,400 (valid for 2 months)<br>8 session ¥74,800 (valid for 3 months) | 12 session ¥105,600 (valid for 4 months)</p>
+            </div>
+          </li>
+          <!---------------- スパルタントレーニング -------------->
+          <li>
+            <h5 class="title com_title">
+              <p class="jp">スパルタントレーニング<span>（毎週土曜日 16:00〜17:00）</span></p>
+              <p class="text_en font_proxima">SPARTAN TRAINING<br>(Saturdays 4:00-5:00 p.m.)</p>
+            </h5>
+            <div class="text_wrap">
+              <p class="text_jp">非会員、CrossFit 未経験の方もご利用いただけます。1回のご利用ごとに料金をお支払いいただく、都度利用制です。詳しくはスパルタントレーニングページをご覧ください。</p>
+              <p class="text_en font_proxima">Also open to non-members and those without CrossFit experience. Operates on a pay-as-you-go system. See the Spartan Training page for more information.</p>
+              
+              <a href="spartan.html" class="link_btn spartan font_proxima"><span>ABOUT SPARTAN TRAINING</span></a>
+              <a href="spartan.html#spartan_reserve" class="link_btn spartan font_proxima"><span>BOOKING A SPARTAN TRAINING</span></a>
+            </div>
+            <div class="price_wrap">
+              <p class="tax">
+                <span class="jp">都度利用 (税込) </span>
+                <span class="en font_proxima">PAY-AS-YOU-GO(TAX INCLUDED)</span>
+              </p>
+              <p class="price font_proxima extra">¥3,800</p>
+              <p class="tax">
+                <span class="jp">プレミアムプラン会員 (税込) </span>
+                <span class="en font_proxima">PREMIUM(TAX INCLUDED)</span>
+              </p>
+              <p class="price font_proxima extra">¥2,800</p>
+              <ul class="kome_list_jp">
+                <li>プレミアム会員は予約方法が異なります。詳しくはお問い合わせください。</li>
+              </ul>
+              <ul class="kome_list_en font_proxima">
+                <li>Reservation method differs for Premium Members. Please contact us for more information.</li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    
+    <!---------------- カウンセリング -------------->
+    <div class="contact_area">
+      <h4 class="title">無料カウンセリングを行っています。<br class="br_pc">お気軽にお問い合わせください。</h4>
+      <div class="inner">
+        <div class="text_wrap">
+          <p class="text_jp">CrossFitに関するあらゆるお悩みに、スタッフが誠意を持ってお応えします。（所要時間 約40分）<br>カウンセリングのご予約は、お問い合わせフォームよりお申し込みください。</p>
+          <p class="text_en font_proxima">Free counseling is available. Please feel free to contact us.<br>Our staff will be happy to answer any concerns you may have regarding CrossFit. (Time required: about 40 minutes)<br>To make a counseling reservation, please use the contact form.</p>
+        </div>
+        <a href="contact.html" class="grad_btn black">
+          <span class="jp">お問い合わせフォーム</span>
+          <span class="en font_proxima">CONTACT</span>
+        </a>
+      </div>
+    </div>
+  </div>
+    
+</section>
+
+  <!-- gallery Section -->
+  <section class="com_sec_gallery">
+    <div class="gallery_left fade_g scrollin">
+        <picture>	
+            <source media="(max-width:767px)" srcset="assets/img/gallery04_left_sp.webp">
+            <img src="assets/img/gallery04_left.webp" alt="CrossFit Roppongiのトレーニング">
+        </picture>
+    </div>
+    <div class="gallery_right fade_g scrollin">
+        <img src="assets/img/gallery04_right.webp" alt="CrossFit Roppongiのトレーニング">
+    </div>
+  </section>
+
+<!---------------- 法人プラン -------------->
+<div id="corporate" class="com_in_page_link"></div>
+<section class="sec_corporate">
+  <div class="com_inner">
+    <div class="sp_wrap">
+      <h3 class="com_small_title">
+        <p class="en font_proxima">CORPORATE PALN</p>
+        <p class="jp">法人プラン</p>
+      </h3>
+      <h3 class="com_large_title">
+        <p class="jp">CrossFit Roppongiは、<br>従業員の皆さまの健康をサポートします。</p>
+        <p class="text_en font_proxima">At CrossFit Roppongi,<br>We help your employees get fit and stay healthy.</p>
+      </h3>
+
+      <div class="lead_wrap">
+        <p class="text_jp">私たちは、福利厚生、健康支援、ストレス対策など、従業員の皆さまのパフォーマンス向上に貢献します。<br>CrossFit Roppongiのプログラムは、60分で効率よく身体機能を高められるため、忙しい方にもおすすめです。<br>規模や就労形態に合わせた最適なプランをご提案します。ぜひ、福利厚生施設としてお役立てください。</p>
+        <p class="text_en font_proxima">From employee welfare to health support and stress management, we can help your employees boost their performance.<br>The programs at CrossFit Roppongi are perfectly suited for busy professionals.<br>With our short 60-minute sessions, attendees can efficiently and effectively improve their physical fitness and vitality.<br>We are happy to propose a plan suited for your company's scale and employment structure. Consider offering CrossFit Roppongi's services as a benefit to your employees.</p>
+      </div>
+    </div>
+    
+    <ul class="corporate_list">
+      <li>
+        <h4 class="com_title">
+          <p class="jp">ワークライフバランスが実現、<br>従業員満足度がアップ！</p>
+          <p class="text_en font_proxima">Achieve work-life balance,<br>Raise employee satisfaction!</p>
+        </h4>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp">気分転換やストレス解消を促し、<br>心身の健康に繋がります</p>
+          <p class="text_en font_proxima">Improve mood and relieve stress,<br>To boost physical and mental health.</p>
+        </h4>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp">交流が増え、社内の<br class="br_pc">コミュニケーション円滑化が期待できます</p>
+          <p class="text_en font_proxima">More opportunities to socialize,<br>leading to improved internal communication.</p>
+        </h4>
+      </li>
+      <li>
+        <h4 class="com_title">
+          <p class="jp">法人契約は福利厚生費として認められ、<br class="br_pc">経費計上が可能です</p>
+          <p class="text_en font_proxima">Corporate contracts can be written off as a welfare expense.</p>
+        </h4>
+      </li>
+    </ul>
+    <picture>	
+      <source media="(max-width:767px)" srcset="assets/img/corporate_sp.webp">
+      <img src="assets/img/corporate.webp" alt="CrossFit Roppongiのトレーニング">
+    </picture>
+    <!---------------- お問い合わせ -------------->
+    <div class="contact_area">
+      <h4 class="title">法人契約の料金や詳細、ご質問など、<br class="br_pc">お気軽にお問い合わせください。</h4>
+      <div class="inner">
+        <div class="text_wrap">
+          <p class="text_en font_proxima">For more on corporate contract fees, details, questions, etc.,Please do not hesitate to contact us.</p>
+        </div>
+        <a href="contact.html" class="grad_btn black">
+          <span class="jp">お問い合わせフォーム</span>
+          <span class="en font_proxima">CONTACT</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- gallery Section -->
+<section class="com_sec_gallery">
+  <div class="gallery_left fade_g scrollin">
+      <picture>	
+          <source media="(max-width:767px)" srcset="assets/img/gallery05_left_sp.webp">
+          <img src="assets/img/gallery05_left.webp" alt="CrossFit Roppongiのトレーニング">
+      </picture>
+  </div>
+  <div class="gallery_right fade_g scrollin">
+      <img src="assets/img/gallery05_right.webp" alt="CrossFit Roppongiのトレーニング">
+  </div>
+</section>
+  <!-- com_sec_link Section -->
+  <section class="com_sec_link">
+	<ul class="link_list">
+		<li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+		<li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+		<li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+	</ul>
+  </section>
+  <!-- sec_taiken section -->
+  <section class="sec_taiken">
+	<div class="inner">
+		<h2 class="copy">
+			<img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc">
+			<span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
+		</h2>
+		<div class="inner2">
+			<div class="text_wrap">
+				<p class="text_jp">体験レッスンでは、あなたのレベルやコンディションに合わせた<br class="br_pc">効果的な60分のトレーニングを¥3,300でご体験いただけます。<br>世界中で支持されるCrossFitを、ぜひ体感してください。</p>
+				<p class="text_en font_proxima">Try CrossFit<br>We offer 60-minute trial lessons that are custom-designed to your current level and condition.<br>For just ¥3,300, you'll see what people all over the world are talking about. Come try the CrossFit experience!</p>
+			</div>
+			<a href="trial.html" class="grad_btn">
+				<span class="jp">体験レッスンについて</span>
+				<span class="en font_proxima">ABOUT TRIAL</span>
+			</a>
+		</div>
+	</div>
+</section>
+<!-- sec_reserve Section -->
+<section class="sec_reserve">
+	<ul class="reserve_list">
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
+				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
+				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+	</ul>
+</section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="inner">
+    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+    <div class="text_wrap">
+      <div class="footer_l">
+        <p class="company font_proxima">CrossFit Roppongi</p>
+        <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+        <ul class="sns_list">
+          <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+        </ul>
+      </div>
+      <div class="footer_r">
+        <ul class="footer_nav">
+          <li>
+            <a href="index.html">
+              <p class="jp"><span>トップページ</span></p>
+              <p class="en font_proxima"><span>HOME</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="about.html">
+              <p class="jp"><span>CrossFitとは</span></p>
+              <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="facility.html">
+              <p class="jp"><span>施設・設備</span></p>
+              <p class="en font_proxima"><span>FACILITY</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="coach.html">
+              <p class="jp"><span>コーチ</span></p>
+              <p class="en font_proxima"><span>COACHES</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="plan.html">
+              <p class="jp"><span>プラン・料金</span></p>
+              <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="schedule.html">
+              <p class="jp"><span>スケジュール</span></p>
+              <p class="en font_proxima"><span>SCHEDULE</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="access.html">
+              <p class="jp"><span>アクセス</span></p>
+              <p class="en font_proxima"><span>ACCESS</span></p>
+            </a>
+          </li>
+        </ul>
+        <ul class="footer_nav">
+					<li>
+						<a href="trial.html">
+							<p class="jp"><span>体験レッスン</span></p>
+							<p class="en font_proxima"><span>TRIAL</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="dropin.html">
+							<p class="jp"><span>ドロップイン</span></p>
+							<p class="en font_proxima"><span>DROP IN</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="spartan.html">
+							<p class="jp"><span>スパルタントレーニング</span></p>
+							<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="career.html">
+							<p class="jp"><span>採用情報</span></p>
+							<p class="en font_proxima"><span>CAREER</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<p class="jp"><span>お問い合わせ</span></p>
+							<p class="en font_proxima"><span>CONTACT</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="privacy.html">
+							<p class="jp"><span>プライバシーポリシー</span></p>
+							<p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+						</a>
+					</li>
+				</ul>
+      </div>
+    </div>
+    <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+    <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+    </a>
+  </div>
+  </footer>
+  
+  <a href="plan.html#" id="totop" style="bottom: 30px;">
+  <picture>	
+    <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+    <img src="assets/img/totop.webp" alt="TOP">
+  </picture>
+  </a>
+  
+  <script>
+    const toTopBtn = document.getElementById("totop");
+  
+    // Show button after scrolling down
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        toTopBtn.classList.add("show");
+      } else {
+        toTopBtn.classList.remove("show");
+      }
+    });
+  
+    // Smooth scroll to top on click
+    toTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  
+    // ✅ Smooth scroll for all internal links inside .com_page_link
+    document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+  </script>  
+  
+</body>
+</html>

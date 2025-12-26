@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SCHEDULE</title>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+      
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const menuToggle = document.querySelector(".menu-toggle");
+              const nav = document.querySelector("nav");
+              const navLinks = document.querySelectorAll("nav ul li a");
+          
+              // Toggle menu + button animation
+              menuToggle.addEventListener("click", () => {
+                nav.classList.toggle("active");
+                menuToggle.classList.toggle("active");
+              });
+          
+              // Close menu when clicking a link
+              navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                  nav.classList.remove("active");
+                  menuToggle.classList.remove("active");
+                });
+              });
+            });
+          </script>
+      </head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <!-- Hamburger Button -->
+  <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+  </button>
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html" class="active">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_schedule">
+    <!-- Title Section -->
+    <section class="sec_schedule com_page">
+      <h2 class="main_title">
+        <p class="en font_proxima extra">SCHEDULE</p>
+        <p class="jp">スケジュール</p>
+      </h2>
+      <a href="assets/img/CRF_202506_Schedule.png"
+        class="venobox vbox-item img-link"
+        data-lightbox
+        data-caption="CrossFit Roppongiのスケジュール">
+      <img src="assets/img/CRF_202506_Schedule.png" alt="CrossFit Roppongiのスケジュール">
+      <span class="btn_icon" aria-hidden="true">🔍</span>
+    </a>
+
+    </section>
+
+    <!-- com_sec_link Section -->
+    <section class="com_sec_link">
+    <ul class="link_list">
+      <li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+      <li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+      <li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+    </ul>
+    </section>
+    <!-- sec_taiken section -->
+    <section class="sec_taiken">
+    <div class="inner">
+      <h2 class="copy">
+        <img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc">
+        <span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
+      </h2>
+      <div class="inner2">
+        <div class="text_wrap">
+          <p class="text_jp">体験レッスンでは、あなたのレベルやコンディションに合わせた<br class="br_pc">効果的な60分のトレーニングを¥3,300でご体験いただけます。<br>世界中で支持されるCrossFitを、ぜひ体感してください。</p>
+          <p class="text_en font_proxima">Try CrossFit<br>We offer 60-minute trial lessons that are custom-designed to your current level and condition.<br>For just ¥3,300, you'll see what people all over the world are talking about. Come try the CrossFit experience!</p>
+        </div>
+        <a href="trial.html" class="grad_btn">
+          <span class="jp">体験レッスンについて</span>
+          <span class="en font_proxima">ABOUT TRIAL</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- sec_reserve Section -->
+<section class="sec_reserve">
+	<ul class="reserve_list">
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
+				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
+				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+	</ul>
+</section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="inner">
+    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+    <div class="text_wrap">
+      <div class="footer_l">
+        <p class="company font_proxima">CrossFit Roppongi</p>
+        <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+        <ul class="sns_list">
+          <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+        </ul>
+      </div>
+      <div class="footer_r">
+        <ul class="footer_nav">
+          <li>
+            <a href="index.html">
+              <p class="jp"><span>トップページ</span></p>
+              <p class="en font_proxima"><span>HOME</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="about.html">
+              <p class="jp"><span>CrossFitとは</span></p>
+              <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="facility.html">
+              <p class="jp"><span>施設・設備</span></p>
+              <p class="en font_proxima"><span>FACILITY</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="coach.html">
+              <p class="jp"><span>コーチ</span></p>
+              <p class="en font_proxima"><span>COACHES</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="plan.html">
+              <p class="jp"><span>プラン・料金</span></p>
+              <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="schedule.html">
+              <p class="jp"><span>スケジュール</span></p>
+              <p class="en font_proxima"><span>SCHEDULE</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="access.html">
+              <p class="jp"><span>アクセス</span></p>
+              <p class="en font_proxima"><span>ACCESS</span></p>
+            </a>
+          </li>
+        </ul>
+        <ul class="footer_nav">
+					<li>
+						<a href="trial.html">
+							<p class="jp"><span>体験レッスン</span></p>
+							<p class="en font_proxima"><span>TRIAL</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="dropin.html">
+							<p class="jp"><span>ドロップイン</span></p>
+							<p class="en font_proxima"><span>DROP IN</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="spartan.html">
+							<p class="jp"><span>スパルタントレーニング</span></p>
+							<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="career.html">
+							<p class="jp"><span>採用情報</span></p>
+							<p class="en font_proxima"><span>CAREER</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<p class="jp"><span>お問い合わせ</span></p>
+							<p class="en font_proxima"><span>CONTACT</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="privacy.html">
+							<p class="jp"><span>プライバシーポリシー</span></p>
+							<p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+						</a>
+					</li>
+				</ul>
+      </div>
+    </div>
+    <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+    <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+    </a>
+  </div>
+  </footer>
+  
+  <a href="schedule.html#" id="totop" style="bottom: 30px;">
+  <picture>	
+    <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+    <img src="assets/img/totop.webp" alt="TOP">
+  </picture>
+  </a>
+
+<!-- Lightbox (no external JS/CSS) -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image preview" aria-hidden="true">
+  <button id="lightbox-close" class="lightbox__close" aria-label="Close">&times;</button>
+  <figure class="lightbox__figure">
+    <img id="lightbox-img" src="schedule.html" alt="">
+    <figcaption id="lightbox-caption" class="lightbox__caption"></figcaption>
+  </figure>
+</div>
+<script>
+  (function () {
+    const overlay  = document.getElementById('lightbox');
+    const imgEl    = document.getElementById('lightbox-img');
+    const caption  = document.getElementById('lightbox-caption');
+    const closeBtn = document.getElementById('lightbox-close');
+
+    function openLightbox(src, cap, alt) {
+      imgEl.src = src;
+      imgEl.alt = alt || cap || '';
+      caption.textContent = cap || alt || '';
+      overlay.classList.add('is-open');
+      document.body.classList.add('no-scroll');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeLightbox() {
+      overlay.classList.remove('is-open');
+      document.body.classList.remove('no-scroll');
+      overlay.setAttribute('aria-hidden', 'true');
+      // small delay to avoid flashing during transition
+      setTimeout(() => { imgEl.src = ''; }, 200);
+    }
+
+    // Open (intercept any link with data-lightbox)
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('a[data-lightbox]');
+      if (!link) return;
+      e.preventDefault();
+      const src = link.getAttribute('href');
+      const cap = link.getAttribute('data-caption');
+      const alt = link.querySelector('img')?.getAttribute('alt') || '';
+      openLightbox(src, cap, alt);
+    });
+
+    // Close: button, overlay background, ESC key
+    closeBtn.addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeLightbox();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeLightbox();
+    });
+  })();
+</script>
+
+  
+  <script>
+    const toTopBtn = document.getElementById("totop");
+  
+    // Show button after scrolling down
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        toTopBtn.classList.add("show");
+      } else {
+        toTopBtn.classList.remove("show");
+      }
+    });
+  
+    // Smooth scroll to top on click
+    toTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  
+    // ✅ Smooth scroll for all internal links inside .com_page_link
+    document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+  </script>  
+  
+</body>
+</html>

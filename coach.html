@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Coach</title>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+		<link rel="stylesheet" href="assets/css/media-queries.css">
+      
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const menuToggle = document.querySelector(".menu-toggle");
+              const nav = document.querySelector("nav");
+              const navLinks = document.querySelectorAll("nav ul li a");
+          
+              // Toggle menu + button animation
+              menuToggle.addEventListener("click", () => {
+                nav.classList.toggle("active");
+                menuToggle.classList.toggle("active");
+              });
+          
+              // Close menu when clicking a link
+              navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                  nav.classList.remove("active");
+                  menuToggle.classList.remove("active");
+                });
+              });
+            });
+          </script>
+      </head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <!-- Hamburger Button -->
+  <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+  </button>
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html" class="active">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_coach">
+  <!-- Title Section -->
+  <section class="page-title coach-page">
+    <div class="com_column">
+      <h2>COACHES</h2>
+      <p class="sub-title">コーチ </p>
+    </div>
+  </section>
+  <!-- Coaches Section -->
+  <section class="sec_coach">
+		<h3 class="com_large_title">
+			<p class="jp">初心者からアスリートの方まで、<br class="br_pc">経験豊富で実績あるコーチ陣が指導。</p>
+			<p class="text_en font_proxima">Our experienced and proven coaches can work with all skill levels -<br>from complete beginners to accomplished athletes.</p>
+		</h3>
+		<ul class="coach_list">
+			<!---------------- ANDY BRUCE -------------->
+			<li>
+				<img src="assets/img/coach_01.webp" alt="ANDY BRUCE">
+				<p class="title post">CEO</p>
+				<h4 class="name font_proxima extra">ANDY BRUCE</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>CrossFit Level 1 Trainer </li>
+							<li>CrossFit Level 2 Trainer</li>
+							<li>CrossFit Gymnastics Trainer</li>
+							<li>CrossFit Weightlifting Trainer</li>
+							<li>CrossFit Mobility Trainer</li>
+							<li>CrossFit Kids Trainer</li>
+							<li>CrossFit Judges Certificate</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>CrossFit Scaling Certificate</li>
+							<li>Principles of Program Design</li>
+							<li>Opex Fitness</li>
+							<li>Functional Bodybuilding Trainer</li>
+							<li>Wim Hof Breathing Fundamentals</li>
+							<li>Wim Hof Winter Expedition 2017</li>
+							<li>Meditation practitioner</li>
+						</ul>
+					</div>
+					<p class="more_btn font_proxima"><span>SEE MORE</span></p>
+				</div>
+
+				<div class="message_wrap">
+					<p class="more_btn font_proxima"><span>SEE MESSAGE</span></p>
+					<p class="message more_text font_proxima">Hi, I’m Andy Bruce, Founder and CEO at CrossFit Roppongi.I believe that all humans are meant to live a happy, meaningful and disease-free life.CrossFit changed my life and made me realize that achieving optimal health and never get sick was possible!After that life changing discovery, I have dedicate myself to bring health to as many people as I possibly can, I believe that through exercise, proper nutrition, mindfulness and great social interaction we can live a happy life that will impact the world and those around us, so I invite you to come and try our Gym, I’m sure we will be able to create a positive change in your life as well.</p>
+				</div>
+			</li>
+			<!---------------- SATORU TSUJIMOTO -------------->
+			<li>
+				<img src="assets/img/coach_02.webp" alt="SATORU TSUJIMOTO">
+				<p class="title post">HEAD COACH</p>
+				<h4 class="name font_proxima extra">SATORU TSUJIMOTO</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>CrossFit Level 1 Trainer</li>
+							<li>CrossFit Level 2 Trainer</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>健康運動指導士</li>
+							<li>整体師</li>
+							<li>極真空手参段</li>
+						</ul>
+					</div>
+					<p class="more_btn font_proxima"><span>SEE MORE</span></p>
+				</div>
+
+				<div class="message_wrap">
+					<p class="more_btn font_proxima"><span>SEE MESSAGE</span></p>
+					<p class="message more_text font_proxima"><span class="jp">幼児体育、介護予防、スポーツドクターとの指導経験など、幅広い年齢層への個別指導やグループ指導を行ってきました。その経験を活かし、身体的機能改善を含むあらゆるトレーニング指導を行なっています。<br>CrossFit Roppongiで生涯を健康に過ごせるよう皆さまをサポートします。</span></p>
+				</div>
+			</li>
+			<!---------------- TAKEHIDE SATO -------------->
+			<li>
+				<img src="assets/img/coach_03.webp" alt="TAKEHIDE SATO">
+				<p class="title post">CROSSFIT COACH / GYMNASTICS COACH</p>
+				<h4 class="name font_proxima extra">TAKEHIDE SATO</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>Crossfit Level2 Trainer</li>
+							<li>Crossfit Judges Certificate</li>
+							<li>Crossfit Scaling Certificate</li>
+							<li>NASM-PES（National Academy of Sports Medicine – Performance Enhancement Specialist）</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>BFR Trainer Basic</li>
+							<li>CFSC (Certified Functional Strength Coach)</li>
+							<li>JCCA ADV Trainer</li>
+							<li>ピラティス指導歴 10年</li>
+						</ul>
+					</div>
+					<p class="more_btn font_proxima"><span>SEE MORE</span></p>
+				</div>
+
+				<div class="message_wrap">
+					<p class="more_btn font_proxima"><span>SEE MESSAGE</span></p>
+					<p class="message more_text font_proxima"><span class="jp">2013年よりCrossFitの指導を行っています。CrossFitは誰でも何歳からでも始めれるエクササイズでありスポーツです。皆さまが心身ともにより健康的なライフスタイルを手に入れられるようサポートいたします。</span></p>
+				</div>
+			</li>
+			<!---------------- TOMOHIKO KOGI -------------->
+			<li>
+				<img src="assets/img/coach_04.webp" alt="TOMOHIKO KOGI">
+				<p class="title post">CROSSFIT COACH / GYMNASTICS COACH</p>
+				<h4 class="name font_proxima extra">REI KOZUKA</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>CrossFit Level 1 Trainer</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>NSCA-CSCS</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="message_wrap">
+					<p class="more_btn font_proxima"><span>SEE MESSAGE</span></p>
+					<p class="message more_text font_proxima"><span class="jp">身体を機能的に使うことで「動き」も「見た目」も改善することができます。<br>器械体操やパーソナルトレーナーとしての経験を活かし、みなさんが楽しくCrossFitを続けられるようサポートさせていただきます！</span><br>Functional exercise will help you “move” and “look” better. Let’s join CrossFit Roppongi community and have fun with us!</p>
+				</div>
+			</li>
+			<li>
+				<img src="assets/img/coach_06.webp" alt="">
+				<p class="title post">CROSSFIT COACH / SPARTAN RACE COACH</p>
+				<h4 class="name font_proxima extra">MARC KEEN</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>CrossFit Level 1 Trainer</li>
+							<li>Reebok Japan Elite ONE Ambassador</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>Spartan SGX L1 Coach</li>
+							<li>American College of Sports Medicine (ACSM) Certified Personal Trainer</li>
+						</ul>
+					</div>
+					<p class="more_btn font_proxima"><span>SEE MORE</span></p>
+				</div>
+
+				<div class="message_wrap">
+					<p class="more_btn font_proxima"><span>SEE MESSAGE</span></p>
+					<p class="message more_text font_proxima">I believe humans of all ages were designed to move, lift, and run often. It’s in our DNA to overcome new physical challenges to keep us healthy throughout our life. As a Spartan Race &amp; CrossFit Coach, I enjoy creating classes that are fun, yet challenging for all levels of fitness. The best route to success is by learning the basic movements well, good nutrition, and a healthy lifestyle outside the gym. As a masters athlete with over 30 years of living a healthy lifestyle, I hope to show that age really is just a number and that consistent effort will pay off. I look forward to seeing you in a class or PT session!</p>
+				</div>
+			</li>
+			<!---------------- SHOKO KAWAGUCHI -------------->
+			<li>
+				<img src="assets/img/coach_07.webp" alt="SHOKO KAWAGUCHI">
+				<p class="title post">YOGA FOR CROSSFIT / PILATES TRAINER</p>
+				<h4 class="name font_proxima extra">SHOKO KAWAGUCHI</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>CrossFit Level 1 Trainer</li>
+							<li>Sports Aroma therapist</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>PHI Pilates Instructor</li>
+						</ul>
+					</div>
+				</div>
+				<div class="message_wrap">
+					<p class="more_btn font_proxima"><span>SEE MESSAGE</span></p>
+					<p class="message more_text font_proxima"><span class="jp">2013年にCrossFitをはじめました。現在はピラティスを軸にしたパーソナルトレーナー、スポーツアロマセラピストとしても活動しているのでその知識や経験を活かし皆さんが怪我無くクロスフィットを楽しめるように、またパフォーマンス向上のお役に立てるようにサポートさせていただきます！</span></p>
+				</div>
+			</li>
+			<!---------------- VICTOR AKIO SHIMOFUJI -------------->
+			<li>
+				<img src="assets/img/coach_08.webp" alt="VICTOR AKIO SHIMOFUJI">
+				<p class="title post">CROSSFIT COACH</p>
+				<h4 class="name font_proxima extra">VICTOR AKIO SHIMOFUJI</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>CrossFit Level 1 Trainer</li>
+							<li>CrossFit Level 2 Trainer</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>CrossFit Kids Trainer</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="message_wrap">
+					<p class="more_btn font_proxima"><span>SEE MESSAGE</span></p>
+					<p class="message more_text font_proxima"><span class="jp">ペルー生まれ中南米育ちのペルーと日本のミックス。トリリンガル(日英西)。11年総合商社で勤務後、起業。2014年にCrossFitを開始。趣味はレスリング。健康でいきいきと充実した人生を歩めるようにサポートします！</span><br>A mix of Ceviche(Peru) and Sushi(Japan) born in Peru and raised in Latin America. Trilingual (Japanese, English, Spanish). Currently running a health improvement business. Started CrossFit in 2014. My hobby is wrestling. I help people to find their way of living so that they live a full, healthy and bright life.</p>
+				</div>
+			</li>
+			<!---------------- YUSUKE KAWAHARA -------------->
+			<li>
+				<img src="assets/img/coach_09.webp" alt="YUSUKE KAWAHARA">
+				<p class="title post">OLYMPIC WEIGHTLIFTING COACH</p>
+				<h4 class="name font_proxima extra">YUSUKE KAWAHARA</h4>
+				<p class="title shikaku">資格</p>
+				<div class="shikaku_detail">
+					<div class="shikaku_wrap">
+						<ul class="shikaku_list">
+							<li>2012 国民体育大会 男子56kg級優勝</li>
+							<li>2014 全国高等学校選抜大会 女子63kg級優勝</li>
+							<li>2015 全国高等学校女子選手権大会  女子63kg級優勝</li>
+							<li>2015 全日本ジュニア選手権大会 男子85kg級優勝</li>
+						</ul>
+						<ul class="shikaku_list">
+							<li>2015 アジアユース選手権大会 日本選手団コーチ</li>
+							<li>2018 全国高等学校総合体育大会 男子85kg級優勝</li>
+							<li>2018 全国高等学校総合体育大会 男子団体総合優勝</li>
+						</ul>
+					</div>
+					<p class="more_btn font_proxima border"><span>SEE MORE</span></p>
+				</div>
+
+			</li>
+			<!---------------- AYAKO KURODA -------------->
+			<li>
+				<img src="assets/img/coach_10.webp" alt="AYAKO KURODA">
+				<p class="title post">FRONT STAFF</p>
+				<h4 class="name font_proxima extra">AYAKO KURODA</h4>
+			</li>
+			<!---------------- DIANA TAFIY -------------->
+			<li>
+				<img src="assets/img/coach_11.webp" alt="DIANA TAFIY">
+				<p class="title post">FRONT STAFF</p>
+				<h4 class="name font_proxima extra">DIANA TAFIY</h4>
+			</li>
+			<!---------------- SAYAKA YOSHIDA -------------->
+			<li>
+				<img src="assets/img/coach_12.webp" alt="SAYAKA YOSHIDA">
+				<p class="title post">FRONT STAFF</p>
+				<h4 class="name font_proxima extra">SAYAKA YOSHIDA</h4>
+			</li>
+			<!---------------- HARUKA INOUE  -------------->
+			<li>
+				<img src="assets/img/coach_13.webp" alt="HARUKA INOUE">
+				<p class="title post">FRONT STAFF</p>
+				<h4 class="name font_proxima extra">HARUKA INOUE</h4>
+			</li>
+		</ul>
+	</section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Handle SEE MORE toggle
+      document.querySelectorAll(".shikaku_detail .more_btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+          const wrap = this.closest(".shikaku_detail").querySelector(".shikaku_wrap");
+          wrap.classList.toggle("expanded");
+    
+          // Change button text
+          const span = this.querySelector("span");
+          if (wrap.classList.contains("expanded")) {
+            span.textContent = "SEE LESS";
+          } else {
+            span.textContent = "SEE MORE";
+          }
+        });
+      });
+    
+      // Handle SEE MESSAGE toggle
+      document.querySelectorAll(".message_wrap .more_btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+          const message = this.closest(".message_wrap").querySelector(".message");
+          message.classList.toggle("show");
+    
+          // Change button text
+          const span = this.querySelector("span");
+          if (message.classList.contains("show")) {
+            span.textContent = "HIDE MESSAGE";
+          } else {
+            span.textContent = "SEE MESSAGE";
+          }
+        });
+      });
+    });
+    </script>    
+
+  <!-- com_sec_link Section -->
+  <section class="com_sec_link">
+    <ul class="link_list">
+		<li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+		<li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+		<li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+    </ul>
+  </section>
+    <!-- sec_taiken section -->
+  <section class="sec_taiken">
+    <div class="inner">
+      <h2 class="copy">
+        <img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc">
+        <span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
+      </h2>
+      <div class="inner2">
+        <div class="text_wrap">
+          <p class="text_jp">体験レッスンでは、あなたのレベルやコンディションに合わせた<br class="br_pc">効果的な60分のトレーニングを¥3,300でご体験いただけます。<br>世界中で支持されるCrossFitを、ぜひ体感してください。</p>
+          <p class="text_en font_proxima">Try CrossFit<br>We offer 60-minute trial lessons that are custom-designed to your current level and condition.<br>For just ¥3,300, you'll see what people all over the world are talking about. Come try the CrossFit experience!</p>
+        </div>
+        <a href="trial.html" class="grad_btn">
+          <span class="jp">体験レッスンについて</span>
+          <span class="en font_proxima">ABOUT TRIAL</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- sec_reserve Section -->
+<section class="sec_reserve">
+	<ul class="reserve_list">
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
+				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
+				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+	</ul>
+</section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+	<div class="inner">
+	  <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+	  <div class="text_wrap">
+		<div class="footer_l">
+		  <p class="company font_proxima">CrossFit Roppongi</p>
+		  <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+		  <ul class="sns_list">
+			<li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+			<li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+		  </ul>
+		</div>
+		<div class="footer_r">
+		  <ul class="footer_nav">
+			<li>
+			  <a href="index.html">
+				<p class="jp"><span>トップページ</span></p>
+				<p class="en font_proxima"><span>HOME</span></p>
+			  </a>
+			</li>
+			<li>
+			  <a href="about.html">
+				<p class="jp"><span>CrossFitとは</span></p>
+				<p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+			  </a>
+			</li>
+			<li>
+			  <a href="facility.html">
+				<p class="jp"><span>施設・設備</span></p>
+				<p class="en font_proxima"><span>FACILITY</span></p>
+			  </a>
+			</li>
+			<li>
+			  <a href="coach.html">
+				<p class="jp"><span>コーチ</span></p>
+				<p class="en font_proxima"><span>COACHES</span></p>
+			  </a>
+			</li>
+			<li>
+			  <a href="plan.html">
+				<p class="jp"><span>プラン・料金</span></p>
+				<p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+			  </a>
+			</li>
+			<li>
+			  <a href="schedule.html">
+				<p class="jp"><span>スケジュール</span></p>
+				<p class="en font_proxima"><span>SCHEDULE</span></p>
+			  </a>
+			</li>
+			<li>
+			  <a href="access.html">
+				<p class="jp"><span>アクセス</span></p>
+				<p class="en font_proxima"><span>ACCESS</span></p>
+			  </a>
+			</li>
+		  </ul>
+		  <ul class="footer_nav">
+			<li>
+				<a href="trial.html">
+					<p class="jp"><span>体験レッスン</span></p>
+					<p class="en font_proxima"><span>TRIAL</span></p>
+				</a>
+			</li>
+			<li>
+				<a href="dropin.html">
+					<p class="jp"><span>ドロップイン</span></p>
+					<p class="en font_proxima"><span>DROP IN</span></p>
+				</a>
+			</li>
+			<li>
+				<a href="spartan.html">
+					<p class="jp"><span>スパルタントレーニング</span></p>
+					<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+				</a>
+			</li>
+			<li>
+				<a href="career.html">
+					<p class="jp"><span>採用情報</span></p>
+					<p class="en font_proxima"><span>CAREER</span></p>
+				</a>
+			</li>
+			<li>
+				<a href="contact.html">
+					<p class="jp"><span>お問い合わせ</span></p>
+					<p class="en font_proxima"><span>CONTACT</span></p>
+				</a>
+			</li>
+			<li>
+				<a href="privacy.html">
+					<p class="jp"><span>プライバシーポリシー</span></p>
+					<p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+				</a>
+			</li>
+		</ul>
+		</div>
+	  </div>
+	  <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+	  <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+		<img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+	  </a>
+	</div>
+	</footer>
+	
+	<a href="coach.html#" id="totop" style="bottom: 30px;">
+	<picture>	
+	  <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+	  <img src="assets/img/totop.webp" alt="TOP">
+	</picture>
+	</a>
+  
+  <script>
+    const toTopBtn = document.getElementById("totop");
+  
+    // Show button after scrolling down
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        toTopBtn.classList.add("show");
+      } else {
+        toTopBtn.classList.remove("show");
+      }
+    });
+  
+    // Smooth scroll to top on click
+    toTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  
+    // ✅ Smooth scroll for all internal links inside .com_page_link
+    document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+  </script>  
+  
+</body>
+</html>

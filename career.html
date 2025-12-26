@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CAREER</title>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+      
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const menuToggle = document.querySelector(".menu-toggle");
+              const nav = document.querySelector("nav");
+              const navLinks = document.querySelectorAll("nav ul li a");
+          
+              // Toggle menu + button animation
+              menuToggle.addEventListener("click", () => {
+                nav.classList.toggle("active");
+                menuToggle.classList.toggle("active");
+              });
+          
+              // Close menu when clicking a link
+              navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                  nav.classList.remove("active");
+                  menuToggle.classList.remove("active");
+                });
+              });
+            });
+          </script>
+      </head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <!-- Hamburger Button -->
+  <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+  </button>
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_carrer">
+  <!-- Title Section -->
+<section class="page-title carrer-page">
+  <div class="com_column">
+    <h2>CAREER</h2>
+    <p class="sub-title">採用情報</p>
+  </div>
+</section>
+
+<section class="sec_career">
+  <h3 class="com_large_title">
+    <p class="jp">知識を深め、スキルを磨く。<br>共に高め合える仲間を募集しています。</p>
+    <p class="text_en font_proxima">Advance your knowledge, hone your skills.<br>We are looking for teammates who can grow with us.</p>
+  </h3>
+  <ul class="com_page_link">
+    <li>
+      <a href="career.html#coach" class="active">
+        <p class="jp">コーチ・トレーナー</p>
+        <p class="en font_proxima">COACHES ・SPORTS TRAINER</p>
+      </a>
+    </li>
+    <li>
+      <a href="career.html#front">
+        <p class="jp">フロント</p>
+        <p class="en font_proxima">FRONT DESK STAFF</p>
+      </a>
+    </li>
+  </ul>
+
+  <!---------------- コーチ・トレーナー -------------->
+  <div id="coach" class="com_in_page_link"></div>
+  <ul class="career_list">
+    <li>
+      <h4 class="list_title">
+        <p class="jp">職種</p>
+        <p class="text_en font_proxima">OCCUPATION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">コーチ・トレーナー</p>
+        <p class="text_en font_proxima">Coache・Sports Trainer</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">業務内容</p>
+        <p class="text_en font_proxima">JOB DESCRIPTION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">会員さまへのコーチング、清掃など</p>
+        <p class="text_en font_proxima">Coaching members, cleaning, etc.</p>
+      </div>
+    </li>	
+    <li>
+      <h4 class="list_title">
+        <p class="jp">応募資格</p>
+        <p class="text_en font_proxima">QUALIFICATION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">CrossFit Level 2 Trainer資格<br>※上記資格を取得していない方は、取得後にご応募ください。</p>
+        <p class="text_en font_proxima">CrossFit Level 2 Trainer Certificate<br>* If you do not have the above qualification, please acquire it before you apply.</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">勤務時間</p>
+        <p class="text_en font_proxima">WORKING HOURS</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">平日<br>①6:30〜13:15 / ②15:15〜22:00<br>※基本的に午前勤務と午後勤務に分かれます。<br><br>土曜・日曜<br>③8:30〜15:30<br>※基本的に終日勤務となります。<br><br>祝日<br>④9:00〜14:30<br>※基本的に終日勤務となります。</p>
+        <p class="text_en font_proxima">Weekday<br>① 6:30〜13:15 / ② 15:15〜22:00 <br>* Generally divided between morning and afternoon shifts.<br><br>Saturdays / Sundays<br>③ 8:30〜15:30<br>* Basically, you will work all day.<br><br>Holiday<br>④ 9:00〜14:30<br>* Basically, you will work all day.</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">勤務地</p>
+        <p class="text_en font_proxima">WORK LOCATION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">〒106-0032　東京都港区六本木7−4−8 ウインドビル B1F<br>東京メトロ日比谷線「六本木駅」8番出口から徒歩7分<br>都営大江戸線「六本木駅」8番出口から徒歩8分<br>東京メトロ千代田線「六本木駅」3番出口から徒歩7分</p>
+        <p class="text_en font_proxima">7 minutes walk from Exit 8 of Roppongi Station on the Tokyo Metro Hibiya Line<br>8 minutes walk from Exit 8 of Roppongi Station on the Toei Oedo Line<br>7 minutes walk from Exit 3 of Roppongi Station on the Tokyo Metro Chiyoda Line</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">福利厚生</p>
+        <p class="text_en font_proxima">BENEFITS</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">社会保険、厚生年金、雇用保険、労働災害保険</p>
+        <p class="text_en font_proxima">Social insurance, welfare pension, employment insurance, workers' accident compensation insurance</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">待遇</p>
+        <p class="text_en font_proxima">ADDITIONAL <br>BENEFITS</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">交通費支給、 ユニフォーム貸与</p>
+        <p class="text_en font_proxima">Transportation expenses, uniform rental.</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">応募方法</p>
+        <p class="text_en font_proxima">HOW TO APPLY</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">履歴書を添付の上、<a href="career.html#">応募フォーム</a>よりご応募ください。</p>
+        <p class="text_en font_proxima">Please apply via the <a href="career.html#">APPLICATION FORM</a> and attach your resume.</p>
+      </div>
+    </li>
+  </ul>
+  <a href="career.html#" class="grad_btn center">
+    <span class="jp">応募フォーム</span>
+    <span class="en font_proxima">APPLY</span>
+  </a>
+</section>
+
+<!-- gallery Section -->
+<section class="com_sec_gallery">
+  <div class="gallery_left fade_g scrollin">
+      <picture>	
+          <source media="(max-width:767px)" srcset="assets/img/gallery06_left_sp.webp">
+          <img src="assets/img/gallery06_left.webp" alt="CrossFit Roppongiのトレーニング">
+      </picture>
+  </div>
+  <div class="gallery_right fade_g scrollin">
+      <img src="assets/img/gallery06_right.webp" alt="CrossFit Roppongiのトレーニング">
+  </div>
+</section>
+
+<section class="sec_career career2">
+  <!---------------- フロント・フロントマネジャー -------------->
+  <div id="front" class="com_in_page_link"></div>
+  <ul class="career_list">
+    <li>
+      <h4 class="list_title">
+        <p class="jp">職種</p>
+        <p class="text_en font_proxima">OCCUPATION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">フロント・フロントマネジャー</p>
+        <p class="text_en font_proxima">Front desk staff, Front desk Manager</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">業務内容</p>
+        <p class="text_en font_proxima">JOB DESCRIPTION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">会員情報の管理、電話・Web受付対応、商品の販売等など</p>
+        <p class="text_en font_proxima">Member information management, phone and internet reception, product sales, etc.</p>
+      </div>
+    </li>	
+    <li>
+      <h4 class="list_title">
+        <p class="jp">応募資格</p>
+        <p class="text_en font_proxima">QUALIFICATION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">スポーツジムでの顧客管理、受付業務経験者。<br>※CrossFit Level 1 Trainer資格をお持ちの方は優遇いたします。</p>
+        <p class="text_en font_proxima">Experience with sports gym customer management and reception activities.<br>* Priority is given to applicants who have a CrossFit Level 1 Trainer Certificate.</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">勤務時間</p>
+        <p class="text_en font_proxima">WORKING HOURS</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">①6:15〜13:30 / ②15:15〜22:00<br>※基本的に午前勤務と午後勤務に分かれます。</p>
+        <p class="text_en font_proxima">* Generally divided between morning and afternoon shifts.</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">勤務地</p>
+        <p class="text_en font_proxima">WORK LOCATION</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">〒106-0032　東京都港区六本木7−4−8 ウインドビル B1F<br>東京メトロ日比谷線「六本木駅」8番出口から徒歩7分<br>都営大江戸線「六本木駅」8番出口から徒歩8分<br>東京メトロ千代田線「六本木駅」3番出口から徒歩7分</p>
+        <p class="text_en font_proxima">7 minutes walk from Exit 8 of Roppongi Station on the Tokyo Metro Hibiya Line<br>8 minutes walk from Exit 8 of Roppongi Station on the Toei Oedo Line<br>7 minutes walk from Exit 3 of Roppongi Station on the Tokyo Metro Chiyoda Line</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">福利厚生</p>
+        <p class="text_en font_proxima">BENEFITS</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">社会保険、厚生年金、雇用保険、労働災害保険</p>
+        <p class="text_en font_proxima">Social insurance, welfare pension, employment insurance, workers' accident compensation insurance</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">待遇</p>
+        <p class="text_en font_proxima">ADDITIONAL <br>BENEFITS</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">交通費支給、 ユニフォーム貸与</p>
+        <p class="text_en font_proxima">Transportation expenses, uniform rental.</p>
+      </div>
+    </li>
+    <li>
+      <h4 class="list_title">
+        <p class="jp">応募方法</p>
+        <p class="text_en font_proxima">HOW TO APPLY</p>
+      </h4>
+      <div class="content">
+        <p class="text_jp">履歴書を添付の上、<a href="career.html#">応募フォーム</a>よりご応募ください。</p>
+        <p class="text_en font_proxima">Please apply via the <a href="career.html#">APPLICATION FORM</a> and attach your resume.</p>
+      </div>
+    </li>
+  </ul>
+  <a href="career.html#" class="grad_btn center">
+    <span class="jp">応募フォーム</span>
+    <span class="en font_proxima">APPLY</span>
+  </a>
+</section>
+
+<!-- gallery Section -->
+<section class="com_sec_gallery">
+  <div class="gallery_left fade_g scrollin">
+      <picture>	
+          <source media="(max-width:767px)" srcset="assets/img/gallery07_left_sp.webp">
+          <img src="assets/img/gallery07_left.webp" alt="CrossFit Roppongiのトレーニング">
+      </picture>
+  </div>
+  <div class="gallery_right fade_g scrollin">
+      <img src="assets/img/gallery07_right.webp" alt="CrossFit Roppongiのトレーニング">
+  </div>
+</section>
+  <!-- com_sec_link Section -->
+  <section class="com_sec_link">
+	<ul class="link_list">
+		<li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+		<li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+		<li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+	</ul>
+  </section>
+  <!-- sec_taiken section -->
+  <section class="sec_taiken">
+	<div class="inner">
+		<h2 class="copy">
+			<img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc">
+			<span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
+		</h2>
+		<div class="inner2">
+			<div class="text_wrap">
+				<p class="text_jp">体験レッスンでは、あなたのレベルやコンディションに合わせた<br class="br_pc">効果的な60分のトレーニングを¥3,300でご体験いただけます。<br>世界中で支持されるCrossFitを、ぜひ体感してください。</p>
+				<p class="text_en font_proxima">Try CrossFit<br>We offer 60-minute trial lessons that are custom-designed to your current level and condition.<br>For just ¥3,300, you'll see what people all over the world are talking about. Come try the CrossFit experience!</p>
+			</div>
+			<a href="trial.html" class="grad_btn">
+				<span class="jp">体験レッスンについて</span>
+				<span class="en font_proxima">ABOUT TRIAL</span>
+			</a>
+		</div>
+	</div>
+</section>
+<!-- sec_reserve Section -->
+<section class="sec_reserve">
+	<ul class="reserve_list">
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
+				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
+				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+	</ul>
+</section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="inner">
+    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+    <div class="text_wrap">
+      <div class="footer_l">
+        <p class="company font_proxima">CrossFit Roppongi</p>
+        <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+        <ul class="sns_list">
+          <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+        </ul>
+      </div>
+      <div class="footer_r">
+        <ul class="footer_nav">
+          <li>
+            <a href="index.html">
+              <p class="jp"><span>トップページ</span></p>
+              <p class="en font_proxima"><span>HOME</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="about.html">
+              <p class="jp"><span>CrossFitとは</span></p>
+              <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="facility.html">
+              <p class="jp"><span>施設・設備</span></p>
+              <p class="en font_proxima"><span>FACILITY</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="coach.html">
+              <p class="jp"><span>コーチ</span></p>
+              <p class="en font_proxima"><span>COACHES</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="plan.html">
+              <p class="jp"><span>プラン・料金</span></p>
+              <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="schedule.html">
+              <p class="jp"><span>スケジュール</span></p>
+              <p class="en font_proxima"><span>SCHEDULE</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="access.html">
+              <p class="jp"><span>アクセス</span></p>
+              <p class="en font_proxima"><span>ACCESS</span></p>
+            </a>
+          </li>
+        </ul>
+        <ul class="footer_nav">
+					<li>
+						<a href="trial.html">
+							<p class="jp"><span>体験レッスン</span></p>
+							<p class="en font_proxima"><span>TRIAL</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="dropin.html">
+							<p class="jp"><span>ドロップイン</span></p>
+							<p class="en font_proxima"><span>DROP IN</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="spartan.html">
+							<p class="jp"><span>スパルタントレーニング</span></p>
+							<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="career.html">
+							<p class="jp"><span>採用情報</span></p>
+							<p class="en font_proxima"><span>CAREER</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<p class="jp"><span>お問い合わせ</span></p>
+							<p class="en font_proxima"><span>CONTACT</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="privacy.html">
+							<p class="jp"><span>プライバシーポリシー</span></p>
+							<p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+						</a>
+					</li>
+				</ul>
+      </div>
+    </div>
+    <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+    <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+    </a>
+  </div>
+  </footer>
+  
+  <a href="career.html#" id="totop" style="bottom: 30px;">
+  <picture>	
+    <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+    <img src="assets/img/totop.webp" alt="TOP">
+  </picture>
+  </a>
+  
+  <script>
+    const toTopBtn = document.getElementById("totop");
+  
+    // Show button after scrolling down
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        toTopBtn.classList.add("show");
+      } else {
+        toTopBtn.classList.remove("show");
+      }
+    });
+  
+    // Smooth scroll to top on click
+    toTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  
+    // ✅ Smooth scroll for all internal links inside .com_page_link
+    document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+  </script>  
+  
+</body>
+</html>

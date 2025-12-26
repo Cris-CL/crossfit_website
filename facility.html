@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Facility</title>
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/media-queries.css">
+      
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+
+        <!-- Swiper CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+          
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const menuToggle = document.querySelector(".menu-toggle");
+              const nav = document.querySelector("nav");
+              const navLinks = document.querySelectorAll("nav ul li a");
+          
+              // Toggle menu + button animation
+              menuToggle.addEventListener("click", () => {
+                nav.classList.toggle("active");
+                menuToggle.classList.toggle("active");
+              });
+          
+              // Close menu when clicking a link
+              navLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                  nav.classList.remove("active");
+                  menuToggle.classList.remove("active");
+                });
+              });
+            });
+          </script>
+      </head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <!-- Hamburger Button -->
+  <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+  </button>
+  <!-- Navigation Menu -->
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html" class="active">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_facility">
+  <!-- Title Section -->
+  <section class="page-title facility-page">
+    <div class="com_column">
+      <h2>FACILITY</h2>
+      <p class="sub-title">施設・設備 </p>
+    </div>
+  </section>
+  <!-- Facility Slider Section -->
+  <section class="sec_facility_slide">
+    <div class="inner1">
+      <div class="inner2">
+        <h3 class="com_title">
+          <p class="jp">施設</p>
+          <p class="text_en font_proxima">FACILITY</p>
+          <div class="slide-nav show-desktop">
+            <!-- Pagination fraction -->
+            <div class="swiper-pagination facility-pagination"></div>
+            <!-- Navigation arrows -->
+            <div class="swiper-button-next facility-next"></div>
+            <div class="swiper-button-prev facility-prev"></div>
+          </div>
+        </h3>
+        <div class="swiper facilitySwiper swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="assets/img/facility_01.webp" alt="Facility 1"></div>
+            <div class="swiper-slide"><img src="assets/img/facility_02.webp" alt="Facility 2"></div>
+            <div class="swiper-slide"><img src="assets/img/facility_03.webp" alt="Facility 3"></div>
+            <div class="swiper-slide"><img src="assets/img/facility_04.webp" alt="Facility 4"></div>
+            <div class="swiper-slide"><img src="assets/img/facility_05.webp" alt="Facility 5"></div>
+          </div>
+        </div>
+        <div class="slide-nav show-mobile">
+          <!-- Pagination fraction -->
+          <!--div class="swiper-pagination facility-pagination"></!--div-->
+          <!-- Navigation arrows -->
+          <div class="swiper-button-next facility-next"></div>
+          <div class="swiper-button-prev facility-prev"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- machine Slider Section Grey BG-->
+  <section class="sec_facility_slide" style="background-color: #f2f2f2;">
+    <div class="inner1">
+      <div class="inner2">
+        <h3 class="com_title">
+          <p class="jp">機材・マシン</p>
+          <p class="text_en font_proxima">TRAINING MACHINE</p>
+          <div class="slide-nav show-desktop">
+            <!-- Pagination fraction -->
+            <div class="swiper-pagination machine-pagination"></div>
+            <!-- Navigation arrows -->
+            <div class="swiper-button-next machine-next"></div>
+            <div class="swiper-button-prev machine-prev"></div>
+          </div>
+        </h3>
+        <div class="swiper machineSwiper swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="assets/img/machine_01.webp" alt="Machine 1"></div>
+            <div class="swiper-slide"><img src="assets/img/machine_02.webp" alt="Machine 2"></div>
+            <div class="swiper-slide"><img src="assets/img/machine_03.webp" alt="Machine 3"></div>
+            <div class="swiper-slide"><img src="assets/img/machine_04.webp" alt="Machine 4"></div>
+            <div class="swiper-slide"><img src="assets/img/machine_05.webp" alt="Machine 5"></div>
+            <div class="swiper-slide"><img src="assets/img/machine_06.webp" alt="Machine 6"></div>
+            <div class="swiper-slide"><img src="assets/img/machine_07.webp" alt="Machine 7"></div>
+            <div class="swiper-slide"><img src="assets/img/machine_08.webp" alt="Machine 8"></div>
+          </div>
+        </div>
+        <div class="slide-nav show-mobile">
+          <!-- Pagination fraction -->
+          <!--div class="swiper-pagination machine-pagination"></!--div-->
+          <!-- Navigation arrows -->
+          <div class="swiper-button-next machine-next"></div>
+          <div class="swiper-button-prev machine-prev"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const facilitySwiper = new Swiper(".facilitySwiper", {
+      slidesPerView: 2,       // default (desktop)
+      spaceBetween: 20,
+      loop: true,
+      navigation: {
+        nextEl: ".facility-next",
+        prevEl: ".facility-prev",
+      },
+      pagination: {
+        el: ".facility-pagination",
+        type: "fraction",
+      },
+      breakpoints: {
+        0: { slidesPerView: 1 },     // ✅ mobile <768px
+        768: { slidesPerView: 2 }    // ✅ desktop >=768px
+      }
+    });
+  
+    const machineSwiper = new Swiper(".machineSwiper", {
+      slidesPerView: 2,
+      spaceBetween: 20,
+      loop: true,
+      navigation: {
+        nextEl: ".machine-next",
+        prevEl: ".machine-prev",
+      },
+      pagination: {
+        el: ".machine-pagination",
+        type: "fraction",
+      },
+      breakpoints: {
+        0: { slidesPerView: 1 },     
+        768: { slidesPerView: 2 }
+      }
+    });
+  </script>
+  
+
+  <!-- sec_facility Section -->
+  <section class="sec_facility">
+    <div class="com_inner">
+      <h3 class="sec_title">設備やレンタルサービスも充実、手ぶらで身軽に通えます。</h3>
+      <p class="text_en font_proxima">With CrossFit Roppongi's extensive rental service and complete facility, you can even show up empty-handed. Just bring yourself!</p>
+
+      <ul class="facility_list">
+        <li>
+          <h4 class="com_title">
+            <p class="jp">設備</p>
+            <p class="text_en font_proxima">FACILITY</p>
+          </h4>
+          <ul class="item_list facility">
+            <li>
+              <p class="title_jp">シャワー</p>
+              <p class="title_en font_proxima">Shower</p>
+              <p class="price"></p>
+            </li>
+            <li>
+              <p class="title_jp">更衣室</p>
+              <p class="title_en font_proxima">Changing room</p>
+              <p class="price"></p>
+            </li>
+            <li>
+              <p class="title_jp">ロッカー</p>
+              <p class="title_en font_proxima">Locker</p>
+              <p class="price"></p>
+            </li>
+            <li>
+              <p class="title_jp">洗面台</p>
+              <p class="title_en font_proxima">Washstands</p>
+              <p class="price"></p>
+            </li>
+            <li>
+              <p class="title_jp">ドライヤー</p>
+              <p class="title_en font_proxima">Hairdryer</p>
+              <p class="price"></p>
+            </li>
+            <li>
+              <p class="title_jp">Wi-Fi</p>
+              <p class="title_en font_proxima">Free Wi-Fi</p>
+              <p class="price"></p>
+            </li>
+          </ul>
+          <p class="note">※全て無料でご利用いただけます<span class="font_proxima">*All facility are free.</span></p>
+        </li>
+        <li>
+          <h4 class="com_title">
+            <p class="jp">レンタル・販売</p>
+            <p class="text_en font_proxima">RENTAL / SELL PRODUCTS</p>
+          </h4>
+          <ul class="item_list rental">
+            <li>
+              <p class="title_jp">バスタオル<br class="br_sp">（レンタル）</p>
+              <p class="title_en font_proxima">Bath Towel（Rental）</p>
+              <p class="price">¥400</p>
+            </li>
+            <li>
+              <p class="title_jp">運動靴<br class="br_sp">（レンタル）</p>
+              <p class="title_en font_proxima">Athletic Shoes（Rental）</p>
+              <p class="price">¥400</p>
+            </li>
+            <li>
+              <p class="title_jp letter_sm">ウエア上下セット<br class="br_sp">（レンタル）</p>
+              <p class="title_en font_proxima">Workout Clothes（Rental）</p>
+              <p class="price">¥400</p>
+            </li>
+            <li>
+              <p class="title_jp">靴下</p>
+              <p class="title_en font_proxima">Socks</p>
+              <p class="price">¥500</p>
+            </li>
+            <li>
+              <p class="title_jp">水 500ml/1000ml</p>
+              <p class="title_en font_proxima">Bottled Water</p>
+              <p class="price">¥100 / ¥200</p>
+            </li>
+            <li>
+              <p class="title_jp">プロテイン<br class="br_sp">スムージー</p>
+              <p class="title_en font_proxima">Protein Shake</p>
+              <p class="price">¥750</p>
+            </li>
+            <li>
+              <p class="title_jp">オリジナルTシャツ</p>
+              <p class="title_en font_proxima">Original T-shirt</p>
+              <p class="price">価格については<br>お問い合わせください</p>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- gallery Section -->
+  <section class="com_sec_gallery">
+    <div class="gallery_left fade_g scrollin">
+        <picture>	
+            <source media="(max-width:767px)" srcset="assets/img/gallery03_left_sp.webp">
+            <img src="assets/img/gallery03_left.webp" alt="CrossFit Roppongiのトレーニング">
+        </picture>
+    </div>
+    <div class="gallery_right fade_g scrollin">
+        <img src="assets/img/gallery03_right.webp" alt="CrossFit Roppongiのトレーニング">
+    </div>
+  </section>
+    <!-- com_sec_link Section -->
+  <section class="com_sec_link">
+    <ul class="link_list">
+      <li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+      <li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+      <li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+    </ul>
+  </section>
+    <!-- sec_taiken section -->
+  <section class="sec_taiken">
+    <div class="inner">
+      <h2 class="copy">
+        <img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc">
+        <span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
+      </h2>
+      <div class="inner2">
+        <div class="text_wrap">
+          <p class="text_jp">体験レッスンでは、あなたのレベルやコンディションに合わせた<br class="br_pc">効果的な60分のトレーニングを¥3,300でご体験いただけます。<br>世界中で支持されるCrossFitを、ぜひ体感してください。</p>
+          <p class="text_en font_proxima">Try CrossFit<br>We offer 60-minute trial lessons that are custom-designed to your current level and condition.<br>For just ¥3,300, you'll see what people all over the world are talking about. Come try the CrossFit experience!</p>
+        </div>
+        <a href="trial.html" class="grad_btn">
+          <span class="jp">体験レッスンについて</span>
+          <span class="en font_proxima">ABOUT TRIAL</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- sec_reserve Section -->
+<section class="sec_reserve">
+	<ul class="reserve_list">
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
+				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+		<li>
+			<div class="inner">
+				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
+				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
+				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
+				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+			</div>
+		</li>
+	</ul>
+</section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="inner">
+    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+    <div class="text_wrap">
+      <div class="footer_l">
+        <p class="company font_proxima">CrossFit Roppongi</p>
+        <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+        <ul class="sns_list">
+          <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+        </ul>
+      </div>
+      <div class="footer_r">
+        <ul class="footer_nav">
+          <li>
+            <a href="index.html">
+              <p class="jp"><span>トップページ</span></p>
+              <p class="en font_proxima"><span>HOME</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="about.html">
+              <p class="jp"><span>CrossFitとは</span></p>
+              <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="facility.html">
+              <p class="jp"><span>施設・設備</span></p>
+              <p class="en font_proxima"><span>FACILITY</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="coach.html">
+              <p class="jp"><span>コーチ</span></p>
+              <p class="en font_proxima"><span>COACHES</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="plan.html">
+              <p class="jp"><span>プラン・料金</span></p>
+              <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="schedule.html">
+              <p class="jp"><span>スケジュール</span></p>
+              <p class="en font_proxima"><span>SCHEDULE</span></p>
+            </a>
+          </li>
+          <li>
+            <a href="access.html">
+              <p class="jp"><span>アクセス</span></p>
+              <p class="en font_proxima"><span>ACCESS</span></p>
+            </a>
+          </li>
+        </ul>
+        <ul class="footer_nav">
+					<li>
+						<a href="trial.html">
+							<p class="jp"><span>体験レッスン</span></p>
+							<p class="en font_proxima"><span>TRIAL</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="dropin.html">
+							<p class="jp"><span>ドロップイン</span></p>
+							<p class="en font_proxima"><span>DROP IN</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="spartan.html">
+							<p class="jp"><span>スパルタントレーニング</span></p>
+							<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="career.html">
+							<p class="jp"><span>採用情報</span></p>
+							<p class="en font_proxima"><span>CAREER</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<p class="jp"><span>お問い合わせ</span></p>
+							<p class="en font_proxima"><span>CONTACT</span></p>
+						</a>
+					</li>
+					<li>
+						<a href="privacy.html">
+							<p class="jp"><span>プライバシーポリシー</span></p>
+							<p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+						</a>
+					</li>
+				</ul>
+      </div>
+    </div>
+    <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+    <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+    </a>
+  </div>
+  </footer>
+  
+  <a href="facility.html#" id="totop" style="bottom: 30px;">
+  <picture>	
+    <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+    <img src="assets/img/totop.webp" alt="TOP">
+  </picture>
+  </a>
+  
+  <script>
+    const toTopBtn = document.getElementById("totop");
+  
+    // Show button after scrolling down
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        toTopBtn.classList.add("show");
+      } else {
+        toTopBtn.classList.remove("show");
+      }
+    });
+  
+    // Smooth scroll to top on click
+    toTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  
+    // ✅ Smooth scroll for all internal links inside .com_page_link
+    document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+  
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      });
+    });
+  </script>  
+  
+</body>
+</html>
