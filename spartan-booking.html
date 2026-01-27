@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Class Booking Form</title>
+  <style>
+    :root {
+      --accent: #e11d48;
+      /* red */
+      --border: #e5e7eb;
+      /* gray-200 */
+      --text: #111827;
+      /* gray-900 */
+      --muted: #6b7280;
+      /* gray-500 */
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+    }
+
+    form {
+      max-width: 720px;
+      margin: 24px auto;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .two {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 8px;
+      display: block;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: var(--border);
+      margin: 18px 0;
+    }
+
+    /* Session picker */
+    .picker-wrap {
+      margin-top: 8px;
+    }
+
+    .picker-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      /* 👉 arrows on the right */
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .nav-btn {
+      border: none;
+      background: #f3f4f6;
+      color: var(--text);
+      font-size: 20px;
+      border-radius: 6px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      background: #e5e7eb;
+    }
+
+    .sessions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .session-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      background: white;
+      transition: background .15s ease, border-color .15s ease;
+      width: 100%;
+      text-align: left;
+    }
+
+    .session-btn:hover {
+      border-color: #d1d5db;
+    }
+
+    .session-btn[aria-checked="true"] {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .session-btn[aria-checked="true"] .meta {
+      color: #ffe4e6;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #111827;
+      color: #fff;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background: #0b1220;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      .two {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <form action="https://formspree.io/f/mrbongzw" method="POST" id="booking-form" novalidate>
+    <h2>Class Booking Form</h2>
+
+    <div class="grid two">
+      <div><label>姓 (Last Name)*</label><input type="text" name="last_name" required></div>
+      <div><label>名 (First Name)*</label><input type="text" name="first_name" required></div>
+      <div><label>セイ</label><input type="text" name="sei"></div>
+      <div><label>メイ</label><input type="text" name="mei"></div>
+      <div><label>国籍 (Country)</label><input type="text" name="country"></div>
+      <div><label>郵便番号 (Postal Code)*</label><input type="text" name="postal_code" required></div>
+      <div><label>住所 (Address)*</label><input type="text" name="address" required></div>
+      <div><label>電話番号 (Phone Number)*</label><input type="tel" name="phone" required></div>
+      <div><label>メール (Email)</label><input type="email" name="email"></div>
+      <div><label>生年月日 (Date of Birth)</label><input type="date" name="dob"></div>
+      <div>
+        <label>性別 (Sex)</label>
+        <select name="sex">
+          <option value="">-- Select --</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div><label>備考欄 (Notes)</label><textarea name="notes" rows="3"></textarea></div>
+    </div>
+
+    <hr>
+
+    <h3>Choose Your Class</h3>
+
+    <!-- Hidden fields for Formspree -->
+    <input type="hidden" name="class_iso" id="class_iso" />
+    <input type="hidden" name="class_display" id="class_display" />
+    <input type="hidden" name="class_date" id="class_date" />
+    <input type="hidden" name="class_time" id="class_time" />
+    <input class="sr-only" id="class_required" required aria-hidden="true" />
+
+    <div class="picker-wrap">
+      <div class="picker-toolbar">
+        <!-- arrows aligned right -->
+        <button type="button" id="prevBtn" class="nav-btn" title="Previous">←</button>
+        <button type="button" id="nextBtn" class="nav-btn" title="Next">→</button>
+      </div>
+      <div class="sessions" id="sessions"></div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <button type="submit" class="btn">Submit</button>
+    </div>
+  </form>
+
+  <script>
+    (function () {
+      // ====== Schedule: Only Saturdays at 4:00 PM ======
+      const SCHEDULE = [
+        [6, 16, 0],   // Saturday 4:00 PM
+      ];
+
+      const WINDOW_DAYS = 180;   // look ahead up to ~6 months for base list
+      const DISPLAY_COUNT = 6;   // 6 per page
+      const MAX_CLASSES = 26;    // show 26 total
+
+      // Holiday/override options
+      const BLACKOUT_DATES = [
+        // '2025-12-28'
+      ];
+      const REPLACEMENTS = {
+        // '2025-12-14T16:00': '2025-12-15T16:00'
+      };
+      const ADDITIONAL_SESSIONS = [
+        // '2025-12-22T16:00'
+      ];
+
+      // DOM elements
+      const sessionsEl = document.getElementById('sessions');
+      const hiddenISO = document.getElementById('class_iso');
+      const hiddenDisplay = document.getElementById('class_display');
+      const hiddenDate = document.getElementById('class_date');
+      const hiddenTime = document.getElementById('class_time');
+      const requiredGhost = document.getElementById('class_required');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      let page = 0;
+      let list = [];
+
+      function pad(n) { return n.toString().padStart(2, '0'); }
+      function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+      function fmtDisplay(dt) {
+        const day = dt.toLocaleDateString(undefined, { weekday: 'long' });
+        const month = dt.toLocaleDateString(undefined, { month: 'long' });
+        const dom = ordinal(dt.getDate());
+        const time = dt.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+        return `${day} ${month} ${dom}, ${time}`;
+      }
+      function toISOLocal(dt) { return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`; }
+      function toDateOnly(dt) { return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`; }
+      function toTime12h(dt) { return dt.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true }); }
+
+      function nextOccurrence(start, weekday, hour, minute) {
+        const dt = new Date(start.getFullYear(), start.getMonth(), start.getDate(), hour, minute, 0, 0);
+        const diff = (weekday - dt.getDay() + 7) % 7;
+        if (diff > 0) dt.setDate(dt.getDate() + diff);
+        if (diff === 0 && dt < start) dt.setDate(dt.getDate() + 7);
+        return dt;
+      }
+
+      function* baseSessions(from, days, schedule) {
+        const until = new Date(from);
+        until.setDate(until.getDate() + days);
+        const cursors = schedule.map(([wd, h, m]) => nextOccurrence(from, wd, h, m));
+
+        while (true) {
+          let idx = -1, min = null;
+          for (let i = 0; i < cursors.length; i++) {
+            const d = cursors[i];
+            if (d < until && (min === null || d < min)) { min = d; idx = i; }
+          }
+          if (idx === -1) return;
+          yield new Date(cursors[idx]);
+          cursors[idx].setDate(cursors[idx].getDate() + 7);
+        }
+      }
+
+      function applyOverrides(candidateDates, from, days) {
+        const until = new Date(from); until.setDate(until.getDate() + days);
+        const replaced = [];
+        for (const dt of candidateDates) {
+          const iso = toISOLocal(dt);
+          if (REPLACEMENTS[iso]) {
+            const repl = new Date(REPLACEMENTS[iso].replace(' ', 'T'));
+            if (repl >= from && repl < until && !BLACKOUT_DATES.includes(toDateOnly(repl))) replaced.push(repl);
+          } else {
+            replaced.push(dt);
+          }
+        }
+        for (const iso of ADDITIONAL_SESSIONS) {
+          const extra = new Date(iso.replace(' ', 'T'));
+          if (extra >= from && extra < until && !BLACKOUT_DATES.includes(toDateOnly(extra))) replaced.push(extra);
+        }
+        return Array.from(new Map(replaced.map(d => [toISOLocal(d), d])).values())
+          .filter(d => !BLACKOUT_DATES.includes(toDateOnly(d)))
+          .sort((a, b) => a - b);
+      }
+
+      function renderPage() {
+        const start = page * DISPLAY_COUNT;
+        const items = list.slice(start, start + DISPLAY_COUNT);
+        sessionsEl.innerHTML = '';
+        const frag = document.createDocumentFragment();
+        items.forEach((dt) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'session-btn';
+          btn.setAttribute('role', 'radio');
+          btn.setAttribute('aria-checked', 'false');
+          btn.dataset.iso = toISOLocal(dt);
+          btn.dataset.date = toDateOnly(dt);
+          btn.dataset.time = toTime12h(dt);
+          btn.innerHTML = `<span>${fmtDisplay(dt)}</span><span class="meta">${dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>`;
+          btn.addEventListener('click', () => selectSession(btn));
+          frag.appendChild(btn);
+        });
+        sessionsEl.appendChild(frag);
+
+        // Update nav state without showing "Page x of y"
+        prevBtn.disabled = page === 0;
+        nextBtn.disabled = start + DISPLAY_COUNT >= list.length;
+      }
+
+      function selectSession(btn) {
+        sessionsEl.querySelectorAll('.session-btn[aria-checked="true"]').forEach(el => el.setAttribute('aria-checked', 'false'));
+        btn.setAttribute('aria-checked', 'true');
+        hiddenISO.value = btn.dataset.iso;
+        hiddenDisplay.value = btn.textContent.trim();
+        hiddenDate.value = btn.dataset.date;
+        hiddenTime.value = btn.dataset.time;
+        requiredGhost.value = 'selected';
+      }
+
+      prevBtn.addEventListener('click', () => { if (page > 0) { page--; renderPage(); } });
+      nextBtn.addEventListener('click', () => { if ((page + 1) * DISPLAY_COUNT < list.length) { page++; renderPage(); } });
+      document.getElementById('booking-form').addEventListener('submit', (e) => {
+        if (!hiddenISO.value) { requiredGhost.reportValidity(); e.preventDefault(); }
+      });
+
+      function init() {
+        const now = new Date();
+        const base = Array.from(baseSessions(now, WINDOW_DAYS, SCHEDULE));
+        list = applyOverrides(base, now, WINDOW_DAYS).slice(0, MAX_CLASSES);
+        renderPage();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+
+</html>
