@@ -155,6 +155,17 @@
       background: #0b1220;
     }
 
+    /* Apple Pay Button */
+    #apple-pay-button {
+      height: 48px;
+      width: 100%;
+      display: inline-block;
+      -webkit-appearance: -apple-pay-button;
+      -apple-pay-button-type: plain;
+      -apple-pay-button-style: black;
+      cursor: pointer;
+    }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -172,64 +183,257 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Steps */
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    /* Summary */
+    .summary-box {
+      background: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .summary-item label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 4px 0;
+    }
+
+    .summary-item div {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    /* Payment Methods */
+    .payment-label {
+      margin-bottom: 8px;
+      display: block;
+      font-weight: 600;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .pm-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .pm-card:hover {
+      border-color: #d1d5db;
+      background: #f9fafb;
+    }
+
+    .pm-card.selected {
+      border-color: var(--accent);
+      background: #fff1f2;
+      color: var(--accent);
+    }
+
+    /* Payment Forms */
+    .pm-details {
+      display: none;
+      margin-bottom: 24px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .pm-details.active {
+      display: block;
+    }
+
+    .cc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .full {
+      grid-column: span 2;
+    }
+
+    .gpay-btn,
+    .apple-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 4px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .gpay-btn {
+      background: #000;
+      color: #fff;
+    }
+
+    /* Placeholder style */
+    .apple-btn {
+      background: #000;
+      color: #fff;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #111827;
+      flex: 1;
+    }
+
+    .btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    .btn-primary {
+      flex: 2;
+    }
   </style>
+  <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
 </head>
 
 <body>
 
-  <form action="https://formspree.io/f/mrbongzw" method="POST" id="booking-form">
+  <form id="booking-form">
     <h2>Class Booking Form</h2>
 
-    <div class="grid two">
-      <div><label>姓 (Last Name)*</label><input type="text" name="last_name" required></div>
-      <div><label>名 (First Name)*</label><input type="text" name="first_name" required></div>
-      <div><label>セイ</label><input type="text" name="sei"></div>
-      <div><label>メイ</label><input type="text" name="mei"></div>
-      <div><label>国籍 (Country)</label><input type="text" name="country"></div>
-      <div><label>郵便番号 (Postal Code)*</label><input type="text" name="postal_code" required></div>
-      <div><label>住所 (Address)*</label><input type="text" name="address" required></div>
-      <div><label>電話番号 (Phone Number)*</label><input type="tel" name="phone" required></div>
-      <div><label>メール (Email)</label><input type="email" name="email"></div>
-      <div><label>生年月日 (Date of Birth)</label><input type="date" name="dob"></div>
-      <div>
-        <label>性別 (Sex)</label>
-        <select name="sex">
-          <option value="">-- Select --</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
+    <!-- STEP 1: INFO & CLASS -->
+    <div id="step-1" class="step active">
+      <div class="grid two">
+        <div><label>姓 (Last Name)*</label><input type="text" name="last_name" required></div>
+        <div><label>名 (First Name)*</label><input type="text" name="first_name" required></div>
+        <div><label>セイ</label><input type="text" name="sei"></div>
+        <div><label>メイ</label><input type="text" name="mei"></div>
+        <div><label>国籍 (Country)</label><input type="text" name="country"></div>
+        <div><label>郵便番号 (Postal Code)*</label><input type="text" name="postal_code" required></div>
+        <div><label>住所 (Address)*</label><input type="text" name="address" required></div>
+        <div><label>電話番号 (Phone Number)*</label><input type="tel" name="phone" required></div>
+        <div><label>メール (Email)</label><input type="email" name="email"></div>
+        <div><label>生年月日 (Date of Birth)</label><input type="date" name="dob"></div>
+        <div>
+          <label>性別 (Sex)</label>
+          <select name="sex">
+            <option value="">-- Select --</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div><label>備考欄 (Notes)</label><textarea name="notes" rows="3"></textarea></div>
       </div>
-      <div><label>備考欄 (Notes)</label><textarea name="notes" rows="3"></textarea></div>
-    </div>
 
-    <hr>
+      <hr>
 
-    <h3>Choose Your Class</h3>
+      <h3>Choose Your Class</h3>
 
-    <!-- Hidden fields for Formspree -->
-    <input type="hidden" name="class_iso" id="class_iso" />
-    <input type="hidden" name="class_display" id="class_display" />
-    <input type="hidden" name="class_date" id="class_date" />
-    <input type="hidden" name="class_time" id="class_time" />
-    <input class="sr-only" id="class_required" required aria-hidden="true" />
+      <!-- Hidden fields for Formspree -->
+      <input type="hidden" name="class_iso" id="class_iso" />
+      <input type="hidden" name="class_display" id="class_display" />
+      <input type="hidden" name="class_date" id="class_date" />
+      <input type="hidden" name="class_time" id="class_time" />
+      <input class="sr-only" id="class_required" required aria-hidden="true" />
 
-    <div class="picker-wrap">
-      <div class="picker-toolbar">
-        <!-- arrows aligned right -->
-        <button type="button" id="prevBtn" class="nav-btn" title="Previous">←</button>
-        <button type="button" id="nextBtn" class="nav-btn" title="Next">→</button>
+      <div class="picker-wrap">
+        <div class="picker-toolbar">
+          <!-- arrows aligned right -->
+          <button type="button" id="prevBtn" class="nav-btn" title="Previous">←</button>
+          <button type="button" id="nextBtn" class="nav-btn" title="Next">→</button>
+        </div>
+        <div class="sessions" id="sessions"></div>
       </div>
-      <div class="sessions" id="sessions"></div>
+
+      <div style="margin-top:24px;">
+        <button type="button" id="next-step-btn" class="btn">Next</button>
+      </div>
     </div>
 
-    <div style="margin-top:16px;">
-      <button type="submit" class="btn">Submit</button>
+    <!-- STEP 2: CONFIRM & PAY -->
+    <div id="step-2" class="step">
+      <h3>Confirm Details</h3>
+      <div class="summary-box">
+        <div class="summary-grid" id="summary-content">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <h3>Payment Method</h3>
+      <div class="payment-methods">
+        <div class="pm-card selected" onclick="selectPayment('card')">
+          <span>Credit Card</span>
+        </div>
+        <div class="pm-card" onclick="selectPayment('gpay')">
+          <span>Google Pay</span>
+        </div>
+        <div class="pm-card" onclick="selectPayment('apple')">
+          <span>Apple Pay</span>
+        </div>
+      </div>
+
+      <!-- Credit Card Form -->
+      <div id="pm-card" class="pm-details active">
+        <div id="card-container"></div>
+      </div>
+
+      <!-- Google Pay Placeholder -->
+      <div id="pm-gpay" class="pm-details">
+        <p style="margin-bottom:12px; color:var(--muted);">Complete payment with Google Pay.</p>
+        <div id="google-pay-button"></div>
+      </div>
+
+      <!-- Apple Pay Placeholder -->
+      <div id="pm-apple" class="pm-details">
+        <p style="margin-bottom:12px; color:var(--muted);">Complete payment with Apple Pay.</p>
+        <div id="apple-pay-wrapper"><button type="button" id="apple-pay-button"></button></div>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="back-btn" class="btn btn-secondary btn">Back</button>
+        <button type="submit" id="submit-btn" class="btn btn-primary btn">Pay & Book</button>
+      </div>
     </div>
+
   </form>
 
   <script>
-    (function () {
+    (async function () {
       // ====== Schedule: Only Saturdays at 4:00 PM ======
       const SCHEDULE = [
         [6, 16, 0],   // Saturday 4:00 PM
@@ -249,6 +453,94 @@
       const ADDITIONAL_SESSIONS = [
         // '2025-12-22T16:00'
       ];
+
+      // Square SDK Init: Fetch config from backend
+      let payments, card, googlePay;
+
+      try {
+        if (!window.Square) {
+          throw new Error('Square SDK failed to load');
+        }
+
+        // Fetch credentials
+        const configRes = await fetch('/api/square/config');
+        if (!configRes.ok) throw new Error('Failed to load Square config');
+        const { appId, locationId } = await configRes.json();
+
+        if (!appId || !locationId) throw new Error('Missing Square credentials');
+
+        payments = window.Square.payments(appId, locationId);
+
+        // Card Init
+        card = await payments.card();
+        await card.attach('#card-container');
+
+        // Google Pay Init
+        const paymentRequest = payments.paymentRequest({
+          countryCode: 'US',
+          currencyCode: 'USD',
+          total: {
+            amount: '1.00',
+            label: 'Total',
+          },
+        });
+        googlePay = await payments.googlePay(paymentRequest);
+        await googlePay.attach('#google-pay-button');
+
+        // Google Pay Event Listener
+        const googlePayButton = document.getElementById('google-pay-button');
+        googlePayButton.addEventListener('click', async () => {
+          // We tokenize then submit
+          try {
+            const tokenResult = await googlePay.tokenize();
+            if (tokenResult.status === 'OK') {
+              await submitBooking(tokenResult.token);
+            } else {
+              throw new Error(`Tokenization failed: ${tokenResult.status}`);
+            }
+          } catch (e) {
+            console.error(e);
+            alert("Google Pay failed: " + e.message);
+          }
+        });
+
+        // Apple Pay Init
+        let applePay;
+        try {
+          applePay = await payments.applePay(paymentRequest);
+          // No attach needed for Apple Pay
+        } catch (e) {
+          const applePayWrapper = document.getElementById('apple-pay-wrapper');
+          if (e.name === "PaymentMethodUnsupportedError") {
+            applePayWrapper.innerHTML = `<p style="color:red">Apple Pay is unsupported for this browser/device.</p>`;
+            // Possibly hide the Apple Pay selection via JS if desired
+          } else {
+            console.error(e);
+            applePayWrapper.innerHTML = `<p style="color:red">Failed to initialize Apple Pay: ${e.message}</p>`;
+          }
+        }
+
+        // Apple Pay Event Listener
+        if (applePay) {
+          const applePayButton = document.getElementById('apple-pay-button');
+          applePayButton.addEventListener('click', async () => {
+            try {
+              const tokenResult = await applePay.tokenize();
+              if (tokenResult.status === 'OK') {
+                await submitBooking(tokenResult.token);
+              } else {
+                throw new Error(`Tokenization failed: ${tokenResult.status}`);
+              }
+            } catch (e) {
+              console.error(e);
+              alert("Apple Pay failed: " + e.message);
+            }
+          });
+        }
+
+      } catch (e) {
+        console.error("Initializing Square failed", e);
+      }
 
       // DOM elements
       const sessionsEl = document.getElementById('sessions');
@@ -359,8 +651,157 @@
 
       prevBtn.addEventListener('click', () => { if (page > 0) { page--; renderPage(); } });
       nextBtn.addEventListener('click', () => { if ((page + 1) * DISPLAY_COUNT < list.length) { page++; renderPage(); } });
-      document.getElementById('booking-form').addEventListener('submit', (e) => {
-        if (!hiddenISO.value) { requiredGhost.reportValidity(); e.preventDefault(); }
+
+      const bookingForm = document.getElementById('booking-form');
+      const submitBtn = document.getElementById('submit-btn');
+      const nextStepBtn = document.getElementById('next-step-btn');
+      const backBtn = document.getElementById('back-btn');
+      const step1 = document.getElementById('step-1');
+      const step2 = document.getElementById('step-2');
+      const summaryContent = document.getElementById('summary-content');
+
+      let selectedPaymentMethod = 'card';
+
+      // Payment UI Logic
+      window.selectPayment = function (method) {
+        selectedPaymentMethod = method;
+        // Update tabs
+        document.querySelectorAll('.pm-card').forEach(el => el.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+
+        // Update forms
+        document.querySelectorAll('.pm-details').forEach(el => el.classList.remove('active'));
+        document.getElementById('pm-' + method).classList.add('active');
+
+        // Toggle Main Submit Button (Hidden for GPay/ApplePay usually, but here we only implement GPay special flow)
+        if (selectedPaymentMethod === 'gpay' || selectedPaymentMethod === 'apple') {
+          submitBtn.style.display = 'none';
+        } else {
+          submitBtn.style.display = 'block';
+        }
+      };
+
+      // Navigation ic
+      nextStepBtn.addEventListener('click', () => {
+        // Validate Step 1
+        if (!hiddenISO.value) {
+          requiredGhost.reportValidity();
+          return;
+        }
+        if (!bookingForm.checkValidity()) {
+          bookingForm.reportValidity();
+          return;
+        }
+
+        // Populate Summary
+        const fd = new FormData(bookingForm);
+        summaryContent.innerHTML = `
+          <div class="summary-item"><label>Name</label><div>${fd.get('last_name')} ${fd.get('first_name')}</div></div>
+          <div class="summary-item"><label>Class</label><div>${hiddenDisplay.value}</div></div>
+          <div class="summary-item"><label>Phone</label><div>${fd.get('phone')}</div></div>
+          <div class="summary-item"><label>Email</label><div>${fd.get('email') || '-'}</div></div>
+          <div class="summary-item"><label>Address</label><div>${fd.get('address')}</div></div>
+          <div class="summary-item"><label>Notes</label><div>${fd.get('notes') || '-'}</div></div>
+        `;
+
+        // Switch Step
+        step1.classList.remove('active');
+        step2.classList.add('active');
+        window.scrollTo(0, 0);
+      });
+
+      backBtn.addEventListener('click', () => {
+        step2.classList.remove('active');
+        step1.classList.add('active');
+        window.scrollTo(0, 0);
+      });
+
+      // Reusable Submission Logic
+      async function submitBooking(sourceId) {
+        // UI Feedback
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Processing...";
+
+        try {
+          const formData = new FormData(bookingForm);
+          const jsonData = Object.fromEntries(formData.entries());
+
+          // Add specific fields
+          jsonData.booking_type = 'spartan';
+          jsonData.class_iso = hiddenISO.value;
+          jsonData.class_display = hiddenDisplay.value;
+          jsonData.class_date = hiddenDate.value;
+          jsonData.class_time = hiddenTime.value;
+          jsonData.payment_method = selectedPaymentMethod;
+
+          if (sourceId) {
+            jsonData.sourceId = sourceId;
+          }
+
+          // Redirect URL for after payment (optional, can be current page)
+          jsonData.redirectUrl = window.location.href;
+
+          const res = await fetch('/api/square/bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(jsonData)
+          });
+
+          if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.message || "Server error");
+          }
+
+          const { checkoutUrl } = await res.json();
+          if (checkoutUrl) {
+            window.location.href = checkoutUrl;
+          } else {
+            alert("Booking Successful!");
+            window.location.reload();
+          }
+
+        } catch (err) {
+          console.error(err);
+          alert("Booking failed: " + err.message);
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+
+          // Should also re-enable GPay button logic if needed, but it's not disabled via DOM button
+        }
+      }
+
+      bookingForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Already validated in Step 1, but safe to check
+        if (!hiddenISO.value || !bookingForm.checkValidity()) {
+          step2.classList.remove('active');
+          step1.classList.add('active');
+          bookingForm.reportValidity();
+          return;
+        }
+
+        try {
+          // Tokenize if Card
+          if (selectedPaymentMethod === 'card') {
+            if (!card) throw new Error("Square Card not valid");
+            const result = await card.tokenize();
+            if (result.status === 'OK') {
+              await submitBooking(result.token);
+            } else {
+              throw new Error(`Tokenization failed: ${result.errors ? JSON.stringify(result.errors) : result.status}`);
+            }
+          } else {
+            // For other methods that might use the main button (Apple Pay placeholder?)
+            // Or if we default to submitBooking without token for some reason
+            await submitBooking(null);
+          }
+
+        } catch (err) {
+          console.error(err);
+          alert("Booking failed: " + err.message);
+        }
       });
 
       function init() {
