@@ -58,6 +58,8 @@ router.get(["/square/config", "/api/square/config"], (req, res) => {
 router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
   try {
     const {
+      sourceId,
+      verificationToken,
       last_name,
       first_name,
       phone,
@@ -106,77 +108,52 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
     } else if (booking_type === "spartan") {
       amount = 4400;
       itemTitle = "Spartan Training";
-    } else {
-      // Fallback or error? defaulting to spartan above, so this might be redundant unless we want strict checking
-      // For now, let's trust the default or the explicit value.
     }
-
-    // Allow override via env var for testing (Spartan default) but keep the logic above for switching
-    // Actually, let's strictly use the hardcoded values for these two types as requested.
-    // If we wanted to use CLASS_PRICE_MINOR env var as a base override, we'd need logic for that.
-    // Given the specific instruction "Spartan (4400) and Hyrox (4950)", I will hardcode them here logic-wise.
 
     const sessionLabel =
       class_display || `${class_date} ${class_time}` || class_iso;
     const buyerName = `${first_name || ""} ${last_name || ""}`.trim() ||
       "Athlete";
-    const paymentNote = `${itemTitle} ${sessionLabel}`;
+    const paymentNote = `${itemTitle} ${sessionLabel} for ${buyerName}`;
 
-    const customFields = [
-      {
-        title: "性別 (Sex)",
-        required: true,
-        text: { text: String(sex) },
-      },
-      {
-        title: "生年月日 (Date of Birth)",
-        required: true,
-        text: { text: String(dob) },
-      },
-    ];
+    // Inline Payment Flow
+    if (sourceId) {
+      const money = {
+        amount: BigInt(amount), // Square Node SDK uses BigInt for money
+        currency: CLASS_PRICE_CURRENCY,
+      };
 
-    const checkoutRequest = {
-      idempotencyKey,
-      order: {
+      const paymentRequest = {
+        sourceId,
+        idempotencyKey,
+        amountMoney: money,
+        note: paymentNote,
         locationId: SQUARE_LOCATION_ID,
-        referenceId: class_iso,
-        lineItems: [
-          {
-            name: `${itemTitle} - ${sessionLabel}`,
-            quantity: "1",
-            basePriceMoney: {
-              amount: amount,
-              currency: CLASS_PRICE_CURRENCY,
-            },
-            note: paymentNote,
-          },
-        ],
-        note: notes ? String(notes) : undefined,
-      },
-      checkoutOptions: {
-        paymentNote: `${paymentNote} for ${buyerName}`,
-        redirectUrl:
-          typeof redirectUrl === "string" && redirectUrl.startsWith("http")
-            ? redirectUrl
-            : undefined,
-        customFields,
-      },
-    };
+      };
 
-    const { result } = await squareClient.checkoutApi.createPaymentLink(
-      checkoutRequest,
-    );
-    const checkoutUrl = result?.paymentLink?.url;
-    if (!checkoutUrl) {
-      throw new Error("Square did not return a hosted checkout URL.");
+      if (verificationToken) {
+        paymentRequest.verificationToken = verificationToken;
+      }
+
+      await squareClient.paymentsApi.createPayment(paymentRequest);
+
+      // Log success
+      functions.logger.info("Payment successful", {
+        class_iso,
+        booking_type,
+        amount,
+      });
+
+      return res.status(200).json({ success: true, message: "Payment processed successfully" });
     }
 
-    functions.logger.info("Square hosted checkout created", {
-      class_iso,
-      paymentLinkId: result.paymentLink?.id,
-    });
+    // Fallback: Hosted Checkout (Legacy or optional)
+    // If sourceId is missing, maybe return error or use checkout link
+    // For now, let's keep the checkout link as a fallback ONLY if no sourceId
+    // But realistically, frontend requires card entry.
 
-    return res.status(200).json({ checkoutUrl });
+    // Changing behavior: If no sourceId, return 400
+    return res.status(400).json({ message: "Payment token (sourceId) is missing." });
   } catch (error) {
     const details = error.errors ?? error;
     functions.logger.error("Payment request failed", details);
