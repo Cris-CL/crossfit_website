@@ -1,673 +1,703 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HYROX</title>
-      
-        <!-- CSS -->
-        <link rel="stylesheet" href="assets/css/styles.css">
-        <link rel="stylesheet" href="assets/css/media-queries.css">
 
-        <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-      
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYROX</title>
 
-        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
-        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
-        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/media-queries.css">
 
-        <!--Custom Style-->
-        <style>
-          /* minimal styles for the inserted section */
-          #calendar { max-width: 100%; margin: 8px auto; }
-          #class-list { margin-top: 18px; }
-          .class-card { background:#fff; padding:12px; border-radius:8px; margin-bottom:10px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
-          .class-card h4 { margin:0 0 6px; }
-          .class-meta { color:#555; margin-bottom:8px; }
-          .btn { background:#C51327; color:#fff; padding:8px 12px; border-radius:6px; border:none; cursor:pointer; }
-          .btn.secondary { background:#6c757d; }
-          #booking-form { margin-top:12px; padding:12px; background:#f7f9fb; border-radius:8px; display:none; }
-          #booking-form input[type="text"], #booking-form input[type="email"] { width:100%; padding:8px; margin:6px 0; border-radius:4px; border:1px solid #ddd; }
-          .hidden { display:none; }
-        </style>
-          
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              const menuToggle = document.querySelector(".menu-toggle");
-              const nav = document.querySelector("nav");
-              const navLinks = document.querySelectorAll("nav ul li a");
-          
-              // Toggle menu + button animation
-              menuToggle.addEventListener("click", () => {
-                nav.classList.toggle("active");
-                menuToggle.classList.toggle("active");
-              });
-          
-              // Close menu when clicking a link
-              navLinks.forEach(link => {
-                link.addEventListener("click", () => {
-                  nav.classList.remove("active");
-                  menuToggle.classList.remove("active");
-                });
-              });
-            });
-          </script>
-      </head>
-<body>
 
-<!-- Header -->
-<header>
-  <div class="logo">
-    <a href="index.html">
-      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
-    </a>
-  </div>
-  <!-- Hamburger Button -->
-  <button class="menu-toggle" aria-label="Toggle Menu">
-      <span></span>
-      <span></span>
-      <span></span>
-  </button>
-  <!-- Navigation Menu -->
-  <nav>
-    <div class="nav_top">
-      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
-      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
-    </div>
-    <ul>
-      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
-      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
-      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
-      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
-      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
-      <li><a href="hyrox.html" class="active">ハイロックス<span>HYROX</span></a></li>
-      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
-      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
-    </ul>
-  </nav>
-  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
-</header>
 
-<div id="page_spartan">
-  <!-- Title Section -->
-<section class="page-title hyrox-page">
-  <div class="com_column">
-    <h2>HYROX</h2>
-    <p class="sub-title">HastomachBtninevinegar</p>
-  </div>
-</section>
-<!-- sec_spartan -->
-<section class="sec_spartan">
-  <div class="com_inner">
-    <h3 class="com_large_title">
-      <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">HYROX </font></font><br class="br_pc"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">is fitness racing</font></font></p>
-      <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Functional Hyrox training with a Certified Coach</font></font></p>
-    </h3>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
 
-    <div class="text_wrap">
-      <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">....</font></font></p>
-      <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">HYROX combines both running &amp; functional workout stations, where participants run 1km, followed by 1 functional workout station, repeated eight times. </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Each race is hosted indoors in expansive exhibition halls, creating an immersive and electrifying race, where your spectators can support you from the very beginning to the very end. </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">This race format remains consistent across the globe, enabling global leaderboards &amp; a cumulative World Championships at the end of each race season. </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Accommodating both professional athletes, and everyday fitness enthusiasts looking to take their training to the next level, HYROX is the sport for everybody.</font></font></p>
-    </div>
-    <div class="movie_wrap">
-      <iframe width="700" height="392" src="https://www.youtube.com/embed/YN-n8t8d2bA" title="What is HYROX? | The Race Format" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div> 
-  </div>
-</section>
-<!------Com Section Lession---->
-<section class="com_sec_lesson spartan">
-  <div class="com_inner">
-    <ul class="info_list">
-      <li>
-        <h4 class="com_title">
-          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Fee</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">PRICE</font></font></p>
-        </h4>
-        <div class="content price_area">
-          <p class="price font_proxima extra"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">¥4,950</font></font></p>
-          <p class="tax">
-            <span class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">(Tax </font></font></span>
-            <span class="en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">included)</font></font></span>
-          </p>
-        </div>
-      </li>
-      <li>
-        <h4 class="com_title">
-          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">subject</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ELIGIBILITY</font></font></p>
-        </h4>
-        <div class="content">
-          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Anyone can participate, </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">including non-CrossFit Roppongi members and those with no prior CrossFit experience.</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Open to anyone and no experience is needed. </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Spartan training is available to both non-members, as well as members of CrossFit Roppongi.</font></font></p>
-        </div>
-      </li>
-      <li>
-        <h4 class="com_title">
-          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">schedule</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SCHEDULE</font></font></p>
-        </h4>
-        <div class="content">
-          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">	1st and 3rd Wednesdays 19:00-20:00/60 minutes </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
-                    2nd and 4th Fridays 10:00-11:00/60 minutes </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
-                    1st and 3rd Saturdays 17:30-18:45/75 minutes </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
-                    Every Sunday 10:30-11:30/60 minutes</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">The 1st and 3rd Wednesday, 7:00–8:00 pm / 60 min </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
-                          The 2nd and 4th Friday, 10:00–11:00 am / 60 min </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
-                          The 1st and 3rd Saturday, 5:30–6:45 pm / 75 min </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
-                          Every Sunday, 10:30-11:30 am / 60 min</font></font></p>
-        </div>
-      </li>
-      <li>
-        <h4 class="com_title">
-          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">What to bring</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">WHAT TO BRING</font></font></p>
-        </h4>
-        <div class="content">
-          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Sports shoes / training wear / drinks / towels </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">*Bath towels / sports shoes / training wear can be rented (¥400 each) </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">*Water (¥100, ¥200) / socks (¥500) are available for purchase.</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Athletic shoes, activewear, drink(s), towel </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">* Bath towels, shoes, and activewear are available for rental (¥400 each). </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">* Water (¥100, ¥200), socks (¥500) are available for purchase.</font></font></p>
-        </div>
-      </li>
-      <li>
-        <h4 class="com_title">
-          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">facility</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">FACILITY</font></font></p>
-        </h4>
-        <div class="content">
-          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information,</font></font><a href="facility.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Facilities and equipment</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please see.</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information, see our</font></font><a href="facility.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">FACILITY</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">.</font></font></p>
-        </div>
-      </li>
-      <li>
-        <h4 class="com_title">
-          <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">access</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ACCESS</font></font></p>
-        </h4>
-        <div class="content">
-          <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information,</font></font><a href="access.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">access</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please see.</font></font></p>
-          <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">For more information, see our</font></font><a href="access.html"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">ACCESS</font></font></a><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">.</font></font></p>
-        </div>
-      </li>
-    </ul>
+  <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
 
-  </div>
-</section>
-<!------Reserve Section------->
-<section class="sec_reserve2">
-  <div class="reserve_top">
-    <div class="com_inner">
-      <h3 class="com_large_title">
-        <p class="jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Book Hirox</font></font></p>
-      </h3>
-      <p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please confirm the terms of use before making a reservation. Select the desired date and time from the calendar and proceed to the payment screen.</font></font></p>
-      <p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Book HYROX Training </font></font><br><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please check our Terms &amp; Conditions before making a booking. Select the desired date and time from the calendar and proceed to the payment screen.</font></font></p>
-    </div>
-  </div>
-  <div class="reserve_btm com_inner">
-    <div class="kiyaku_box">
-      <h4 class="title jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">&lt; </font></font><span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Terms of Use</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;"> &gt;</font></font></h4>
-      <ul class="kiyaku_list">
-        <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Payment is required to confirm your reservation. If payment is not completed, your reservation will not be confirmed.</font></font></li>
-        <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please note that we have a set limit on the number of participants for all booked training sessions, and therefore we are unable to offer refunds regardless of attendance.</font></font></li>
-        <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">If you wish to change the date and time of your appointment, please contact us by email or phone at least 48 hours before the appointment. Changes are allowed only once.</font></font></li> 
-      </ul>
-      <h4 class="title en"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">＜</font></font><span class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Terms &amp; Conditions</font></font></span><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">＞</font></font></h4>
-      <ul class="kiyaku_list">
-        <li class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">To secure your booking, we require full payment to be completed.</font></font></li>
-        <li class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Please note that our classes have limited spots available and we adjust the number of attendees accordingly. Therefore, bookings are strictly non-refundable, regardless of attendance or reason.</font></font></li>
-        <li class="font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">If you need to change the date or time of your booking, please let us know at least 48 hours in advance by email or phone. You may only change your booking once.</font></font></li>
-      </ul>
-    </div>  
-  </div>
-  <!--div id="calendar"-->
-  <div class="cus-calendar com_inner" id="calendar-section">
-    <div id="calendar"></div>
-  
-    <div id="class-list">
-      <!-- When a date is clicked, classes for that day will be rendered here -->
-    </div>
-  
-    <!-- Booking form (hidden until user picks a class) -->
-    <form id="booking-form">
-      <h3 id="booking-title">Book Class</h3>
-      <div>
-        <label>
-          Your name
-          <input type="text" id="customer-name" required placeholder="Full name" />
-        </label>
-      </div>
-      <div>
-        <label>
-          Your email
-          <input type="email" id="customer-email" required placeholder="you@example.com" />
-        </label>
-      </div>
-  
-      <!-- Hidden fields auto-populated -->
-      <input type="hidden" id="hidden-class-title" />
-      <input type="hidden" id="hidden-class-date" />
-      <input type="hidden" id="hidden-class-time" />
-      <input type="hidden" id="hidden-payment-link" />
-  
-      <div style="margin-top:10px;">
-        <button type="submit" class="btn">Send Booking Email & Continue to Pay</button>
-        <button type="button" id="cancel-book" class="btn secondary">Cancel</button>
-      </div>
-      <div id="booking-feedback" style="margin-top:10px;color:green;"></div>
-    </form>
-  </div>
-  
+  <!--Custom Style-->
+  <style>
+    /* minimal styles for the inserted section */
+    .booking-frame {
+      width: 100%;
+      border: none;
+      min-height: 800px;
+      /* starting height, can be adjusted */
+      margin-top: 20px;
+    }
+  </style>
+
   <script>
-    /* ----------------- Configuration ----------------- */
-    const SHEET_ID = "1H7cwRjDmx_WsmbowgkugmTufrhyZ54Zl";
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-    const EMAIL_ENDPOINT = "https://formspree.io/f/mrbongzw"; // your working Formspree endpoint
-    //const EMAIL_ENDPOINT = "https://formspree.io/f/mrbozwby"; // your working Formspree endpoint - Balbir Rana Account
-    /* ----------------- End Configuration ----------------- */
-    
-    let classesData = [];
-    let calendar;
-    
-    /* ----------------- Google Sheet Parsing ----------------- */
-    function parseGvizJson(text) {
-      try {
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        return json.table.rows;
-      } catch (e) {
-        console.error("Error parsing GViz JSON:", e);
-        throw new Error("Invalid GViz JSON format");
-      }
-    }
-    
-    function normalizeSheetData(rows) {
-      if (!rows || !Array.isArray(rows)) return [];
-      return rows.map(r => {
-        const c = r.c || [];
-        return {
-          title: c[0]?.v || "",
-          date: formatSheetDate(c[1]?.v),
-          time: formatSheetTime(c[2]),
-          paymentLink: c[3]?.v || ""
-        };
-      }).filter(item => item.title && item.date);
-    }
-    
-    function formatSheetTime(value) {
-      if (!value) return "";
-      if (typeof value === "string") return value.trim();
-      if (typeof value === "object" && value !== null && value.f) return value.f;
-      if (typeof value === "number") {
-        const totalMinutes = Math.round(value * 24 * 60);
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-        const ampm = hours >= 12 ? "PM" : "AM";
-        const hr12 = hours % 12 || 12;
-        return `${hr12}:${String(minutes).padStart(2, "0")} ${ampm}`;
-      }
-      return "";
-    }
-    
-    function formatSheetDate(value) {
-      if (!value) return null;
-      if (typeof value === "string" && value.startsWith("Date(")) {
-        const match = /Date\((\d+),(\d+),(\d+)\)/.exec(value);
-        if (match) {
-          const y = parseInt(match[1], 10);
-          const m = parseInt(match[2], 10);
-          const d = parseInt(match[3], 10);
-          const date = new Date(Date.UTC(y, m, d));
-          return date.toISOString().slice(0, 10);
-        }
-      }
-      if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}/.test(value)) return value.split("T")[0];
-      if (typeof value === "number") {
-        const baseDate = new Date(Date.UTC(1899, 11, 30));
-        baseDate.setDate(baseDate.getDate() + value);
-        return baseDate.toISOString().slice(0, 10);
-      }
-      const d = new Date(value);
-      if (!isNaN(d)) return d.toISOString().slice(0, 10);
-      return null;
-    }
-    
-    /* ----------------- Calendar Initialization ----------------- */
-    async function initCalendarAndData() {
-      try {
-        const resp = await fetch(SHEET_URL);
-        const text = await resp.text();
-        const gvizRows = parseGvizJson(text);
-        classesData = normalizeSheetData(gvizRows);
+    document.addEventListener("DOMContentLoaded", () => {
+      const menuToggle = document.querySelector(".menu-toggle");
+      const nav = document.querySelector("nav");
+      const navLinks = document.querySelectorAll("nav ul li a");
 
-        renderWeekCalendar(new Date());
-
-      } catch (err) {
-        console.error("Failed to load sheet:", err);
-      }
-    }
-
-    let currentStartDate = new Date();
-
-    function renderWeekCalendar(date) {
-      const calendarEl = document.getElementById("calendar");
-      calendarEl.innerHTML = "";
-
-      // Find start of week (Sunday)
-      const startOfWeek = new Date(date);
-      startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-
-      const endOfWeek = new Date(startOfWeek);
-      endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-      const title = `${date.toLocaleString("default", { month: "short" })} ${date.getFullYear()}`;
-      // Header with arrows and title
-      const header = document.createElement("div");
-      header.classList.add("calendar-header");
-      header.innerHTML = `
-        <button id="prevWeek" class="cal-btn">‹</button>
-        <h2>${title}</h2>
-        <button id="nextWeek" class="cal-btn">›</button>
-      `;
-
-      // Single-row week grid
-      const weekRow = document.createElement("div");
-      weekRow.classList.add("week-row");
-
-      for (let i = 0; i < 7; i++) {
-        const day = new Date(startOfWeek);
-        day.setDate(day.getDate() + i);
-        const dayName = day.toLocaleDateString("en-US", { weekday: "short" });
-        const dayNum = day.getDate();
-        const iso = day.toISOString().slice(0, 10);
-
-        const cell = document.createElement("div");
-        cell.classList.add("day-cell");
-        cell.setAttribute("data-date", iso);
-        cell.innerHTML = `
-          <div class="day-info">
-            <div class="day-name">${dayName}</div>
-            <div class="day-num">${dayNum}</div>
-          </div>
-        `;
-
-        cell.addEventListener("click", () => {
-          document.querySelectorAll(".day-cell").forEach(c => c.classList.remove("selected"));
-          cell.classList.add("selected");
-          renderClassesForDate(iso);
-        });
-
-        weekRow.appendChild(cell);
-      }
-
-      calendarEl.appendChild(header);
-      calendarEl.appendChild(weekRow);
-
-      document.getElementById("prevWeek").onclick = () => {
-        currentStartDate.setDate(currentStartDate.getDate() - 7);
-        renderWeekCalendar(currentStartDate);
-      };
-
-      document.getElementById("nextWeek").onclick = () => {
-        currentStartDate.setDate(currentStartDate.getDate() + 7);
-        renderWeekCalendar(currentStartDate);
-      };
-    }
-
-    
-    /* ----------------- Highlight Selected Date ----------------- */
-    function highlightSelectedDate(dateStr) {
-      document.querySelectorAll('.fc-daygrid-day').forEach(cell => {
-        if (cell.dataset.date === dateStr) {
-          cell.style.backgroundColor = '#007BFF';
-          cell.style.color = '#fff';
-          cell.style.borderRadius = '6px';
-        } else {
-          cell.style.backgroundColor = '';
-          cell.style.color = '';
-        }
+      // Toggle menu + button animation
+      menuToggle.addEventListener("click", () => {
+        nav.classList.toggle("active");
+        menuToggle.classList.toggle("active");
       });
-    }
-    
-    /* ----------------- Render Classes Below Calendar ----------------- */
-    function renderClassesForDate(dateStr) {
-      const container = document.getElementById('class-list');
-      container.innerHTML = `<h3>Classes on ${formatDateForDisplay(dateStr)}</h3>`;
-    
-      const dayClasses = classesData.filter(c => c.date === dateStr);
-      if (!dayClasses.length) {
-        container.innerHTML += "<p>No classes available for this date.</p>";
-        return;
-      }
-    
-      dayClasses.forEach((c, idx) => {
-        const card = document.createElement('div');
-        card.className = 'class-card';
-        card.innerHTML = `
-          <h4>${escapeHtml(c.title)}</h4>
-          <div class="class-meta"><strong>Time:</strong> ${escapeHtml(c.time || 'TBA')}</div>
-          <div style="display:flex;gap:8px;">
-            <button class="btn" data-idx="${idx}" data-date="${c.date}">Book class</button>
-          </div>
-        `;
-        container.appendChild(card);
-    
-        card.querySelector('button').addEventListener('click', () => {
-          document.getElementById('hidden-class-title').value = c.title;
-          document.getElementById('hidden-class-date').value = c.date;
-          document.getElementById('hidden-class-time').value = c.time;
-          document.getElementById('hidden-payment-link').value = c.paymentLink;
-          document.getElementById('booking-title').textContent = `Book: ${c.title} — ${formatDateForDisplay(c.date)} ${c.time ? ' @ ' + c.time : ''}`;
-          document.getElementById('booking-feedback').textContent = '';
-          document.getElementById('booking-form').style.display = 'block';
-          document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+
+      // Close menu when clicking a link
+      navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+          nav.classList.remove("active");
+          menuToggle.classList.remove("active");
         });
-      });
-    }
-    
-    /* ----------------- Booking Form Submission ----------------- */
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('booking-form');
-      const cancelBtn = document.getElementById('cancel-book');
-    
-      cancelBtn.addEventListener('click', () => form.style.display = 'none');
-    
-      form.addEventListener('submit', async e => {
-        e.preventDefault();
-        const name = document.getElementById('customer-name').value.trim();
-        const email = document.getElementById('customer-email').value.trim();
-        const title = document.getElementById('hidden-class-title').value;
-        const date = document.getElementById('hidden-class-date').value;
-        const time = document.getElementById('hidden-class-time').value;
-        const paymentLink = document.getElementById('hidden-payment-link').value;
-    
-        if (!name || !email) return alert('Please enter name and email.');
-    
-        const payload = { name, email, title, date, time, paymentLink };
-    
-        try {
-          const resp = await fetch(EMAIL_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          if (!resp.ok) throw new Error(`Email send failed: ${resp.status}`);
-    
-          document.getElementById('booking-feedback').textContent = 'Booking sent — redirecting to payment...';
-          setTimeout(() => { if (paymentLink) window.open(paymentLink, '_blank'); }, 900);
-        } catch (err) {
-          console.error('Error sending booking email:', err);
-          document.getElementById('booking-feedback').textContent = 'Failed to send booking email; please try again.';
-        }
       });
     });
-    
-    /* ----------------- Utilities ----------------- */
-    function formatDateForDisplay(iso) {
-      if (!iso) return '';
-      const d = new Date(iso);
-      if (isNaN(d)) return iso;
-      return d.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
-    }
-    function escapeHtml(str) {
-      return String(str || '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-    }
-    
-    /* ----------------- Initialize ----------------- */
-    initCalendarAndData();
-    </script>
-        
-    
+  </script>
+</head>
 
-  <!--/!--div-->
-</section>
-<!-- com_sec_link Section -->
-<section class="com_sec_link">
-<ul class="link_list">
-  <li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
-  <li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
-  <li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
-</ul>
-</section>
-<!-- sec_reserve Section -->
-<section class="sec_reserve">
-	<ul class="reserve_list">
-		<li>
-			<div class="inner">
-				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
-				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
-				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
-				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
-			</div>
-		</li>
-		<li>
-			<div class="inner">
-				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
-				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
-				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
-				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
-			</div>
-		</li>
-	</ul>
-</section>
-</div>
+<body>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="inner">
-    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
-    <div class="text_wrap">
-      <div class="footer_l">
-        <p class="company font_proxima">CrossFit Roppongi</p>
-        <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
-        <ul class="sns_list">
-          <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
-          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
-        </ul>
-      </div>
-      <div class="footer_r">
-        <ul class="footer_nav">
-          <li>
-            <a href="index.html">
-              <p class="jp"><span>トップページ</span></p>
-              <p class="en font_proxima"><span>HOME</span></p>
-            </a>
-          </li>
-          <li>
-            <a href="about.html">
-              <p class="jp"><span>CrossFitとは</span></p>
-              <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
-            </a>
-          </li>
-          <li>
-            <a href="facility.html">
-              <p class="jp"><span>施設・設備</span></p>
-              <p class="en font_proxima"><span>FACILITY</span></p>
-            </a>
-          </li>
-          <li>
-            <a href="coach.html">
-              <p class="jp"><span>コーチ</span></p>
-              <p class="en font_proxima"><span>COACHES</span></p>
-            </a>
-          </li>
-          <li>
-            <a href="plan.html">
-              <p class="jp"><span>プラン・料金</span></p>
-              <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
-            </a>
-          </li>
-          <li>
-            <a href="schedule.html">
-              <p class="jp"><span>スケジュール</span></p>
-              <p class="en font_proxima"><span>SCHEDULE</span></p>
-            </a>
-          </li>
-          <li>
-            <a href="access.html">
-              <p class="jp"><span>アクセス</span></p>
-              <p class="en font_proxima"><span>ACCESS</span></p>
-            </a>
-          </li>
-        </ul>
-        <ul class="footer_nav">
-					<li>
-						<a href="trial.html">
-							<p class="jp"><span>体験レッスン</span></p>
-							<p class="en font_proxima"><span>TRIAL</span></p>
-						</a>
-					</li>
-					<li>
-						<a href="dropin.html">
-							<p class="jp"><span>ドロップイン</span></p>
-							<p class="en font_proxima"><span>DROP IN</span></p>
-						</a>
-					</li>
-					<li>
-						<a href="spartan.html">
-							<p class="jp"><span>スパルタントレーニング</span></p>
-							<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
-						</a>
-					</li>
-					<li>
-						<a href="career.html">
-							<p class="jp"><span>採用情報</span></p>
-							<p class="en font_proxima"><span>CAREER</span></p>
-						</a>
-					</li>
-					<li>
-						<a href="contact.html">
-							<p class="jp"><span>お問い合わせ</span></p>
-							<p class="en font_proxima"><span>CONTACT</span></p>
-						</a>
-					</li>
-					<li>
-						<a href="privacy.html">
-							<p class="jp"><span>プライバシーポリシー</span></p>
-							<p class="en font_proxima"><span>PRIVACY POLICY</span></p>
-						</a>
-					</li>
-				</ul>
-      </div>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+      </a>
     </div>
-    <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
-    <a href="https://journal.crossfit.com/" target="_blank" class="journal">
-      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
-    </a>
+    <!-- Hamburger Button -->
+    <button class="menu-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <!-- Navigation Menu -->
+    <nav>
+      <div class="nav_top">
+        <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+        <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+      </div>
+      <ul>
+        <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+        <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
+        <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
+        <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+        <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+        <li><a href="hyrox.html" class="active">ハイロックス<span>HYROX</span></a></li>
+        <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
+        <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+      </ul>
+    </nav>
+    <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span
+        class="jp">体験レッスン</span></a>
+  </header>
+
+  <div id="page_spartan">
+    <!-- Title Section -->
+    <section class="page-title hyrox-page">
+      <div class="com_column">
+        <h2>HYROX</h2>
+        <p class="sub-title">HastomachBtninevinegar</p>
+      </div>
+    </section>
+    <!-- sec_spartan -->
+    <section class="sec_spartan">
+      <div class="com_inner">
+        <h3 class="com_large_title">
+          <p class="jp">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">HYROX </font>
+            </font><br class="br_pc">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">is fitness racing</font>
+            </font>
+          </p>
+          <p class="text_en font_proxima">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Functional Hyrox training with a Certified Coach</font>
+            </font>
+          </p>
+        </h3>
+
+        <div class="text_wrap">
+          <p class="text_jp">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">....</font>
+            </font>
+          </p>
+          <p class="text_en font_proxima">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">HYROX combines both running &amp; functional workout
+                stations, where participants run 1km, followed by 1 functional workout station, repeated eight times.
+              </font>
+            </font><br>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Each race is hosted indoors in expansive exhibition
+                halls, creating an immersive and electrifying race, where your spectators can support you from the very
+                beginning to the very end. </font>
+            </font><br>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">This race format remains consistent across the globe,
+                enabling global leaderboards &amp; a cumulative World Championships at the end of each race season.
+              </font>
+            </font><br>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Accommodating both professional athletes, and everyday
+                fitness enthusiasts looking to take their training to the next level, HYROX is the sport for everybody.
+              </font>
+            </font>
+          </p>
+        </div>
+        <div class="movie_wrap">
+          <iframe width="700" height="392" src="https://www.youtube.com/embed/YN-n8t8d2bA"
+            title="What is HYROX? | The Race Format" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+    <!------Com Section Lession---->
+    <section class="com_sec_lesson spartan">
+      <div class="com_inner">
+        <ul class="info_list">
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Fee</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">PRICE</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content price_area">
+              <p class="price font_proxima extra">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">¥4,950</font>
+                </font>
+              </p>
+              <p class="tax">
+                <span class="jp">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">(Tax </font>
+                  </font>
+                </span>
+                <span class="en font_proxima">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">included)</font>
+                  </font>
+                </span>
+              </p>
+            </div>
+          </li>
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">subject</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">ELIGIBILITY</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content">
+              <p class="text_jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Anyone can participate, </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">including non-CrossFit Roppongi members and those
+                    with no prior CrossFit experience.</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Open to anyone and no experience is needed. </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Spartan training is available to both non-members,
+                    as well as members of CrossFit Roppongi.</font>
+                </font>
+              </p>
+            </div>
+          </li>
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">schedule</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">SCHEDULE</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content">
+              <p class="text_jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;"> 1st and 3rd Wednesdays 19:00-20:00/60 minutes
+                  </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    2nd and 4th Fridays 10:00-11:00/60 minutes </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    1st and 3rd Saturdays 17:30-18:45/75 minutes </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    Every Sunday 10:30-11:30/60 minutes</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">The 1st and 3rd Wednesday, 7:00–8:00 pm / 60 min
+                  </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    The 2nd and 4th Friday, 10:00–11:00 am / 60 min </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    The 1st and 3rd Saturday, 5:30–6:45 pm / 75 min </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    Every Sunday, 10:30-11:30 am / 60 min</font>
+                </font>
+              </p>
+            </div>
+          </li>
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">What to bring</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">WHAT TO BRING</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content">
+              <p class="text_jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Sports shoes / training wear / drinks / towels
+                  </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">*Bath towels / sports shoes / training wear can be
+                    rented (¥400 each) </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">*Water (¥100, ¥200) / socks (¥500) are available for
+                    purchase.</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Athletic shoes, activewear, drink(s), towel </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">* Bath towels, shoes, and activewear are available
+                    for rental (¥400 each). </font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">* Water (¥100, ¥200), socks (¥500) are available for
+                    purchase.</font>
+                </font>
+              </p>
+            </div>
+          </li>
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">facility</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">FACILITY</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content">
+              <p class="text_jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">For more information,</font>
+                </font><a href="facility.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">Facilities and equipment</font>
+                  </font>
+                </a>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Please see.</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">For more information, see our</font>
+                </font><a href="facility.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">FACILITY</font>
+                  </font>
+                </a>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">.</font>
+                </font>
+              </p>
+            </div>
+          </li>
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">access</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">ACCESS</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content">
+              <p class="text_jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">For more information,</font>
+                </font><a href="access.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">access</font>
+                  </font>
+                </a>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Please see.</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">For more information, see our</font>
+                </font><a href="access.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">ACCESS</font>
+                  </font>
+                </a>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">.</font>
+                </font>
+              </p>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+    <!------Reserve Section------->
+    <section class="sec_reserve2">
+      <div class="reserve_top">
+        <div class="com_inner">
+          <h3 class="com_large_title">
+            <p class="jp">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Book Hirox</font>
+              </font>
+            </p>
+          </h3>
+          <p class="text_jp">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Please confirm the terms of use before making a
+                reservation. Select the desired date and time from the calendar and proceed to the payment screen.
+              </font>
+            </font>
+          </p>
+          <p class="text_en font_proxima">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Book HYROX Training </font>
+            </font><br>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Please check our Terms &amp; Conditions before making a
+                booking. Select the desired date and time from the calendar and proceed to the payment screen.</font>
+            </font>
+          </p>
+        </div>
+      </div>
+      <div class="reserve_btm com_inner">
+        <div class="kiyaku_box">
+          <h4 class="title jp">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">&lt; </font>
+            </font><span>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Terms of Use</font>
+              </font>
+            </span>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;"> &gt;</font>
+            </font>
+          </h4>
+          <ul class="kiyaku_list">
+            <li>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Payment is required to confirm your reservation. If
+                  payment is not completed, your reservation will not be confirmed.</font>
+              </font>
+            </li>
+            <li>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Please note that we have a set limit on the number of
+                  participants for all booked training sessions, and therefore we are unable to offer refunds regardless
+                  of attendance.</font>
+              </font>
+            </li>
+            <li>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">If you wish to change the date and time of your
+                  appointment, please contact us by email or phone at least 48 hours before the appointment. Changes are
+                  allowed only once.</font>
+              </font>
+            </li>
+          </ul>
+          <h4 class="title en">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">＜</font>
+            </font><span class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Terms &amp; Conditions</font>
+              </font>
+            </span>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">＞</font>
+            </font>
+          </h4>
+          <ul class="kiyaku_list">
+            <li class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">To secure your booking, we require full payment to be
+                  completed.</font>
+              </font>
+            </li>
+            <li class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Please note that our classes have limited spots
+                  available and we adjust the number of attendees accordingly. Therefore, bookings are strictly
+                  non-refundable, regardless of attendance or reason.</font>
+              </font>
+            </li>
+            <li class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">If you need to change the date or time of your
+                  booking, please let us know at least 48 hours in advance by email or phone. You may only change your
+                  booking once.</font>
+              </font>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="com_inner">
+        <iframe src="hyrox-booking.html" class="booking-frame" title="Book Hyrox Class"></iframe>
+      </div>
+    </section>
+    <!-- com_sec_link Section -->
+    <section class="com_sec_link">
+      <ul class="link_list">
+        <li><a href="facility.html">施設・設備<span class="font_proxima">FACILITY</span></a></li>
+        <li><a href="coach.html">コーチ<span class="font_proxima">COACHES</span></a></li>
+        <li><a href="plan.html">プラン・料金<span class="font_proxima">MEMBERSHIP・PRICING</span></a></li>
+      </ul>
+    </section>
+    <!-- sec_reserve Section -->
+    <section class="sec_reserve">
+      <ul class="reserve_list">
+        <li>
+          <div class="inner">
+            <h2 class="title font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">DROP IN</font>
+              </font>
+            </h2>
+            <p class="text_jp">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font>
+              </font>
+            </p>
+            <p class="text_en font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous
+                  CrossFit experience.</font>
+              </font>
+            </p>
+            <a href="dropin.html" class="more_btn font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">SEE MORE</font>
+              </font>
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="inner">
+            <h2 class="title font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font>
+              </font>
+            </h2>
+            <p class="text_jp">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest
+                  obstacle race</font>
+              </font>
+            </p>
+            <p class="text_en font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your
+                  stamina and cardio fitness, as well as help you prepare for your next Spartan Race with
+                  obstacle-related strength and skill training. No experience necessay and all levels are welcome!
+                </font>
+              </font>
+            </p>
+            <a href="spartan.html" class="more_btn font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">SEE MORE</font>
+              </font>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </section>
   </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="inner">
+      <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+      <div class="text_wrap">
+        <div class="footer_l">
+          <p class="company font_proxima">CrossFit Roppongi</p>
+          <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a
+              href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi,
+              Minato-ku, Tokyo 106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+          <ul class="sns_list">
+            <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+            <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+          </ul>
+        </div>
+        <div class="footer_r">
+          <ul class="footer_nav">
+            <li>
+              <a href="index.html">
+                <p class="jp"><span>トップページ</span></p>
+                <p class="en font_proxima"><span>HOME</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="about.html">
+                <p class="jp"><span>CrossFitとは</span></p>
+                <p class="en font_proxima"><span>ABOUT CROSSFIT</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="facility.html">
+                <p class="jp"><span>施設・設備</span></p>
+                <p class="en font_proxima"><span>FACILITY</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="coach.html">
+                <p class="jp"><span>コーチ</span></p>
+                <p class="en font_proxima"><span>COACHES</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="plan.html">
+                <p class="jp"><span>プラン・料金</span></p>
+                <p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="schedule.html">
+                <p class="jp"><span>スケジュール</span></p>
+                <p class="en font_proxima"><span>SCHEDULE</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="access.html">
+                <p class="jp"><span>アクセス</span></p>
+                <p class="en font_proxima"><span>ACCESS</span></p>
+              </a>
+            </li>
+          </ul>
+          <ul class="footer_nav">
+            <li>
+              <a href="trial.html">
+                <p class="jp"><span>体験レッスン</span></p>
+                <p class="en font_proxima"><span>TRIAL</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="dropin.html">
+                <p class="jp"><span>ドロップイン</span></p>
+                <p class="en font_proxima"><span>DROP IN</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="spartan.html">
+                <p class="jp"><span>スパルタントレーニング</span></p>
+                <p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="career.html">
+                <p class="jp"><span>採用情報</span></p>
+                <p class="en font_proxima"><span>CAREER</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="contact.html">
+                <p class="jp"><span>お問い合わせ</span></p>
+                <p class="en font_proxima"><span>CONTACT</span></p>
+              </a>
+            </li>
+            <li>
+              <a href="privacy.html">
+                <p class="jp"><span>プライバシーポリシー</span></p>
+                <p class="en font_proxima"><span>PRIVACY POLICY</span></p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+      <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+        <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+      </a>
+    </div>
   </footer>
-  
+
   <a href="hyrox.html#" id="totop" style="bottom: 30px;">
-  <picture>	
-    <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
-    <img src="assets/img/totop.webp" alt="TOP">
-  </picture>
+    <picture>
+      <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
+      <img src="assets/img/totop.webp" alt="TOP">
+    </picture>
   </a>
-  
+
   <script>
     const toTopBtn = document.getElementById("totop");
-  
+
     // Show button after scrolling down
     window.addEventListener("scroll", () => {
       if (window.scrollY > 200) {
@@ -676,7 +706,7 @@
         toTopBtn.classList.remove("show");
       }
     });
-  
+
     // Smooth scroll to top on click
     toTopBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -685,14 +715,14 @@
         behavior: "smooth"
       });
     });
-  
+
     // ✅ Smooth scroll for all internal links inside .com_page_link
     document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
-      link.addEventListener("click", function(e) {
+      link.addEventListener("click", function (e) {
         e.preventDefault();
         const targetId = this.getAttribute("href");
         const targetElement = document.querySelector(targetId);
-  
+
         if (targetElement) {
           targetElement.scrollIntoView({
             behavior: "smooth",
@@ -701,7 +731,8 @@
         }
       });
     });
-  </script>  
-  
+  </script>
+
 </body>
+
 </html>
