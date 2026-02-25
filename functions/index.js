@@ -110,11 +110,10 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
       itemTitle = "Spartan Training";
     }
 
-    const sessionLabel =
-      class_display || `${class_date} ${class_time}` || class_iso;
-    const buyerName = `${first_name || ""} ${last_name || ""}`.trim() ||
-      "Athlete";
-    const paymentNote = `${itemTitle} ${sessionLabel} for ${buyerName}`;
+    const sessionLabel = `${class_date} ${class_time}`;
+    const buyerName = `${first_name || ""} ${last_name || ""}`.trim() || "Athlete";
+    const buyerDetails = [buyerName, email, phone].filter(Boolean).join(" / ");
+    const paymentNote = `${itemTitle} ${sessionLabel} for ${buyerDetails}`;
 
     // Inline Payment Flow
     if (sourceId) {

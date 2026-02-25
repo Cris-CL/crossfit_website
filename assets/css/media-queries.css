@@ -20,7 +20,7 @@
     #page_access .sec_access .com_inner .access_list {
         border-bottom: 1px solid #999;
     }
-    
+
 }
 
 @media (min-width: 768px) {
@@ -301,17 +301,7 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0);
         transition: .3s;
     }
-    .sec_reserve .reserve_list li:nth-child(2):before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        width: 1px;
-        height: 160px;
-        background-color: #ccc;
-    }
+
 }
 @media (min-width: 371px) {
     .grad_btn.center, .grad_btn.black {
@@ -384,11 +374,11 @@
     }
     .sec_insta {
         padding: 95px 30px 90px;
-    } 
+    }
     .sec_insta .inner .com_small_title {
         width: 100%;
         order: 0;
-    }  
+    }
     .sec_insta .inner .follow {
         order: 2;
         letter-spacing: .04em;
@@ -502,7 +492,7 @@
         background: #000;
         padding: 6px;
       }
-  
+
       nav {
         position: fixed;
         top: 70px; /* below header */
@@ -514,7 +504,7 @@
         padding: 20px;
         z-index: 99;
       }
-  
+
       nav ul {
         display: flex;
         flex-direction: column;
@@ -523,7 +513,7 @@
         padding: 0;
         list-style: none;
       }
-  
+
       nav ul li a {
         color: #000; /* Black text */
         font-size: 18px;
@@ -531,7 +521,7 @@
         font-weight: 500;
         border-bottom: 1px solid #999!important;
       }
-  
+
       nav.active {
         left: 0; /* Slide in from left */
       }
