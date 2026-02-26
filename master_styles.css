@@ -85,7 +85,7 @@ header .reserve_btn:after{
     border-left: 1px solid #666;
     border-right: 1px solid #666;
     font-size: 10px;
-    letter-spacing: .06em;
+    letter-spacing: .06em; 
 }
 .nav_top a:first-child span{
     color: #b3b3b3;
@@ -195,7 +195,7 @@ header nav ul li {
     overflow: hidden;
     background: url(../img/mainv.webp) center / cover no-repeat;
   }
-
+  
   .video-wrap #ytPlayer {
     position: absolute;
     top: 0;
@@ -207,7 +207,7 @@ header nav ul li {
   .mbYTP_wrapper iframe {
     margin-top: 0px !important;
 }
-
+  
 #page_index .sec_about .com_column {
     padding-bottom: 150px;
 }
@@ -1707,9 +1707,6 @@ body.no-scroll { overflow: hidden; }
     content: counter(number);
     padding-right: 5px;
 }
-.sec_reserve .reserve_list {
-    display: flex;
-}
 .sec_reserve .reserve_list li {
     width: 50%;
     background-color: #f2f2f2;
@@ -1741,58 +1738,6 @@ body.no-scroll { overflow: hidden; }
     color: #999;
     padding-right: 68px;
     background: url(../img/arrow_gray3_right.svg) right top 5px / 53px 5px no-repeat;
-}
-
-/* Hyrox Index Box Styling */
-.hyrox_reserve_list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-.hyrox_reserve_list li {
-    width: calc(50% - 10px);
-    background-color: #fff;
-    padding: 45px 30px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-.hyrox_reserve_list li .inner {
-    width: 100%;
-    margin: 0;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-.hyrox_reserve_list li .inner .title {
-    font-size: 25px;
-    color: #111;
-}
-.hyrox_reserve_list li .inner .text_jp {
-    font-size: 15px;
-    color: #333;
-    margin-top: 12px;
-}
-.hyrox_reserve_list li .inner .text_en {
-    margin-top: 5px;
-}
-.hyrox_reserve_list li .inner .more_btn {
-    display: inline-block;
-    margin-top: auto;
-    padding-top: 30px;
-    font-size: 13px;
-    font-weight: bold;
-    color: #111;
-    padding-right: 68px;
-    background: url(../img/arrow_black_right.svg) right center / 53px 5px no-repeat;
-    align-self: flex-start;
 }
 #page_spartan .sec_spartan .com_inner {
     margin-top: 110px;

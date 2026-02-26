@@ -301,6 +301,28 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0);
         transition: .3s;
     }
+    .sec_reserve .reserve_list li:nth-child(2):before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 1px;
+        height: 100px;
+        background-color: #cacaca;
+    }
+    .hyrox_reserve_list {
+        display: flex;
+    }
+    .hyrox_reserve_list li {
+        position: relative;
+    }
+    .hyrox_reserve_list li .inner .more_btn {
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0);
+        transition: .3s;
+    }
 
 }
 @media (min-width: 371px) {
