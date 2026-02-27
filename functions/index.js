@@ -45,13 +45,51 @@ router.use(express.json());
 
 const generateIdempotencyKey = () => customAlphabet("0123456789abcdef", 24)();
 
-router.get(["/square/config", "/api/square/config"], (req, res) => {
+router.get(["/square/config", "/api/square/config"], async (req, res) => {
   if (!SQUARE_APPLICATION_ID || !SQUARE_LOCATION_ID) {
     return res.status(500).json({ message: "Configuration missing" });
   }
+
+  let pricing = {
+    spartan: 4400,
+    hyrox_performance: 4950,
+    hyrox_strength: 4950
+  };
+
+  try {
+    const objectIds = [
+      "L2ZK4LQ4NSHSNUMZT4KUKX6F",
+      "AC6F2TS26EFKPNHNTR4GYQ63",
+      "FKFEI77GZUVRWKPNOXET7ZEL"
+    ];
+
+    if (squareClient && squareClient.catalogApi) {
+      const response = await squareClient.catalogApi.batchRetrieveCatalogObjects({ objectIds });
+      const objects = response.result.objects || [];
+      if (objects.length > 0) {
+        const spartanObj = objects.find(o => o.id === "L2ZK4LQ4NSHSNUMZT4KUKX6F");
+        const hyroxPerfObj = objects.find(o => o.id === "AC6F2TS26EFKPNHNTR4GYQ63");
+        const hyroxStrObj = objects.find(o => o.id === "FKFEI77GZUVRWKPNOXET7ZEL");
+
+        if (spartanObj && spartanObj.itemVariationData && spartanObj.itemVariationData.priceMoney) {
+          pricing.spartan = Number(spartanObj.itemVariationData.priceMoney.amount);
+        }
+        if (hyroxPerfObj && hyroxPerfObj.itemVariationData && hyroxPerfObj.itemVariationData.priceMoney) {
+          pricing.hyrox_performance = Number(hyroxPerfObj.itemVariationData.priceMoney.amount);
+        }
+        if (hyroxStrObj && hyroxStrObj.itemVariationData && hyroxStrObj.itemVariationData.priceMoney) {
+          pricing.hyrox_strength = Number(hyroxStrObj.itemVariationData.priceMoney.amount);
+        }
+      }
+    }
+  } catch (error) {
+    functions.logger.error("Failed to fetch catalog pricing", error.errors ?? error);
+  }
+
   return res.json({
     appId: SQUARE_APPLICATION_ID,
-    locationId: SQUARE_LOCATION_ID
+    locationId: SQUARE_LOCATION_ID,
+    pricing
   });
 });
 
@@ -98,16 +136,16 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
 
     const idempotencyKey = generateIdempotencyKey();
 
-    // Determine price and label based on booking type
-    let amount = 4400; // default spartan
+    // Map booking type to Square Catalog Item Variation ID
+    let variationId = "L2ZK4LQ4NSHSNUMZT4KUKX6F"; // Default spartan
     let itemTitle = "Spartan Training";
 
-    if (booking_type === "hyrox") {
-      amount = 4950;
-      itemTitle = "HYROX Training";
-    } else if (booking_type === "spartan") {
-      amount = 4400;
-      itemTitle = "Spartan Training";
+    if (booking_type === "hyrox_performance") {
+      variationId = "AC6F2TS26EFKPNHNTR4GYQ63";
+      itemTitle = "HYROX Race Performance";
+    } else if (booking_type === "hyrox_strength") {
+      variationId = "FKFEI77GZUVRWKPNOXET7ZEL";
+      itemTitle = "HYROX Strength & Conditioning";
     }
 
     const sessionLabel = `${class_date} ${class_time}`;
@@ -117,15 +155,30 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
 
     // Inline Payment Flow
     if (sourceId) {
-      const money = {
-        amount: BigInt(amount), // Square Node SDK uses BigInt for money
-        currency: CLASS_PRICE_CURRENCY,
+      // 1. Create Order using the Catalog Variation ID
+      const orderRequest = {
+        idempotencyKey: generateIdempotencyKey(),
+        order: {
+          locationId: SQUARE_LOCATION_ID,
+          lineItems: [
+            {
+              catalogObjectId: variationId,
+              quantity: "1"
+            }
+          ]
+        }
       };
 
+      const orderResponse = await squareClient.ordersApi.createOrder(orderRequest);
+      const orderId = orderResponse.result.order.id;
+      const amountMoney = orderResponse.result.order.totalMoney;
+
+      // 2. Create Payment attached to the Order
       const paymentRequest = {
         sourceId,
         idempotencyKey,
-        amountMoney: money,
+        amountMoney: amountMoney,
+        orderId: orderId,
         note: paymentNote,
         locationId: SQUARE_LOCATION_ID,
       };
@@ -140,7 +193,7 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
       functions.logger.info("Payment successful", {
         class_iso,
         booking_type,
-        amount,
+        orderId
       });
 
       return res.status(200).json({ success: true, message: "Payment processed successfully" });

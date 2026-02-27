@@ -161,6 +161,7 @@
       width: 100%;
       display: inline-block;
       -webkit-appearance: -apple-pay-button;
+      appearance: -apple-pay-button;
       -apple-pay-button-type: plain;
       -apple-pay-button-style: black;
       cursor: pointer;
@@ -335,8 +336,34 @@
   <form id="booking-form">
     <h2>Class Booking Form</h2>
 
-    <!-- STEP 1: INFO & CLASS -->
+    <!-- STEP 1: CLASS SELECTION -->
     <div id="step-1" class="step active">
+      <h3>Choose Your Class</h3>
+
+      <!-- Hidden fields for Formspree -->
+      <input type="hidden" name="class_iso" id="class_iso" />
+      <input type="hidden" name="class_display" id="class_display" />
+      <input type="hidden" name="class_date" id="class_date" />
+      <input type="hidden" name="class_time" id="class_time" />
+      <input class="sr-only" id="class_required" required aria-hidden="true" />
+
+      <div class="picker-wrap">
+        <div class="picker-toolbar">
+          <!-- arrows aligned right -->
+          <button type="button" id="prevBtn" class="nav-btn" title="Previous">←</button>
+          <button type="button" id="nextBtn" class="nav-btn" title="Next">→</button>
+        </div>
+        <div class="sessions" id="sessions"></div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <button type="button" id="to-step-2-btn" class="btn">Next: Personal Details</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: PERSONAL INFO -->
+    <div id="step-2" class="step">
+      <h3>Personal Details</h3>
       <div class="grid two">
         <div><label>姓 (Last Name)*</label><input type="text" name="last_name" required></div>
         <div><label>名 (First Name)*</label><input type="text" name="first_name" required></div>
@@ -360,33 +387,14 @@
         <div><label>備考欄 (Notes)</label><textarea name="notes" rows="3"></textarea></div>
       </div>
 
-      <hr>
-
-      <h3>Choose Your Class</h3>
-
-      <!-- Hidden fields for Formspree -->
-      <input type="hidden" name="class_iso" id="class_iso" />
-      <input type="hidden" name="class_display" id="class_display" />
-      <input type="hidden" name="class_date" id="class_date" />
-      <input type="hidden" name="class_time" id="class_time" />
-      <input class="sr-only" id="class_required" required aria-hidden="true" />
-
-      <div class="picker-wrap">
-        <div class="picker-toolbar">
-          <!-- arrows aligned right -->
-          <button type="button" id="prevBtn" class="nav-btn" title="Previous">←</button>
-          <button type="button" id="nextBtn" class="nav-btn" title="Next">→</button>
-        </div>
-        <div class="sessions" id="sessions"></div>
-      </div>
-
-      <div style="margin-top:24px;">
-        <button type="button" id="next-step-btn" class="btn">Next</button>
+      <div class="actions">
+        <button type="button" id="back-to-step-1-btn" class="btn btn-secondary btn">Back</button>
+        <button type="button" id="to-step-3-btn" class="btn btn-primary btn">Next: Payment</button>
       </div>
     </div>
 
-    <!-- STEP 2: CONFIRM & PAY -->
-    <div id="step-2" class="step">
+    <!-- STEP 3: CONFIRM & PAY -->
+    <div id="step-3" class="step">
       <h3>Confirm Details</h3>
       <div class="summary-box">
         <div class="summary-grid" id="summary-content">
@@ -425,9 +433,25 @@
       </div>
 
       <div class="actions">
-        <button type="button" id="back-btn" class="btn btn-secondary btn">Back</button>
+        <button type="button" id="back-to-step-2-btn" class="btn btn-secondary btn">Back</button>
         <button type="submit" id="submit-btn" class="btn btn-primary btn">Pay & Book</button>
       </div>
+    </div>
+
+    <!-- STEP 4: SUCCESS -->
+    <div id="step-4" class="step" style="text-align: center; padding: 40px 20px;">
+      <div style="font-size: 48px; color: #2ecc71; margin-bottom: 20px;">✓</div>
+      <h3>Booking Successful!</h3>
+      <p style="margin-bottom: 20px; color: var(--muted);">Thank you for booking with us. Your payment has been
+        processed and your spot is confirmed.</p>
+
+      <div class="summary-box" style="text-align: left; margin-bottom: 30px;">
+        <div class="summary-grid" id="success-summary-content">
+          <!-- Populated by JS on Success -->
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="window.location.reload();">Book Another Class</button>
     </div>
 
   </form>
@@ -465,7 +489,9 @@
         // Fetch credentials
         const configRes = await fetch('/api/square/config');
         if (!configRes.ok) throw new Error('Failed to load Square config');
-        const { appId, locationId } = await configRes.json();
+        const { appId, locationId, pricing } = await configRes.json();
+
+        window.bookingPrice = pricing ? pricing.spartan : 4400;
 
         if (!appId || !locationId) throw new Error('Missing Square credentials');
 
@@ -475,12 +501,11 @@
         card = await payments.card();
         await card.attach('#card-container');
 
-        // Google Pay Init
         const paymentRequest = payments.paymentRequest({
-          countryCode: 'US',
-          currencyCode: 'USD',
+          countryCode: 'JP',
+          currencyCode: 'JPY',
           total: {
-            amount: '1.00',
+            amount: window.bookingPrice.toString(),
             label: 'Total',
           },
         });
@@ -628,6 +653,7 @@
           btn.dataset.iso = toISOLocal(dt);
           btn.dataset.date = toDateOnly(dt);
           btn.dataset.time = toTime12h(dt);
+          btn.dataset.display = fmtDisplay(dt);
           btn.innerHTML = `<span>${fmtDisplay(dt)}</span><span class="meta">${dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>`;
           btn.addEventListener('click', () => selectSession(btn));
           frag.appendChild(btn);
@@ -643,7 +669,7 @@
         sessionsEl.querySelectorAll('.session-btn[aria-checked="true"]').forEach(el => el.setAttribute('aria-checked', 'false'));
         btn.setAttribute('aria-checked', 'true');
         hiddenISO.value = btn.dataset.iso;
-        hiddenDisplay.value = btn.textContent.trim();
+        hiddenDisplay.value = btn.dataset.display;
         hiddenDate.value = btn.dataset.date;
         hiddenTime.value = btn.dataset.time;
         requiredGhost.value = 'selected';
@@ -654,11 +680,16 @@
 
       const bookingForm = document.getElementById('booking-form');
       const submitBtn = document.getElementById('submit-btn');
-      const nextStepBtn = document.getElementById('next-step-btn');
-      const backBtn = document.getElementById('back-btn');
+      const toStep2Btn = document.getElementById('to-step-2-btn');
+      const backToStep1Btn = document.getElementById('back-to-step-1-btn');
+      const toStep3Btn = document.getElementById('to-step-3-btn');
+      const backToStep2Btn = document.getElementById('back-to-step-2-btn');
       const step1 = document.getElementById('step-1');
       const step2 = document.getElementById('step-2');
+      const step3 = document.getElementById('step-3');
+      const step4 = document.getElementById('step-4');
       const summaryContent = document.getElementById('summary-content');
+      const successSummaryContent = document.getElementById('success-summary-content');
 
       let selectedPaymentMethod = 'card';
 
@@ -681,13 +712,27 @@
         }
       };
 
-      // Navigation ic
-      nextStepBtn.addEventListener('click', () => {
-        // Validate Step 1
+      // Navigation Logic
+      // Step 1 -> Step 2
+      toStep2Btn.addEventListener('click', () => {
         if (!hiddenISO.value) {
           requiredGhost.reportValidity();
           return;
         }
+        step1.classList.remove('active');
+        step2.classList.add('active');
+        window.scrollTo(0, 0);
+      });
+
+      // Step 2 -> Step 1
+      backToStep1Btn.addEventListener('click', () => {
+        step2.classList.remove('active');
+        step1.classList.add('active');
+        window.scrollTo(0, 0);
+      });
+
+      // Step 2 -> Step 3
+      toStep3Btn.addEventListener('click', () => {
         if (!bookingForm.checkValidity()) {
           bookingForm.reportValidity();
           return;
@@ -702,17 +747,22 @@
           <div class="summary-item"><label>Email</label><div>${fd.get('email') || '-'}</div></div>
           <div class="summary-item"><label>Address</label><div>${fd.get('address')}</div></div>
           <div class="summary-item"><label>Notes</label><div>${fd.get('notes') || '-'}</div></div>
+          <div class="summary-item" style="grid-column: span 2; margin-top: 8px; padding-top: 12px; border-top: 1px dashed var(--border);">
+            <label>Total Amount</label>
+            <div style="font-size: 18px; color: #111;">¥${window.bookingPrice.toLocaleString()}</div>
+          </div>
         `;
 
         // Switch Step
-        step1.classList.remove('active');
-        step2.classList.add('active');
+        step2.classList.remove('active');
+        step3.classList.add('active');
         window.scrollTo(0, 0);
       });
 
-      backBtn.addEventListener('click', () => {
-        step2.classList.remove('active');
-        step1.classList.add('active');
+      // Step 3 -> Step 2
+      backToStep2Btn.addEventListener('click', () => {
+        step3.classList.remove('active');
+        step2.classList.add('active');
         window.scrollTo(0, 0);
       });
 
@@ -757,8 +807,14 @@
           if (checkoutUrl) {
             window.location.href = checkoutUrl;
           } else {
-            alert("Booking Successful!");
-            window.location.reload();
+            // SUCCESS FLOW
+            // Copy the summary details to the success view layer
+            successSummaryContent.innerHTML = summaryContent.innerHTML;
+
+            // Hide Step 3 and Show Step 4
+            step3.classList.remove('active');
+            step4.classList.add('active');
+            window.scrollTo(0, 0);
           }
 
         } catch (err) {
@@ -774,10 +830,10 @@
       bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Already validated in Step 1, but safe to check
+        // Fallback Validation inside submission
         if (!hiddenISO.value || !bookingForm.checkValidity()) {
-          step2.classList.remove('active');
-          step1.classList.add('active');
+          step3.classList.remove('active');
+          step1.classList.add('active'); // Take to beginning if critical failure
           bookingForm.reportValidity();
           return;
         }
