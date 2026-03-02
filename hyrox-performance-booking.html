@@ -146,6 +146,69 @@
       color: var(--muted);
     }
 
+    /* WooCommerce form styles for Step 2 checkout mimicking */
+    .step .woocommerce-billing-fields__field-wrapper::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .step .form-row {
+      padding: 3px;
+      margin: 0 0 6px;
+    }
+
+    .step .form-row-first {
+      float: left;
+      width: 47%;
+    }
+
+    .step .form-row-last {
+      float: right;
+      width: 47%;
+    }
+
+    .step .form-row-wide {
+      clear: both;
+      width: 100%;
+    }
+
+    .step .form-row label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .step .form-row .required {
+      color: red;
+      font-weight: 700;
+      border: 0;
+      text-decoration: none;
+    }
+
+    .step .form-row .optional {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .step .form-row:hover .optional {
+      opacity: 1;
+    }
+
+    .step .woocommerce-input-wrapper {
+      display: block;
+    }
+
+    .step .input-text,
+    .step .select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
     .btn {
       appearance: none;
       border: none;
@@ -371,28 +434,92 @@
 
     <!-- STEP 2: PERSONAL INFO -->
     <div id="step-2" class="step">
-      <h3>Personal Details</h3>
-      <div class="grid two">
-        <div><label>姓 (Last Name)*</label><input type="text" name="last_name" required></div>
-        <div><label>名 (First Name)*</label><input type="text" name="first_name" required></div>
-        <div><label>セイ</label><input type="text" name="sei"></div>
-        <div><label>メイ</label><input type="text" name="mei"></div>
-        <div><label>国籍 (Country)*</label><input type="text" name="country" required></div>
-        <div><label>郵便番号 (Postal Code)*</label><input type="text" name="postal_code" required></div>
-        <div><label>住所 (Address)*</label><input type="text" name="address" required></div>
-        <div><label>電話番号 (Phone Number)*</label><input type="tel" name="phone" required></div>
-        <div><label>メール (Email)*</label><input type="email" name="email" required></div>
-        <div><label>生年月日 (Date of Birth)*</label><input type="date" name="dob" required></div>
-        <div>
-          <label>性別 (Sex)*</label>
-          <select name="sex" required>
-            <option value="">-- Select --</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div><label>備考欄 (Notes)</label><textarea name="notes" rows="3"></textarea></div>
+      <h3 class="form_title" style="margin-bottom: 20px;">
+        <p class="jp" style="margin-bottom: 0;">お客さま情報を入力してください</p>
+        <p class="text_en font_proxima" style="margin-top: 0; color: var(--muted); font-size: 14px;">Please enter your
+          customer information</p>
+      </h3>
+
+      <div class="woocommerce-billing-fields__field-wrapper">
+        <p class="form-row form-row-first thwcfd-field-wrapper thwcfd-field-text validate-required"
+          id="billing_last_name_field">
+          <label for="billing_last_name" class="">姓 (Last Name)&nbsp;<abbr class="required" title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="text" class="input-text" name="last_name"
+              id="billing_last_name" required></span>
+        </p>
+        <p class="form-row form-row-last thwcfd-field-wrapper thwcfd-field-text validate-required"
+          id="billing_first_name_field">
+          <label for="billing_first_name" class="">名 (First Name)&nbsp;<abbr class="required"
+              title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="text" class="input-text" name="first_name"
+              id="billing_first_name" required></span>
+        </p>
+        <p class="form-row form-row-first thwcfd-field-wrapper thwcfd-field-text" id="billing_last_name_kana_field">
+          <label for="billing_last_name_kana" class="">セイ&nbsp;<span class="optional">(オプション)</span></label>
+          <span class="woocommerce-input-wrapper"><input type="text" class="input-text" name="sei"
+              id="billing_last_name_kana"></span>
+        </p>
+        <p class="form-row form-row-last thwcfd-field-wrapper thwcfd-field-text" id="billing_first_name_kana_field">
+          <label for="billing_first_name_kana" class="">メイ&nbsp;<span class="optional">(オプション)</span></label>
+          <span class="woocommerce-input-wrapper"><input type="text" class="input-text" name="mei"
+              id="billing_first_name_kana"></span>
+        </p>
+        <p class="form-row form-row-first thwcfd-field-wrapper thwcfd-field-text validate-required"
+          id="billing_country_field">
+          <label for="billing_country" class="">国籍 (Country)&nbsp;<abbr class="required" title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="text" class="input-text" name="country"
+              id="billing_country" required></span>
+        </p>
+        <p class="form-row form-row-last address-field thwcfd-field-wrapper thwcfd-field-text validate-required validate-postcode"
+          id="billing_postcode_field">
+          <label for="billing_postcode" class="">郵便番号 (Postal Code)&nbsp;<abbr class="required"
+              title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="text" class="input-text" name="postal_code"
+              id="billing_postcode" required></span>
+        </p>
+        <p class="form-row form-row-wide thwcfd-field-wrapper thwcfd-field-text validate-required"
+          id="billing_address_field">
+          <label for="billing_address" class="">住所 (Address)&nbsp;<abbr class="required" title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="text" class="input-text" name="address"
+              id="billing_address" required></span>
+        </p>
+        <p class="form-row form-row-wide thwcfd-field-wrapper thwcfd-field-tel validate-required validate-phone"
+          id="billing_phone_field">
+          <label for="billing_phone" class="">電話番号 (Phone Number)&nbsp;<abbr class="required"
+              title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="tel" class="input-text" name="phone" id="billing_phone"
+              required></span>
+        </p>
+        <p class="form-row form-row-wide thwcfd-field-wrapper thwcfd-field-email validate-required validate-email"
+          id="billing_email_field">
+          <label for="billing_email" class="">メール (Email)&nbsp;<abbr class="required" title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="email" class="input-text" name="email" id="billing_email"
+              required></span>
+        </p>
+        <p class="form-row form-row-first thwcfd-field-wrapper thwcfd-field-text validate-required"
+          id="billing_birthday_field">
+          <label for="billing_birthday" class="">生年月日 (Date of Birth)&nbsp;<abbr class="required"
+              title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper"><input type="date" class="input-text" name="dob" id="billing_birthday"
+              required></span>
+        </p>
+        <p class="form-row form-row-last thwcfd-field-wrapper thwcfd-field-select validate-required"
+          id="billing_sex_field">
+          <label for="billing_sex" class="">性別 (Sex)&nbsp;<abbr class="required" title="必須">*</abbr></label>
+          <span class="woocommerce-input-wrapper">
+            <select name="sex" id="billing_sex" class="select thwcfd-enhanced-select" required>
+              <option value="">-- Select --</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </span>
+        </p>
+        <p class="form-row form-row-wide thwcfd-field-wrapper thwcfd-field-textarea" id="billing_notes_field">
+          <label for="billing_notes" class="">備考欄 (Notes)&nbsp;<span class="optional">(オプション)</span></label>
+          <span class="woocommerce-input-wrapper"><textarea name="notes" class="input-text" id="billing_notes"
+              rows="3"></textarea></span>
+        </p>
       </div>
 
       <div class="actions">
@@ -466,6 +593,9 @@
 
   <script>
     (async function () {
+      // Default price fallback
+      window.bookingPrice = 4950;
+
       const SCHEDULE = [
         [6, 17, 30],  // Saturday 5:30 PM
       ];
@@ -497,7 +627,9 @@
         if (!configRes.ok) throw new Error('Failed to load Square config');
         const { appId, locationId, pricing } = await configRes.json();
 
-        window.bookingPrice = pricing ? pricing.hyrox_performance : 4950;
+        if (pricing && pricing.hyrox_performance) {
+          window.bookingPrice = pricing.hyrox_performance;
+        }
 
         if (!appId || !locationId) throw new Error('Missing Square credentials');
 

@@ -15,8 +15,12 @@ const {
   SQUARE_ENVIRONMENT,
   SQUARE_ENV,
   SQUARE_LOCATION_ID,
-  CLASS_PRICE_MINOR = "4400", // amount in the smallest currency unit
-  CLASS_PRICE_CURRENCY = "JPY",
+  SPARTAN_ID,
+  DROPIN_ID,
+  HYROX_PERFORMANCE_ID,
+  HYROX_STRENGHT_ID,
+  TRIAL_ID,
+  BOOKING_NOTIFICATION_WEBHOOK,
 } = process.env;
 
 const resolvedEnv = (SQUARE_ENVIRONMENT || SQUARE_ENV || "sandbox").toLowerCase();
@@ -53,23 +57,27 @@ router.get(["/square/config", "/api/square/config"], async (req, res) => {
   let pricing = {
     spartan: 4400,
     hyrox_performance: 4950,
-    hyrox_strength: 4950
+    hyrox_strength: 4950,
+    trial: 0,
+    dropin: 0
   };
 
   try {
     const objectIds = [
-      "L2ZK4LQ4NSHSNUMZT4KUKX6F",
-      "AC6F2TS26EFKPNHNTR4GYQ63",
-      "FKFEI77GZUVRWKPNOXET7ZEL"
-    ];
+      SPARTAN_ID,
+      HYROX_PERFORMANCE_ID,
+      HYROX_STRENGHT_ID,
+      TRIAL_ID,
+      DROPIN_ID
+    ].filter(Boolean);
 
     if (squareClient && squareClient.catalogApi) {
       const response = await squareClient.catalogApi.batchRetrieveCatalogObjects({ objectIds });
       const objects = response.result.objects || [];
       if (objects.length > 0) {
-        const spartanObj = objects.find(o => o.id === "L2ZK4LQ4NSHSNUMZT4KUKX6F");
-        const hyroxPerfObj = objects.find(o => o.id === "AC6F2TS26EFKPNHNTR4GYQ63");
-        const hyroxStrObj = objects.find(o => o.id === "FKFEI77GZUVRWKPNOXET7ZEL");
+        const spartanObj = objects.find(o => o.id === SPARTAN_ID);
+        const hyroxPerfObj = objects.find(o => o.id === HYROX_PERFORMANCE_ID);
+        const hyroxStrObj = objects.find(o => o.id === HYROX_STRENGHT_ID);
 
         if (spartanObj && spartanObj.itemVariationData && spartanObj.itemVariationData.priceMoney) {
           pricing.spartan = Number(spartanObj.itemVariationData.priceMoney.amount);
@@ -79,6 +87,16 @@ router.get(["/square/config", "/api/square/config"], async (req, res) => {
         }
         if (hyroxStrObj && hyroxStrObj.itemVariationData && hyroxStrObj.itemVariationData.priceMoney) {
           pricing.hyrox_strength = Number(hyroxStrObj.itemVariationData.priceMoney.amount);
+        }
+
+        const trialObj = objects.find(o => o.id === TRIAL_ID);
+        const dropinObj = objects.find(o => o.id === DROPIN_ID);
+
+        if (trialObj && trialObj.itemVariationData && trialObj.itemVariationData.priceMoney) {
+          pricing.trial = Number(trialObj.itemVariationData.priceMoney.amount);
+        }
+        if (dropinObj && dropinObj.itemVariationData && dropinObj.itemVariationData.priceMoney) {
+          pricing.dropin = Number(dropinObj.itemVariationData.priceMoney.amount);
         }
       }
     }
@@ -92,6 +110,32 @@ router.get(["/square/config", "/api/square/config"], async (req, res) => {
     pricing
   });
 });
+
+/**
+ * Sends a notification to the configured webhook (Formspree)
+ * @param {Object} data Booking data
+ */
+async function sendBookingNotification(data) {
+  if (!BOOKING_NOTIFICATION_WEBHOOK) {
+    functions.logger.warn("BOOKING_NOTIFICATION_WEBHOOK is not defined. Skipping notification.");
+    return;
+  }
+
+  try {
+    const response = await fetch(BOOKING_NOTIFICATION_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Webhook responded with status ${response.status}`);
+    }
+    functions.logger.info("Booking notification sent successfully");
+  } catch (error) {
+    functions.logger.error("Failed to send booking notification", error);
+  }
+}
 
 router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
   try {
@@ -109,6 +153,11 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
       class_display,
       class_date,
       class_time,
+      address,
+      country,
+      postal_code,
+      sei,
+      mei,
       redirectUrl,
       booking_type = "spartan", // default to spartan
     } = req.body || {};
@@ -137,15 +186,21 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
     const idempotencyKey = generateIdempotencyKey();
 
     // Map booking type to Square Catalog Item Variation ID
-    let variationId = "L2ZK4LQ4NSHSNUMZT4KUKX6F"; // Default spartan
+    let variationId = SPARTAN_ID; // Default spartan
     let itemTitle = "Spartan Training";
 
     if (booking_type === "hyrox_performance") {
-      variationId = "AC6F2TS26EFKPNHNTR4GYQ63";
+      variationId = HYROX_PERFORMANCE_ID;
       itemTitle = "HYROX Race Performance";
     } else if (booking_type === "hyrox_strength") {
-      variationId = "FKFEI77GZUVRWKPNOXET7ZEL";
+      variationId = HYROX_STRENGHT_ID;
       itemTitle = "HYROX Strength & Conditioning";
+    } else if (booking_type === "trial") {
+      variationId = TRIAL_ID;
+      itemTitle = "Trial";
+    } else if (booking_type === "dropin") {
+      variationId = DROPIN_ID;
+      itemTitle = "Drop In";
     }
 
     const sessionLabel = `${class_date} ${class_time}`;
@@ -188,6 +243,28 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
       }
 
       await squareClient.paymentsApi.createPayment(paymentRequest);
+
+      // 3. Send Notification to Webhook
+      await sendBookingNotification({
+        status: "paid",
+        address,
+        class_date,
+        class_display,
+        class_iso,
+        class_time,
+        country,
+        dob,
+        email,
+        first_name,
+        last_name,
+        mei,
+        notes,
+        phone,
+        postal_code,
+        sei,
+        sex,
+        booking_type
+      });
 
       // Log success
       functions.logger.info("Payment successful", {

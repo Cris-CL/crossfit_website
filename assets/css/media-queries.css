@@ -318,10 +318,8 @@
     .hyrox_reserve_list li {
         position: relative;
     }
-    .hyrox_reserve_list li .inner .more_btn {
+    .hyrox_reserve_list li .inner .hyrox_cta_btn {
         padding-bottom: 6px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0);
-        transition: .3s;
     }
 
 }
