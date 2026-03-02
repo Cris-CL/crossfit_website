@@ -107,7 +107,8 @@ router.get(["/square/config", "/api/square/config"], async (req, res) => {
   return res.json({
     appId: SQUARE_APPLICATION_ID,
     locationId: SQUARE_LOCATION_ID,
-    pricing
+    environment: resolvedEnv,
+    pricing,
   });
 });
 

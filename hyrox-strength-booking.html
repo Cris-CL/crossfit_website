@@ -417,7 +417,6 @@
       flex: 2;
     }
   </style>
-  <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
 </head>
 
 <body>
@@ -637,14 +636,27 @@
       let payments, card, googlePay;
 
       try {
-        if (!window.Square) {
-          throw new Error('Square SDK failed to load');
-        }
-
         // Fetch credentials
         const configRes = await fetch('/api/square/config');
         if (!configRes.ok) throw new Error('Failed to load Square config');
-        const { appId, locationId, pricing } = await configRes.json();
+        const { appId, locationId, pricing, environment } = await configRes.json();
+
+        // Dynamically load Square SDK
+        const scriptUrl = environment === 'production'
+          ? 'https://web.squarecdn.com/v1/square.js'
+          : 'https://sandbox.web.squarecdn.com/v1/square.js';
+
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = scriptUrl;
+          script.onload = resolve;
+          script.onerror = () => reject(new Error('Failed to load Square SDK script'));
+          document.head.appendChild(script);
+        });
+
+        if (!window.Square) {
+          throw new Error('Square SDK failed to load after injection');
+        }
 
         if (pricing && pricing.hyrox_strength) {
           window.bookingPrice = pricing.hyrox_strength;
