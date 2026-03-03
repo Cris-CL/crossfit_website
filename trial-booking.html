@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Class Booking Form</title>
+  <title>Trial Lesson Booking Form</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -424,7 +424,7 @@
 <body>
 
   <form id="booking-form">
-    <h2>Class Booking Form</h2>
+    <h2>Trial Lesson Booking Form</h2>
 
     <!-- STEP 1: CLASS SELECTION -->
     <div id="step-1" class="step active">
@@ -615,9 +615,13 @@
       // Default price fallback
       window.bookingPrice = 4400;
 
-      // ====== Schedule: Only Saturdays at 4:00 PM ======
+      // ====== Schedule: Weekdays at 7:00 AM, 12:00 PM, 6:30 PM ======
       const SCHEDULE = [
-        [6, 16, 0],   // Saturday 4:00 PM
+        [1, 7, 0], [1, 12, 0], [1, 18, 30],
+        [2, 7, 0], [2, 12, 0], [2, 18, 30],
+        [3, 7, 0], [3, 12, 0], [3, 18, 30],
+        [4, 7, 0], [4, 12, 0], [4, 18, 30],
+        [5, 7, 0], [5, 12, 0], [5, 18, 30],
       ];
 
       const WINDOW_DAYS = 180;   // look ahead up to ~6 months for base list
@@ -661,7 +665,7 @@
           throw new Error('Square SDK failed to load after injection');
         }
 
-        window.bookingPrice = pricing ? pricing.spartan : 4400;
+        window.bookingPrice = pricing ? pricing.trial : 3300;
 
         if (!appId || !locationId) throw new Error('Missing Square credentials');
 
@@ -948,7 +952,7 @@
           const jsonData = Object.fromEntries(formData.entries());
 
           // Add specific fields
-          jsonData.booking_type = 'spartan';
+          jsonData.booking_type = 'trial';
           jsonData.class_iso = hiddenISO.value;
           jsonData.class_display = hiddenDisplay.value;
           jsonData.class_date = hiddenDate.value;
