@@ -96,8 +96,8 @@
 
   <div id="page_spartan">
     <!-- Title Section -->
-    <section class="page-title hyrox-page"
-      style="background: url('assets/img/hero.png') center/cover no-repeat; padding: 155px 0;">
+    <section id="hyrox-hero" class="page-title hyrox-page"
+      style="background: url('assets/img/hero.png') center/cover no-repeat; padding: 300px 0; transition: padding 0.5s ease;">
       <div class="com_inner">
         <h2 class="title font_proxima">HYROX</h2>
         <p class="sub-title">ハイロックス</p>
@@ -295,6 +295,10 @@
         // Change background to white
         document.getElementById('page_spartan').style.backgroundColor = '#fff';
 
+        // Shrink hero image
+        const hero = document.getElementById('hyrox-hero');
+        if (hero) hero.style.padding = '120px 0';
+
         // Scroll to the booking section
         window.scrollTo({
           top: about.offsetTop - 100,
@@ -316,6 +320,10 @@
 
         // Change background back to black
         document.getElementById('page_spartan').style.backgroundColor = '#000';
+
+        // Restore hero image size
+        const hero = document.getElementById('hyrox-hero');
+        if (hero) hero.style.padding = '300px 0';
 
         // Scroll back to classes section
         classes.scrollIntoView({ behavior: 'smooth' });
