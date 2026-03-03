@@ -319,6 +319,16 @@
         // Scroll back to classes section
         classes.scrollIntoView({ behavior: 'smooth' });
       }
+
+      // Listen for resize messages from the booking iframe
+      window.addEventListener('message', function (event) {
+        if (event.data && event.data.type === 'resize-iframe') {
+          const iframe = document.getElementById('booking-iframe');
+          if (iframe) {
+            iframe.style.height = event.data.height + 'px';
+          }
+        }
+      }, false);
     </script>
 
     <!-- com_sec_link Section -->

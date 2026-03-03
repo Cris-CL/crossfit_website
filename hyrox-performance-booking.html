@@ -872,6 +872,7 @@
         step1.classList.remove('active');
         step2.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 2 -> Step 1
@@ -879,6 +880,7 @@
         step2.classList.remove('active');
         step1.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 2 -> Step 3
@@ -907,6 +909,7 @@
         step2.classList.remove('active');
         step3.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 3 -> Step 2
@@ -914,6 +917,7 @@
         step3.classList.remove('active');
         step2.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Reusable Submission Logic
@@ -965,6 +969,7 @@
             step3.classList.remove('active');
             step4.classList.add('active');
             window.scrollTo(0, 0);
+            sendHeight();
           }
 
         } catch (err) {
@@ -1010,11 +1015,20 @@
         }
       });
 
+      function sendHeight() {
+        const height = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
+      }
+
+      // Send height on initial load and whenever steps change
+      window.addEventListener('load', sendHeight);
+
       function init() {
         const now = new Date();
         const base = Array.from(baseSessions(now, WINDOW_DAYS, SCHEDULE));
         list = applyOverrides(base, now, WINDOW_DAYS).slice(0, MAX_CLASSES);
         renderPage();
+        sendHeight();
       }
 
       init();
