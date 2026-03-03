@@ -611,6 +611,28 @@ ol, ul {
     align-self: flex-end;
     margin-left: 95px;
 }
+
+.hyrox-detail-table tr {
+    border-bottom: 1px solid #333;
+}
+
+.hyrox-detail-table th {
+    text-align: left;
+    padding: 15px 0;
+    width: 30%;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #666;
+    vertical-align: top;
+}
+
+.hyrox-detail-table td {
+    padding: 15px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.6;
+}
+
 .grad_btn {
     width: 370px;
     background: linear-gradient(to right, #ff3b04, #ce1125 50%, #a60022);
