@@ -1047,6 +1047,14 @@
         }
       });
 
+      function init() {
+        const now = new Date();
+        const base = Array.from(baseSessions(now, WINDOW_DAYS, SCHEDULE));
+        list = applyOverrides(base, now, WINDOW_DAYS).slice(0, MAX_CLASSES);
+        renderPage();
+        sendHeight();
+      }
+
       init();
 
       window.addEventListener('load', sendHeight);
