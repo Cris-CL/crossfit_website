@@ -892,6 +892,7 @@
         step1.classList.remove('active');
         step2.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 2 -> Step 1
@@ -899,6 +900,7 @@
         step2.classList.remove('active');
         step1.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 2 -> Step 3
@@ -927,6 +929,7 @@
         step2.classList.remove('active');
         step3.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 3 -> Step 2
@@ -934,6 +937,7 @@
         step3.classList.remove('active');
         step2.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Reusable Submission Logic
@@ -985,6 +989,7 @@
             step3.classList.remove('active');
             step4.classList.add('active');
             window.scrollTo(0, 0);
+            sendHeight();
           }
 
         } catch (err) {
@@ -1039,6 +1044,17 @@
 
       init();
     })();
+
+    function sendHeight() {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({
+        type: 'resize-iframe',
+        height: height
+      }, '*');
+    }
+
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
   </script>
 </body>
 
