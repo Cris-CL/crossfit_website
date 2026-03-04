@@ -14,7 +14,7 @@
     "rewrites": [
       {
         "source": "/api/**",
-        "function": "api"
+        "function": "apiV2"
       }
     ]
   },

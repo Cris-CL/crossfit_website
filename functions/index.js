@@ -297,4 +297,4 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
   }
 });
 
-exports.api = functions.https.onRequest(router);
+exports.apiV2 = functions.https.onRequest(router);
