@@ -611,6 +611,11 @@
   </form>
 
   <script>
+    function sendHeight() {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({ height: height }, '*');
+    }
+
     (async function () {
       // Default price fallback
       window.bookingPrice = 4400;
@@ -838,6 +843,8 @@
         // Update nav state without showing "Page x of y"
         prevBtn.disabled = page === 0;
         nextBtn.disabled = start + DISPLAY_COUNT >= list.length;
+
+        sendHeight();
       }
 
       function selectSession(btn) {
@@ -897,6 +904,7 @@
         step1.classList.remove('active');
         step2.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 2 -> Step 1
@@ -904,6 +912,7 @@
         step2.classList.remove('active');
         step1.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 2 -> Step 3
@@ -932,6 +941,7 @@
         step2.classList.remove('active');
         step3.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Step 3 -> Step 2
@@ -939,6 +949,7 @@
         step3.classList.remove('active');
         step2.classList.add('active');
         window.scrollTo(0, 0);
+        sendHeight();
       });
 
       // Reusable Submission Logic
@@ -990,6 +1001,7 @@
             step3.classList.remove('active');
             step4.classList.add('active');
             window.scrollTo(0, 0);
+            sendHeight();
           }
 
         } catch (err) {
@@ -1035,14 +1047,10 @@
         }
       });
 
-      function init() {
-        const now = new Date();
-        const base = Array.from(baseSessions(now, WINDOW_DAYS, SCHEDULE));
-        list = applyOverrides(base, now, WINDOW_DAYS).slice(0, MAX_CLASSES);
-        renderPage();
-      }
-
       init();
+
+      window.addEventListener('load', sendHeight);
+      window.addEventListener('resize', sendHeight);
     })();
   </script>
 </body>

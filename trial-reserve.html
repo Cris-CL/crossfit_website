@@ -127,8 +127,18 @@
           </ul>
         </div>
         <div class="com_inner">
-          <iframe src="trial-booking.html" class="booking-frame" title="Book Trial Lesson"></iframe>
+          <iframe id="booking-iframe" src="trial-booking.html" class="booking-frame" title="Book Trial Lesson"></iframe>
         </div>
+        <script>
+          window.addEventListener('message', function (event) {
+            if (event.data && event.data.height) {
+              const iframe = document.getElementById('booking-iframe');
+              if (iframe) {
+                iframe.style.height = event.data.height + 'px';
+              }
+            }
+          });
+        </script>
     </section>
     <!-- com_sec_link Section -->
     <section class="com_sec_link">
