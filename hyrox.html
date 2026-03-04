@@ -307,9 +307,12 @@
         // Change background to white
         document.getElementById('page_spartan').style.backgroundColor = '#fff';
 
-        // Shrink hero image
+        // Shrink hero image and change background
         const hero = document.getElementById('hyrox-hero');
-        if (hero) hero.style.padding = '120px 0';
+        if (hero) {
+          hero.style.padding = '120px 0';
+          hero.style.backgroundImage = "url('assets/img/Hyrox_B.webp')";
+        }
 
         // Scroll to the booking section
         window.scrollTo({
@@ -333,9 +336,12 @@
         // Change background back to black
         document.getElementById('page_spartan').style.backgroundColor = '#000';
 
-        // Restore hero image size
+        // Restore hero image size and background
         const hero = document.getElementById('hyrox-hero');
-        if (hero) hero.style.padding = '300px 0';
+        if (hero) {
+          hero.style.padding = '300px 0';
+          hero.style.backgroundImage = "url('assets/img/hero.png')";
+        }
 
         // Scroll back to classes section
         classes.scrollIntoView({ behavior: 'smooth' });
