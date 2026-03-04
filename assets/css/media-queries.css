@@ -980,6 +980,34 @@
         margin-top: 50px;
         padding: 0 17px;
     }
+    #page_schedule .sec_schedule .schedule_hero {
+        margin-top: 40px;
+    }
+    #page_schedule .sec_schedule .schedule_calendar_wrap {
+        margin-top: 38px;
+        padding: 0 6px;
+    }
+    #page_schedule .sec_schedule .schedule_head {
+        display: none;
+    }
+    #page_schedule .sec_schedule .schedule_grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    #page_schedule .sec_schedule .schedule_table th,
+    #page_schedule .sec_schedule .schedule_table td {
+        font-size: 10px;
+        padding: 7px 4px;
+    }
+    #page_schedule .sec_schedule .schedule_table th {
+        width: 31%;
+    }
+    #page_schedule .sec_schedule .schedule_table_weekend {
+        margin-top: 2px;
+    }
+    #page_schedule .sec_schedule .schedule_notes {
+        font-size: 11px;
+    }
     br.br_pc {
         display: none;
     }
