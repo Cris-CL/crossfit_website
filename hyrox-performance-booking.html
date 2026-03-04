@@ -5,33 +5,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Class Booking Form</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
-  <!-- Assuming Proxima Nova from Typekit or similar, or fallbacks -->
   <style>
     :root {
       --accent: #e11d48;
       /* red */
-      --border: #e2e8f0;
+      --border: #e5e7eb;
       /* gray-200 */
-      --text: #0f172a;
+      --text: #111827;
       /* gray-900 */
-      --muted: #64748b;
+      --muted: #6b7280;
       /* gray-500 */
     }
 
     body {
-      font-family: 'Noto Sans JP', 'Proxima Nova', sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       color: var(--text);
-    }
-
-    booking-form {
-      overflow: hidden;
-      height: fit-content;
-
     }
 
     form {
@@ -66,17 +54,9 @@
     textarea {
       width: 100%;
       padding: 10px 12px;
-      background-color: #f5f5f5;
-      border: none;
+      border: 1px solid var(--border);
       border-radius: 8px;
       box-sizing: border-box;
-      font-family: 'Proxima Nova', 'Noto Sans JP', sans-serif;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      outline: 2px solid var(--accent);
     }
 
     textarea {
@@ -98,10 +78,13 @@
     .picker-toolbar {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      /* 👉 arrows on the right */
-      gap: 8px;
+      justify-content: space-between;
       margin-bottom: 8px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 8px;
     }
 
     .nav-btn {
@@ -117,6 +100,11 @@
 
     .nav-btn:hover {
       background: #e5e7eb;
+    }
+
+    .count {
+      font-size: 14px;
+      color: var(--muted);
     }
 
     .sessions {
@@ -206,7 +194,6 @@
 
     .step .form-row:hover .optional {
       opacity: 1;
-      /* Match the example's CSS where .optional is opacity: 0 but should be visible maybe later */
     }
 
     .step .woocommerce-input-wrapper {
@@ -217,16 +204,9 @@
     .step .select {
       width: 100%;
       padding: 10px;
-      background-color: #f5f5f5;
-      border: none;
+      border: 1px solid var(--border);
       border-radius: 4px;
       box-sizing: border-box;
-      font-family: inherit;
-    }
-
-    .step .input-text:focus,
-    .step .select:focus {
-      outline: 2px solid var(--accent);
     }
 
     .btn {
@@ -424,13 +404,13 @@
 <body>
 
   <form id="booking-form">
-    <h2>Class Booking Form</h2>
+    <h2>HYROX Race Performance</h2>
 
     <!-- STEP 1: CLASS SELECTION -->
     <div id="step-1" class="step active">
       <h3>Choose Your Class</h3>
+      <p class="meta">Showing 6 classes at a time (from the next 26 available).</p>
 
-      <!-- Hidden fields for Formspree -->
       <input type="hidden" name="class_iso" id="class_iso" />
       <input type="hidden" name="class_display" id="class_display" />
       <input type="hidden" name="class_date" id="class_date" />
@@ -439,8 +419,8 @@
 
       <div class="picker-wrap">
         <div class="picker-toolbar">
-          <!-- arrows aligned right -->
           <button type="button" id="prevBtn" class="nav-btn" title="Previous">←</button>
+          <div class="count" id="count"></div>
           <button type="button" id="nextBtn" class="nav-btn" title="Next">→</button>
         </div>
         <div class="sessions" id="sessions"></div>
@@ -613,26 +593,24 @@
   <script>
     (async function () {
       // Default price fallback
-      window.bookingPrice = 4400;
+      window.bookingPrice = 4950;
 
-      // ====== Schedule: Only Saturdays at 4:00 PM ======
       const SCHEDULE = [
-        [6, 16, 0],   // Saturday 4:00 PM
+        [6, 17, 30],  // Saturday 5:30 PM
       ];
 
-      const WINDOW_DAYS = 180;   // look ahead up to ~6 months for base list
-      const DISPLAY_COUNT = 6;   // 6 per page
-      const MAX_CLASSES = 26;    // show 26 total
+      const WINDOW_DAYS = 90;
+      const DISPLAY_COUNT = 6;
+      const MAX_CLASSES = 26;
 
-      // Holiday/override options
       const BLACKOUT_DATES = [
-        // '2025-12-28'
+        // '2025-12-24', '2025-12-31'
       ];
       const REPLACEMENTS = {
-        // '2025-12-14T16:00': '2025-12-15T16:00'
+        // '2025-12-27T17:30': '2025-12-28T15:00'
       };
       const ADDITIONAL_SESSIONS = [
-        // '2025-12-22T16:00'
+        // '2025-12-29T19:00'
       ];
 
       // Square SDK Init: Fetch config from backend
@@ -661,7 +639,9 @@
           throw new Error('Square SDK failed to load after injection');
         }
 
-        window.bookingPrice = pricing ? pricing.spartan : 4400;
+        if (pricing && pricing.hyrox_performance) {
+          window.bookingPrice = pricing.hyrox_performance;
+        }
 
         if (!appId || !locationId) throw new Error('Missing Square credentials');
 
@@ -737,13 +717,14 @@
         console.error("Initializing Square failed", e);
       }
 
-      // DOM elements
       const sessionsEl = document.getElementById('sessions');
+      const countEl = document.getElementById('count');
       const hiddenISO = document.getElementById('class_iso');
       const hiddenDisplay = document.getElementById('class_display');
       const hiddenDate = document.getElementById('class_date');
       const hiddenTime = document.getElementById('class_time');
       const requiredGhost = document.getElementById('class_required');
+
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
 
@@ -814,7 +795,7 @@
         const items = list.slice(start, start + DISPLAY_COUNT);
         sessionsEl.innerHTML = '';
         const frag = document.createDocumentFragment();
-        items.forEach((dt) => {
+        items.forEach((dt, i) => {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'session-btn';
@@ -829,8 +810,7 @@
           frag.appendChild(btn);
         });
         sessionsEl.appendChild(frag);
-
-        // Update nav state without showing "Page x of y"
+        countEl.textContent = `Page ${page + 1} of ${Math.ceil(list.length / DISPLAY_COUNT)}`;
         prevBtn.disabled = page === 0;
         nextBtn.disabled = start + DISPLAY_COUNT >= list.length;
       }
@@ -952,7 +932,7 @@
           const jsonData = Object.fromEntries(formData.entries());
 
           // Add specific fields
-          jsonData.booking_type = 'spartan';
+          jsonData.booking_type = 'hyrox_performance';
           jsonData.class_iso = hiddenISO.value;
           jsonData.class_display = hiddenDisplay.value;
           jsonData.class_date = hiddenDate.value;
@@ -963,7 +943,7 @@
             jsonData.sourceId = sourceId;
           }
 
-          // Redirect URL for after payment (optional, can be current page)
+          // Redirect URL
           jsonData.redirectUrl = window.location.href;
 
           const res = await fetch('/api/square/bookings', {
@@ -1035,26 +1015,24 @@
         }
       });
 
+      function sendHeight() {
+        const height = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
+      }
+
+      // Send height on initial load and whenever steps change
+      window.addEventListener('load', sendHeight);
+
       function init() {
         const now = new Date();
         const base = Array.from(baseSessions(now, WINDOW_DAYS, SCHEDULE));
         list = applyOverrides(base, now, WINDOW_DAYS).slice(0, MAX_CLASSES);
         renderPage();
+        sendHeight();
       }
 
       init();
     })();
-
-    function sendHeight() {
-      const height = document.body.scrollHeight;
-      window.parent.postMessage({
-        type: 'resize-iframe',
-        height: height
-      }, '*');
-    }
-
-    window.addEventListener('load', sendHeight);
-    window.addEventListener('resize', sendHeight);
   </script>
 </body>
 

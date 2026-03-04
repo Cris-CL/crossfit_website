@@ -15,8 +15,12 @@ const {
   SQUARE_ENVIRONMENT,
   SQUARE_ENV,
   SQUARE_LOCATION_ID,
-  CLASS_PRICE_MINOR = "4400", // amount in the smallest currency unit
-  CLASS_PRICE_CURRENCY = "JPY",
+  SPARTAN_ID,
+  DROPIN_ID,
+  HYROX_PERFORMANCE_ID,
+  HYROX_STRENGHT_ID,
+  TRIAL_ID,
+  BOOKING_NOTIFICATION_WEBHOOK,
 } = process.env;
 
 const resolvedEnv = (SQUARE_ENVIRONMENT || SQUARE_ENV || "sandbox").toLowerCase();
@@ -45,15 +49,94 @@ router.use(express.json());
 
 const generateIdempotencyKey = () => customAlphabet("0123456789abcdef", 24)();
 
-router.get(["/square/config", "/api/square/config"], (req, res) => {
+router.get(["/square/config", "/api/square/config"], async (req, res) => {
   if (!SQUARE_APPLICATION_ID || !SQUARE_LOCATION_ID) {
     return res.status(500).json({ message: "Configuration missing" });
   }
+
+  let pricing = {
+    spartan: 4400,
+    hyrox_performance: 4950,
+    hyrox_strength: 4950,
+    trial: 0,
+    dropin: 0
+  };
+
+  try {
+    const objectIds = [
+      SPARTAN_ID,
+      HYROX_PERFORMANCE_ID,
+      HYROX_STRENGHT_ID,
+      TRIAL_ID,
+      DROPIN_ID
+    ].filter(Boolean);
+
+    if (squareClient && squareClient.catalogApi) {
+      const response = await squareClient.catalogApi.batchRetrieveCatalogObjects({ objectIds });
+      const objects = response.result.objects || [];
+      if (objects.length > 0) {
+        const spartanObj = objects.find(o => o.id === SPARTAN_ID);
+        const hyroxPerfObj = objects.find(o => o.id === HYROX_PERFORMANCE_ID);
+        const hyroxStrObj = objects.find(o => o.id === HYROX_STRENGHT_ID);
+
+        if (spartanObj && spartanObj.itemVariationData && spartanObj.itemVariationData.priceMoney) {
+          pricing.spartan = Number(spartanObj.itemVariationData.priceMoney.amount);
+        }
+        if (hyroxPerfObj && hyroxPerfObj.itemVariationData && hyroxPerfObj.itemVariationData.priceMoney) {
+          pricing.hyrox_performance = Number(hyroxPerfObj.itemVariationData.priceMoney.amount);
+        }
+        if (hyroxStrObj && hyroxStrObj.itemVariationData && hyroxStrObj.itemVariationData.priceMoney) {
+          pricing.hyrox_strength = Number(hyroxStrObj.itemVariationData.priceMoney.amount);
+        }
+
+        const trialObj = objects.find(o => o.id === TRIAL_ID);
+        const dropinObj = objects.find(o => o.id === DROPIN_ID);
+
+        if (trialObj && trialObj.itemVariationData && trialObj.itemVariationData.priceMoney) {
+          pricing.trial = Number(trialObj.itemVariationData.priceMoney.amount);
+        }
+        if (dropinObj && dropinObj.itemVariationData && dropinObj.itemVariationData.priceMoney) {
+          pricing.dropin = Number(dropinObj.itemVariationData.priceMoney.amount);
+        }
+      }
+    }
+  } catch (error) {
+    functions.logger.error("Failed to fetch catalog pricing", error.errors ?? error);
+  }
+
   return res.json({
     appId: SQUARE_APPLICATION_ID,
-    locationId: SQUARE_LOCATION_ID
+    locationId: SQUARE_LOCATION_ID,
+    environment: resolvedEnv,
+    pricing,
   });
 });
+
+/**
+ * Sends a notification to the configured webhook (Formspree)
+ * @param {Object} data Booking data
+ */
+async function sendBookingNotification(data) {
+  if (!BOOKING_NOTIFICATION_WEBHOOK) {
+    functions.logger.warn("BOOKING_NOTIFICATION_WEBHOOK is not defined. Skipping notification.");
+    return;
+  }
+
+  try {
+    const response = await fetch(BOOKING_NOTIFICATION_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Webhook responded with status ${response.status}`);
+    }
+    functions.logger.info("Booking notification sent successfully");
+  } catch (error) {
+    functions.logger.error("Failed to send booking notification", error);
+  }
+}
 
 router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
   try {
@@ -71,6 +154,11 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
       class_display,
       class_date,
       class_time,
+      address,
+      country,
+      postal_code,
+      sei,
+      mei,
       redirectUrl,
       booking_type = "spartan", // default to spartan
     } = req.body || {};
@@ -98,35 +186,55 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
 
     const idempotencyKey = generateIdempotencyKey();
 
-    // Determine price and label based on booking type
-    let amount = 4400; // default spartan
+    // Map booking type to Square Catalog Item Variation ID
+    let variationId = SPARTAN_ID; // Default spartan
     let itemTitle = "Spartan Training";
 
-    if (booking_type === "hyrox") {
-      amount = 4950;
-      itemTitle = "HYROX Training";
-    } else if (booking_type === "spartan") {
-      amount = 4400;
-      itemTitle = "Spartan Training";
+    if (booking_type === "hyrox_performance") {
+      variationId = HYROX_PERFORMANCE_ID;
+      itemTitle = "HYROX Race Performance";
+    } else if (booking_type === "hyrox_strength") {
+      variationId = HYROX_STRENGHT_ID;
+      itemTitle = "HYROX Strength & Conditioning";
+    } else if (booking_type === "trial") {
+      variationId = TRIAL_ID;
+      itemTitle = "Trial";
+    } else if (booking_type === "dropin") {
+      variationId = DROPIN_ID;
+      itemTitle = "Drop In";
     }
 
-    const sessionLabel =
-      class_display || `${class_date} ${class_time}` || class_iso;
-    const buyerName = `${first_name || ""} ${last_name || ""}`.trim() ||
-      "Athlete";
-    const paymentNote = `${itemTitle} ${sessionLabel} for ${buyerName}`;
+    const sessionLabel = `${class_date} ${class_time}`;
+    const buyerName = `${first_name || ""} ${last_name || ""}`.trim() || "Athlete";
+    const buyerDetails = [buyerName, email, phone].filter(Boolean).join(" / ");
+    const paymentNote = `${itemTitle} ${sessionLabel} for ${buyerDetails}`;
 
     // Inline Payment Flow
     if (sourceId) {
-      const money = {
-        amount: BigInt(amount), // Square Node SDK uses BigInt for money
-        currency: CLASS_PRICE_CURRENCY,
+      // 1. Create Order using the Catalog Variation ID
+      const orderRequest = {
+        idempotencyKey: generateIdempotencyKey(),
+        order: {
+          locationId: SQUARE_LOCATION_ID,
+          lineItems: [
+            {
+              catalogObjectId: variationId,
+              quantity: "1"
+            }
+          ]
+        }
       };
 
+      const orderResponse = await squareClient.ordersApi.createOrder(orderRequest);
+      const orderId = orderResponse.result.order.id;
+      const amountMoney = orderResponse.result.order.totalMoney;
+
+      // 2. Create Payment attached to the Order
       const paymentRequest = {
         sourceId,
         idempotencyKey,
-        amountMoney: money,
+        amountMoney: amountMoney,
+        orderId: orderId,
         note: paymentNote,
         locationId: SQUARE_LOCATION_ID,
       };
@@ -137,11 +245,33 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
 
       await squareClient.paymentsApi.createPayment(paymentRequest);
 
+      // 3. Send Notification to Webhook
+      await sendBookingNotification({
+        status: "paid",
+        address,
+        class_date,
+        class_display,
+        class_iso,
+        class_time,
+        country,
+        dob,
+        email,
+        first_name,
+        last_name,
+        mei,
+        notes,
+        phone,
+        postal_code,
+        sei,
+        sex,
+        booking_type
+      });
+
       // Log success
       functions.logger.info("Payment successful", {
         class_iso,
         booking_type,
-        amount,
+        orderId
       });
 
       return res.status(200).json({ success: true, message: "Payment processed successfully" });

@@ -5,20 +5,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Class Booking Form</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
+  <!-- Assuming Proxima Nova from Typekit or similar, or fallbacks -->
   <style>
     :root {
       --accent: #e11d48;
       /* red */
-      --border: #e5e7eb;
+      --border: #e2e8f0;
       /* gray-200 */
-      --text: #111827;
+      --text: #0f172a;
       /* gray-900 */
-      --muted: #6b7280;
+      --muted: #64748b;
       /* gray-500 */
     }
 
     body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family: 'Noto Sans JP', 'Proxima Nova', sans-serif;
       color: var(--text);
     }
 
@@ -54,9 +60,17 @@
     textarea {
       width: 100%;
       padding: 10px 12px;
-      border: 1px solid var(--border);
+      background-color: #f5f5f5;
+      border: none;
       border-radius: 8px;
       box-sizing: border-box;
+      font-family: 'Proxima Nova', 'Noto Sans JP', sans-serif;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid var(--accent);
     }
 
     textarea {
@@ -169,6 +183,7 @@
       width: 100%;
       display: inline-block;
       -webkit-appearance: -apple-pay-button;
+      appearance: -apple-pay-button;
       -apple-pay-button-type: plain;
       -apple-pay-button-style: black;
       cursor: pointer;

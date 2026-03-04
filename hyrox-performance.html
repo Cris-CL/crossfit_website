@@ -4,11 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRIAL</title>
+  <title>HYROX Race Performance</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/media-queries.css">
+
+
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +22,18 @@
   <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
+
+  <!--Custom Style-->
+  <style>
+    /* minimal styles for the inserted section */
+    .booking-frame {
+      width: 100%;
+      border: none;
+      min-height: 800px;
+      /* starting height, can be adjusted */
+      margin-top: 20px;
+    }
+  </style>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -71,7 +85,7 @@
         <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
         <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
         <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
-        <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+        <li><a href="hyrox.html" class="active">ハイロックス<span>HYROX</span></a></li>
         <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
         <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
       </ul>
@@ -80,34 +94,98 @@
         class="jp">体験レッスン</span></a>
   </header>
 
-  <div id="page_trial">
+  <div id="page_spartan">
     <!-- Title Section -->
-    <section class="page-title trial-page">
+    <section class="page-title hyrox-page"
+      style="background: url('assets/img/hero.png') center/cover no-repeat; padding: 300px 0;">
       <div class="com_column">
-        <h2>TRIAL</h2>
-        <p class="sub-title">体験レッスン</p>
+        <h2>HYROX <br>Race Performance</h2>
+        <p class="sub-title">ハイロックス</p>
       </div>
     </section>
-    <!-- sec_trial -->
-    <section class="com_sec_lesson trial">
+    <!-- About Section -->
+    <section class="sec_spartan">
       <div class="com_inner">
         <h3 class="com_large_title">
           <p class="jp">
-            <font dir="auto" style="vertical-align: inherit;"></font><br class="br_pc">
+            HYROX Race Performance<br>ハイロックス・レースパフォーマンス
+          </p>
+          <p class="text_en font_proxima" style="margin-top: 20px; font-size: 1.2rem; line-height: 1.6;">
+            <strong>COMPETITORS RACING</strong><br>
+            このクラスは、HYROXに関連する筋力とコンディショニングだけでなく、8つのHYROXステーションのスキルとテクニックを習得することに重点を置いています。また、レースへの準備方法や自己ベストを更新するためのヒントも提供します。初めてレースに参加される方や、レース経験のある方にも対応しています。
+          </p>
+        </h3>
+
+        <div class="text_wrap" style="margin-top: 30px;">
+          <p class="text_en font_proxima">
+            This class is designed for those wanting not only HYROX-related strength and conditioning, but with an
+            added focus on mastering the skills and techniques of the 8 HYROX stations, as well as tips on how to
+            prepare for the race and get your best time ever. The class can accommodate both first-time racers or
+            those with race experience.<br><br>
+            This class is led by Coach Marc, an L-1 certified HYROX Performance Coach and multiple AG podium winnner.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!------Com Section Coach---->
+    <section class="sec_coach bg_gray" style="background-color: #f2f2f2;">
+      <div class="com_inner">
+        <div class="text_wrap">
+          <p class="t_gray2 font_proxima">
             <font dir="auto" style="vertical-align: inherit;">
-              <font dir="auto" style="vertical-align: inherit;">We will support you in your first CrossFit experience
+              <font dir="auto" style="vertical-align: inherit;">COACH</font>
+            </font>
+          </p>
+          <p class="t_gray3">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Spartan SGX Certified Coach</font>
+            </font>
+          </p>
+          <h3 class="name font_proxima extra">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">MARC</font>
+            </font>
+          </h3>
+          <p class="text_jp">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Spartan SGX認定コーチであるマークが担当します。</font>
+            </font><br>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">
+                25年以上のコーチ歴と、数千人以上への指導経験を活かし、効果的かつ実践的なプログラムを提供しています。なかでも得意とするのが、効果的なランニングフォームの指導。スパルタンレースでの重要なカギとなるランニングのパフォーマンス向上を目指し、本番を想定したペースでの指導を行っています。その実力はリーボックジャパンでも認められ、エリートコーチとしてランニングセミナーも開催しています。
+
               </font>
-              <font dir="auto" style="vertical-align: inherit;">, tailored to your goals and condition .</font>
             </font>
           </p>
           <p class="text_en font_proxima">
             <font dir="auto" style="vertical-align: inherit;">
-              <font dir="auto" style="vertical-align: inherit;">New to CrossFit? We'll tailor your first experience to
-                match your goals and current physical condition.</font>
+              <font dir="auto" style="vertical-align: inherit;">Training is led by Marc Keen, Japan's 1st Spartan SGX
+                certified coach and multiple-race podium finisher. </font>
+            </font><br>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Marc is also a CrossFit L1 trainer and ACSM personal
+                trainer with over 20 years experience. He has helped prepare thousands of racers since the start of
+                Spartan Race Japan in 2016. Competing in Spartan racing since 2011, Marc knows well as both a coach and
+                athlete what is needed to finish strong in races.</font>
             </font>
           </p>
-        </h3>
-
+          <a href="https://www.instagram.com/coachmarc.official/" target="_blank" class="insta_link font_proxima">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">@coachmarc.official</font>
+            </font>
+          </a>
+        </div>
+        <div class="photo">
+          <picture>
+            <source media="(max-width:767px)" srcset="assets/img/coach_sp.jpg">
+            <img src="assets/img/coach2.jpg" alt="Spartan SGX Certified Coach MARC">
+          </picture>
+        </div>
+      </div>
+    </section>
+    <!------Com Section Lession---->
+    <section class="com_sec_lesson spartan">
+      <div class="com_inner">
         <ul class="info_list">
           <li>
             <h4 class="com_title">
@@ -125,7 +203,7 @@
             <div class="content price_area">
               <p class="price font_proxima extra">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">¥3,300</font>
+                  <font dir="auto" style="vertical-align: inherit;">¥4,950</font>
                 </font>
               </p>
               <p class="tax">
@@ -158,14 +236,19 @@
             <div class="content">
               <p class="text_jp">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">The trial lesson is open to anyone who is trying
-                    CrossFit for the first time and who lives or works near Tokyo.</font>
+                  <font dir="auto" style="vertical-align: inherit;">15名まで参加可能。</font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">初めてレースに参加される方や、レース経験のある方にも対応しています。</font>
                 </font>
               </p>
               <p class="text_en font_proxima">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">The trial lesson is for those who have never tried
-                    CrossFit and live or work in Tokyo or its suburbs.</font>
+                  <font dir="auto" style="vertical-align: inherit;">Class Limit: 15 people.</font>
+                </font><br>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Can accommodate both first-time racers or those with
+                    race experience.</font>
                 </font>
               </p>
             </div>
@@ -174,24 +257,52 @@
             <h4 class="com_title">
               <p class="jp">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">Travel time</font>
+                  <font dir="auto" style="vertical-align: inherit;">schedule</font>
                 </font>
               </p>
               <p class="text_en font_proxima">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">TIME REQUIRED</font>
+                  <font dir="auto" style="vertical-align: inherit;">SCHEDULE</font>
                 </font>
               </p>
             </h4>
             <div class="content">
               <p class="text_jp">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">60 minutes</font>
+                  <font dir="auto" style="vertical-align: inherit;">毎週土曜日 17:30〜 / 75分</font>
                 </font>
               </p>
               <p class="text_en font_proxima">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">60 minutes</font>
+                  <font dir="auto" style="vertical-align: inherit;">Saturdays, 17:30 / 75 min</font>
+                </font>
+              </p>
+            </div>
+          </li>
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">コーチ</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">COACH</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content">
+              <p class="text_jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Coach Marc (L-1 certified HYROX Performance Coach)
+                  </font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Coach Marc (L-1 certified HYROX Performance Coach)
+                  </font>
                 </font>
               </p>
             </div>
@@ -216,12 +327,12 @@
                   </font>
                 </font><br>
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">*Bath towels / sports shoes / training wear are
-                    available for rental (¥400 each) </font>
+                  <font dir="auto" style="vertical-align: inherit;">*Bath towels / sports shoes / training wear can be
+                    rented (¥400 each) </font>
                 </font><br>
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">*Water (¥100, ¥200) / socks (¥500) / protein drinks
-                    (¥750) are available for sale.</font>
+                  <font dir="auto" style="vertical-align: inherit;">*Water (¥100, ¥200) / socks (¥500) are available for
+                    purchase.</font>
                 </font>
               </p>
               <p class="text_en font_proxima">
@@ -233,92 +344,201 @@
                     for rental (¥400 each). </font>
                 </font><br>
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">* Water (¥100, ¥200), socks (¥500), protein drinks
-                    (¥750) are available for purchase.</font>
+                  <font dir="auto" style="vertical-align: inherit;">* Water (¥100, ¥200), socks (¥500) are available for
+                    purchase.</font>
                 </font>
               </p>
             </div>
           </li>
-        </ul>
-        <a href="trial-reserve.html" class="grad_btn center">
-          <span class="jp">
-            <font dir="auto" style="vertical-align: inherit;">
-              <font dir="auto" style="vertical-align: inherit;">Trial lesson application</font>
-            </font>
-          </span>
-          <span class="en font_proxima">
-            <font dir="auto" style="vertical-align: inherit;">
-              <font dir="auto" style="vertical-align: inherit;">APPLY</font>
-            </font>
-          </span>
-        </a>
-
-        <ul class="info_list counseling">
           <li>
             <h4 class="com_title">
               <p class="jp">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">Free counseling</font>
+                  <font dir="auto" style="vertical-align: inherit;">facility</font>
                 </font>
               </p>
               <p class="text_en font_proxima">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">FREE COUNSELING</font>
+                  <font dir="auto" style="vertical-align: inherit;">FACILITY</font>
                 </font>
               </p>
             </h4>
             <div class="content">
               <p class="text_jp">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">CrossFit Roppongi offers free counseling for those
-                    who wish to attend a trial lesson. Our staff will be happy to answer </font>
-                </font><br>
+                  <font dir="auto" style="vertical-align: inherit;">For more information,</font>
+                </font><a href="facility.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">Facilities and equipment</font>
+                  </font>
+                </a>
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">any questions you may have about CrossFit, such as,
-                    "I'm interested, but I'm not sure if I can commit..." or "I'm not sure if it's right for me..."
-                    (Approximately 40 minutes required) </font>
-                </font><br>
-                <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">To make a reservation for a counseling session,
-                    please apply using the inquiry form.</font>
+                  <font dir="auto" style="vertical-align: inherit;">Please see.</font>
                 </font>
               </p>
               <p class="text_en font_proxima">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">CrossFit Roppongi offers free counseling for those
-                    who have yet to take a trial lesson. </font>
-                </font><br>
+                  <font dir="auto" style="vertical-align: inherit;">For more information, see our</font>
+                </font><a href="facility.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">FACILITY</font>
+                  </font>
+                </a>
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">Our staff will respond sincerely to any questions or
-                    common concerns you may have regarding CrossFit, such as "I'm interested but I'm worried whether I
-                    can attend..." or "I don't know if it suits me..." (Requires about 40 minutes) </font>
-                </font><br>
+                  <font dir="auto" style="vertical-align: inherit;">.</font>
+                </font>
+              </p>
+            </div>
+          </li>
+          <li>
+            <h4 class="com_title">
+              <p class="jp">
                 <font dir="auto" style="vertical-align: inherit;">
-                  <font dir="auto" style="vertical-align: inherit;">Please use the contact form to book a counseling
-                    session.</font>
+                  <font dir="auto" style="vertical-align: inherit;">access</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">ACCESS</font>
+                </font>
+              </p>
+            </h4>
+            <div class="content">
+              <p class="text_jp">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">For more information,</font>
+                </font><a href="access.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">access</font>
+                  </font>
+                </a>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Please see.</font>
+                </font>
+              </p>
+              <p class="text_en font_proxima">
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">For more information, see our</font>
+                </font><a href="access.html">
+                  <font dir="auto" style="vertical-align: inherit;">
+                    <font dir="auto" style="vertical-align: inherit;">ACCESS</font>
+                  </font>
+                </a>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">.</font>
                 </font>
               </p>
             </div>
           </li>
         </ul>
-        <a href="contact.html" class="grad_btn center black page_link">
-          <span class="jp">
-            <font dir="auto" style="vertical-align: inherit;">
-              <font dir="auto" style="vertical-align: inherit;">Contact form</font>
-            </font>
-          </span>
-          <span class="en font_proxima">
-            <font dir="auto" style="vertical-align: inherit;">
-              <font dir="auto" style="vertical-align: inherit;">CONTACT</font>
-            </font>
-          </span>
-        </a>
+
       </div>
     </section>
     <!------Reserve Section------->
-    <div id="trial_reserve" class="com_in_page_link"></div>
-
-
+    <section class="sec_reserve2">
+      <div class="reserve_top">
+        <div class="com_inner">
+          <h3 class="com_large_title">
+            <p class="jp">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Book Hirox</font>
+              </font>
+            </p>
+          </h3>
+          <p class="text_jp">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Please confirm the terms of use before making a
+                reservation. Select the desired date and time from the calendar and proceed to the payment screen.
+              </font>
+            </font>
+          </p>
+          <p class="text_en font_proxima">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Book HYROX Training </font>
+            </font><br>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">Please check our Terms &amp; Conditions before making a
+                booking. Select the desired date and time from the calendar and proceed to the payment screen.</font>
+            </font>
+          </p>
+        </div>
+      </div>
+      <div class="reserve_btm com_inner">
+        <div class="kiyaku_box">
+          <h4 class="title jp">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">&lt; </font>
+            </font><span>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Terms of Use</font>
+              </font>
+            </span>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;"> &gt;</font>
+            </font>
+          </h4>
+          <ul class="kiyaku_list">
+            <li>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Payment is required to confirm your reservation. If
+                  payment is not completed, your reservation will not be confirmed.</font>
+              </font>
+            </li>
+            <li>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Please note that we have a set limit on the number of
+                  participants for all booked training sessions, and therefore we are unable to offer refunds regardless
+                  of attendance.</font>
+              </font>
+            </li>
+            <li>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">If you wish to change the date and time of your
+                  appointment, please contact us by email or phone at least 48 hours before the appointment. Changes are
+                  allowed only once.</font>
+              </font>
+            </li>
+          </ul>
+          <h4 class="title en">
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">＜</font>
+            </font><span class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Terms &amp; Conditions</font>
+              </font>
+            </span>
+            <font dir="auto" style="vertical-align: inherit;">
+              <font dir="auto" style="vertical-align: inherit;">＞</font>
+            </font>
+          </h4>
+          <ul class="kiyaku_list">
+            <li class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">To secure your booking, we require full payment to be
+                  completed.</font>
+              </font>
+            </li>
+            <li class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Please note that our classes have limited spots
+                  available and we adjust the number of attendees accordingly. Therefore, bookings are strictly
+                  non-refundable, regardless of attendance or reason.</font>
+              </font>
+            </li>
+            <li class="font_proxima">
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">If you need to change the date or time of your
+                  booking, please let us know at least 48 hours in advance by email or phone. You may only change your
+                  booking once.</font>
+              </font>
+            </li>
+          </ul>
+        </div>
+        <div class="com_inner">
+          <iframe src="hyrox-performance-booking.html" class="booking-frame"
+            title="Book Hyrox Performance Class"></iframe>
+        </div>
+    </section>
     <!-- com_sec_link Section -->
     <section class="com_sec_link">
       <ul class="link_list">
@@ -494,7 +714,7 @@
     </div>
   </footer>
 
-  <a href="trial.html#" id="totop" style="bottom: 30px;">
+  <a href="hyrox.html#" id="totop" style="bottom: 30px;">
     <picture>
       <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
       <img src="assets/img/totop.webp" alt="TOP">

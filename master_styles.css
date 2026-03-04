@@ -85,7 +85,7 @@ header .reserve_btn:after{
     border-left: 1px solid #666;
     border-right: 1px solid #666;
     font-size: 10px;
-    letter-spacing: .06em;
+    letter-spacing: .06em; 
 }
 .nav_top a:first-child span{
     color: #b3b3b3;
@@ -195,7 +195,7 @@ header nav ul li {
     overflow: hidden;
     background: url(../img/mainv.webp) center / cover no-repeat;
   }
-
+  
   .video-wrap #ytPlayer {
     position: absolute;
     top: 0;
@@ -207,7 +207,7 @@ header nav ul li {
   .mbYTP_wrapper iframe {
     margin-top: 0px !important;
 }
-
+  
 #page_index .sec_about .com_column {
     padding-bottom: 150px;
 }
@@ -589,50 +589,10 @@ ol, ul {
     line-height: 1.4em;
     margin-top: 20px;
 }
-.hyrox_cta_btn {
-    display: inline-block;
-    background: linear-gradient(to right, #ff3b04, #ce1125 50%, #a60022);
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: .04em;
-    padding: 18px 30px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
-    margin-top: auto;
-    align-self: flex-start;
-}
-.hyrox_cta_btn:hover {
-    opacity: 0.9;
-    color: #fff;
-}
 .sec_taiken .inner2 .grad_btn {
     align-self: flex-end;
     margin-left: 95px;
 }
-
-.hyrox-detail-table tr {
-    border-bottom: 1px solid #333;
-}
-
-.hyrox-detail-table th {
-    text-align: left;
-    padding: 15px 0;
-    width: 30%;
-    font-size: 12px;
-    text-transform: uppercase;
-    color: #666;
-    vertical-align: top;
-}
-
-.hyrox-detail-table td {
-    padding: 15px 0;
-    font-size: 14px;
-    color: #fff;
-    line-height: 1.6;
-}
-
 .grad_btn {
     width: 370px;
     background: linear-gradient(to right, #ff3b04, #ce1125 50%, #a60022);
@@ -808,7 +768,7 @@ section.page-title.hyrox-page {
     background: url(../img/hyrox-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.spartan-page {
-    background: url(../img/spartan-bg.png) right top / 100% auto no-repeat;
+    background: url(../img/spartan-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.trial-page {
     background: url(../img/trial-bg.jpg) right top / 100% auto no-repeat;
@@ -1456,18 +1416,10 @@ span.swiper-pagination-current {
     border-bottom: 1px solid #999;
 }
 #page_schedule .sec_schedule .venobox {
-    max-width: 100%;
-    width: 95vw;
-    height: 70vh;
+    max-width: 900px;
     margin: 120px auto 0;
     border: 1px solid #e6e6e6;
     position: relative;
-    display: block; /* Ensure it behaves as a block element */
-}
-#page_schedule .sec_schedule .venobox img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
 }
 section.sec_schedule.com_page {
     text-align: center;
@@ -1526,8 +1478,7 @@ body.no-scroll { overflow: hidden; }
 .lightbox__close:hover { opacity: .8; }
 
 #page_access .sec_access .map_area {
-    max-width: 100%;
-    width: 95vw;
+    max-width: 1200px;
     margin: 120px auto 0;
 }
 .com_page .com_inner {
@@ -1535,7 +1486,7 @@ body.no-scroll { overflow: hidden; }
 }
 #page_access .sec_access .map_area iframe {
     width: 100%;
-    height: 65vh;
+    height: 400px;
 }
 #page_access .sec_access .map_area .com_btn {
     text-align: left;
@@ -1612,10 +1563,6 @@ body.no-scroll { overflow: hidden; }
     font-weight: normal;
     letter-spacing: .04em;
     font-size: 14px;
-}
-.hyrox-hero-inner{
-  float: left;
-  padding-left: 1%;
 }
 #page_access .sec_company {
     padding: 150px 20px;
@@ -1760,9 +1707,6 @@ body.no-scroll { overflow: hidden; }
     content: counter(number);
     padding-right: 5px;
 }
-.sec_reserve .reserve_list {
-    display: flex;
-}
 .sec_reserve .reserve_list li {
     width: 50%;
     background-color: #f2f2f2;
@@ -1795,53 +1739,6 @@ body.no-scroll { overflow: hidden; }
     padding-right: 68px;
     background: url(../img/arrow_gray3_right.svg) right top 5px / 53px 5px no-repeat;
 }
-
-/* Hyrox Index Box Styling */
-.hyrox_reserve_list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-.hyrox_reserve_list li {
-    width: calc(50% - 10px);
-    background-color: #fff;
-    padding: 45px 30px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-.hyrox_reserve_list li .inner {
-    width: 100%;
-    margin: 0;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-.hyrox_reserve_list li .inner .title {
-    font-size: 25px;
-    color: #111;
-}
-.hyrox_reserve_list li .inner .text_jp {
-    font-size: 15px;
-    color: #333;
-    margin-top: 12px;
-}
-.hyrox_reserve_list li .inner .text_en {
-    margin-top: 5px;
-}
-.hyrox_reserve_list li .inner .grad_btn {
-    margin-top: auto;
-    padding-top: 26px;
-    padding-bottom: 24px;
-}
-
 #page_spartan .sec_spartan .com_inner {
     margin-top: 110px;
 }

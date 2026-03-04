@@ -20,7 +20,7 @@
     #page_access .sec_access .com_inner .access_list {
         border-bottom: 1px solid #999;
     }
-    
+
 }
 
 @media (min-width: 768px) {
@@ -309,9 +309,19 @@
         left: 0;
         margin: auto;
         width: 1px;
-        height: 160px;
-        background-color: #ccc;
+        height: 100px;
+        background-color: #cacaca;
     }
+    .hyrox_reserve_list {
+        display: flex;
+    }
+    .hyrox_reserve_list li {
+        position: relative;
+    }
+    .hyrox_reserve_list li .inner .hyrox_cta_btn {
+        padding-bottom: 6px;
+    }
+
 }
 @media (min-width: 371px) {
     .grad_btn.center, .grad_btn.black {
@@ -384,11 +394,11 @@
     }
     .sec_insta {
         padding: 95px 30px 90px;
-    } 
+    }
     .sec_insta .inner .com_small_title {
         width: 100%;
         order: 0;
-    }  
+    }
     .sec_insta .inner .follow {
         order: 2;
         letter-spacing: .04em;
@@ -502,7 +512,7 @@
         background: #000;
         padding: 6px;
       }
-  
+
       nav {
         position: fixed;
         top: 70px; /* below header */
@@ -514,7 +524,7 @@
         padding: 20px;
         z-index: 99;
       }
-  
+
       nav ul {
         display: flex;
         flex-direction: column;
@@ -523,7 +533,7 @@
         padding: 0;
         list-style: none;
       }
-  
+
       nav ul li a {
         color: #000; /* Black text */
         font-size: 18px;
@@ -531,7 +541,7 @@
         font-weight: 500;
         border-bottom: 1px solid #999!important;
       }
-  
+
       nav.active {
         left: 0; /* Slide in from left */
       }
@@ -833,7 +843,7 @@
         margin-top: 50px;
     }
     #page_access .sec_access .map_area iframe {
-        height: 230px;
+        height: 50vh;
     }
     #page_access .sec_access .com_inner {
         margin-top: 100px;
