@@ -97,7 +97,7 @@
   <div id="page_spartan">
     <!-- Title Section -->
     <section id="hyrox-hero" class="page-title hyrox-page"
-      style="background: url('assets/img/hero.png') center/cover no-repeat; padding: 300px 0; transition: padding 0.5s ease;">
+      style="background: url('assets/img/hero.png') center top / cover no-repeat; padding: 40vh 0; transition: padding 0.5s ease;">
       <div class="com_inner hyrox-hero-inner">
         <h2 class="title font_proxima">HYROX</h2>
         <p class="sub-title">FITNESS RACING</p>
@@ -263,7 +263,7 @@
           style="background: transparent; color: #000; border: 1px solid #000; padding: 10px 20px; cursor: pointer; margin-bottom: 20px;">&larr;
           BACK TO INFO</button>
         <iframe id="booking-iframe" src="" class="booking-frame"
-          style="width: 100%; min-height: 800px; border: none;"></iframe>
+          style="width: 100%; min-height: 700px; border: none;"></iframe>
 
         <div class="kiyaku_box">
           <h4 class="title jp">＜ <span>利用規約</span> ＞</h4>
@@ -310,8 +310,9 @@
         // Shrink hero image and change background
         const hero = document.getElementById('hyrox-hero');
         if (hero) {
-          hero.style.padding = '120px 0';
+          hero.style.padding = '15vh 0';
           hero.style.backgroundImage = "url('assets/img/Hyrox_B.webp')";
+          hero.style.backgroundPosition = "center top";
         }
 
         // Scroll to the booking section
@@ -337,10 +338,10 @@
         document.getElementById('page_spartan').style.backgroundColor = '#000';
 
         // Restore hero image size and background
-        const hero = document.getElementById('hyrox-hero');
         if (hero) {
-          hero.style.padding = '300px 0';
+          hero.style.padding = '35vh 0';
           hero.style.backgroundImage = "url('assets/img/hero.png')";
+          hero.style.backgroundPosition = "center top";
         }
 
         // Scroll back to classes section

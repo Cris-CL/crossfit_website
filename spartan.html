@@ -83,7 +83,7 @@
   <div id="page_spartan">
     <!-- Title Section -->
     <section id="spartan-hero" class="page-title spartan-page"
-      style="background: url('assets/img/spartan-bg.png') center/cover no-repeat; padding: 300px 0; transition: padding 0.5s ease;">
+      style="background: url('assets/img/spartan-bg.png') center top / cover no-repeat; padding: 40vh 0; transition: padding 0.5s ease;">
       <div class="com_inner hyrox-hero-inner">
         <h2>SPARTAN TRAINING</h2>
         <p class="sub-title">スパルタン・トレーニング</p>
@@ -490,7 +490,7 @@
 
         <div id="calendar" style="height:max-content">
           <iframe id="booking-iframe" src="spartan-booking.html" class="booking-frame" title="Book Spartan Class"
-            style="width: 100%; min-height: 800px; border: none;"></iframe>
+            style="width: 100%; min-height: 700px; border: none;"></iframe>
         </div>
 
         <div class="kiyaku_box" style="display: none;">
@@ -526,7 +526,7 @@
         kiyaku.style.display = 'block';
 
         // Shrink hero image
-        if (hero) hero.style.padding = '120px 0';
+        if (hero) hero.style.padding = '15vh 0';
 
         // Change page background to white
         document.getElementById('page_spartan').style.backgroundColor = '#fff';
@@ -548,7 +548,7 @@
         bookingSection.style.display = 'none';
 
         // Restore hero image size
-        if (hero) hero.style.padding = '300px 0';
+        if (hero) hero.style.padding = '35vh 0';
 
         // Change background back to black (or original)
         // Spartan page seems to be white mostly, but the section backgrounds are mixed.
