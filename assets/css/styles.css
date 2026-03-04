@@ -1604,6 +1604,10 @@ body.no-scroll { overflow: hidden; }
     letter-spacing: .04em;
     font-size: 14px;
 }
+.hyrox-hero-inner{
+  float: left;
+  padding-left: 1%;
+}
 #page_access .sec_company {
     padding: 150px 20px;
 }
