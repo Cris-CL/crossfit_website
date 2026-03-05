@@ -285,7 +285,7 @@ header nav ul li {
     transform: translateY(0);
 }
 .com_small_title .en {
-    font-size: 17px;
+    font-size: 14px;
     color: #666;
     letter-spacing: .04em;
 }
@@ -633,7 +633,7 @@ ol, ul {
     width: calc(100% - 465px);
 }
 .sec_taiken .inner2 .text_wrap .text_jp {
-    font-size: 17px;
+    font-size: 14px;
     font-weight: bold;
     line-height: 1.88em;
 }
@@ -854,6 +854,44 @@ a{
 section.page-title.plan-page{
     background: url(../img/plan-bg.webp) right top / 100% auto no-repeat;
 }
+/* Plan page visual tuning based on newsite reference */
+#page_plan .page-title.plan-page {
+    min-height: 300px;
+    background-position: center top;
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+}
+#page_plan .page-title.plan-page .com_column {
+    width: 100%;
+    padding: 60px 20px 30px;
+}
+#page_plan .page-title.plan-page h2 {
+    color: #fff;
+    letter-spacing: .04em;
+    line-height: 1.06;
+}
+#page_plan .page-title.plan-page .sub-title {
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: .1em;
+}
+#page_plan .com_page_link .jp {
+    font-weight: 500;
+}
+#page_plan .com_page_link .en {
+    letter-spacing: .08em;
+}
+#page_plan .sec_plan .com_small_title .jp,
+#page_plan .sec_plan .plan_list .plan_title .jp,
+#page_plan .sec_plan .info_list .com_title .jp,
+#page_plan .sec_corporate .com_small_title .jp,
+#page_plan .contact_area .title {
+    font-weight: 500;
+}
+#page_plan .font_proxima.extra {
+    font-weight: 700;
+}
 section.page-title.carrer-page{
     background: url(../img/carrer-bg.webp) right top / 100% auto no-repeat;
 }
@@ -1011,7 +1049,7 @@ a{
     margin-top: 20px;
 }
 #page_about .sec_flow .flow_list li .title_wrap .time {
-    font-size: 17px;
+    font-size: 14px;
     font-weight: bold;
     letter-spacing: .04em;
     color: #d70a17;
@@ -1228,7 +1266,7 @@ span.swiper-pagination-current {
 }
 #page_facility .sec_facility .facility_list>li .item_list li .price {
     width: 22%;
-    font-size: 17px;
+    font-size: 14px;
     letter-spacing: .04em;
     text-align: right;
 }
@@ -1455,7 +1493,7 @@ span.swiper-pagination-current {
     margin-top: 22px;
 }
 #page_plan .contact_area .inner .grad_btn {
-    font-size: 17px;
+    font-size: 14px;
     padding-left: 27px;
 }
 .grad_btn.black {
@@ -2147,7 +2185,7 @@ body.no-scroll { overflow: hidden; }
     width: 33%;
 }
 #page_spartan .sec_coach .com_inner .text_wrap .t_gray2 {
-    font-size: 17px;
+    font-size: 14px;
     font-weight: bold;
     letter-spacing: .04em;
     color: #666;
