@@ -558,13 +558,13 @@
 
       <h3>Payment Method</h3>
       <div class="payment-methods">
-        <div class="pm-card selected" onclick="selectPayment('card')">
+        <div class="pm-card selected" onclick="selectPayment('card', this)">
           <span>Credit Card</span>
         </div>
-        <div class="pm-card" onclick="selectPayment('gpay')">
+        <div class="pm-card" onclick="selectPayment('gpay', this)">
           <span>Google Pay</span>
         </div>
-        <div class="pm-card" onclick="selectPayment('apple')">
+        <div class="pm-card" onclick="selectPayment('apple', this)">
           <span>Apple Pay</span>
         </div>
       </div>
@@ -647,11 +647,19 @@
 
       // Square SDK Init: Fetch config from backend
       let payments, card, googlePay;
+      let squareInitError = null;
 
       try {
         // Fetch credentials
         const configRes = await fetch('/api/square/config');
-        if (!configRes.ok) throw new Error('Failed to load Square config');
+        if (!configRes.ok) {
+          let message = 'Failed to load Square config';
+          try {
+            const errData = await configRes.json();
+            if (errData && errData.message) message = errData.message;
+          } catch (_) { }
+          throw new Error(message);
+        }
         const { appId, locationId, pricing, environment } = await configRes.json();
 
         // Dynamically load Square SDK
@@ -744,6 +752,7 @@
         }
 
       } catch (e) {
+        squareInitError = e.message || "Initializing Square failed";
         console.error("Initializing Square failed", e);
       }
 
@@ -876,11 +885,11 @@
       let selectedPaymentMethod = 'card';
 
       // Payment UI Logic
-      window.selectPayment = function (method) {
+      window.selectPayment = function (method, cardEl) {
         selectedPaymentMethod = method;
         // Update tabs
         document.querySelectorAll('.pm-card').forEach(el => el.classList.remove('selected'));
-        event.currentTarget.classList.add('selected');
+        if (cardEl) cardEl.classList.add('selected');
 
         // Update forms
         document.querySelectorAll('.pm-details').forEach(el => el.classList.remove('active'));
@@ -1028,7 +1037,7 @@
         try {
           // Tokenize if Card
           if (selectedPaymentMethod === 'card') {
-            if (!card) throw new Error("Square Card not valid");
+            if (!card) throw new Error(squareInitError || "Payment service is unavailable. Please refresh and try again.");
             const result = await card.tokenize();
             if (result.status === 'OK') {
               await submitBooking(result.token);
