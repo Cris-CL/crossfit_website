@@ -981,11 +981,14 @@
         padding: 0 17px;
     }
     #page_schedule .sec_schedule .schedule_hero {
-        margin-top: 40px;
+        height: 180px;
     }
     #page_schedule .sec_schedule .schedule_calendar_wrap {
         margin-top: 38px;
         padding: 0 6px;
+    }
+    #page_schedule .sec_schedule .main_title {
+        margin-top: 48px;
     }
     #page_schedule .sec_schedule .schedule_head {
         display: none;
