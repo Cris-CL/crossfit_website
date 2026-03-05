@@ -1587,7 +1587,8 @@ span.swiper-pagination-current {
 }
 #page_schedule .sec_schedule .schedule_table_weekend .schedule_offset_row th,
 #page_schedule .sec_schedule .schedule_table_weekend .schedule_offset_row td {
-    background: transparent;
+    background: #fff !important;
+    background-color: #fff !important;
 }
 #page_schedule .sec_schedule .schedule_notes {
     margin-top: 18px;
