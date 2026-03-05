@@ -1542,6 +1542,7 @@ span.swiper-pagination-current {
     font-size: 12px;
     line-height: 1.2;
     padding: 8px 6px;
+    height: 44px;
     text-align: center;
     vertical-align: middle;
 }
@@ -1571,11 +1572,6 @@ span.swiper-pagination-current {
 #page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(even) th {
     background: #eeeeee;
 }
-#page_schedule .sec_schedule .schedule_table_weekend tr:first-child td {
-    background: #fff;
-    color: #222;
-    text-transform: uppercase;
-}
 #page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(even) td {
     background: #eeeeee;
 }
@@ -1588,6 +1584,10 @@ span.swiper-pagination-current {
 #page_schedule .sec_schedule .schedule_table_weekend th {
     width: 38%;
     white-space: nowrap;
+}
+#page_schedule .sec_schedule .schedule_table_weekend .schedule_offset_row th,
+#page_schedule .sec_schedule .schedule_table_weekend .schedule_offset_row td {
+    background: transparent;
 }
 #page_schedule .sec_schedule .schedule_notes {
     margin-top: 18px;
