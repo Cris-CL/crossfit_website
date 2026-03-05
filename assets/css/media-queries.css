@@ -475,6 +475,9 @@
         font-size: 25px;
         line-height: 1.6em;
     }
+    .com_page_link li .jp {
+        font-size: 18px;
+    }
     #page_index .sec_feature .text_area .feature_list li .text_jp {
         margin-top: 18px;
     }

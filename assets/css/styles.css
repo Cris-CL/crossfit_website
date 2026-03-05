@@ -32,7 +32,8 @@
 /* Global font */
 body {
   /*font-family: 'Proxima Nova', sans-serif;*/
-  font-family: "Noto Sans JP", "Noto Sans", sans-serif;
+  font-family: "Noto Sans JP","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Helvetica,"MS Pゴシック","MS PGothic",sans-serif;
+  font-size: 14px;
   font-weight: 400;
   font-style: normal;
   line-height: 1.6;
@@ -285,12 +286,24 @@ header nav ul li {
     transform: translateY(0);
 }
 .com_small_title .en {
-    font-size: 14px;
+    font-size: 17px;
     color: #666;
     letter-spacing: .04em;
 }
 .font_proxima {
-    font-family: proxima-nova, sans-serif;
+    font-family: "Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3","Noto Sans JP","Noto Sans",Arial,sans-serif;
+}
+.font_noto {
+    font-family: "Noto Sans JP", sans-serif;
+}
+.font_noto.regular {
+    font-weight: 400;
+}
+.font_noto.medium {
+    font-weight: 500;
+}
+.font_noto.bold {
+    font-weight: 700;
 }
 .com_small_title .jp {
     font-size: 13px;
@@ -310,7 +323,7 @@ header nav ul li {
 }
 .text_en {
     font-size: 13px;
-    font-weight: 300;
+    font-weight: normal;
     letter-spacing: .02em;
     color: #999;
     line-height: 1.69em;
@@ -877,20 +890,10 @@ section.page-title.plan-page{
     letter-spacing: .1em;
 }
 #page_plan .com_page_link .jp {
-    font-weight: 500;
+    font-weight: bold;
 }
 #page_plan .com_page_link .en {
     letter-spacing: .08em;
-}
-#page_plan .sec_plan .com_small_title .jp,
-#page_plan .sec_plan .plan_list .plan_title .jp,
-#page_plan .sec_plan .info_list .com_title .jp,
-#page_plan .sec_corporate .com_small_title .jp,
-#page_plan .contact_area .title {
-    font-weight: 500;
-}
-#page_plan .font_proxima.extra {
-    font-weight: 700;
 }
 section.page-title.carrer-page{
     background: url(../img/carrer-bg.webp) right top / 100% auto no-repeat;
