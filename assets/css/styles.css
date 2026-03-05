@@ -1534,7 +1534,7 @@ span.swiper-pagination-current {
 #page_schedule .sec_schedule .schedule_table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 2px;
+    border-spacing: 4px;
     table-layout: fixed;
 }
 #page_schedule .sec_schedule .schedule_table th,
@@ -1547,70 +1547,47 @@ span.swiper-pagination-current {
 }
 #page_schedule .sec_schedule .schedule_table th {
     width: 24%;
-    background: #ffffff;
+    background: transparent;
     color: #222;
     font-family: "proximanova-bold", "Noto Sans", sans-serif;
     letter-spacing: .03em;
-    border: 1px solid #e4e4e4;
+    border: 0;
 }
 #page_schedule .sec_schedule .schedule_table td {
-    background: #efefef;
+    background: #fff;
     color: #222;
     font-family: "proximanova-bold", "Noto Sans", sans-serif;
-    border: 1px solid #e4e4e4;
+    border: 0;
 }
 #page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(odd) td {
-    background: #f1f1f1;
+    background: #fff;
 }
 #page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(even) td {
-    background: #e9e9e9;
+    background: #eeeeee;
 }
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(4) td,
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(6) td,
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(10) td,
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(13) td {
-    background: #e1e1e1;
+#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(odd) th {
+    background: #fff;
 }
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(8) td {
-    background: #dbdbdb;
-}
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(12) td:nth-child(2),
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(12) td:nth-child(4) {
-    background: #d7d7d7;
-}
-#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(14) td:nth-child(5) {
-    background: #d3d3d3;
+#page_schedule .sec_schedule .schedule_table_weekday tr:nth-child(even) th {
+    background: #eeeeee;
 }
 #page_schedule .sec_schedule .schedule_table_weekend tr:first-child td {
-    background: #f1f1f1;
+    background: #fff;
     color: #222;
     text-transform: uppercase;
 }
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(2) td,
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(3) td,
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(4) td:first-child,
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(5) td:last-child,
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(6) td {
-    background: #ececec;
+#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(even) td {
+    background: #eeeeee;
 }
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(4) td:last-child,
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(5) td:first-child {
-    background: #dcdcdc;
+#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(odd) th {
+    background: #fff;
 }
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(7) td {
-    background: #d6d6d6;
-    color: #222;
+#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(even) th {
+    background: #eeeeee;
 }
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(8) td:first-child,
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(9) td:last-child {
-    background: #d8d8d8;
-}
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(9) td:first-child {
-    background: #d4d4d4;
-    color: #222;
-}
-#page_schedule .sec_schedule .schedule_table_weekend tr:nth-child(8) td:last-child {
-    background: #d0d0d0;
+#page_schedule .sec_schedule .schedule_table_weekend th {
+    width: 38%;
+    white-space: nowrap;
 }
 #page_schedule .sec_schedule .schedule_notes {
     margin-top: 18px;
