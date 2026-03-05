@@ -475,6 +475,9 @@
         font-size: 25px;
         line-height: 1.6em;
     }
+    .com_page_link li .jp {
+        font-size: 18px;
+    }
     #page_index .sec_feature .text_area .feature_list li .text_jp {
         margin-top: 18px;
     }
@@ -773,6 +776,21 @@
     #page_plan .com_page_link {
         margin-top: 10px;
     }
+    #page_plan .page-title.plan-page {
+        min-height: 180px;
+        background-position: center top;
+    }
+    #page_plan .page-title.plan-page .com_column {
+        padding: 36px 20px 20px;
+    }
+    #page_plan .page-title.plan-page h2 {
+        font-size: 26px;
+        line-height: 1.1;
+    }
+    #page_plan .page-title.plan-page .sub-title {
+        font-size: 12px;
+        margin-top: 6px;
+    }
     #page_plan .sec_plan {
         padding: 75px 10px 100px;
     }
@@ -979,6 +997,42 @@
     #calendar {
         margin-top: 50px;
         padding: 0 17px;
+    }
+    #page_schedule .sec_schedule .schedule_hero {
+        height: 180px;
+    }
+    #page_schedule .sec_schedule .schedule_calendar_wrap {
+        margin-top: 38px;
+        padding: 0 6px;
+    }
+    #page_schedule .sec_schedule .main_title {
+        margin-top: 48px;
+    }
+    #page_schedule .sec_schedule .schedule_head {
+        display: none;
+    }
+    #page_schedule .sec_schedule .schedule_grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    #page_schedule .sec_schedule .schedule_table th,
+    #page_schedule .sec_schedule .schedule_table td {
+        font-size: 10px;
+        padding: 7px 4px;
+    }
+    #page_schedule .sec_schedule .schedule_table_weekend th {
+        width: 40%;
+        font-size: 9px;
+        white-space: nowrap;
+    }
+    #page_schedule .sec_schedule .schedule_table th {
+        width: 31%;
+    }
+    #page_schedule .sec_schedule .schedule_table_weekend {
+        margin-top: 2px;
+    }
+    #page_schedule .sec_schedule .schedule_notes {
+        font-size: 11px;
     }
     br.br_pc {
         display: none;

@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SCHEDULE</title>
-      
+
         <!-- CSS -->
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="stylesheet" href="assets/css/media-queries.css">
-      
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,19 +17,19 @@
         <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
         <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
         <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
-          
+
         <script>
             document.addEventListener("DOMContentLoaded", () => {
               const menuToggle = document.querySelector(".menu-toggle");
               const nav = document.querySelector("nav");
               const navLinks = document.querySelectorAll("nav ul li a");
-          
+
               // Toggle menu + button animation
               menuToggle.addEventListener("click", () => {
                 nav.classList.toggle("active");
                 menuToggle.classList.toggle("active");
               });
-          
+
               // Close menu when clicking a link
               navLinks.forEach(link => {
                 link.addEventListener("click", () => {
@@ -78,17 +78,69 @@
 <div id="page_schedule">
     <!-- Title Section -->
     <section class="sec_schedule com_page">
+      <div class="schedule_hero">
+        <img src="assets/img/schedule-calendar.webp" alt="Calendar header image">
+      </div>
+
       <h2 class="main_title">
         <p class="en font_proxima extra">SCHEDULE</p>
         <p class="jp">スケジュール</p>
       </h2>
-      <a href="assets/img/CRF_202506_Schedule.png"
-        class="venobox vbox-item img-link"
-        data-lightbox
-        data-caption="CrossFit Roppongiのスケジュール">
-      <img src="assets/img/CRF_202506_Schedule.png" alt="CrossFit Roppongiのスケジュール">
-      <span class="btn_icon" aria-hidden="true">🔍</span>
-    </a>
+
+      <div class="schedule_calendar_wrap">
+        <div class="schedule_head">
+          <div class="schedule_head_table schedule_head_weekday">
+            <div class="schedule_day schedule_day_time" aria-hidden="true"></div>
+            <div class="schedule_day"><span class="jp">月</span><span class="en">MONDAY</span></div>
+            <div class="schedule_day"><span class="jp">火</span><span class="en">TUESDAY</span></div>
+            <div class="schedule_day"><span class="jp">水</span><span class="en">WEDNESDAY</span></div>
+            <div class="schedule_day"><span class="jp">木</span><span class="en">THURSDAY</span></div>
+            <div class="schedule_day"><span class="jp">金</span><span class="en">FRIDAY</span></div>
+          </div>
+          <div class="schedule_head_table schedule_head_weekend">
+            <div class="schedule_day schedule_day_time" aria-hidden="true"></div>
+            <div class="schedule_day"><span class="jp">土</span><span class="en">SATURDAY</span></div>
+            <div class="schedule_day"><span class="jp">日</span><span class="en">SUNDAY</span></div>
+          </div>
+        </div>
+
+        <div class="schedule_grid">
+          <table class="schedule_table schedule_table_weekday" aria-label="Weekday class schedule">
+            <tbody>
+              <tr><th scope="row">05:30 - 06:30</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">06:45 - 07:45</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">08:00 - 09:00</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">09:00 - 10:00</th><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td></tr>
+              <tr><th scope="row">10:00 - 11:00</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">11:00 - 12:00</th><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td></tr>
+              <tr><th scope="row">12:00 - 13:00</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">13:30 - 15:15</th><td>Closed</td><td>Closed</td><td>Closed</td><td>Closed</td><td>Closed</td></tr>
+              <tr><th scope="row">15:30 - 16:30</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">16:30 - 18:00</th><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td></tr>
+              <tr><th scope="row">18:00 - 19:00</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">19:00 - 20:00</th><td>Weightlifting Class</td><td>Crossfit</td><td>Hyrox Class /<br>Crossfit Mobility</td><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">20:00 - 20:30</th><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td><td>Open Gym</td></tr>
+              <tr><th scope="row">20:30 - 21:30</th><td>Crossfit</td><td>Crossfit</td><td>Crossfit</td><td>Strength Class</td><td>Crossfit</td></tr>
+            </tbody>
+          </table>
+
+          <table class="schedule_table schedule_table_weekend" aria-label="Weekend class schedule">
+            <tbody>
+              <tr class="schedule_offset_row"><th scope="row"></th><td></td><td></td></tr>
+              <tr class="schedule_offset_row"><th scope="row"></th><td></td><td></td></tr>
+              <tr><th scope="row">08:00 - 09:00</th><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">09:10 - 10:10</th><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">10:20 - 11:20</th><td>Crossfit</td><td>Hyrox Class</td></tr>
+              <tr><th scope="row">11:30 - 12:30</th><td>Gymnastics Class</td><td>Crossfit</td></tr>
+              <tr><th scope="row">12:40 - 13:40</th><td>Crossfit</td><td>Crossfit</td></tr>
+              <tr><th scope="row">13:40 - 15:00</th><td>Competitors /<br>Open Gym</td><td>Competitors Class</td></tr>
+              <tr><th scope="row">15:30</th><td>Closed</td><td>Weightlifting Class</td></tr>
+              <tr><th scope="row">16:00 -</th><td>Spartan</td><td>Closed</td></tr>
+              <tr><th scope="row">17:30 -</th><td>Hyrox</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
     </section>
 
@@ -246,9 +298,9 @@
     </a>
   </div>
   </footer>
-  
+
   <a href="schedule.html#" id="totop" style="bottom: 30px;">
-  <picture>	
+  <picture>
     <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
     <img src="assets/img/totop.webp" alt="TOP">
   </picture>
@@ -308,10 +360,10 @@
   })();
 </script>
 
-  
+
   <script>
     const toTopBtn = document.getElementById("totop");
-  
+
     // Show button after scrolling down
     window.addEventListener("scroll", () => {
       if (window.scrollY > 200) {
@@ -320,7 +372,7 @@
         toTopBtn.classList.remove("show");
       }
     });
-  
+
     // Smooth scroll to top on click
     toTopBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -329,14 +381,14 @@
         behavior: "smooth"
       });
     });
-  
+
     // ✅ Smooth scroll for all internal links inside .com_page_link
     document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
       link.addEventListener("click", function(e) {
         e.preventDefault();
         const targetId = this.getAttribute("href");
         const targetElement = document.querySelector(targetId);
-  
+
         if (targetElement) {
           targetElement.scrollIntoView({
             behavior: "smooth",
@@ -345,7 +397,7 @@
         }
       });
     });
-  </script>  
-  
+  </script>
+
 </body>
 </html>
