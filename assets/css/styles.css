@@ -2037,6 +2037,142 @@ body.no-scroll { overflow: hidden; }
     max-width: 1100px;
     margin: 0 auto;
 }
+
+#hyrox-classes.hyrox-v3 .com_inner {
+    max-width: 1100px;
+}
+#hyrox-classes.hyrox-v3 .hyrox-class-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+#hyrox-classes.hyrox-v3 .hyrox-tab-btn {
+    background: #000;
+    color: #fff;
+    border: 1px solid #2f2f2f;
+    text-align: left;
+    padding: 14px 20px 12px;
+    cursor: pointer;
+    transition: border-color .2s ease;
+    background-image: url(../img/arrow_white_right_s.svg);
+    background-repeat: no-repeat;
+    background-size: 16px 5px;
+    background-position: right 16px bottom 14px;
+}
+#hyrox-classes.hyrox-v3 .hyrox-tab-btn.active {
+    border-color: #7a7a7a;
+}
+#hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-title {
+    display: block;
+    font-size: 33px;
+    line-height: 1.05;
+    letter-spacing: .02em;
+    font-weight: 700;
+}
+#hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-days {
+    display: block;
+    margin-top: 10px;
+    font-size: 11px;
+    color: #bdbdbd;
+    letter-spacing: .02em;
+}
+#hyrox-classes.hyrox-v3 .hyrox-class-panel {
+    display: none;
+}
+#hyrox-classes.hyrox-v3 .hyrox-class-panel.active {
+    display: block;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid #494949;
+    border-bottom: 1px solid #494949;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows li {
+    display: grid;
+    grid-template-columns: 236px 1fr;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px 30px;
+    background-color: #000;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows li:nth-child(even) {
+    background-color: #0b0b0b;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .label {
+    color: #fff;
+    font-size: 18px;
+    line-height: 1.4;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .label span {
+    display: block;
+    color: #8f8f8f;
+    font-size: 12px;
+    margin-top: 2px;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value {
+    color: #d7d7d7;
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 730px;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value .jp-line {
+    display: block;
+    color: #fff;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value .en-line {
+    display: block;
+    color: #8f8f8f;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value a {
+    color: #d7d7d7;
+    text-decoration: underline;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value .jp-line a {
+    color: #fff;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value .en-line a {
+    color: #8f8f8f;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .jp-line,
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .en-line {
+    white-space: nowrap;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value.price {
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.3;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value.price .taxline {
+    font-size: 12px;
+    color: #8f8f8f;
+    display: block;
+}
+#hyrox-classes.hyrox-v3 .hyrox-info-rows .value.price .amount {
+    display: block;
+    margin-top: 8px;
+    color: #fff;
+    font-size: 50px;
+    line-height: 1;
+}
+#hyrox-classes.hyrox-v3 .hyrox-book-btn {
+    display: block;
+    margin: 24px auto 0;
+}
+.hyrox-gallery-wrap {
+    margin-top: 26px;
+    padding: 10px;
+    background: #000;
+}
+.hyrox-gallery-wrap .gallery_left,
+.hyrox-gallery-wrap .gallery_right {
+    width: 100%;
+}
+.hyrox-gallery-wrap img {
+    border: 1px solid #fff;
+}
 .hyrox_reserve_list li {
     width: calc(50% - 10px);
     background-color: #fff;

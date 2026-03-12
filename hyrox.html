@@ -98,7 +98,7 @@
     <!-- Title Section -->
     <section id="hyrox-hero" class="page-title hyrox-page"
       style="background: url('assets/img/hero.png') center top / cover no-repeat; padding: 40vh 0; transition: padding 0.5s ease;">
-      <div class="com_inner hyrox-hero-inner">
+      <div class="com_column">
         <h2 class="title font_proxima">HYROX</h2>
         <p class="sub-title">FITNESS RACING</p>
       </div>
@@ -138,120 +138,132 @@
     </section>
 
     <!-- sec_reserve Section (Class Grid) -->
-    <section id="hyrox-classes" class="sec_reserve" style="background-color: #000; padding: 60px 0;">
+    <section id="hyrox-classes" class="sec_reserve hyrox-v3" style="background-color: #000; padding: 60px 0;">
       <div class="com_inner">
-        <ul class="hyrox_reserve_list"
-          style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; list-style: none; padding: 0;">
-          <li
-            style="flex: 1; min-width: 300px; max-width: 500px; background: transparent; border: none; padding: 20px; box-sizing: border-box; color: #fff;">
-            <div class="inner">
-              <img src="assets/img/A.png" alt="HYROX Race Performance"
-                style="width: 100%; height: auto; margin-bottom: 20px;">
-              <h2 class="title font_proxima" style="font-size: 1.8rem; margin-bottom: 15px; color: #fff;">
-                COMPETITORS<br>RACING
-              </h2>
-              <p class="text_en font_proxima" style="margin-bottom: 25px; line-height: 1.6; color: #ccc;">
-                This class is designed for those wanting not only HYROX-related strength and conditioning, but with an
-                added focus on mastering the skills and techniques of the 8 HYROX stations, as well as tips on how to
-                prepare for the race and get your best time ever.
-              </p>
-              <button onclick="showBooking('performance')" class="grad_btn center font_proxima"
-                style="display: block; width: 100%; text-align: center; margin-bottom: 30px; border: none; cursor: pointer;">
-                <span class="jp">予約する</span>
-                <span class="en font_proxima">BOOK</span>
-              </button>
+        <div class="hyrox-class-tabs">
+          <button type="button" class="hyrox-tab-btn active" onclick="selectHyroxClass('performance', this)">
+            <span class="tab-title font_proxima">COMPETITORS<br>RACING</span>
+            <span class="tab-days font_proxima">土 / SATURDAY</span>
+          </button>
+          <button type="button" class="hyrox-tab-btn" onclick="selectHyroxClass('strength', this)">
+            <span class="tab-title font_proxima">CONDITIONING<br>STRENGTH</span>
+            <span class="tab-days font_proxima">水・金・日／WEDNEDAY ・FRIDAY・SUNDAY</span>
+          </button>
+        </div>
 
-              <table class="hyrox-detail-table"
-                style="width: 100%; border-collapse: collapse; font-size: 0.9rem; color: #fff;">
-                <tr style="border-bottom: 1px solid #333;">
-                  <th
-                    style="text-align: left; padding: 10px; width: 30%; background: transparent; border-bottom: 1px solid #333;">
-                    料金<br>PRICE</th>
-                  <td style="padding: 10px;">¥4,950<br><small>(税込 / TAX INCLUDED)</small></td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    対象<br>ELIGIBILITY</th>
-                  <td style="padding: 10px;">どなたでもご参加いただけます。<br>CrossFit Roppongi非会員および未経験の方もOK。</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    スケジュール<br>SCHEDULE</th>
-                  <td style="padding: 10px;">第1、第3土曜日 17:30〜18:45 / 75分</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    持ち物<br>WHAT TO BRING</th>
-                  <td style="padding: 10px;">運動用靴 / ウェア / 飲み物 / タオル<br>※レンタル可能</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    LIMIT</th>
-                  <td style="padding: 10px;">15人 / 15 PEOPLE</td>
-                </tr>
-                <tr>
-                  <th style="text-align: left; padding: 10px; background: transparent;">コーチ<br>COACHES</th>
-                  <td style="padding: 10px;">MARC KEEN</td>
-                </tr>
-              </table>
-            </div>
-          </li>
-          <li
-            style="flex: 1; min-width: 300px; max-width: 500px; background: transparent; border: none; padding: 20px; box-sizing: border-box; color: #fff;">
-            <div class="inner">
-              <img src="assets/img/B.png" alt="HYROX Strength & Conditioning"
-                style="width: 100%; height: auto; margin-bottom: 20px;">
-              <h2 class="title font_proxima" style="font-size: 1.8rem; margin-bottom: 15px; color: #fff;">
-                CONDITIONING<br>STRENGTH
-              </h2>
-              <p class="text_en font_proxima" style="margin-bottom: 25px; line-height: 1.6; color: #ccc;">
-                This class is designed for those wanting to focus on HYROX-related strength and conditioning, as well as
-                access to the equipment used in the race.
+        <div id="hyrox-panel-performance" class="hyrox-class-panel active">
+          <ul class="hyrox-info-rows">
+            <li>
+              <p class="label">料金 <span class="font_proxima">PRICE</span></p>
+              <p class="value price font_proxima">
+                <span class="taxline">都度利用（税込）<br><span class="font_proxima">PAY AS YOU GO(TAX INCLUDED)</span></span>
+                <span class="amount font_proxima extra">¥4,950</span>
               </p>
-              <button onclick="showBooking('strength')" class="grad_btn center font_proxima"
-                style="display: block; width: 100%; text-align: center; margin-bottom: 30px; border: none; cursor: pointer;">
-                <span class="jp">予約する</span>
-                <span class="en font_proxima">BOOK</span>
-              </button>
+            </li>
+            <li>
+              <p class="label">コーチ <span class="font_proxima">COACHES</span></p>
+              <p class="value font_proxima">MARC KEEN</p>
+            </li>
+            <li>
+              <p class="label">スケジュール <span class="font_proxima">SCHEDULE</span></p>
+              <p class="value">第1、第3土曜日 17:30〜18:45 / 75分</p>
+            </li>
+            <li>
+              <p class="label">対象 <span class="font_proxima">ELIGIBILITY</span></p>
+              <p class="value">
+                <span class="jp-line">どなたでもご参加いただけます。<br>CrossFit Roppongi非会員およびCrossFit未経験の方もご利用いただけます。</span>
+                <span class="en-line font_proxima">Open to anyone and no experience is needed.<br>Spartan training is available to both non-members, as well as members of CrossFit Roppongi.</span>
+              </p>
+            </li>
+            <li>
+              <p class="label font_proxima">LIMIT</p>
+              <p class="value font_proxima">15人 / 15 PEOPLE</p>
+            </li>
+            <li>
+              <p class="label">持ち物 <span class="font_proxima">WHAT TO BRING</span></p>
+              <p class="value">
+                <span class="jp-line">運動靴 / トレーニングウエア / 飲み物 / タオル<br>※バスタオル / 運動靴 / トレーニングウエアはレンタルが可能です。（各¥400）<br>※水(¥100・¥200) / ソックス(¥500)を販売しています。</span>
+                <span class="en-line font_proxima">Athletic shoes, activewear, drink(s), towel<br>* Bath towels, shoes, and activewear are available for rental (¥400 each).<br>* Water (¥100, ¥200), socks (¥500) are available for purchase.</span>
+              </p>
+            </li>
+            <li>
+              <p class="label">施設 <span class="font_proxima">FACILITY</span></p>
+              <p class="value single-line-pair">
+                <span class="jp-line">詳しくは、<a href="/facility.html">施設・ 設備</a> をご覧ください。</span>
+                <span class="en-line font_proxima">For more information, see our <a href="/facility.html">FACILITY</a></span>
+              </p>
+            </li>
+            <li>
+              <p class="label">アクセス <span class="font_proxima">ACCESS</span></p>
+              <p class="value single-line-pair">
+                <span class="jp-line">詳しくは、<a href="/access.html">アクセス</a> をご覧ください。</span>
+                <span class="en-line font_proxima">For more information, see our <a href="/access.html">ACCESS</a></span>
+              </p>
+            </li>
+          </ul>
 
-              <table class="hyrox-detail-table"
-                style="width: 100%; border-collapse: collapse; font-size: 0.9rem; color: #fff;">
-                <tr style="border-bottom: 1px solid #333;">
-                  <th
-                    style="text-align: left; padding: 10px; width: 30%; background: transparent; border-bottom: 1px solid #333;">
-                    料金<br>PRICE</th>
-                  <td style="padding: 10px;">¥4,950<br><small>(税込 / TAX INCLUDED)</small></td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    対象<br>ELIGIBILITY</th>
-                  <td style="padding: 10px;">どなたでもご参加いただけます。<br>CrossFit Roppongi非会員および未経験の方もOK。</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    スケジュール<br>SCHEDULE</th>
-                  <td style="padding: 10px;">
-                    月・水・金・日 (詳細はカレンダーをチェック)
-                  </td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    持ち物<br>WHAT TO BRING</th>
-                  <td style="padding: 10px;">運動用靴 / ウェア / 飲み物 / タオル<br>※レンタル可能</td>
-                </tr>
-                <tr style="border-bottom: 1px solid #333;">
-                  <th style="text-align: left; padding: 10px; background: transparent; border-bottom: 1px solid #333;">
-                    LIMIT</th>
-                  <td style="padding: 10px;">16人 / 16 PEOPLE</td>
-                </tr>
-                <tr>
-                  <th style="text-align: left; padding: 10px; background: transparent;">コーチ<br>COACHES</th>
-                  <td style="padding: 10px;">SATORU / REI</td>
-                </tr>
-              </table>
-            </div>
-          </li>
-        </ul>
+          <button onclick="showBooking('performance')" class="grad_btn center font_proxima hyrox-book-btn">
+            <span class="jp">予約する</span>
+            <span class="en font_proxima">BOOK</span>
+          </button>
+        </div>
+
+        <div id="hyrox-panel-strength" class="hyrox-class-panel">
+          <ul class="hyrox-info-rows">
+            <li>
+              <p class="label">料金 <span class="font_proxima">PRICE</span></p>
+              <p class="value price font_proxima">
+                <span class="taxline">都度利用（税込）<br><span class="font_proxima">PAY AS YOU GO(TAX INCLUDED)</span></span>
+                <span class="amount font_proxima extra">¥4,950</span>
+              </p>
+            </li>
+            <li>
+              <p class="label">コーチ <span class="font_proxima">COACHES</span></p>
+              <p class="value font_proxima">SATORU / REI</p>
+            </li>
+            <li>
+              <p class="label">スケジュール <span class="font_proxima">SCHEDULE</span></p>
+              <p class="value">月・水・金・日 (詳細はカレンダーをチェック)</p>
+            </li>
+            <li>
+              <p class="label">対象 <span class="font_proxima">ELIGIBILITY</span></p>
+              <p class="value">
+                <span class="jp-line">どなたでもご参加いただけます。<br>CrossFit Roppongi非会員およびCrossFit未経験の方もご利用いただけます。</span>
+                <span class="en-line font_proxima">Open to anyone and no experience is needed.<br>Spartan training is available to both non-members, as well as members of CrossFit Roppongi.</span>
+              </p>
+            </li>
+            <li>
+              <p class="label font_proxima">LIMIT</p>
+              <p class="value font_proxima">16人 / 16 PEOPLE</p>
+            </li>
+            <li>
+              <p class="label">持ち物 <span class="font_proxima">WHAT TO BRING</span></p>
+              <p class="value">
+                <span class="jp-line">運動靴 / トレーニングウエア / 飲み物 / タオル<br>※バスタオル / 運動靴 / トレーニングウエアはレンタルが可能です。（各¥400）<br>※水(¥100・¥200) / ソックス(¥500)を販売しています。</span>
+                <span class="en-line font_proxima">Athletic shoes, activewear, drink(s), towel<br>* Bath towels, shoes, and activewear are available for rental (¥400 each).<br>* Water (¥100, ¥200), socks (¥500) are available for purchase.</span>
+              </p>
+            </li>
+            <li>
+              <p class="label">施設 <span class="font_proxima">FACILITY</span></p>
+              <p class="value single-line-pair">
+                <span class="jp-line">詳しくは、<a href="/facility.html">施設・ 設備</a> をご覧ください。</span>
+                <span class="en-line font_proxima">For more information, see our <a href="/facility.html">FACILITY</a></span>
+              </p>
+            </li>
+            <li>
+              <p class="label">アクセス <span class="font_proxima">ACCESS</span></p>
+              <p class="value single-line-pair">
+                <span class="jp-line">詳しくは、<a href="/access.html">アクセス</a> をご覧ください。</span>
+                <span class="en-line font_proxima">For more information, see our <a href="/access.html">ACCESS</a></span>
+              </p>
+            </li>
+          </ul>
+
+          <button onclick="showBooking('strength')" class="grad_btn center font_proxima hyrox-book-btn">
+            <span class="jp">予約する</span>
+            <span class="en font_proxima">BOOK</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -285,6 +297,19 @@
     </section>
 
     <script>
+      function selectHyroxClass(type, btnEl) {
+        const tabs = document.querySelectorAll('#hyrox-classes .hyrox-tab-btn');
+        const panels = document.querySelectorAll('#hyrox-classes .hyrox-class-panel');
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        panels.forEach(panel => panel.classList.remove('active'));
+
+        if (btnEl) btnEl.classList.add('active');
+
+        const targetPanel = document.getElementById(`hyrox-panel-${type}`);
+        if (targetPanel) targetPanel.classList.add('active');
+      }
+
       function showBooking(type) {
         const about = document.getElementById('hyrox-about');
         const classes = document.getElementById('hyrox-classes');
@@ -326,6 +351,7 @@
         const classes = document.getElementById('hyrox-classes');
         const bookingSection = document.getElementById('hyrox-booking-section');
         const iframe = document.getElementById('booking-iframe');
+        const hero = document.getElementById('hyrox-hero');
 
         // Show info, hide booking
         about.style.display = 'block';
@@ -357,6 +383,18 @@
         }
       }, false);
     </script>
+
+    <section class="com_sec_gallery">
+    <div class="gallery_left fade_g scrollin">
+        <picture>
+            <source media="(max-width:767px)" srcset="assets/img/gallery03_left_sp.webp">
+            <img src="assets/img/hyrox_gallery01_left.webp" alt="Hyrox class photo left">
+        </picture>
+    </div>
+    <div class="gallery_right fade_g scrollin">
+        <img src="assets/img/hyrox_gallery01_right.webp" alt="Hyrox class photo right">
+    </div>
+  </section>
 
     <!-- com_sec_link Section -->
     <section class="com_sec_link">

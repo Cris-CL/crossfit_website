@@ -1069,4 +1069,28 @@
     .com_sec_lesson .info_list>li .content.price_area .price {
         font-size: 40px;
     }
+    #hyrox-classes.hyrox-v3 .hyrox-class-tabs {
+        grid-template-columns: 1fr;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn {
+        padding: 12px 14px 10px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-title {
+        font-size: 24px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-days {
+        font-size: 10px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows li {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 14px 12px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.price .amount {
+        font-size: 36px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .jp-line,
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .en-line {
+        white-space: normal;
+    }
 }
