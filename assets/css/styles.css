@@ -940,28 +940,6 @@ section.page-title.carrer-page{
     opacity: 1;
     transform: translateY(0);
 }
-/* Plan page visual tuning based on newsite reference */
-#page_plan .page-title.plan-page {
-    min-height: 300px;
-    background-position: center top;
-    background-size: cover;
-    display: flex;
-    align-items: flex-end;
-}
-#page_plan .page-title.plan-page .com_column {
-    width: 100%;
-    padding: 60px 20px 30px;
-}
-#page_plan .page-title.plan-page h2 {
-    color: #fff;
-    letter-spacing: .04em;
-    line-height: 1.06;
-}
-#page_plan .page-title.plan-page .sub-title {
-    color: #fff;
-    font-weight: 500;
-    letter-spacing: .1em;
-}
 #page_plan .com_page_link .jp {
     font-weight: bold;
 }
