@@ -27,7 +27,7 @@
       threshold: 0.2,
       rootMargin: '0px 0px -10% 0px'
     });
-    addScrollInOnIntersect('.page-title.facility-page:not(.scrollin), .page-title.plan-page:not(.scrollin), .page-title.carrer-page:not(.scrollin), .page-title.coach-page:not(.scrollin)', {
+    addScrollInOnIntersect('.page-title.facility-page:not(.scrollin), .page-title.about-page:not(.scrollin), .page-title.plan-page:not(.scrollin), .page-title.carrer-page:not(.scrollin), .page-title.coach-page:not(.scrollin), .page-title.dropin-page:not(.scrollin), .page-title.trial-page:not(.scrollin)', {
       threshold: 0.1,
       rootMargin: '0px 0px -5% 0px'
     });
