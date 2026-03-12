@@ -872,10 +872,27 @@ a{
 }
 .page-title.facility-page{
     background: url(../img/facility-bg.webp) right top / 100% auto no-repeat;
+}
+section.page-title.plan-page{
+    background: url(../img/plan-bg.webp) right top / 100% auto no-repeat;
+}
+section.page-title.carrer-page{
+    background: url(../img/carrer-bg.webp) right top / 100% auto no-repeat;
+}
+.page-title.coach-page {
+    background: url(../img/coach-bg.webp) right top / 100% auto no-repeat;
+}
+.page-title.facility-page,
+.page-title.plan-page,
+.page-title.carrer-page,
+.page-title.coach-page {
     position: relative;
     overflow: hidden;
 }
-.page-title.facility-page::before {
+.page-title.facility-page::before,
+.page-title.plan-page::before,
+.page-title.carrer-page::before,
+.page-title.coach-page::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -885,22 +902,28 @@ a{
     z-index: 1;
     pointer-events: none;
 }
-.page-title.facility-page .com_column {
+.page-title.facility-page .com_column,
+.page-title.plan-page .com_column,
+.page-title.carrer-page .com_column,
+.page-title.coach-page .com_column {
     position: relative;
     z-index: 2;
     opacity: 0;
     transform: translateY(18px);
     transition: opacity .55s ease .18s, transform .55s ease .18s;
 }
-.page-title.facility-page.scrollin::before {
+.page-title.facility-page.scrollin::before,
+.page-title.plan-page.scrollin::before,
+.page-title.carrer-page.scrollin::before,
+.page-title.coach-page.scrollin::before {
     transform: translateX(101%);
 }
-.page-title.facility-page.scrollin .com_column {
+.page-title.facility-page.scrollin .com_column,
+.page-title.plan-page.scrollin .com_column,
+.page-title.carrer-page.scrollin .com_column,
+.page-title.coach-page.scrollin .com_column {
     opacity: 1;
     transform: translateY(0);
-}
-section.page-title.plan-page{
-    background: url(../img/plan-bg.webp) right top / 100% auto no-repeat;
 }
 /* Plan page visual tuning based on newsite reference */
 #page_plan .page-title.plan-page {
@@ -929,9 +952,6 @@ section.page-title.plan-page{
 }
 #page_plan .com_page_link .en {
     letter-spacing: .08em;
-}
-section.page-title.carrer-page{
-    background: url(../img/carrer-bg.webp) right top / 100% auto no-repeat;
 }
 section.page-title.hyrox-page {
     background: url(../img/hyrox-bg.jpg) right top / 100% auto no-repeat;
@@ -1328,9 +1348,6 @@ span.swiper-pagination-current {
 }
 .show-mobile{
     display: none;
-}
-.page-title.coach-page {
-    background: url(../img/coach-bg.webp) right top / 100% auto no-repeat;
 }
 #page_coach .sec_coach {
     max-width: 1140px;
