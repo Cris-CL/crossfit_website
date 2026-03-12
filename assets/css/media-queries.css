@@ -577,6 +577,22 @@
       }
       .menu-toggle span {
         width: 100%;
+        transform-origin: center;
+      }
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+        top: auto;
+        left: auto;
+        position: static;
+      }
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+        top: auto;
+        left: auto;
+        position: static;
       }
       section.page-title h2 {
         font-size: 20px;
