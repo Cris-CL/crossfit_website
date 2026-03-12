@@ -975,9 +975,14 @@ section.page-title.carrer-page{
 section.page-title.hyrox-page {
     background: url(../img/hyrox-bg.jpg) right top / 100% auto no-repeat;
 }
+section.page-title.hyrox-page h2,
+section.page-title.hyrox-page .sub-title {
+    color: #f2c94c;
+}
 section.page-title.spartan-page {
     background: url(../img/spartan-bg.png) right top / 100% auto no-repeat;
 }
+
 section.page-title.trial-page {
     background: url(../img/trial-bg.jpg) right top / 100% auto no-repeat;
 }
