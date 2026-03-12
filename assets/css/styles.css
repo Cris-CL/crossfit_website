@@ -2122,6 +2122,27 @@ body.no-scroll { overflow: hidden; }
     background-repeat: no-repeat;
     background-size: 16px 5px;
     background-position: right 16px bottom 14px;
+    position: relative;
+    overflow: hidden;
+}
+#hyrox-classes.hyrox-v3 .hyrox-tab-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -50px;
+    bottom: 0;
+    left: 0;
+    border-right: 50px solid rgba(0, 0, 0, 0);
+    border-bottom: 100px solid rgba(255, 255, 255, .18);
+    transform: translateX(-100%);
+    transition: .5s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+#hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-title,
+#hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-days {
+    position: relative;
+    z-index: 1;
 }
 #hyrox-classes.hyrox-v3 .hyrox-tab-btn.active {
     border-color: #7a7a7a;
