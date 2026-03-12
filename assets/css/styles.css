@@ -497,6 +497,7 @@ ol, ul {
     transform: translateY(20px);
     transition: 1.2s cubic-bezier(0.14, 1, 0.34, 1);
 }
+
 .com_title .jp {
     font-size: 22px;
     letter-spacing: 0.04em;
