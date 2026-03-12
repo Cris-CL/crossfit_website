@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Facility</title>
-      
+
         <!-- CSS -->
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="stylesheet" href="assets/css/media-queries.css">
-      
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,19 +22,19 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <!-- Swiper JS -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-          
+
         <script>
             document.addEventListener("DOMContentLoaded", () => {
               const menuToggle = document.querySelector(".menu-toggle");
               const nav = document.querySelector("nav");
               const navLinks = document.querySelectorAll("nav ul li a");
-          
+
               // Toggle menu + button animation
               menuToggle.addEventListener("click", () => {
                 nav.classList.toggle("active");
                 menuToggle.classList.toggle("active");
               });
-          
+
               // Close menu when clicking a link
               navLinks.forEach(link => {
                 link.addEventListener("click", () => {
@@ -178,7 +178,7 @@
         768: { slidesPerView: 2 }    // ✅ desktop >=768px
       }
     });
-  
+
     const machineSwiper = new Swiper(".machineSwiper", {
       slidesPerView: 2,
       spaceBetween: 20,
@@ -192,12 +192,12 @@
         type: "fraction",
       },
       breakpoints: {
-        0: { slidesPerView: 1 },     
+        0: { slidesPerView: 1 },
         768: { slidesPerView: 2 }
       }
     });
   </script>
-  
+
 
   <!-- sec_facility Section -->
   <section class="sec_facility">
@@ -295,7 +295,7 @@
   <!-- gallery Section -->
   <section class="com_sec_gallery">
     <div class="gallery_left fade_g">
-        <picture>	
+        <picture>
             <source media="(max-width:767px)" srcset="assets/img/gallery03_left_sp.webp">
             <img src="assets/img/gallery03_left.webp" alt="CrossFit Roppongiのトレーニング">
         </picture>
@@ -458,17 +458,17 @@
     </a>
   </div>
   </footer>
-  
+
   <a href="facility.html#" id="totop" style="bottom: 30px;">
-  <picture>	
+  <picture>
     <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
     <img src="assets/img/totop.webp" alt="TOP">
   </picture>
   </a>
-  
+
   <script>
     const toTopBtn = document.getElementById("totop");
-  
+
     // Show button after scrolling down
     window.addEventListener("scroll", () => {
       if (window.scrollY > 200) {
@@ -477,7 +477,7 @@
         toTopBtn.classList.remove("show");
       }
     });
-  
+
     // Smooth scroll to top on click
     toTopBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -486,14 +486,14 @@
         behavior: "smooth"
       });
     });
-  
+
     // ✅ Smooth scroll for all internal links inside .com_page_link
     document.querySelectorAll('.com_page_link a[href^="#"]').forEach(link => {
       link.addEventListener("click", function(e) {
         e.preventDefault();
         const targetId = this.getAttribute("href");
         const targetElement = document.querySelector(targetId);
-  
+
         if (targetElement) {
           targetElement.scrollIntoView({
             behavior: "smooth",
@@ -502,7 +502,7 @@
         }
       });
     });
-  </script>  
+  </script>
 
   <script defer src="assets/js/scrollin.js"></script>
 </body>
