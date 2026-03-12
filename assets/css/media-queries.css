@@ -352,6 +352,11 @@
 }
 
 @media (max-width: 767px) {
+
+    :root {
+        --mobile-header-h: 70px; /* change here for adjusting the header height */
+        --menu-x-shift: calc(var(--mobile-header-h) * 0.13);
+    }
     .nav_top,
     header .reserve_btn.trial{
         display: none;
@@ -518,10 +523,10 @@
 
       nav {
         position: fixed;
-        top: 70px; /* below header */
+        top: var(--mobile-header-h); /* below header */
         left: -100%;
         width: 100%;
-        height: calc(100% - 70px);
+        height: calc(100% - var(--mobile-header-h));
         background: #fff; /* White menu background */
         transition: left 0.3s ease;
         padding: 20px;
@@ -549,8 +554,8 @@
         left: 0; /* Slide in from left */
       }
       header {
-        min-height: 70px;
-        height: 70px;
+        min-height: var(--mobile-header-h);
+        height: var(--mobile-header-h);
         padding: 0 0 0 20px;
         box-sizing: border-box;
       }
@@ -566,8 +571,8 @@
         object-fit: contain;
       }
       .menu-toggle {
-        width: 70px;
-        height: 70px;
+        width: var(--mobile-header-h);
+        height: var(--mobile-header-h);
         align-self: center;
         justify-content: center;
         gap: 6px;
@@ -580,7 +585,7 @@
         transform-origin: center;
       }
       .menu-toggle.active span:nth-child(1) {
-        transform: translateY(9px) rotate(45deg);
+        transform: translateY(var(--menu-x-shift)) rotate(45deg);
         top: auto;
         left: auto;
         position: static;
@@ -589,7 +594,7 @@
         opacity: 0;
       }
       .menu-toggle.active span:nth-child(3) {
-        transform: translateY(-9px) rotate(-45deg);
+        transform: translateY(calc(var(--menu-x-shift) * -1)) rotate(-45deg);
         top: auto;
         left: auto;
         position: static;
