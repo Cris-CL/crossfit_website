@@ -895,6 +895,8 @@ section.page-title.carrer-page{
 .page-title.coach-page,
 .page-title.schedule-page,
 .page-title.access-page,
+.page-title.hyrox-page,
+.page-title.spartan-page,
 .page-title.dropin-page,
 .page-title.trial-page {
     position: relative;
@@ -907,6 +909,8 @@ section.page-title.carrer-page{
 .page-title.coach-page::before,
 .page-title.schedule-page::before,
 .page-title.access-page::before,
+.page-title.hyrox-page::before,
+.page-title.spartan-page::before,
 .page-title.dropin-page::before,
 .page-title.trial-page::before {
     content: "";
@@ -925,6 +929,8 @@ section.page-title.carrer-page{
 .page-title.coach-page .com_column,
 .page-title.schedule-page .com_column,
 .page-title.access-page .com_column,
+.page-title.hyrox-page .com_column,
+.page-title.spartan-page .com_column,
 .page-title.dropin-page .com_column,
 .page-title.trial-page .com_column {
     position: relative;
@@ -940,6 +946,8 @@ section.page-title.carrer-page{
 .page-title.coach-page.scrollin::before,
 .page-title.schedule-page.scrollin::before,
 .page-title.access-page.scrollin::before,
+.page-title.hyrox-page.scrollin::before,
+.page-title.spartan-page.scrollin::before,
 .page-title.dropin-page.scrollin::before,
 .page-title.trial-page.scrollin::before {
     transform: translateX(101%);
@@ -951,6 +959,8 @@ section.page-title.carrer-page{
 .page-title.coach-page.scrollin .com_column,
 .page-title.schedule-page.scrollin .com_column,
 .page-title.access-page.scrollin .com_column,
+.page-title.hyrox-page.scrollin .com_column,
+.page-title.spartan-page.scrollin .com_column,
 .page-title.dropin-page.scrollin .com_column,
 .page-title.trial-page.scrollin .com_column {
     opacity: 1;
