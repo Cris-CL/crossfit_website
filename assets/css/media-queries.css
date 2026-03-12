@@ -30,6 +30,22 @@
     header .reserve_btn.trial {
         overflow: hidden;
     }
+    header .reserve_btn.trial::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -50px;
+        bottom: 0;
+        left: 0;
+        border-right: 50px solid rgba(0, 0, 0, 0);
+        border-bottom: 100px solid rgba(255, 103, 114, .5);
+        transform: translateX(-100%);
+        transition: .5s ease;
+        pointer-events: none;
+    }
+    header .reserve_btn.trial:hover::before {
+        transform: translateX(0);
+    }
     .com_sec_lesson.dropin .info_list .price_area .price_list li {
         display: flex;
     }
