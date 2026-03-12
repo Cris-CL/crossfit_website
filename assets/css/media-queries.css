@@ -513,7 +513,7 @@
     .menu-toggle {
         display: flex;
         background: #000;
-        padding: 6px;
+        padding: 0;
       }
 
       nav {
@@ -549,7 +549,34 @@
         left: 0; /* Slide in from left */
       }
       header {
-        padding: 15px 20px;
+        min-height: 70px;
+        height: 70px;
+        padding: 0 0 0 20px;
+        box-sizing: border-box;
+      }
+      header .logo {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      header .logo img {
+        height: auto;
+        max-height: 40px;
+        width: 180px;
+        object-fit: contain;
+      }
+      .menu-toggle {
+        width: 70px;
+        height: 70px;
+        align-self: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+      }
+      .menu-toggle span {
+        width: 100%;
       }
       section.page-title h2 {
         font-size: 20px;
