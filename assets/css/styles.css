@@ -872,6 +872,32 @@ a{
 }
 .page-title.facility-page{
     background: url(../img/facility-bg.webp) right top / 100% auto no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+.page-title.facility-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    transform: translateX(0);
+    transition: transform .9s cubic-bezier(.22,.61,.36,1);
+    z-index: 1;
+    pointer-events: none;
+}
+.page-title.facility-page .com_column {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .55s ease .18s, transform .55s ease .18s;
+}
+.page-title.facility-page.scrollin::before {
+    transform: translateX(101%);
+}
+.page-title.facility-page.scrollin .com_column {
+    opacity: 1;
+    transform: translateY(0);
 }
 section.page-title.plan-page{
     background: url(../img/plan-bg.webp) right top / 100% auto no-repeat;
