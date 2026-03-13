@@ -1056,9 +1056,15 @@
     #page_schedule .sec_schedule .schedule_hero {
         height: 180px;
     }
+    #page_schedule .sec_schedule.com_page {
+        padding: 0 10px 20px;
+    }
     #page_schedule .sec_schedule .schedule_calendar_wrap {
         margin-top: 38px;
         padding: 0 6px;
+    }
+    #page_schedule .sec_reserve2 .reserve_btm {
+        margin-top: 30px;
     }
     #page_schedule .sec_schedule .main_title {
         margin-top: 48px;

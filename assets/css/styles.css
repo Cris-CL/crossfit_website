@@ -1653,7 +1653,7 @@ span.swiper-pagination-current {
     object-fit: cover;
 }
 #page_schedule .sec_schedule.com_page {
-    padding-top: 0;
+    padding: 0 20px 30px;
 }
 #page_schedule .sec_schedule .main_title {
     margin-top: 88px;
@@ -1661,6 +1661,12 @@ span.swiper-pagination-current {
 #page_schedule .sec_schedule .schedule_calendar_wrap {
     max-width: 1200px;
     margin: 42px auto 0;
+}
+#page_schedule .sec_reserve2 {
+    padding-bottom: 0;
+}
+#page_schedule .sec_reserve2 .reserve_btm {
+    margin-top: 40px;
 }
 #page_schedule .sec_schedule .schedule_head {
     display: grid;
