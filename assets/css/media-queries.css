@@ -30,6 +30,22 @@
     header .reserve_btn.trial {
         overflow: hidden;
     }
+    header .reserve_btn.trial::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -50px;
+        bottom: 0;
+        left: 0;
+        border-right: 50px solid rgba(0, 0, 0, 0);
+        border-bottom: 100px solid rgba(255, 103, 114, .5);
+        transform: translateX(-100%);
+        transition: .5s ease;
+        pointer-events: none;
+    }
+    header .reserve_btn.trial:hover::before {
+        transform: translateX(0);
+    }
     .com_sec_lesson.dropin .info_list .price_area .price_list li {
         display: flex;
     }
@@ -125,6 +141,12 @@
         border-bottom: 100px solid rgba(255, 103, 114, .5);
         transform: translateX(-100%);
         transition: .5s ease;
+    }
+    .grad_btn:hover:before {
+        transform: translateX(0);
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn:hover::before {
+        transform: translateX(0);
     }
     .br_pc {
         display: block;
@@ -352,6 +374,11 @@
 }
 
 @media (max-width: 767px) {
+
+    :root {
+        --mobile-header-h: 70px; /* change here for adjusting the header height */
+        --menu-x-shift: calc(var(--mobile-header-h) * 0.13);
+    }
     .nav_top,
     header .reserve_btn.trial{
         display: none;
@@ -513,15 +540,15 @@
     .menu-toggle {
         display: flex;
         background: #000;
-        padding: 6px;
+        padding: 0;
       }
 
       nav {
         position: fixed;
-        top: 70px; /* below header */
+        top: var(--mobile-header-h); /* below header */
         left: -100%;
         width: 100%;
-        height: calc(100% - 70px);
+        height: calc(100% - var(--mobile-header-h));
         background: #fff; /* White menu background */
         transition: left 0.3s ease;
         padding: 20px;
@@ -549,7 +576,50 @@
         left: 0; /* Slide in from left */
       }
       header {
-        padding: 15px 20px;
+        min-height: var(--mobile-header-h);
+        height: var(--mobile-header-h);
+        padding: 0 0 0 20px;
+        box-sizing: border-box;
+      }
+      header .logo {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      header .logo img {
+        height: auto;
+        max-height: 40px;
+        width: 180px;
+        object-fit: contain;
+      }
+      .menu-toggle {
+        width: var(--mobile-header-h);
+        height: var(--mobile-header-h);
+        align-self: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+      }
+      .menu-toggle span {
+        width: 100%;
+        transform-origin: center;
+      }
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(var(--menu-x-shift)) rotate(45deg);
+        top: auto;
+        left: auto;
+        position: static;
+      }
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(calc(var(--menu-x-shift) * -1)) rotate(-45deg);
+        top: auto;
+        left: auto;
+        position: static;
       }
       section.page-title h2 {
         font-size: 20px;
@@ -776,21 +846,6 @@
     #page_plan .com_page_link {
         margin-top: 10px;
     }
-    #page_plan .page-title.plan-page {
-        min-height: 180px;
-        background-position: center top;
-    }
-    #page_plan .page-title.plan-page .com_column {
-        padding: 36px 20px 20px;
-    }
-    #page_plan .page-title.plan-page h2 {
-        font-size: 26px;
-        line-height: 1.1;
-    }
-    #page_plan .page-title.plan-page .sub-title {
-        font-size: 12px;
-        margin-top: 6px;
-    }
     #page_plan .sec_plan {
         padding: 75px 10px 100px;
     }
@@ -1001,9 +1056,15 @@
     #page_schedule .sec_schedule .schedule_hero {
         height: 180px;
     }
+    #page_schedule .sec_schedule.com_page {
+        padding: 0 10px 20px;
+    }
     #page_schedule .sec_schedule .schedule_calendar_wrap {
         margin-top: 38px;
         padding: 0 6px;
+    }
+    #page_schedule .sec_reserve2 .reserve_btm {
+        margin-top: 30px;
     }
     #page_schedule .sec_schedule .main_title {
         margin-top: 48px;
@@ -1068,5 +1129,64 @@
     }
     .com_sec_lesson .info_list>li .content.price_area .price {
         font-size: 40px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-class-tabs {
+        grid-template-columns: 1fr;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn {
+        padding: 12px 14px 10px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-title {
+        font-size: 24px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn .tab-days {
+        font-size: 10px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows li {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 14px 12px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.price .amount {
+        font-size: 36px;
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .jp-line,
+    #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .en-line {
+        white-space: normal;
+    }
+    #page_contact .sec_contact.com_page {
+        padding: 105px 10px 100px;
+    }
+    #page_contact .sec_contact .com_inner {
+        margin-top: 32px;
+        padding: 0 17px;
+    }
+    #page_contact .contact-form {
+        margin-top: 26px;
+    }
+    #page_contact .contact-row {
+        display: block;
+        padding: 22px 17px;
+    }
+    #page_contact .contact-title,
+    #page_contact .required,
+    #page_contact .contact-content {
+        width: 100%;
+    }
+    #page_contact .required {
+        margin-top: 2px;
+        margin-bottom: 10px;
+    }
+    #page_contact .contact-title .jp {
+        font-size: 16px;
+    }
+    #page_contact .contact-content textarea {
+        min-height: 160px;
+    }
+    #page_contact .contact-privacy {
+        margin-top: 20px;
+    }
+    #page_contact .contact-submit {
+        margin-top: 22px;
     }
 }

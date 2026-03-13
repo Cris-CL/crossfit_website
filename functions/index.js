@@ -21,6 +21,7 @@ const {
   HYROX_STRENGHT_ID,
   TRIAL_ID,
   BOOKING_NOTIFICATION_WEBHOOK,
+  CONTACT_FORM_URL,
 } = process.env;
 
 const resolvedEnv = (SQUARE_ENVIRONMENT || SQUARE_ENV || "sandbox").toLowerCase();
@@ -294,6 +295,97 @@ router.post(["/square/bookings", "/api/square/bookings"], async (req, res) => {
       "Unable to start checkout.";
 
     return res.status(500).json({ message });
+  }
+});
+
+router.post(["/contact/submit", "/api/contact/submit"], async (req, res) => {
+  try {
+    const {
+      inquiryType,
+      name,
+      phone,
+      email,
+      message,
+      acceptedPrivacy,
+      website,
+    } = req.body || {};
+
+    const required = {
+      inquiryType: String(inquiryType || "").trim(),
+      name: String(name || "").trim(),
+      phone: String(phone || "").trim(),
+      email: String(email || "").trim(),
+      message: String(message || "").trim(),
+    };
+
+    if (website) {
+      // Honeypot field: return success to avoid tipping off bots.
+      return res.status(200).json({ success: true });
+    }
+
+    if (
+      !required.inquiryType ||
+      !required.name ||
+      !required.phone ||
+      !required.email ||
+      !required.message
+    ) {
+      return res.status(400).json({
+        message: "Required fields are missing.",
+      });
+    }
+
+    if (!acceptedPrivacy) {
+      return res.status(400).json({
+        message: "Privacy policy consent is required.",
+      });
+    }
+
+    if (!CONTACT_FORM_URL) {
+      functions.logger.error("CONTACT_FORM_URL is not configured.");
+      return res.status(500).json({
+        message: "Contact endpoint is not configured.",
+      });
+    }
+
+    const payload = {
+      inquiry_type: required.inquiryType,
+      name: required.name,
+      phone: required.phone,
+      email: required.email,
+      message: required.message,
+      accepted_privacy: true,
+      source: "website_contact_form",
+      submitted_at: new Date().toISOString(),
+      _subject: `Contact Inquiry: ${required.inquiryType}`,
+    };
+
+    const response = await fetch(CONTACT_FORM_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      functions.logger.error("Contact Formspree request failed", {
+        status: response.status,
+        body: errorBody,
+      });
+      return res.status(502).json({
+        message: "Failed to submit contact request.",
+      });
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    functions.logger.error("Contact submission failed", error);
+    return res.status(500).json({
+      message: "Unable to submit contact request.",
+    });
   }
 });
 
