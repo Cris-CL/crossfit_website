@@ -2253,6 +2253,10 @@ body.no-scroll { overflow: hidden; }
     line-height: 1;
 }
 #hyrox-classes.hyrox-v3 .hyrox-book-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    border: 0;
+    cursor: pointer;
     display: block;
     margin: 24px auto 0;
 }
