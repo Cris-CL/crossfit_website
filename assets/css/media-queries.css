@@ -1154,4 +1154,39 @@
     #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .en-line {
         white-space: normal;
     }
+    #page_contact .sec_contact.com_page {
+        padding: 105px 10px 100px;
+    }
+    #page_contact .sec_contact .com_inner {
+        margin-top: 32px;
+        padding: 0 17px;
+    }
+    #page_contact .contact-form {
+        margin-top: 26px;
+    }
+    #page_contact .contact-row {
+        display: block;
+        padding: 22px 17px;
+    }
+    #page_contact .contact-title,
+    #page_contact .required,
+    #page_contact .contact-content {
+        width: 100%;
+    }
+    #page_contact .required {
+        margin-top: 2px;
+        margin-bottom: 10px;
+    }
+    #page_contact .contact-title .jp {
+        font-size: 16px;
+    }
+    #page_contact .contact-content textarea {
+        min-height: 160px;
+    }
+    #page_contact .contact-privacy {
+        margin-top: 20px;
+    }
+    #page_contact .contact-submit {
+        margin-top: 22px;
+    }
 }

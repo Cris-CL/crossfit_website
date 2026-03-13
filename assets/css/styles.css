@@ -2577,3 +2577,151 @@ div#calendar-section {
     max-width: 750px;
     margin-top: 70px;
 }
+
+#page_contact .sec_contact {
+    text-align: center;
+}
+#page_contact .sec_contact .main_title {
+    text-align: left;
+}
+#page_contact .sec_contact .com_inner {
+    margin-top: 45px;
+    text-align: left;
+    max-width: 1100px;
+}
+#page_contact .sec_contact .lead span {
+    color: #d70a17;
+    font-weight: 700;
+}
+#page_contact .sec_contact .lead.text_en {
+    margin-top: 8px;
+}
+#page_contact .contact-form {
+    margin-top: 34px;
+}
+#page_contact .contact-form-list {
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+#page_contact .contact-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 26px 30px;
+}
+#page_contact .contact-row + .contact-row {
+    border-top: 1px solid #f2f2f2;
+}
+#page_contact .contact-title {
+    width: 240px;
+    font-weight: 400;
+}
+#page_contact .contact-title .jp {
+    font-size: 18px;
+    letter-spacing: .04em;
+}
+#page_contact .contact-title .en {
+    margin-top: 2px;
+    font-size: 13px;
+    color: #999;
+}
+#page_contact .required {
+    width: 28px;
+    color: #d70a17;
+    font-weight: 700;
+    line-height: 1.6;
+}
+#page_contact .contact-content {
+    width: calc(100% - 268px);
+}
+#page_contact .contact-content input,
+#page_contact .contact-content select,
+#page_contact .contact-content textarea {
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    color: #000;
+    border-radius: 0;
+    padding: 12px 14px;
+    font-size: 14px;
+    letter-spacing: .02em;
+}
+#page_contact .contact-content textarea {
+    min-height: 190px;
+    resize: vertical;
+}
+#page_contact .contact-content input:focus,
+#page_contact .contact-content select:focus,
+#page_contact .contact-content textarea:focus {
+    outline: none;
+    border-color: #666;
+}
+#page_contact .contact-error {
+    display: none;
+    margin-top: 6px;
+    color: #d70a17;
+    font-size: 12px;
+    line-height: 1.5;
+}
+#page_contact .contact-error.is-visible {
+    display: block;
+}
+#page_contact .contact-privacy {
+    margin-top: 24px;
+    text-align: center;
+}
+#page_contact .contact-privacy a {
+    display: inline-block;
+    text-decoration: underline;
+}
+#page_contact .contact-privacy .text_jp,
+#page_contact .contact-privacy .text_en {
+    text-align: center;
+}
+#page_contact .contact-consent {
+    margin-top: 16px;
+    text-align: center;
+}
+#page_contact .contact-consent-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+#page_contact .contact-consent-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+#page_contact .contact-consent .text_en {
+    margin-top: 4px;
+}
+#page_contact .contact-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+#page_contact .contact-submit {
+    display: block;
+    margin-top: 28px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0;
+    cursor: pointer;
+    text-align: center;
+}
+#page_contact .contact-submit:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+}
+#page_contact .contact-status {
+    margin-top: 14px;
+    min-height: 1.6em;
+    font-size: 13px;
+    line-height: 1.6;
+}
+#page_contact .contact-status.success {
+    color: #1d7f3f;
+}
+#page_contact .contact-status.error {
+    color: #d70a17;
+}
