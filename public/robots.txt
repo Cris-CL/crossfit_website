@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Exclude legacy booking and reserve pages (will be superseded)
+Disallow: /dropin-booking.html
+Disallow: /dropin-reserve.html
+Disallow: /hyrox-booking.html
+Disallow: /hyrox-performance-booking.html
+Disallow: /hyrox-strength-booking.html
+Disallow: /spartan-booking.html
+Disallow: /spartan-reserve.html
+Disallow: /spartan3.html
+Disallow: /trial-booking.html
+Disallow: /trial-reserve.html
+
+# Exclude utility pages
+Disallow: /success.html
+
+Sitemap: https://crossfitroppongi.com/sitemap.xml

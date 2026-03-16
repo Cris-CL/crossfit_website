@@ -3,38 +3,59 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>アクセス ｜ CrossFit Roppongi</title>
+        <title>Access & Location | アクセス | CrossFit Roppongi Tokyo</title>
+        <meta name="description" content="CrossFit Roppongi is located in Roppongi, Minato-ku, Tokyo. Directions and map. 六本木駅近くのクロスフィットジム。アクセス・地図はこちら。">
       
+        <!-- Schema.org structured data -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "SportsActivityLocation",
+          "name": "CrossFit Roppongi",
+          "alternateName": "クロスフィット六本木",
+          "url": "https://crossfitroppongi.com",
+          "telephone": "+81-3-6438-9813",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "7-4-8 Roppongi, B1F Wind Building",
+            "addressLocality": "Minato-ku",
+            "addressRegion": "Tokyo",
+            "postalCode": "106-0032",
+            "addressCountry": "JP"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 35.6651596,
+            "longitude": 139.7233594
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+              "opens": "08:00",
+              "closes": "20:30"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": "Saturday",
+              "opens": "08:00",
+              "closes": "16:00"
+            }
+          ]
+        }
+        </script>
+
         <!-- CSS -->
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="stylesheet" href="assets/css/media-queries.css">
-      
+
         <!-- Fonts -->
         <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://use.typekit.net" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">          
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              const menuToggle = document.querySelector(".menu-toggle");
-              const nav = document.querySelector(".nav_mobile");
-              const navLinks = document.querySelectorAll(".nav_mobile li a");
-          
-              // Toggle menu + button animation
-              menuToggle.addEventListener("click", () => {
-                nav.classList.toggle("active");
-                menuToggle.classList.toggle("active");
-              });
-          
-              // Close menu when clicking a link
-              navLinks.forEach(link => {
-                link.addEventListener("click", () => {
-                  nav.classList.remove("active");
-                  menuToggle.classList.remove("active");
-                });
-              });
-            });
-          </script>
+        <script defer src="assets/js/mobile-menu.js"></script>
       </head>
 <body>
 
@@ -425,7 +446,7 @@
   </div>
   </footer>
   
-  <a href="access.html#" id="totop" style="bottom: 30px;">
+  <a href="#top" id="totop" style="bottom: 30px;">
   <picture>	
     <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
     <img src="assets/img/totop.webp" alt="TOP">

@@ -2146,7 +2146,6 @@ body.no-scroll { overflow: hidden; }
     font-size: 14px;
     font-family: inherit;
     letter-spacing: .02em;
-    -webkit-appearance: none;
     appearance: none;
 }
 #page_carrer .career-content select {
@@ -2485,7 +2484,6 @@ body.no-scroll { overflow: hidden; }
     line-height: 1;
 }
 #hyrox-classes.hyrox-v3 .hyrox-book-btn {
-    -webkit-appearance: none;
     appearance: none;
     border: 0;
     cursor: pointer;
@@ -2885,7 +2883,6 @@ div#calendar-section {
     font-size: 14px;
     font-family: inherit;
     letter-spacing: .02em;
-    -webkit-appearance: none;
     appearance: none;
 }
 #page_contact .contact-content select {
