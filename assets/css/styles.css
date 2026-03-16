@@ -910,25 +910,25 @@ a{
 }
 
 .page-title.about-page{
-    background: url(../img/main.webp) right top / 100% auto no-repeat;
+    background: url(../img/main.jpg) right top / 100% auto no-repeat;
 }
 .page-title.facility-page{
-    background: url(../img/facility-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/facility-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.plan-page{
-    background: url(../img/plan-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/plan-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.carrer-page{
-    background: url(../img/carrer-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/carrer-bg.jpg) right top / 100% auto no-repeat;
 }
 .page-title.coach-page {
-    background: url(../img/coach-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/coach-bg.jpg) right top / 100% auto no-repeat;
 }
 .page-title.schedule-page {
-    background: url(../img/schedule-calendar.webp) right top / 100% auto no-repeat;
+    background: url(../img/schedule-calendar.jpg) right top / 100% auto no-repeat;
 }
 .page-title.access-page {
-    background: url(../img/access-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/access-bg.jpg) right top / 100% auto no-repeat;
 }
 .page-title.facility-page,
 .page-title.about-page,
@@ -955,14 +955,7 @@ section.page-title.carrer-page{
 .page-title.spartan-page::before,
 .page-title.dropin-page::before,
 .page-title.trial-page::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: #fff;
-    transform: translateX(0);
-    transition: transform .9s cubic-bezier(.22,.61,.36,1);
-    z-index: 1;
-    pointer-events: none;
+    display: none;
 }
 .page-title.facility-page .com_column,
 .page-title.about-page .com_column,
@@ -1027,14 +1020,14 @@ section.page-title.hyrox-page .sub-title {
     color: #f2c94c;
 }
 section.page-title.spartan-page {
-    background: url(../img/spartan-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/spartan-bg.jpg) right top / 100% auto no-repeat;
 }
 
 section.page-title.trial-page {
-    background: url(../img/trial-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/trial-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.dropin-page {
-    background: url(../img/dropin-bg.webp) right top / 100% auto no-repeat;
+    background: url(../img/dropin-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title h2 {
     color: #999;

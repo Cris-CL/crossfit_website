@@ -1,7 +1,17 @@
 import { defineConfig } from 'vite';
 
+const removeCssCrossorigin = {
+  name: 'remove-css-crossorigin',
+  transformIndexHtml(html) {
+    return html.replace(/<link rel="stylesheet" crossorigin/g, '<link rel="stylesheet"');
+  },
+};
+
 export default defineConfig({
+  plugins: [removeCssCrossorigin],
   root: '.',
+
+  publicDir: 'public',
 
   build: {
     outDir: 'dist',
