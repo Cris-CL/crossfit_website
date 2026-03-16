@@ -1,31 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SPARTAN</title>
+  <title>スパルタン ｜ CrossFit Roppongi</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="assets/css/media-queries.css">
 
   <!-- Fonts -->
+  <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
-
-  <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
-
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const menuToggle = document.querySelector(".menu-toggle");
-      const nav = document.querySelector("nav");
-      const navLinks = document.querySelectorAll("nav ul li a");
+      const nav = document.querySelector(".nav_mobile");
+      const navLinks = document.querySelectorAll(".nav_mobile li a");
 
       // Toggle menu + button animation
       menuToggle.addEventListener("click", () => {
@@ -58,7 +54,8 @@
       <span></span>
       <span></span>
       <span></span>
-    </button>
+    <span class="close-text font_proxima">CLOSE</span>
+  </button>
     <!-- Navigation Menu -->
     <nav>
       <div class="nav_top">
@@ -66,16 +63,43 @@
         <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
       </div>
       <ul>
-        <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
-        <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
-        <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
-        <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
-        <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
-        <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
+        <li><a href="about.html">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+        <li><a href="facility.html">施設・ 設備<span>FACILITY</span></a></li>
+        <li><a href="coach.html">コーチ<span>COACHES</span></a></li>
+        <li><a href="plan.html">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+        <li><a href="schedule.html">スケジュール<span>SCHEDULE</span></a></li>
+        <li><a href="hyrox.html">ハイロックス<span>HYROX</span></a></li>
         <li><a href="spartan.html" class="active">スパルタン<span>SPARTAN</span></a></li>
-        <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+        <li><a href="access.html">アクセス<span>ACCESS</span></a></li>
       </ul>
     </nav>
+    <!-- Mobile Navigation -->
+  <nav class="nav_mobile">
+    <ul class="nav_mobile_links">
+      <li><a href="index.html"><p class="jp">トップページ</p><p class="en font_proxima">HOME</p></a></li>
+      <li><a href="trial.html"><p class="jp">体験レッスン</p><p class="en font_proxima">TRIAL</p></a></li>
+      <li><a href="about.html"><p class="jp">CrossFitとは</p><p class="en font_proxima">ABOUT CROSSFIT</p></a></li>
+      <li><a href="dropin.html"><p class="jp">ドロップイン</p><p class="en font_proxima">DROP IN</p></a></li>
+      <li><a href="facility.html"><p class="jp">施設・設備</p><p class="en font_proxima">FACILITY</p></a></li>
+      <li><a href="hyrox.html"><p class="jp">ハイロックス</p><p class="en font_proxima">HYROX</p></a></li>
+      <li><a href="coach.html"><p class="jp">コーチ</p><p class="en font_proxima">COACHES</p></a></li>
+      <li><a href="spartan.html"><p class="jp">スパルタン</p><p class="en font_proxima">SPARTAN</p></a></li>
+      <li><a href="plan.html"><p class="jp">プラン・料金</p><p class="en font_proxima">MEMBERSHIP・PRICING</p></a></li>
+      <li><a href="career.html"><p class="jp">採用情報</p><p class="en font_proxima">CAREER</p></a></li>
+      <li><a href="schedule.html"><p class="jp">スケジュール</p><p class="en font_proxima">SCHEDULE</p></a></li>
+      <li><a href="contact.html"><p class="jp">お問い合わせ</p><p class="en font_proxima">CONTACT</p></a></li>
+      <li><a href="access.html"><p class="jp">アクセス</p><p class="en font_proxima">ACCESS</p></a></li>
+      <li><a href="privacy.html"><p class="jp">プライバシーポリシー</p><p class="en font_proxima">PRIVACY POLICY</p></a></li>
+    </ul>
+    <ul class="sns_list nav_mobile_sns">
+      <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+    </ul>
+    <div class="nav_mobile_cta">
+      <a href="trial.html" class="cta_trial font_proxima">TRIAL<span>体験レッスン</span></a>
+      <a href="dropin.html" class="cta_dropin font_proxima">DROP IN<span>ドロップイン</span></a>
+    </div>
+  </nav>
     <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span
         class="jp">体験レッスン</span></a>
   </header>
@@ -83,7 +107,7 @@
   <div id="page_spartan">
     <!-- Title Section -->
     <section id="spartan-hero" class="page-title spartan-page"
-      style="background: url('assets/img/spartan-bg.png') center top / cover no-repeat; padding: 40vh 0; transition: padding 0.5s ease;">
+      style="background: url('assets/img/spartan-bg.webp') center top / cover no-repeat; padding: 40vh 0; transition: padding 0.5s ease;">
       <div class="com_column">
         <h2>SPARTAN TRAINING</h2>
         <p class="sub-title">スパルタン・トレーニング</p>
@@ -96,54 +120,54 @@
         <div class="com_inner" style="margin-top: 0;">
           <h3 class="com_large_title">
             <p class="jp">
-              <font dir="auto" style="vertical-align: inherit;"></font><br class="br_pc">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Spartan SGX認定コーチによる<br></font>
-                <font dir="auto" style="vertical-align: inherit;">スパルタンレースに向けたトレーニング。</font>
-              </font>
+              <br class="br_pc">
+              
+                Spartan SGX認定コーチによる<br>
+                スパルタンレースに向けたトレーニング。
+              
             </p>
             <p class="text_en font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Spartan Race training with a Spartan SGX Certified
+              
+                Spartan Race training with a Spartan SGX Certified
                   Coach
-                </font>
-              </font>
+                
+              
             </p>
           </h3>
 
           <div class="text_wrap">
             <p class="text_jp">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">CrossFit
-                  Roppongiでは、世界最大の参加型障害物レース「スパルタンレース」に向けたプログラムをご用意しています。</font>
-              </font><br>
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">スパルタントレーニングは、CrossFit
-                  Roppongi非会員およびCrossFit未経験の方もご利用いただけます。</font>
-              </font><br>
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">
-                  運ぶ、登る、這う、投げる、つかむ、走る、などレースで必要な実践的な動作を4つのテーマ(バランス／パワー／エンデュランス／ストレングス）に沿って行います。</font>
-              </font>
+              
+                CrossFit
+                  Roppongiでは、世界最大の参加型障害物レース「スパルタンレース」に向けたプログラムをご用意しています。
+              <br>
+              
+                スパルタントレーニングは、CrossFit
+                  Roppongi非会員およびCrossFit未経験の方もご利用いただけます。
+              <br>
+              
+                
+                  運ぶ、登る、這う、投げる、つかむ、走る、などレースで必要な実践的な動作を4つのテーマ(バランス／パワー／エンデュランス／ストレングス）に沿って行います。
+              
             </p>
             <p class="text_en font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Whether you are training for a Spartan Race or just
+              
+                Whether you are training for a Spartan Race or just
                   enjoy pushing your mental and physical limits in a fun group setting, CrossFit Roppongi's Spartan
                   Class
-                  is for you! </font>
-              </font><br>
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Non-gym members are welcome and your class fee is all
+                  is for you! 
+              <br>
+              
+                Non-gym members are welcome and your class fee is all
                   that is required. Workouts can be scaled to match all levels, from CrossFitters to total beginners.
-                </font>
-              </font><br>
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Our class is focused on improving cardio conditoning,
+                
+              <br>
+              
+                Our class is focused on improving cardio conditoning,
                   stamina, and obstacle-related skill and strength through use of running, bodyweight exercises, and
                   simple movements including kettlebells and medcine balls. We also train obstacle skills, such as rope
-                  climbs, twister, and more.</font>
-              </font>
+                  climbs, twister, and more.
+              
             </p>
           </div>
           <div class="movie_wrap">
@@ -159,48 +183,48 @@
         <div class="com_inner">
           <div class="text_wrap">
             <p class="t_gray2 font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">COACH</font>
-              </font>
+              
+                COACH
+              
             </p>
             <p class="t_gray3">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Spartan SGX Certified Coach</font>
-              </font>
+              
+                Spartan SGX Certified Coach
+              
             </p>
             <h3 class="name font_proxima extra">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">MARC</font>
-              </font>
+              
+                MARC
+              
             </h3>
             <p class="text_jp">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Spartan SGX認定コーチであるマークが担当します。</font>
-              </font><br>
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">
+              
+                Spartan SGX認定コーチであるマークが担当します。
+              <br>
+              
+                
                   25年以上のコーチ歴と、数千人以上への指導経験を活かし、効果的かつ実践的なプログラムを提供しています。なかでも得意とするのが、効果的なランニングフォームの指導。スパルタンレースでの重要なカギとなるランニングのパフォーマンス向上を目指し、本番を想定したペースでの指導を行っています。その実力はリーボックジャパンでも認められ、エリートコーチとしてランニングセミナーも開催しています。
 
-                </font>
-              </font>
+                
+              
             </p>
             <p class="text_en font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Training is led by Marc Keen, Japan's 1st Spartan SGX
-                  certified coach and multiple-race podium finisher. </font>
-              </font><br>
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Marc is also a CrossFit L1 trainer and ACSM personal
+              
+                Training is led by Marc Keen, Japan's 1st Spartan SGX
+                  certified coach and multiple-race podium finisher. 
+              <br>
+              
+                Marc is also a CrossFit L1 trainer and ACSM personal
                   trainer with over 20 years experience. He has helped prepare thousands of racers since the start of
                   Spartan Race Japan in 2016. Competing in Spartan racing since 2011, Marc knows well as both a coach
                   and
-                  athlete what is needed to finish strong in races.</font>
-              </font>
+                  athlete what is needed to finish strong in races.
+              
             </p>
             <a href="https://www.instagram.com/coachmarc.official/" target="_blank" class="insta_link font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">@coachmarc.official</font>
-              </font>
+              
+                @coachmarc.official
+              
             </a>
           </div>
           <div class="photo">
@@ -287,7 +311,7 @@
                   </li>
                 </ul>
           <div class="com_inner" style="margin-top: 40px; text-align: center;">
-            <button onclick="showBooking()" class="grad_btn center font_proxima"
+            <button id="spartan-book-btn" class="grad_btn center font_proxima"
               style="border: none; cursor: pointer; display: block; width: 100%; max-width: 370px; margin: 0 auto;">
               <span class="jp">予約する</span>
               <span class="en font_proxima">BOOK</span>
@@ -304,7 +328,7 @@
     <section id="spartan-booking-section" class="sec_reserve2"
       style="display: none; background-color: #fff; padding: 60px 0;">
       <div class="com_inner reserve_btm">
-        <button id="back-to-info-btn" onclick="hideBooking()"
+        <button id="back-to-info-btn"
           style="background: transparent; color: #000; border: 1px solid #000; padding: 10px 20px; cursor: pointer; margin-bottom: 20px;">&larr;
           BACK TO INFO</button>
 
@@ -392,6 +416,14 @@
           }
         }
       }, false);
+
+      // Event bindings (replaces inline onclick attributes)
+      document.addEventListener('DOMContentLoaded', function () {
+        const bookBtn = document.getElementById('spartan-book-btn');
+        if (bookBtn) bookBtn.addEventListener('click', showBooking);
+        const backBtn = document.getElementById('back-to-info-btn');
+        if (backBtn) backBtn.addEventListener('click', hideBooking);
+      });
     </script>
     <!-- com_sec_link Section -->
     <section class="com_sec_link">
@@ -407,54 +439,54 @@
         <li>
           <div class="inner">
             <h2 class="title font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">DROP IN</font>
-              </font>
+              
+                DROP IN
+              
             </h2>
             <p class="text_jp">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font>
-              </font>
+              
+                Drop-in training for experienced users
+              
             </p>
             <p class="text_en font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous
+              
+                Drop-ins are available for those with previous
                   CrossFit
-                  experience.</font>
-              </font>
+                  experience.
+              
             </p>
             <a href="dropin.html" class="more_btn font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">SEE MORE</font>
-              </font>
+              
+                SEE MORE
+              
             </a>
           </div>
         </li>
         <li>
           <div class="inner">
             <h2 class="title font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font>
-              </font>
+              
+                SPARTAN TRAINING
+              
             </h2>
             <p class="text_jp">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest
-                  obstacle race</font>
-              </font>
+              
+                Training for the Spartan Race, the world's largest
+                  obstacle race
+              
             </p>
             <p class="text_en font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your
+              
+                Our bootcamp-style Spartan class will challenge your
                   stamina and cardio fitness, as well as help you prepare for your next Spartan Race with
                   obstacle-related
-                  strength and skill training. No experience necessay and all levels are welcome!</font>
-              </font>
+                  strength and skill training. No experience necessay and all levels are welcome!
+              
             </p>
             <a href="spartan.html" class="more_btn font_proxima">
-              <font dir="auto" style="vertical-align: inherit;">
-                <font dir="auto" style="vertical-align: inherit;">SEE MORE</font>
-              </font>
+              
+                SEE MORE
+              
             </a>
           </div>
         </li>
@@ -536,9 +568,15 @@
               </a>
             </li>
             <li>
-              <a href="spartan.html">
-                <p class="jp"><span>スパルタントレーニング</span></p>
-                <p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+              <a href="hyrox.html">
+						<p class="jp"><span>ハイロックス</span></p>
+						<p class="en font_proxima"><span>HYROX</span></p>
+					</a>
+				</li>
+				<li>
+					<a href="spartan.html">
+						<p class="jp"><span>スパルタン</span></p>
+						<p class="en font_proxima"><span>SPARTAN</span></p>
               </a>
             </li>
             <li>
@@ -562,7 +600,7 @@
           </ul>
         </div>
       </div>
-      <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+      <small class="copyright font_proxima">© 2026 CrossFit Roppongi </small>
       <a href="https://journal.crossfit.com/" target="_blank" class="journal">
         <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
       </a>

@@ -34,8 +34,8 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const menuToggle = document.querySelector(".menu-toggle");
-      const nav = document.querySelector("nav");
-      const navLinks = document.querySelectorAll("nav ul li a");
+      const nav = document.querySelector(".nav_mobile");
+      const navLinks = document.querySelectorAll(".nav_mobile li a");
 
       menuToggle.addEventListener("click", () => {
         nav.classList.toggle("active");
@@ -66,7 +66,8 @@
       <span></span>
       <span></span>
       <span></span>
-    </button>
+    <span class="close-text font_proxima">CLOSE</span>
+  </button>
     <!-- Navigation Menu -->
     <nav>
       <div class="nav_top">
@@ -84,6 +85,33 @@
         <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
       </ul>
     </nav>
+    <!-- Mobile Navigation -->
+  <nav class="nav_mobile">
+    <ul class="nav_mobile_links">
+      <li><a href="index.html"><p class="jp">トップページ</p><p class="en font_proxima">HOME</p></a></li>
+      <li><a href="trial.html"><p class="jp">体験レッスン</p><p class="en font_proxima">TRIAL</p></a></li>
+      <li><a href="about.html"><p class="jp">CrossFitとは</p><p class="en font_proxima">ABOUT CROSSFIT</p></a></li>
+      <li><a href="dropin.html"><p class="jp">ドロップイン</p><p class="en font_proxima">DROP IN</p></a></li>
+      <li><a href="facility.html"><p class="jp">施設・設備</p><p class="en font_proxima">FACILITY</p></a></li>
+      <li><a href="hyrox.html"><p class="jp">ハイロックス</p><p class="en font_proxima">HYROX</p></a></li>
+      <li><a href="coach.html"><p class="jp">コーチ</p><p class="en font_proxima">COACHES</p></a></li>
+      <li><a href="spartan.html"><p class="jp">スパルタン</p><p class="en font_proxima">SPARTAN</p></a></li>
+      <li><a href="plan.html"><p class="jp">プラン・料金</p><p class="en font_proxima">MEMBERSHIP・PRICING</p></a></li>
+      <li><a href="career.html"><p class="jp">採用情報</p><p class="en font_proxima">CAREER</p></a></li>
+      <li><a href="schedule.html"><p class="jp">スケジュール</p><p class="en font_proxima">SCHEDULE</p></a></li>
+      <li><a href="contact.html"><p class="jp">お問い合わせ</p><p class="en font_proxima">CONTACT</p></a></li>
+      <li><a href="access.html"><p class="jp">アクセス</p><p class="en font_proxima">ACCESS</p></a></li>
+      <li><a href="privacy.html"><p class="jp">プライバシーポリシー</p><p class="en font_proxima">PRIVACY POLICY</p></a></li>
+    </ul>
+    <ul class="sns_list nav_mobile_sns">
+      <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+    </ul>
+    <div class="nav_mobile_cta">
+      <a href="trial.html" class="cta_trial font_proxima">TRIAL<span>体験レッスン</span></a>
+      <a href="dropin.html" class="cta_dropin font_proxima">DROP IN<span>ドロップイン</span></a>
+    </div>
+  </nav>
     <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span
         class="jp">体験レッスン</span></a>
   </header>
@@ -228,9 +256,15 @@
                 <p class="jp"><span>ドロップイン</span></p>
                 <p class="en font_proxima"><span>DROP IN</span></p>
               </a></li>
-            <li><a href="spartan.html">
-                <p class="jp"><span>スパルタントレーニング</span></p>
-                <p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+            <li><a href="hyrox.html">
+						<p class="jp"><span>ハイロックス</span></p>
+						<p class="en font_proxima"><span>HYROX</span></p>
+					</a>
+				</li>
+				<li>
+					<a href="spartan.html">
+						<p class="jp"><span>スパルタン</span></p>
+						<p class="en font_proxima"><span>SPARTAN</span></p>
               </a></li>
             <li><a href="career.html">
                 <p class="jp"><span>採用情報</span></p>
@@ -247,7 +281,7 @@
           </ul>
         </div>
       </div>
-      <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+      <small class="copyright font_proxima">© 2026 CrossFit Roppongi </small>
       <a href="https://journal.crossfit.com/" target="_blank" class="journal">
         <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
       </a>

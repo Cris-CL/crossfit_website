@@ -4,12 +4,11 @@
   },
   "hosting": {
     "site": "crossfitwebsite",
-    "public": ".",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**",
-      "backups/**"
+      "**/node_modules/**"
     ],
     "rewrites": [
       {

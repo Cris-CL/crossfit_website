@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HYROX</title>
+  <title>ハイロックス ｜ CrossFit Roppongi</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
@@ -13,16 +13,12 @@
 
 
   <!-- Fonts -->
+  <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
-
-  <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
-  <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
-
   <!--Custom Style-->
   <style>
     /* minimal styles for the inserted section */
@@ -38,8 +34,8 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const menuToggle = document.querySelector(".menu-toggle");
-      const nav = document.querySelector("nav");
-      const navLinks = document.querySelectorAll("nav ul li a");
+      const nav = document.querySelector(".nav_mobile");
+      const navLinks = document.querySelectorAll(".nav_mobile li a");
 
       // Toggle menu + button animation
       menuToggle.addEventListener("click", () => {
@@ -72,7 +68,8 @@
       <span></span>
       <span></span>
       <span></span>
-    </button>
+    <span class="close-text font_proxima">CLOSE</span>
+  </button>
     <!-- Navigation Menu -->
     <nav>
       <div class="nav_top">
@@ -80,16 +77,43 @@
         <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
       </div>
       <ul>
-        <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
-        <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
-        <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
-        <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
-        <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
+        <li><a href="about.html">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+        <li><a href="facility.html">施設・ 設備<span>FACILITY</span></a></li>
+        <li><a href="coach.html">コーチ<span>COACHES</span></a></li>
+        <li><a href="plan.html">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+        <li><a href="schedule.html">スケジュール<span>SCHEDULE</span></a></li>
         <li><a href="hyrox.html" class="active">ハイロックス<span>HYROX</span></a></li>
-        <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
-        <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+        <li><a href="spartan.html">スパルタン<span>SPARTAN</span></a></li>
+        <li><a href="access.html">アクセス<span>ACCESS</span></a></li>
       </ul>
     </nav>
+    <!-- Mobile Navigation -->
+  <nav class="nav_mobile">
+    <ul class="nav_mobile_links">
+      <li><a href="index.html"><p class="jp">トップページ</p><p class="en font_proxima">HOME</p></a></li>
+      <li><a href="trial.html"><p class="jp">体験レッスン</p><p class="en font_proxima">TRIAL</p></a></li>
+      <li><a href="about.html"><p class="jp">CrossFitとは</p><p class="en font_proxima">ABOUT CROSSFIT</p></a></li>
+      <li><a href="dropin.html"><p class="jp">ドロップイン</p><p class="en font_proxima">DROP IN</p></a></li>
+      <li><a href="facility.html"><p class="jp">施設・設備</p><p class="en font_proxima">FACILITY</p></a></li>
+      <li><a href="hyrox.html"><p class="jp">ハイロックス</p><p class="en font_proxima">HYROX</p></a></li>
+      <li><a href="coach.html"><p class="jp">コーチ</p><p class="en font_proxima">COACHES</p></a></li>
+      <li><a href="spartan.html"><p class="jp">スパルタン</p><p class="en font_proxima">SPARTAN</p></a></li>
+      <li><a href="plan.html"><p class="jp">プラン・料金</p><p class="en font_proxima">MEMBERSHIP・PRICING</p></a></li>
+      <li><a href="career.html"><p class="jp">採用情報</p><p class="en font_proxima">CAREER</p></a></li>
+      <li><a href="schedule.html"><p class="jp">スケジュール</p><p class="en font_proxima">SCHEDULE</p></a></li>
+      <li><a href="contact.html"><p class="jp">お問い合わせ</p><p class="en font_proxima">CONTACT</p></a></li>
+      <li><a href="access.html"><p class="jp">アクセス</p><p class="en font_proxima">ACCESS</p></a></li>
+      <li><a href="privacy.html"><p class="jp">プライバシーポリシー</p><p class="en font_proxima">PRIVACY POLICY</p></a></li>
+    </ul>
+    <ul class="sns_list nav_mobile_sns">
+      <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+    </ul>
+    <div class="nav_mobile_cta">
+      <a href="trial.html" class="cta_trial font_proxima">TRIAL<span>体験レッスン</span></a>
+      <a href="dropin.html" class="cta_dropin font_proxima">DROP IN<span>ドロップイン</span></a>
+    </div>
+  </nav>
     <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span
         class="jp">体験レッスン</span></a>
   </header>
@@ -97,7 +121,7 @@
   <div id="page_spartan">
     <!-- Title Section -->
     <section id="hyrox-hero" class="page-title hyrox-page"
-      style="background: url('assets/img/hero.png') center top / cover no-repeat; padding: 40vh 0; transition: padding 0.5s ease;">
+      style="background: url('assets/img/hero.webp') center top / cover no-repeat; padding: 40vh 0; transition: padding 0.5s ease;">
       <div class="com_column">
         <h2 class="title font_proxima">HYROX</h2>
         <p class="sub-title">FITNESS RACING</p>
@@ -141,11 +165,11 @@
     <section id="hyrox-classes" class="sec_reserve hyrox-v3" style="background-color: #000; padding: 60px 0;">
       <div class="com_inner">
         <div class="hyrox-class-tabs">
-          <button type="button" class="hyrox-tab-btn active" onclick="selectHyroxClass('performance', this)">
+          <button type="button" class="hyrox-tab-btn active" data-type="performance">
             <span class="tab-title font_proxima">COMPETITORS<br>RACING</span>
             <span class="tab-days font_proxima">土 / SATURDAY</span>
           </button>
-          <button type="button" class="hyrox-tab-btn" onclick="selectHyroxClass('strength', this)">
+          <button type="button" class="hyrox-tab-btn" data-type="strength">
             <span class="tab-title font_proxima">CONDITIONING<br>STRENGTH</span>
             <span class="tab-days font_proxima">水・金・日／WEDNESDAY ・FRIDAY・SUNDAY</span>
           </button>
@@ -166,7 +190,10 @@
             </li>
             <li>
               <p class="label">スケジュール <span class="font_proxima">SCHEDULE</span></p>
-              <p class="value">第1、第3土曜日 17:30〜18:45 / 75分</p>
+              <p class="value">
+                <span class="jp-line">第1、第3土曜日 17:30〜18:45 / 75分</span>
+                <span class="en-line font_proxima">The 1st and 3rd Saturday, 5:30–6:45 p.m / 75 min</span>
+              </p>
             </li>
             <li>
               <p class="label">対象 <span class="font_proxima">ELIGIBILITY</span></p>
@@ -202,7 +229,7 @@
             </li>
           </ul>
 
-          <button onclick="showBooking('performance')" class="grad_btn center font_proxima hyrox-book-btn">
+          <button class="grad_btn center font_proxima hyrox-book-btn">
             <span class="jp">予約する</span>
             <span class="en font_proxima">BOOK</span>
           </button>
@@ -223,7 +250,10 @@
             </li>
             <li>
               <p class="label">スケジュール <span class="font_proxima">SCHEDULE</span></p>
-              <p class="value">月・水・金・日 (詳細はカレンダーをチェック)</p>
+              <p class="value">
+                <span class="jp-line">第1,第3水曜日　19:00〜20:00/60分<br>第2,第4金曜日　10:00〜11:00/60分<br>毎週日曜日　10:30〜11:30/60分</span>
+                <span class="en-line font_proxima">The 1st and 3rd Wednesday, 7:00–8:00 p.m / 60 min<br>The 2nd and 4th Friday, 10:00–11:00 a.m / 60 min<br>Every Sunday, 10:30–11:30 a.m / 60 min</span>
+              </p>
             </li>
             <li>
               <p class="label">対象 <span class="font_proxima">ELIGIBILITY</span></p>
@@ -259,7 +289,7 @@
             </li>
           </ul>
 
-          <button onclick="showBooking('strength')" class="grad_btn center font_proxima hyrox-book-btn">
+          <button class="grad_btn center font_proxima hyrox-book-btn">
             <span class="jp">予約する</span>
             <span class="en font_proxima">BOOK</span>
           </button>
@@ -271,7 +301,7 @@
     <section id="hyrox-booking-section" class="sec_reserve2"
       style="display: none; background-color: #fff; padding: 60px 0;">
       <div class="com_inner reserve_btm">
-        <button id="back-to-info-btn" onclick="hideBooking()"
+        <button id="back-to-info-btn"
           style="background: transparent; color: #000; border: 1px solid #000; padding: 10px 20px; cursor: pointer; margin-bottom: 20px;">&larr;
           BACK TO INFO</button>
         <div class="kiyaku_box" style="margin-bottom: 40px;">
@@ -365,7 +395,7 @@
         // Restore hero image size and background
         if (hero) {
           hero.style.padding = '35vh 0';
-          hero.style.backgroundImage = "url('assets/img/hero.png')";
+          hero.style.backgroundImage = "url('assets/img/hero.webp')";
           hero.style.backgroundPosition = "center top";
         }
 
@@ -382,6 +412,22 @@
           }
         }
       }, false);
+
+      // Event bindings (replaces inline onclick attributes)
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.hyrox-tab-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            selectHyroxClass(btn.dataset.type, btn);
+          });
+        });
+        document.querySelectorAll('.hyrox-book-btn').forEach(function (btn) {
+          const panel = btn.closest('.hyrox-class-panel');
+          const type  = panel ? panel.id.replace('hyrox-panel-', '') : '';
+          btn.addEventListener('click', function () { showBooking(type); });
+        });
+        const backBtn = document.getElementById('back-to-info-btn');
+        if (backBtn) backBtn.addEventListener('click', hideBooking);
+      });
     </script>
 
     <section class="com_sec_gallery">
@@ -504,9 +550,15 @@
               </a>
             </li>
             <li>
-              <a href="spartan.html">
-                <p class="jp"><span>スパルタントレーニング</span></p>
-                <p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+              <a href="hyrox.html">
+						<p class="jp"><span>ハイロックス</span></p>
+						<p class="en font_proxima"><span>HYROX</span></p>
+					</a>
+				</li>
+				<li>
+					<a href="spartan.html">
+						<p class="jp"><span>スパルタン</span></p>
+						<p class="en font_proxima"><span>SPARTAN</span></p>
               </a>
             </li>
             <li>
@@ -530,7 +582,7 @@
           </ul>
         </div>
       </div>
-      <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+      <small class="copyright font_proxima">© 2026 CrossFit Roppongi </small>
       <a href="https://journal.crossfit.com/" target="_blank" class="journal">
         <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
       </a>

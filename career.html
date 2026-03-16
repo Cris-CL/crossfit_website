@@ -1,28 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CAREER</title>
+        <title>採用情報 ｜ CrossFit Roppongi</title>
       
         <!-- CSS -->
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="stylesheet" href="assets/css/media-queries.css">
       
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-        <link rel="preload" href="assets/fonts/proximanova-thin.otf" as="font" type="font/otf" crossorigin>
-        <link rel="preload" href="assets/fonts/proximanova-regular.otf" as="font" type="font/otf" crossorigin>
-        <link rel="preload" href="assets/fonts/proximanova-bold.otf" as="font" type="font/otf" crossorigin>
-          
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">          
         <script>
             document.addEventListener("DOMContentLoaded", () => {
               const menuToggle = document.querySelector(".menu-toggle");
-              const nav = document.querySelector("nav");
-              const navLinks = document.querySelectorAll("nav ul li a");
+              const nav = document.querySelector(".nav_mobile");
+              const navLinks = document.querySelectorAll(".nav_mobile li a");
           
               // Toggle menu + button animation
               menuToggle.addEventListener("click", () => {
@@ -54,6 +50,7 @@
       <span></span>
       <span></span>
       <span></span>
+  <span class="close-text font_proxima">CLOSE</span>
   </button>
   <!-- Navigation Menu -->
   <nav>
@@ -62,15 +59,42 @@
       <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
     </div>
     <ul>
-      <li><a href="about.html" class="">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
-      <li><a href="facility.html" class="">施設・ 設備<span>FACILITY</span></a></li>
-      <li><a href="coach.html" class="">コーチ<span>COACHES</span></a></li>
-      <li><a href="plan.html" class="">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
-      <li><a href="schedule.html" class="">スケジュール<span>SCHEDULE</span></a></li>
-      <li><a href="hyrox.html" class="">ハイロックス<span>HYROX</span></a></li>
-      <li><a href="spartan.html" class="">スパルタン<span>SPARTAN</span></a></li>
-      <li><a href="access.html" class="">アクセス<span>ACCESS</span></a></li>
+      <li><a href="about.html">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html">アクセス<span>ACCESS</span></a></li>
     </ul>
+  </nav>
+  <!-- Mobile Navigation -->
+  <nav class="nav_mobile">
+    <ul class="nav_mobile_links">
+      <li><a href="index.html"><p class="jp">トップページ</p><p class="en font_proxima">HOME</p></a></li>
+      <li><a href="trial.html"><p class="jp">体験レッスン</p><p class="en font_proxima">TRIAL</p></a></li>
+      <li><a href="about.html"><p class="jp">CrossFitとは</p><p class="en font_proxima">ABOUT CROSSFIT</p></a></li>
+      <li><a href="dropin.html"><p class="jp">ドロップイン</p><p class="en font_proxima">DROP IN</p></a></li>
+      <li><a href="facility.html"><p class="jp">施設・設備</p><p class="en font_proxima">FACILITY</p></a></li>
+      <li><a href="hyrox.html"><p class="jp">ハイロックス</p><p class="en font_proxima">HYROX</p></a></li>
+      <li><a href="coach.html"><p class="jp">コーチ</p><p class="en font_proxima">COACHES</p></a></li>
+      <li><a href="spartan.html"><p class="jp">スパルタン</p><p class="en font_proxima">SPARTAN</p></a></li>
+      <li><a href="plan.html"><p class="jp">プラン・料金</p><p class="en font_proxima">MEMBERSHIP・PRICING</p></a></li>
+      <li><a href="career.html"><p class="jp">採用情報</p><p class="en font_proxima">CAREER</p></a></li>
+      <li><a href="schedule.html"><p class="jp">スケジュール</p><p class="en font_proxima">SCHEDULE</p></a></li>
+      <li><a href="contact.html"><p class="jp">お問い合わせ</p><p class="en font_proxima">CONTACT</p></a></li>
+      <li><a href="access.html"><p class="jp">アクセス</p><p class="en font_proxima">ACCESS</p></a></li>
+      <li><a href="privacy.html"><p class="jp">プライバシーポリシー</p><p class="en font_proxima">PRIVACY POLICY</p></a></li>
+    </ul>
+    <ul class="sns_list nav_mobile_sns">
+      <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+    </ul>
+    <div class="nav_mobile_cta">
+      <a href="trial.html" class="cta_trial font_proxima">TRIAL<span>体験レッスン</span></a>
+      <a href="dropin.html" class="cta_dropin font_proxima">DROP IN<span>ドロップイン</span></a>
+    </div>
   </nav>
   <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
 </header>
@@ -183,12 +207,12 @@
         <p class="text_en font_proxima">HOW TO APPLY</p>
       </h4>
       <div class="content">
-        <p class="text_jp">履歴書を添付の上、<a href="career.html#">応募フォーム</a>よりご応募ください。</p>
-        <p class="text_en font_proxima">Please apply via the <a href="career.html#">APPLICATION FORM</a> and attach your resume.</p>
+        <p class="text_jp">履歴書を添付の上、<a href="#career-form">応募フォーム</a>よりご応募ください。</p>
+        <p class="text_en font_proxima">Please apply via the <a href="#career-form">APPLICATION FORM</a> and attach your resume.</p>
       </div>
     </li>
   </ul>
-  <a href="career.html#" class="grad_btn center">
+  <a href="#career-form" class="grad_btn center" data-position="コーチ・トレーナー">
     <span class="jp">応募フォーム</span>
     <span class="en font_proxima">APPLY</span>
   </a>
@@ -197,7 +221,7 @@
 <!-- gallery Section -->
 <section class="com_sec_gallery">
   <div class="gallery_left fade_g scrollin">
-      <picture>	
+      <picture>
           <source media="(max-width:767px)" srcset="assets/img/gallery06_left_sp.webp">
           <img src="assets/img/gallery06_left.webp" alt="CrossFit Roppongiのトレーニング">
       </picture>
@@ -287,12 +311,12 @@
         <p class="text_en font_proxima">HOW TO APPLY</p>
       </h4>
       <div class="content">
-        <p class="text_jp">履歴書を添付の上、<a href="career.html#">応募フォーム</a>よりご応募ください。</p>
-        <p class="text_en font_proxima">Please apply via the <a href="career.html#">APPLICATION FORM</a> and attach your resume.</p>
+        <p class="text_jp">履歴書を添付の上、<a href="#career-form">応募フォーム</a>よりご応募ください。</p>
+        <p class="text_en font_proxima">Please apply via the <a href="#career-form">APPLICATION FORM</a> and attach your resume.</p>
       </div>
     </li>
   </ul>
-  <a href="career.html#" class="grad_btn center">
+  <a href="#career-form" class="grad_btn center" data-position="フロント・フロントマネジャー">
     <span class="jp">応募フォーム</span>
     <span class="en font_proxima">APPLY</span>
   </a>
@@ -301,7 +325,7 @@
 <!-- gallery Section -->
 <section class="com_sec_gallery">
   <div class="gallery_left fade_g scrollin">
-      <picture>	
+      <picture>
           <source media="(max-width:767px)" srcset="assets/img/gallery07_left_sp.webp">
           <img src="assets/img/gallery07_left.webp" alt="CrossFit Roppongiのトレーニング">
       </picture>
@@ -310,6 +334,153 @@
       <img src="assets/img/gallery07_right.webp" alt="CrossFit Roppongiのトレーニング">
   </div>
 </section>
+  <!-- Application Form Section -->
+  <section id="career-form" class="sec_career_form">
+    <div class="com_inner">
+      <h3 class="com_large_title">
+        <p class="jp">応募フォーム</p>
+        <p class="text_en font_proxima">APPLICATION FORM</p>
+      </h3>
+      <p class="lead text_jp"><span>※</span>は入力必須項目です。</p>
+      <p class="lead text_en">Items with a * are required.</p>
+
+      <form id="career-form-el" class="career-form" novalidate>
+        <ul class="career-form-list">
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">職種</p>
+              <p class="en font_proxima">OCCUPATION</p>
+            </h3>
+            <p class="required">※</p>
+            <div class="career-content">
+              <select id="careerPosition" name="position" required>
+                <option value="">選択してください Please select a position</option>
+                <option value="コーチ・トレーナー">コーチ・トレーナー (Coach / Sports Trainer)</option>
+                <option value="フロント・フロントマネジャー">フロント・フロントマネジャー (Front Desk Staff / Manager)</option>
+              </select>
+              <p class="career-error" data-error-for="position"></p>
+            </div>
+          </li>
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">氏名</p>
+              <p class="en font_proxima">FULL NAME</p>
+            </h3>
+            <p class="required">※</p>
+            <div class="career-content">
+              <input type="text" id="careerName" name="name" placeholder="山田 太郎 Taro Yamada" required>
+              <p class="career-error" data-error-for="name"></p>
+            </div>
+          </li>
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">生年月日</p>
+              <p class="en font_proxima">DATE OF BIRTH</p>
+            </h3>
+            <p class="required">※</p>
+            <div class="career-content">
+              <input type="date" id="careerBirthday" name="birthday" required>
+              <p class="career-error" data-error-for="birthday"></p>
+            </div>
+          </li>
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">性別</p>
+              <p class="en font_proxima">GENDER</p>
+            </h3>
+            <p class="required">※</p>
+            <div class="career-content">
+              <div class="career-radio-group">
+                <label class="career-radio-label">
+                  <input type="radio" name="gender" value="男性" required>
+                  <span class="jp">男性</span><span class="en font_proxima"> Man</span>
+                </label>
+                <label class="career-radio-label">
+                  <input type="radio" name="gender" value="女性">
+                  <span class="jp">女性</span><span class="en font_proxima"> Woman</span>
+                </label>
+                <label class="career-radio-label">
+                  <input type="radio" name="gender" value="無回答">
+                  <span class="jp">無回答</span><span class="en font_proxima"> No answer</span>
+                </label>
+              </div>
+              <p class="career-error" data-error-for="gender"></p>
+            </div>
+          </li>
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">電話番号</p>
+              <p class="en font_proxima">PHONE NUMBER</p>
+            </h3>
+            <p class="required">※</p>
+            <div class="career-content">
+              <input type="tel" id="careerPhone" name="phone" placeholder="000-0000-0000" required>
+              <p class="career-error" data-error-for="phone"></p>
+            </div>
+          </li>
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">メール</p>
+              <p class="en font_proxima">E-MAIL ADDRESS</p>
+            </h3>
+            <p class="required">※</p>
+            <div class="career-content">
+              <input type="email" id="careerEmail" name="email" placeholder="info@crossfitroppongi.com" required>
+              <p class="career-error" data-error-for="email"></p>
+            </div>
+          </li>
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">ファイルを添付する</p>
+              <p class="en font_proxima">FILE ATTACHMENT</p>
+            </h3>
+            <p class="required"></p>
+            <div class="career-content">
+              <input type="file" id="careerFile" name="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+              <p class="career-field-note text_jp">履歴書をPDF形式でご提出ください（最大10MB）</p>
+              <p class="career-error" data-error-for="file"></p>
+            </div>
+          </li>
+          <li class="career-row">
+            <h3 class="career-title">
+              <p class="jp">ご希望・ご質問</p>
+              <p class="en font_proxima">QUESTIONS</p>
+            </h3>
+            <p class="required"></p>
+            <div class="career-content">
+              <textarea id="careerMessage" name="message" rows="8"></textarea>
+            </div>
+          </li>
+        </ul>
+
+        <div class="career-privacy">
+          <p class="text_jp"><a href="privacy.html">プライバシーポリシー</a>をご確認いただき、ご同意の上送信ください</p>
+          <p class="text_en font_proxima">Please read and consent to the <a href="privacy.html">Privacy Policy</a> before submitting your application.</p>
+        </div>
+
+        <div class="career-consent">
+          <label for="careerPrivacy" class="career-consent-label">
+            <input type="checkbox" id="careerPrivacy" name="acceptedPrivacy" value="1" required>
+            <span class="text_jp">プライバシーポリシーに同意する</span>
+          </label>
+          <p class="text_en font_proxima">I consent to the Privacy Policy.</p>
+          <p class="career-error" data-error-for="acceptedPrivacy"></p>
+        </div>
+
+        <div class="career-honeypot" aria-hidden="true">
+          <label for="careerWebsite">Leave this field empty</label>
+          <input type="text" id="careerWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" class="grad_btn center career-submit" disabled>
+          <span class="jp">送信する</span>
+          <span class="en font_proxima">SUBMIT</span>
+        </button>
+        <p id="career-form-status" class="career-status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
   <!-- com_sec_link Section -->
   <section class="com_sec_link">
 	<ul class="link_list">
@@ -342,18 +513,18 @@
 	<ul class="reserve_list">
 		<li>
 			<div class="inner">
-				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">DROP IN</font></font></h2>
-				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-in training for experienced users</font></font></p>
-				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Drop-ins are available for those with previous CrossFit experience.</font></font></p>
-				<a href="dropin.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+				<h2 class="title font_proxima">DROP IN</h2>
+				<p class="text_jp">Drop-in training for experienced users</p>
+				<p class="text_en font_proxima">Drop-ins are available for those with previous CrossFit experience.</p>
+				<a href="dropin.html" class="more_btn font_proxima">SEE MORE</a>
 			</div>
 		</li>
 		<li>
 			<div class="inner">
-				<h2 class="title font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SPARTAN TRAINING</font></font></h2>
-				<p class="text_jp"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Training for the Spartan Race, the world's largest obstacle race</font></font></p>
-				<p class="text_en font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</font></font></p>
-				<a href="spartan.html" class="more_btn font_proxima"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">SEE MORE</font></font></a>
+				<h2 class="title font_proxima">SPARTAN TRAINING</h2>
+				<p class="text_jp">Training for the Spartan Race, the world's largest obstacle race</p>
+				<p class="text_en font_proxima">Our bootcamp-style Spartan class will challenge your stamina and cardio fitness, as well as help you prepare for your next Spartan Race with obstacle-related strength and skill training. No experience necessay and all levels are welcome!</p>
+				<a href="spartan.html" class="more_btn font_proxima">SEE MORE</a>
 			</div>
 		</li>
 	</ul>
@@ -432,9 +603,15 @@
 						</a>
 					</li>
 					<li>
-						<a href="spartan.html">
-							<p class="jp"><span>スパルタントレーニング</span></p>
-							<p class="en font_proxima"><span>SPARTAN TRAINING</span></p>
+						<a href="hyrox.html">
+						<p class="jp"><span>ハイロックス</span></p>
+						<p class="en font_proxima"><span>HYROX</span></p>
+					</a>
+				</li>
+				<li>
+					<a href="spartan.html">
+						<p class="jp"><span>スパルタン</span></p>
+						<p class="en font_proxima"><span>SPARTAN</span></p>
 						</a>
 					</li>
 					<li>
@@ -458,7 +635,7 @@
 				</ul>
       </div>
     </div>
-    <small class="copyright font_proxima">© 2025 CrossFit Roppongi </small>
+    <small class="copyright font_proxima">© 2026 CrossFit Roppongi </small>
     <a href="https://journal.crossfit.com/" target="_blank" class="journal">
       <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
     </a>
@@ -473,6 +650,163 @@
   </a>
   
   <script>
+    // ── Career Application Form ────────────────────────────────────────────
+    (function () {
+      // TODO: replace with deployed Apps Script Web App URL
+      const CAREER_FORM_URL = '';
+
+      const form = document.getElementById('career-form-el');
+      if (!form) return;
+
+      const status = document.getElementById('career-form-status');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      let fileBase64 = '', fileName = '', fileType = '';
+
+      // Pre-select position when APPLY button is clicked
+      document.querySelectorAll('[data-position]').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          const sel = document.getElementById('careerPosition');
+          if (sel) {
+            sel.value = btn.dataset.position;
+            updateSubmitState();
+          }
+          document.getElementById('career-form').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // File reading
+      form.file.addEventListener('change', () => {
+        const file = form.file.files[0];
+        if (!file) { fileBase64 = ''; fileName = ''; fileType = ''; return; }
+        if (file.size > 10 * 1024 * 1024) {
+          setFieldError('file', 'ファイルサイズは10MB以下にしてください。');
+          form.file.value = '';
+          fileBase64 = ''; fileName = ''; fileType = '';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => {
+          fileBase64 = e.target.result.split(',')[1];
+          fileName = file.name;
+          fileType = file.type;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      function setStatus(message, type) {
+        status.textContent = message || '';
+        status.classList.remove('success', 'error');
+        if (type) status.classList.add(type);
+      }
+
+      function setFieldError(name, message) {
+        const el = form.querySelector(`[data-error-for="${name}"]`);
+        if (!el) return;
+        el.textContent = message || '';
+        el.classList.toggle('is-visible', !!message);
+      }
+
+      function clearErrors() {
+        form.querySelectorAll('.career-error').forEach(el => {
+          el.textContent = '';
+          el.classList.remove('is-visible');
+        });
+      }
+
+      function isFormReady() {
+        const genderSelected = !!form.querySelector('input[name="gender"]:checked');
+        return !!(
+          form.position.value.trim() &&
+          form.name.value.trim() &&
+          form.birthday.value.trim() &&
+          genderSelected &&
+          form.phone.value.trim() &&
+          emailPattern.test(form.email.value.trim()) &&
+          form.acceptedPrivacy.checked
+        );
+      }
+
+      function updateSubmitState() {
+        submitBtn.disabled = !isFormReady();
+      }
+
+      ['position', 'name', 'birthday', 'phone', 'email', 'acceptedPrivacy'].forEach(name => {
+        const el = form[name];
+        if (el) {
+          el.addEventListener('input', updateSubmitState);
+          el.addEventListener('change', updateSubmitState);
+        }
+      });
+      form.querySelectorAll('input[name="gender"]').forEach(el => {
+        el.addEventListener('change', updateSubmitState);
+      });
+
+      updateSubmitState();
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        clearErrors();
+        setStatus('', '');
+
+        const genderEl = form.querySelector('input[name="gender"]:checked');
+        const data = {
+          position:        form.position.value.trim(),
+          name:            form.name.value.trim(),
+          birthday:        form.birthday.value.trim(),
+          gender:          genderEl ? genderEl.value : '',
+          phone:           form.phone.value.trim(),
+          email:           form.email.value.trim(),
+          message:         form.message.value.trim(),
+          acceptedPrivacy: form.acceptedPrivacy.checked,
+          website:         form.website.value.trim(),
+          fileBase64,
+          fileName,
+          fileType,
+        };
+
+        let hasError = false;
+        if (!data.position) { setFieldError('position', '必須項目に入力してください。'); hasError = true; }
+        if (!data.name)     { setFieldError('name',     '必須項目に入力してください。'); hasError = true; }
+        if (!data.birthday) { setFieldError('birthday', '必須項目に入力してください。'); hasError = true; }
+        if (!data.gender)   { setFieldError('gender',   '必須項目に入力してください。'); hasError = true; }
+        if (!data.phone)    { setFieldError('phone',    '必須項目に入力してください。'); hasError = true; }
+        if (!data.email) {
+          setFieldError('email', '必須項目に入力してください。'); hasError = true;
+        } else if (!emailPattern.test(data.email)) {
+          setFieldError('email', 'メールアドレスの形式が正しくありません。'); hasError = true;
+        }
+        if (!data.acceptedPrivacy) { setFieldError('acceptedPrivacy', 'プライバシーポリシーへの同意が必要です。'); hasError = true; }
+        if (hasError) return;
+
+        if (!CAREER_FORM_URL) {
+          setStatus('送信先が設定されていません。管理者にお問い合わせください。', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        setStatus('Sending...', '');
+
+        try {
+          const response = await fetch(CAREER_FORM_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(result.message || 'Failed to submit.');
+          form.reset();
+          fileBase64 = ''; fileName = ''; fileType = '';
+          updateSubmitState();
+          setStatus('ご応募いただきありがとうございます。担当者よりご連絡いたします。', 'success');
+        } catch (err) {
+          setStatus(err.message || '送信に失敗しました。時間をおいて再度お試しください。', 'error');
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+
     const toTopBtn = document.getElementById("totop");
   
     // Show button after scrolling down

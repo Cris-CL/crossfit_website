@@ -543,37 +543,78 @@
         padding: 0;
       }
 
-      nav {
+      /* Desktop nav hidden on mobile */
+      header nav:not(.nav_mobile) {
+        display: none;
+      }
+
+      /* Mobile nav overlay */
+      nav.nav_mobile {
+        display: flex;
+        flex-direction: column;
         position: fixed;
-        top: var(--mobile-header-h); /* below header */
+        top: var(--mobile-header-h);
         left: -100%;
         width: 100%;
         height: calc(100% - var(--mobile-header-h));
-        background: #fff; /* White menu background */
+        background: #fff;
         transition: left 0.3s ease;
-        padding: 20px;
         z-index: 99;
+        overflow-y: auto;
+        padding: 20px 20px 0;
+        box-sizing: border-box;
       }
 
-      nav ul {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+      nav.nav_mobile.active {
+        left: 0;
+      }
+
+      .nav_mobile_links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        list-style: none;
         margin: 0;
         padding: 0;
-        list-style: none;
       }
 
-      nav ul li a {
-        color: #000; /* Black text */
-        font-size: 18px;
+      .nav_mobile_links li a {
+        display: block;
+        padding: 14px 8px 14px 0;
+        border-bottom: 1px solid #e5e5e5;
         text-decoration: none;
-        font-weight: 500;
-        border-bottom: 1px solid #999!important;
+        color: #000;
       }
 
-      nav.active {
-        left: 0; /* Slide in from left */
+      .nav_mobile_links li a .jp {
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 0.04em;
+        margin: 0;
+      }
+
+      .nav_mobile_links li a .en {
+        font-size: 10px;
+        color: #999;
+        letter-spacing: 0.05em;
+        margin: 3px 0 0 0;
+      }
+
+      .nav_mobile_sns {
+        padding: 20px 0;
+        margin: 0;
+      }
+
+      .nav_mobile_cta {
+        margin: 0 -20px;
+        margin-top: auto;
+      }
+
+      /* CLOSE label */
+      .menu-toggle .close-text {
+        display: none;
+      }
+      .menu-toggle.active .close-text {
+        display: block;
       }
       header {
         min-height: var(--mobile-header-h);
