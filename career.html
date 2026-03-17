@@ -361,7 +361,31 @@
             </h3>
             <p class="required">※</p>
             <div class="career-content">
-              <input type="date" id="careerBirthday" name="birthday" required>
+              <div class="birthday-selects">
+                <select id="birthdayYear" name="birthdayYear">
+                  <option value="">YYYY</option>
+                </select>
+                <span class="birthday-sep">/</span>
+                <select id="birthdayMonth" name="birthdayMonth">
+                  <option value="">MM</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+                <span class="birthday-sep">/</span>
+                <select id="birthdayDay" name="birthdayDay">
+                  <option value="">DD</option>
+                </select>
+              </div>
               <p class="career-error" data-error-for="birthday"></p>
             </div>
           </li>
@@ -634,8 +658,7 @@
   <script>
     // ── Career Application Form ────────────────────────────────────────────
     (function () {
-      // TODO: replace with deployed Apps Script Web App URL
-      const CAREER_FORM_URL = '';
+      const CAREER_FORM_URL = 'https://script.google.com/macros/s/AKfycbwDLFV8ZJuH1Z0U8SRFG46oOL4n9IqZ2W-Bx-Ws9goCwzqUUsJPmSf2zqiSUP2AQ8q53w/exec';
 
       const form = document.getElementById('career-form-el');
       if (!form) return;
@@ -644,6 +667,25 @@
       const submitBtn = form.querySelector('button[type="submit"]');
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       let fileBase64 = '', fileName = '', fileType = '';
+
+      // Populate birthday year options
+      (function () {
+        const yearSel = document.getElementById('birthdayYear');
+        const maxYear = new Date().getFullYear() - 18;
+        for (let y = maxYear; y >= 1940; y--) {
+          const opt = document.createElement('option');
+          opt.value = String(y);
+          opt.textContent = String(y);
+          yearSel.appendChild(opt);
+        }
+        const daySel = document.getElementById('birthdayDay');
+        for (let d = 1; d <= 31; d++) {
+          const opt = document.createElement('option');
+          opt.value = String(d).padStart(2, '0');
+          opt.textContent = String(d).padStart(2, '0');
+          daySel.appendChild(opt);
+        }
+      })();
 
       // Pre-select position when APPLY button is clicked
       document.querySelectorAll('[data-position]').forEach(btn => {
@@ -702,7 +744,9 @@
         return !!(
           form.position.value.trim() &&
           form.name.value.trim() &&
-          form.birthday.value.trim() &&
+          document.getElementById('birthdayYear').value &&
+          document.getElementById('birthdayMonth').value &&
+          document.getElementById('birthdayDay').value &&
           genderSelected &&
           form.phone.value.trim() &&
           emailPattern.test(form.email.value.trim()) &&
@@ -714,12 +758,16 @@
         submitBtn.disabled = !isFormReady();
       }
 
-      ['position', 'name', 'birthday', 'phone', 'email', 'acceptedPrivacy'].forEach(name => {
+      ['position', 'name', 'phone', 'email', 'acceptedPrivacy'].forEach(name => {
         const el = form[name];
         if (el) {
           el.addEventListener('input', updateSubmitState);
           el.addEventListener('change', updateSubmitState);
         }
+      });
+      ['birthdayYear', 'birthdayMonth', 'birthdayDay'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', updateSubmitState);
       });
       form.querySelectorAll('input[name="gender"]').forEach(el => {
         el.addEventListener('change', updateSubmitState);
@@ -733,10 +781,14 @@
         setStatus('', '');
 
         const genderEl = form.querySelector('input[name="gender"]:checked');
+        const byYear  = document.getElementById('birthdayYear').value;
+        const byMonth = document.getElementById('birthdayMonth').value;
+        const byDay   = document.getElementById('birthdayDay').value;
+        const birthdayVal = (byYear && byMonth && byDay) ? byYear + '/' + byMonth + '/' + byDay : '';
         const data = {
           position:        form.position.value.trim(),
           name:            form.name.value.trim(),
-          birthday:        form.birthday.value.trim(),
+          birthday:        birthdayVal,
           gender:          genderEl ? genderEl.value : '',
           phone:           form.phone.value.trim(),
           email:           form.email.value.trim(),
@@ -773,15 +825,12 @@
         try {
           const response = await fetch(CAREER_FORM_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({ ...data, action: 'submitCareerForm' }),
           });
           const result = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(result.message || 'Failed to submit.');
-          form.reset();
-          fileBase64 = ''; fileName = ''; fileType = '';
-          updateSubmitState();
-          setStatus('ご応募いただきありがとうございます。担当者よりご連絡いたします。', 'success');
+          if (!result.success) throw new Error(result.message || 'Failed to submit.');
+          window.location.href = 'career-thanks.html';
         } catch (err) {
           setStatus(err.message || '送信に失敗しました。時間をおいて再度お試しください。', 'error');
           submitBtn.disabled = false;

@@ -104,7 +104,7 @@
               <div class="contact-content">
                 <select id="inquiryType" name="inquiryType" required>
                   <option value="">選択してください Please select your Inquiry</option>
-                  <option value="無料カウンセリングについて （Free counseling）">無料カウンセリングについて （Free counseling）</option>
+                  <option value="無料カウンセリングについて (Free counseling)">無料カウンセリングについて (Free counseling)</option>
                   <option value="法人契約について（Corporate contract）">法人契約について（Corporate contract）</option>
                   <option value="その他のお問い合わせ （Other Inquiries）">その他のお問い合わせ （Other Inquiries）</option>
                 </select>
@@ -411,21 +411,19 @@
         setStatus("Sending...", "");
 
         try {
-          const response = await fetch("/api/contact/submit", {
+          const response = await fetch("https://script.google.com/macros/s/AKfycbwDLFV8ZJuH1Z0U8SRFG46oOL4n9IqZ2W-Bx-Ws9goCwzqUUsJPmSf2zqiSUP2AQ8q53w/exec", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify({ ...data, action: "submitContactForm" }),
           });
 
           const result = await response.json().catch(() => ({}));
 
-          if (!response.ok) {
+          if (!result.success) {
             throw new Error(result.message || "Failed to submit.");
           }
 
-          form.reset();
-          updateSubmitState();
-          setStatus("お問い合わせを送信しました。ありがとうございました。", "success");
+          window.location.href = "contact-thanks.html";
         } catch (error) {
           setStatus(
             error.message || "送信に失敗しました。時間をおいて再度お試しください。",
