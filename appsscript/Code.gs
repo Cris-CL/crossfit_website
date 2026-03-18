@@ -18,7 +18,7 @@ var CONFIG = {
     dropin:            'X3QFYFK6ZDQBBVD4EK7USLYS',
     opengym:           'X3QFYFK6ZDQBBVD4EK7USLYS', // shares variation with dropin
     dropin_3pack:      '3OLF7TEVUNROCDM77BAWE5K5',
-    hyrox_competitors: '2D5MRB6QAG4VI2PAI6ATAASW',
+    hyrox_performance: '2D5MRB6QAG4VI2PAI6ATAASW',
     hyrox_strength:    'JR4WFQ2X4CQAOR4O3WQQT5S7',
     spartan:           'TV6ICKD4NG2C4TRK3Y7EYJTF',
   },
@@ -28,7 +28,7 @@ var CONFIG = {
     trial:             3,
     dropin:            6,
     opengym:           6,
-    hyrox_competitors: 15,
+    hyrox_performance: 15,
     hyrox_strength:    16,
     spartan:           23,
   },
@@ -38,7 +38,7 @@ var CONFIG = {
     trial:             'Trial Class',
     dropin:            'Drop In',
     opengym:           'Open Gym',
-    hyrox_competitors: 'HYROX Competitors',
+    hyrox_performance: 'HYROX Performance',
     hyrox_strength:    'HYROX Strength',
     spartan:           'Spartan',
   },
@@ -46,9 +46,15 @@ var CONFIG = {
     trial:             '体験レッスン',
     dropin:            'ドロップイン',
     opengym:           'オープンジム',
-    hyrox_competitors: 'HYROXコンペティター',
+    hyrox_performance: 'ハイロックス・パフォーマンス',
     hyrox_strength:    'HYROXストレングス',
     spartan:           'スパルタントレーニング',
+  },
+
+  // Spartan coupon codes — static, distributed to select customers
+  // type: 'fixed' (JPY amount off) | 'percent' (percentage off)
+  COUPONS: {
+    'LEONIDAS': { class_type: 'spartan', type: 'fixed', amount: 1000, label: '¥1,000 OFF' },
   },
 
   CREDITS_EXPIRY_DAYS:   90,
@@ -73,9 +79,10 @@ function _err(msg)  { return _json({ success: false, message: msg }); }
 function doGet(e) {
   try {
     var action = e.parameter.action;
-    if (action === 'availability')      return _getAvailability(e.parameter);
-    if (action === 'monthAvailability') return _getMonthAvailability(e.parameter);
-    if (action === 'checkCredits')      return _getCheckCredits(e.parameter);
+    if (action === 'availability')       return _getAvailability(e.parameter);
+    if (action === 'monthAvailability')  return _getMonthAvailability(e.parameter);
+    if (action === 'checkCredits')       return _getCheckCredits(e.parameter);
+    if (action === 'upcomingClasses')    return _getUpcomingClasses(e.parameter);
     return _err('Unknown GET action: ' + action);
   } catch (ex) {
     console.error('doGet error', ex);
@@ -89,6 +96,7 @@ function doPost(e) {
     var action = body.action;
     if (action === 'searchCustomer')     return _postSearchCustomer(body);
     if (action === 'createBooking')      return _postCreateBooking(body);
+    if (action === 'validateCoupon')     return _postValidateCoupon(body);
     if (action === 'useCreditFrontDesk') return _postUseCreditFrontDesk(body);
     if (action === 'submitContactForm')  return _postSubmitContactForm(body);
     if (action === 'submitCareerForm')   return _postSubmitCareerForm(body);
@@ -202,6 +210,70 @@ function _getMonthAvailability(params) {
   return _ok({ year: year, month: month, class_type: classType, dates: dateMap });
 }
 
+// ===== GET: UPCOMING CLASSES (list view for HYROX / Spartan) =====
+// ?action=upcomingClasses&classType=spartan[&limit=5&offset=0]
+function _getUpcomingClasses(params) {
+  var classType = (params.classType || '').toLowerCase();
+  var limit     = Math.min(parseInt(params.limit  || '5',  10), 20);
+  var offset    = Math.max(parseInt(params.offset || '0',  10), 0);
+  if (!classType) return _err('classType required');
+
+  var now     = new Date();
+  var toDate  = new Date(now);
+  toDate.setDate(toDate.getDate() + 90); // 3 months ahead
+
+  var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
+  var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
+  var events         = scheduleCal.getEvents(now, toDate);
+
+  var slots = [];
+  events.forEach(function(ev) {
+    var desc        = _parseEventDescription(ev.getDescription());
+    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase();
+    if (evClassType !== classType) return;
+
+    var slotStart = ev.getStartTime();
+    var slotEnd   = ev.getEndTime();
+    var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
+
+    var reservations = reservationCal.getEvents(slotStart, new Date(slotEnd.getTime() + 1)).filter(function(r) {
+      return Math.abs(r.getStartTime().getTime() - slotStart.getTime()) < 60000;
+    });
+    var booked    = reservations.length;
+    var available = Math.max(0, capacity - booked);
+    var duration  = parseInt(desc['DURATION'], 10) || 60;
+    var dayNames  = ['日', '月', '火', '水', '木', '金', '土'];
+
+    slots.push({
+      event_id:          ev.getId(),
+      date:              Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'yyyy-MM-dd'),
+      day_of_week:       dayNames[slotStart.getDay()],
+      time_start:        Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'HH:mm'),
+      time_end:          Utilities.formatDate(slotEnd,   CONFIG.TIMEZONE, 'HH:mm'),
+      duration:          duration,
+      trainer:           desc['TRAINER']    || '',
+      capacity:          capacity,
+      booked:            booked,
+      available:         available,
+      class_type:        evClassType,
+      class_name_en:     desc['LANG_EN']    || CONFIG.CLASS_NAME_EN[evClassType] || '',
+      class_name_jp:     desc['LANG_JP']    || CONFIG.CLASS_NAME_JP[evClassType] || '',
+      catalog_object_id: desc['CATALOG_ID'] || CONFIG.CATALOG[evClassType]       || '',
+      price:             parseInt(desc['PRICE'], 10) || 0,
+    });
+  });
+
+  // Sort chronologically
+  slots.sort(function(a, b) {
+    return a.date.localeCompare(b.date) || a.time_start.localeCompare(b.time_start);
+  });
+
+  var paged   = slots.slice(offset, offset + limit);
+  var hasMore = (offset + limit) < slots.length;
+
+  return _ok({ slots: paged, total: slots.length, has_more: hasMore, offset: offset, limit: limit });
+}
+
 // ===== GET: CHECK CREDITS =====
 // ?action=checkCredits&email=xxx@example.com[&classType=dropin]
 function _getCheckCredits(params) {
@@ -251,6 +323,32 @@ function _postSearchCustomer(body) {
   });
 }
 
+// ===== POST: VALIDATE COUPON =====
+function _postValidateCoupon(body) {
+  var code      = (body.coupon_code || '').trim().toUpperCase();
+  var classType = (body.class_type  || '').toLowerCase();
+  if (!code) return _err('coupon_code required');
+
+  var coupon = CONFIG.COUPONS[code];
+  if (!coupon) return _ok({ valid: false });
+  if (coupon.class_type && coupon.class_type !== classType) return _ok({ valid: false });
+
+  // Price map for calculating fixed discount amount on percent coupons
+  var priceMap = { trial: 3300, dropin: 4950, opengym: 4950, hyrox_performance: 4950, hyrox_strength: 4950, spartan: 4400 };
+  var basePrice = priceMap[classType] || 0;
+  var discountAmount = coupon.type === 'percent'
+    ? Math.round(basePrice * coupon.amount / 100)
+    : coupon.amount;
+
+  return _ok({
+    valid:           true,
+    label:           coupon.label,
+    type:            coupon.type,
+    amount:          coupon.amount,
+    discount_amount: discountAmount,
+  });
+}
+
 // ===== POST: CREATE BOOKING =====
 function _postCreateBooking(body) {
   // ── required fields ──
@@ -282,6 +380,20 @@ function _postCreateBooking(body) {
   var credit_id     = body.credit_id     || '';
   var sourceId      = body.sourceId      || '';
   var verToken      = body.verificationToken || '';
+  var coupon_code   = (body.coupon_code  || '').trim().toUpperCase();
+
+  // ── coupon discount ──
+  var couponDiscount = 0;
+  var couponLabel    = '';
+  if (coupon_code && CONFIG.COUPONS[coupon_code]) {
+    var cpn = CONFIG.COUPONS[coupon_code];
+    if (!cpn.class_type || cpn.class_type === class_type) {
+      couponDiscount = cpn.type === 'percent'
+        ? Math.round(price * cpn.amount / 100)
+        : cpn.amount;
+      couponLabel = cpn.label;
+    }
+  }
 
   if (!class_type)       return _err('class_type is required.');
   if (!class_date)       return _err('class_date is required.');
@@ -365,14 +477,22 @@ function _postCreateBooking(body) {
     // Single session payment
     if (!catalog_obj) return _err('catalog_object_id is required for payment.');
 
+    var singleOrderBody = {
+      location_id: CONFIG.SQUARE_LOCATION_ID,
+      customer_id: squareCustomerId || undefined,
+      line_items:  [{ catalog_object_id: catalog_obj, quantity: '1' }],
+      metadata:    Object.assign({ class_type: class_type, class_date: class_date, source: 'website' }, coupon_code ? { coupon: coupon_code } : {}),
+    };
+    if (couponDiscount > 0) {
+      singleOrderBody.discounts = [{
+        name:         couponLabel || 'Coupon Discount',
+        amount_money: { amount: couponDiscount, currency: 'JPY' },
+        scope:        'ORDER',
+      }];
+    }
     var singleOrderRes = _squareRequest('POST', '/orders', {
       idempotency_key: _uuid(),
-      order: {
-        location_id: CONFIG.SQUARE_LOCATION_ID,
-        customer_id: squareCustomerId || undefined,
-        line_items:  [{ catalog_object_id: catalog_obj, quantity: '1' }],
-        metadata:    { class_type: class_type, class_date: class_date, source: 'website' },
-      },
+      order: singleOrderBody,
     });
     if (singleOrderRes.errors) {
       var oe = singleOrderRes.errors[0];
