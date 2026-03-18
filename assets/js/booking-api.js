@@ -55,12 +55,12 @@ export async function gasPost(action, body = {}) {
  * @returns {Promise<Record<string, { available: boolean, slotsLeft: number }>>}
  */
 export async function getMonthAvailability(classType, year, month) {
-  const data = await gasGet('getMonthAvailability', {
+  const data = await gasGet('monthAvailability', {
     classType,
     year: String(year),
     month: String(month),
   });
-  return data.days || {};
+  return data.dates || {};
 }
 
 /**
@@ -74,7 +74,7 @@ export async function getMonthAvailability(classType, year, month) {
  * @returns {Promise<Array>}
  */
 export async function getSlots(classType, dateStr) {
-  const data = await gasGet('getAvailability', { classType, dateStr });
+  const data = await gasGet('availability', { classType, dateStr });
   return data.slots || [];
 }
 

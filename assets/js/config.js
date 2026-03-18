@@ -3,7 +3,7 @@
 // Google Apps Script Web App URL
 // After deploying Code.gs: Deploy → Manage deployments → copy the /exec URL here.
 // This URL is not sensitive — it has no secret tokens.
-export const GAS_URL = 'https://script.google.com/macros/s/AKfycbx4hH9kvBqLyvGMxKs2IQCFvSJxuXZuwqAzR8UhPP3LJNaWGAVYJPrh1-8cz9IFV0s/exec';
+export const GAS_URL = 'https://script.google.com/macros/s/AKfycbwDLFV8ZJuH1Z0U8SRFG46oOL4n9IqZ2W-Bx-Ws9goCwzqUUsJPmSf2zqiSUP2AQ8q53w/exec';
 
 // Square Web Payments SDK — client-safe public credentials (no access token here)
 export const SQUARE_APP_ID      = 'sq0idp-eChh4aLkTbdSX1wjBkUjbA';
