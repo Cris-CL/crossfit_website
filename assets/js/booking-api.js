@@ -50,7 +50,7 @@ export async function gasPost(action, body = {}) {
  * Get per-day availability summary for a month calendar.
  * Returns an object keyed by date string 'YYYY-MM-DD' with { available: boolean, slotsLeft: number }.
  *
- * @param {string} classType - e.g. 'trial', 'dropin', 'hyrox_competitors', 'hyrox_strength', 'spartan'
+ * @param {string} classType - e.g. 'trial', 'dropin', 'hyrox_performance', 'hyrox_strength', 'spartan'
  * @param {number} year
  * @param {number} month - 1-indexed
  * @returns {Promise<Record<string, { available: boolean, slotsLeft: number }>>}
@@ -110,7 +110,7 @@ export async function checkCredits(email, classType) {
  *
  * Payload shape:
  * {
- *   classType,          // 'trial' | 'dropin' | 'opengym' | 'hyrox_competitors' | 'hyrox_strength' | 'spartan'
+ *   classType,          // 'trial' | 'dropin' | 'opengym' | 'hyrox_performance' | 'hyrox_strength' | 'spartan'
  *   eventId,            // Google Calendar event ID from getSlots
  *   dateStr,            // 'YYYY-MM-DD'
  *   timeStart,          // 'HH:MM'
@@ -135,6 +135,35 @@ export async function checkCredits(email, classType) {
  */
 export async function createBooking(payload) {
   return gasPost('createBooking', payload);
+}
+
+/**
+ * Get upcoming class slots as a chronological list (for HYROX / Spartan pages).
+ * Returns up to `limit` slots starting at `offset`, within the next 3 months.
+ *
+ * @param {string} classType
+ * @param {{ limit?: number, offset?: number }} options
+ * @returns {Promise<{ slots: Array, hasMore: boolean, total: number }>}
+ */
+export async function getUpcomingClasses(classType, { limit = 5, offset = 0 } = {}) {
+  const data = await gasGet('upcomingClasses', {
+    classType,
+    limit:  String(limit),
+    offset: String(offset),
+  });
+  return { slots: data.slots || [], hasMore: data.has_more || false, total: data.total || 0 };
+}
+
+/**
+ * Validate a coupon code for the given class type.
+ * Returns { valid, label, discount_amount } on success.
+ *
+ * @param {string} code
+ * @param {string} classType
+ * @returns {Promise<{ valid: boolean, label?: string, discount_amount?: number }>}
+ */
+export async function validateCoupon(code, classType) {
+  return gasPost('validateCoupon', { coupon_code: code, class_type: classType });
 }
 
 // ─── Square SDK ──────────────────────────────────────────────────────────────

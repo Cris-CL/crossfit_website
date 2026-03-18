@@ -371,6 +371,7 @@
       font-size: 13px;
       color: #444;
       line-height: 1.6;
+      width: 100%;
     }
     .privacy-check input[type=checkbox] {
       width: 16px;
@@ -379,6 +380,8 @@
       accent-color: var(--color-brand);
       flex-shrink: 0;
     }
+    .privacy-check label { flex: 1; }
+    .privacy-check a { display: inline; }
 
     /* ── Buttons ────────────────────────────────────────────────────────── */
     .bk-btn {
@@ -750,8 +753,8 @@
         <div class="privacy-check">
           <input type="checkbox" id="privacy-check">
           <label for="privacy-check">
-            <a href="privacy.html" target="_blank" style="color:var(--color-brand);">プライバシーポリシー</a>をご確認いただき、ご同意の上送信ください。<br>
-            <span class="font_proxima" style="font-size:12px;">Please read and agree to our <a href="privacy.html" target="_blank" style="color:var(--color-brand);">Privacy Policy</a> before completing your booking.</span>
+            <span style="display:block;"><a href="privacy.html" target="_blank" style="color:var(--color-brand);">プライバシーポリシー</a>をご確認いただき、ご同意の上送信ください。</span>
+            <span class="font_proxima" style="display:block; font-size:12px;">Please review our <a href="privacy.html" target="_blank" style="color:var(--color-brand);">Privacy Policy</a> and submit after agreeing to its terms.</span>
           </label>
         </div>
 

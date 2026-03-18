@@ -322,39 +322,11 @@
       }
 
       function showBooking(type) {
-        const about = document.getElementById('hyrox-about');
-        const classes = document.getElementById('hyrox-classes');
-        const bookingSection = document.getElementById('hyrox-booking-section');
-        const iframe = document.getElementById('booking-iframe');
-        const backBtn = document.querySelector('#hyrox-booking-section button');
-
         if (type === 'performance') {
-          iframe.src = 'hyrox-performance-booking.html';
+          window.location.href = 'booking-hyrox-competitors.html';
         } else if (type === 'strength') {
-          iframe.src = 'hyrox-strength-booking.html';
+          window.location.href = 'booking-hyrox-strength.html';
         }
-
-        // Hide info, show booking
-        about.style.display = 'none';
-        classes.style.display = 'none';
-        bookingSection.style.display = 'block';
-
-        // Change background to white
-        document.getElementById('page_spartan').style.backgroundColor = '#fff';
-
-        // Shrink hero image and change background
-        const hero = document.getElementById('hyrox-hero');
-        if (hero) {
-          hero.style.padding = '15vh 0';
-          hero.style.backgroundImage = "url('assets/img/Hyrox_B.jpg')";
-          hero.style.backgroundPosition = "center top";
-        }
-
-        // Scroll to the absolute top for consistency across all screens
-        window.scrollTo({
-          top: about.offsetTop - 100,
-          behavior: 'smooth'
-        });
       }
 
       function hideBooking() {

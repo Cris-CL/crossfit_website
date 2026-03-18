@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スパルタントレーニング 予約 | CrossFit Roppongi Tokyo</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/media-queries.css">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script defer src="assets/js/mobile-menu.js"></script>
+
+  <style>
+    /* ── Booking layout ─────────────────────────────────────────────────── */
+    .booking-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 100px;
+    }
+
+    /* ── Step indicator ─────────────────────────────────────────────────── */
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .step-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-node .circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ccc;
+      background: #fff;
+      transition: all 0.2s;
+    }
+    .step-node.active .circle,
+    .step-node.done .circle {
+      border-color: var(--color-brand);
+      background: var(--color-brand);
+      color: #fff;
+    }
+    .step-node .label {
+      font-size: 10px;
+      color: #999;
+      white-space: nowrap;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .step-node.active .label,
+    .step-node.done .label { color: var(--color-brand); }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: #e5e5e5;
+      margin-bottom: 22px;
+      min-width: 16px;
+      max-width: 60px;
+      transition: background 0.2s;
+    }
+    .step-line.done { background: var(--color-brand); }
+
+    /* ── Step panels ────────────────────────────────────────────────────── */
+    .booking-step { display: none; }
+    .booking-step.active { display: block; }
+    .step-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--color-brand);
+    }
+    .step-title .en {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: #888;
+      letter-spacing: 0.12em;
+      margin-top: 3px;
+    }
+
+    /* ── Class list (upcoming) ──────────────────────────────────────────── */
+    .class-list { display: flex; flex-direction: column; gap: 12px; }
+    .class-card {
+      border: 2px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 16px 18px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: border-color 0.15s;
+    }
+    .class-card:hover:not(.full) { border-color: #ccc; }
+    .class-card.selected { border-color: var(--color-brand); background: #fff5f5; }
+    .class-card.full { opacity: 0.5; }
+    .class-card-info { flex: 1; }
+    .class-card-date {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .class-card-date .dow {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .class-card-meta {
+      font-size: 13px;
+      color: #666;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .class-card-spots {
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .class-card-spots.low  { color: #f59e0b; }
+    .class-card-spots.full { color: #ef4444; }
+    .class-card-spots.ok   { color: #888; }
+    .btn-select-class {
+      padding: 9px 18px;
+      border: 2px solid #222;
+      border-radius: 6px;
+      background: #fff;
+      color: #222;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .btn-select-class:hover:not(:disabled) { background: #222; color: #fff; }
+    .btn-select-class.selected { background: var(--color-brand); border-color: var(--color-brand); color: #fff; }
+    .btn-select-class:disabled { opacity: 0.4; cursor: not-allowed; }
+    .load-more-wrap { text-align: center; margin-top: 16px; }
+    .btn-load-more {
+      padding: 10px 28px;
+      border: 2px solid #e5e5e5;
+      border-radius: 8px;
+      background: #fff;
+      color: #555;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-load-more:hover { border-color: #ccc; background: #f9f9f9; }
+    .btn-load-more:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── Loading ────────────────────────────────────────────────────────── */
+    .loading-ring {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #e5e5e5;
+      border-top-color: var(--color-brand);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-wrap { text-align: center; padding: 32px; color: #888; }
+
+    /* ── Hold timer ─────────────────────────────────────────────────────── */
+    .hold-timer {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #c2410c;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .hold-timer.visible { display: flex; }
+    .hold-timer.warning { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+    .timer-val { font-weight: 700; font-family: monospace; font-size: 15px; }
+
+    /* ── Found banner ───────────────────────────────────────────────────── */
+    .bk-found-banner {
+      display: none;
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #16a34a;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .bk-found-banner.visible { display: block; }
+
+    /* ── Form ───────────────────────────────────────────────────────────── */
+    .email-lookup { display: flex; gap: 10px; align-items: flex-start; }
+    .email-lookup input { flex: 1; }
+    .btn-lookup {
+      padding: 10px 18px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-lookup:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-row { margin-bottom: 16px; }
+    .form-row label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .form-row label .req { color: var(--color-brand); margin-left: 2px; }
+    .form-row label .opt { color: #aaa; font-size: 11px; margin-left: 4px; font-weight: 400; }
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: #f2f2f2;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #222;
+      outline: none;
+      transition: box-shadow 0.15s;
+    }
+    .form-row input:focus,
+    .form-row select:focus,
+    .form-row textarea:focus { box-shadow: 0 0 0 2px var(--color-brand); }
+    .form-row textarea { resize: vertical; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .dob-selects { display: flex; align-items: center; gap: 8px; }
+    .dob-selects select { flex: 1; }
+    .dob-sep { color: #999; font-size: 14px; flex-shrink: 0; }
+    .gender-group { display: flex; gap: 24px; align-items: center; padding: 10px 0; flex-wrap: wrap; }
+    .gender-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-weight: 400;
+      margin: 0;
+      font-size: 14px;
+    }
+    .gender-group input[type=radio] { width: auto; accent-color: var(--color-brand); }
+
+    /* ── Summary card ───────────────────────────────────────────────────── */
+    .summary-card {
+      background: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .summary-card .sum-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .sum-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 14px;
+      padding: 5px 0;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+    .sum-row:last-child { border-bottom: none; }
+    .sum-row .key { color: #888; font-size: 13px; min-width: 120px; }
+    .sum-row.total {
+      margin-top: 6px;
+      padding-top: 12px;
+      border-top: 1px solid #e0e0e0;
+      border-bottom: none;
+      font-weight: 700;
+      font-size: 18px;
+      color: #111;
+    }
+
+    /* ── Payment methods ────────────────────────────────────────────────── */
+    .pm-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
+    .pm-tab {
+      flex: 1;
+      padding: 10px 8px;
+      border: 2px solid #e5e5e5;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.15s;
+      color: #555;
+      line-height: 1.4;
+    }
+    .pm-tab:hover { border-color: #ccc; }
+    .pm-tab.active { border-color: var(--color-brand); color: var(--color-brand); background: #fff5f5; }
+    .pm-panel { display: none; }
+    .pm-panel.active { display: block; }
+    #card-container { min-height: 89px; }
+    #gpay-container, #applepay-container { min-height: 48px; }
+
+    /* ── Privacy ────────────────────────────────────────────────────────── */
+    .privacy-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 20px 0;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.6;
+      width: 100%;
+    }
+    .privacy-check input[type=checkbox] {
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      accent-color: var(--color-brand);
+      flex-shrink: 0;
+    }
+    .privacy-check label { flex: 1; }
+    .privacy-check a { display: inline; }
+
+    /* ── Buttons ────────────────────────────────────────────────────────── */
+    .bk-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      text-align: center;
+    }
+    .bk-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .bk-btn-primary { background: var(--gradient-brand); color: #fff; }
+    .bk-btn-secondary { background: #f2f2f2; color: #333; }
+    .bk-btn-secondary:hover:not(:disabled) { background: #e5e5e5; }
+    .step-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 32px; }
+
+    /* ── Error ──────────────────────────────────────────────────────────── */
+    .bk-error {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #b91c1c;
+      margin: 16px 0;
+      line-height: 1.6;
+    }
+    .bk-error.visible { display: block; }
+
+    /* ── Confirmation ───────────────────────────────────────────────────── */
+    .confirm-wrap { text-align: center; padding: 20px 0; }
+    .confirm-icon {
+      width: 72px;
+      height: 72px;
+      background: var(--gradient-brand);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 36px;
+      color: #fff;
+    }
+    .confirm-booking-id { font-size: 13px; color: #888; margin-top: 20px; }
+    .confirm-booking-id span { font-family: monospace; font-weight: 700; color: #222; font-size: 15px; }
+    .confirm-details {
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+    .confirm-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      font-size: 14px;
+      border-bottom: 1px solid #eee;
+    }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-row .key { color: #888; }
+    .confirm-cal-link {
+      display: inline-block;
+      margin: 12px 0 24px;
+      padding: 10px 20px;
+      border: 2px solid #e5e5e5;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #333;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .confirm-cal-link:hover { border-color: #ccc; background: #f9f9f9; }
+
+
+    /* ── Coupon section ─────────────────────────────────────────────────── */
+    .coupon-section {
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .pm-tabs { flex-direction: column; }
+      .class-card { flex-direction: column; align-items: flex-start; }
+      .btn-select-class { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+    </a>
+  </div>
+  <button class="menu-toggle" aria-label="Toggle Menu">
+    <span></span><span></span><span></span>
+    <span class="close-text font_proxima">CLOSE</span>
+  </button>
+  <nav>
+    <div class="nav_top">
+      <a href="contact.html">お問い合わせ<span class="font_proxima font_en">CONTACT</span></a>
+      <a href="dropin.html" class="dropin font_proxima">DROP IN</a>
+    </div>
+    <ul>
+      <li><a href="about.html">CrossFitとは<span>ABOUT CROSSFIT</span></a></li>
+      <li><a href="facility.html">施設・ 設備<span>FACILITY</span></a></li>
+      <li><a href="coach.html">コーチ<span>COACHES</span></a></li>
+      <li><a href="plan.html">プラン・料金<span>MEMBERSHIP・PRICING</span></a></li>
+      <li><a href="schedule.html">スケジュール<span>SCHEDULE</span></a></li>
+      <li><a href="hyrox.html">ハイロックス<span>HYROX</span></a></li>
+      <li><a href="spartan.html">スパルタン<span>SPARTAN</span></a></li>
+      <li><a href="access.html">アクセス<span>ACCESS</span></a></li>
+    </ul>
+  </nav>
+  <nav class="nav_mobile">
+    <ul class="nav_mobile_links">
+      <li><a href="index.html"><p class="jp">トップページ</p><p class="en font_proxima">HOME</p></a></li>
+      <li><a href="trial.html"><p class="jp">体験レッスン</p><p class="en font_proxima">TRIAL</p></a></li>
+      <li><a href="about.html"><p class="jp">CrossFitとは</p><p class="en font_proxima">ABOUT CROSSFIT</p></a></li>
+      <li><a href="dropin.html"><p class="jp">ドロップイン</p><p class="en font_proxima">DROP IN</p></a></li>
+      <li><a href="facility.html"><p class="jp">施設・設備</p><p class="en font_proxima">FACILITY</p></a></li>
+      <li><a href="hyrox.html"><p class="jp">ハイロックス</p><p class="en font_proxima">HYROX</p></a></li>
+      <li><a href="coach.html"><p class="jp">コーチ</p><p class="en font_proxima">COACHES</p></a></li>
+      <li><a href="spartan.html"><p class="jp">スパルタン</p><p class="en font_proxima">SPARTAN</p></a></li>
+      <li><a href="plan.html"><p class="jp">プラン・料金</p><p class="en font_proxima">MEMBERSHIP・PRICING</p></a></li>
+      <li><a href="career.html"><p class="jp">採用情報</p><p class="en font_proxima">CAREER</p></a></li>
+      <li><a href="schedule.html"><p class="jp">スケジュール</p><p class="en font_proxima">SCHEDULE</p></a></li>
+      <li><a href="contact.html"><p class="jp">お問い合わせ</p><p class="en font_proxima">CONTACT</p></a></li>
+      <li><a href="access.html"><p class="jp">アクセス</p><p class="en font_proxima">ACCESS</p></a></li>
+      <li><a href="privacy.html"><p class="jp">プライバシーポリシー</p><p class="en font_proxima">PRIVACY POLICY</p></a></li>
+    </ul>
+    <ul class="sns_list nav_mobile_sns">
+      <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+    </ul>
+    <div class="nav_mobile_cta">
+      <a href="trial.html" class="cta_trial font_proxima">TRIAL<span>体験レッスン</span></a>
+      <a href="dropin.html" class="cta_dropin font_proxima">DROP IN<span>ドロップイン</span></a>
+    </div>
+  </nav>
+  <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
+</header>
+
+<div id="page_booking">
+  <section class="sec_booking com_page">
+    <h2 class="main_title">
+      <p class="en font_proxima extra">SPARTAN</p>
+      <p class="jp">スパルタントレーニング 予約</p>
+    </h2>
+
+    <div class="booking-wrap">
+
+      <!-- Step indicator -->
+      <div class="step-indicator">
+        <div class="step-node active" data-step="1">
+          <div class="circle">1</div>
+          <div class="label">クラス選択<br><span class="font_proxima" style="font-size:9px">SELECT CLASS</span></div>
+        </div>
+        <div class="step-line" id="line-1-2"></div>
+        <div class="step-node" data-step="2">
+          <div class="circle">2</div>
+          <div class="label">お客様情報<br><span class="font_proxima" style="font-size:9px">YOUR INFO</span></div>
+        </div>
+        <div class="step-line" id="line-2-3"></div>
+        <div class="step-node" data-step="3">
+          <div class="circle">3</div>
+          <div class="label">お支払い<br><span class="font_proxima" style="font-size:9px">PAYMENT</span></div>
+        </div>
+        <div class="step-line" id="line-3-4"></div>
+        <div class="step-node" data-step="4">
+          <div class="circle">4</div>
+          <div class="label">予約完了<br><span class="font_proxima" style="font-size:9px">COMPLETE</span></div>
+        </div>
+      </div>
+
+      <!-- ─── STEP 1: Class list ────────────────────────────────────────── -->
+      <div id="step-1" class="booking-step active">
+        <h3 class="step-title">
+          クラスを選択してください
+          <span class="en font_proxima">SELECT A CLASS</span>
+        </h3>
+
+        <div id="list-loading" class="loading-wrap">
+          <div class="loading-ring"></div>
+          <p style="margin-top:10px; font-size:13px; color:#888;">クラス情報を読み込み中… / Loading classes…</p>
+        </div>
+
+        <div id="class-list" class="class-list" style="display:none;"></div>
+
+        <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
+          <button type="button" id="btn-load-more" class="btn-load-more">
+            もっと見る <span class="font_proxima">SHOW MORE</span>
+          </button>
+        </div>
+
+        <div id="error-step1" class="bk-error"></div>
+
+        <div class="step-actions">
+          <button id="btn-to-step2" class="bk-btn bk-btn-primary" disabled>
+            次へ：お客様情報 <span class="font_proxima">NEXT</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 2: Customer Info ─────────────────────────────────────── -->
+      <div id="step-2" class="booking-step">
+        <h3 class="step-title">
+          お客様情報を入力してください
+          <span class="en font_proxima">YOUR INFORMATION</span>
+        </h3>
+
+        <!-- Hold timer -->
+        <div class="hold-timer" id="hold-timer">
+          <span>⏱</span>
+          <span>選択したスロットは <strong class="timer-val" id="timer-val">15:00</strong> 間ご予約可能です。&nbsp;|&nbsp; Your slot is held for <strong class="timer-val" id="timer-val-en">15:00</strong>.</span>
+        </div>
+
+        <!-- Email + lookup -->
+        <div class="form-row">
+          <label>メールアドレス <span class="req">*</span><span class="opt font_proxima">/ Email</span></label>
+          <div class="email-lookup">
+            <input type="email" id="input-email" placeholder="your@email.com" autocomplete="email">
+            <button type="button" class="btn-lookup" id="btn-lookup">検索</button>
+          </div>
+        </div>
+
+        <div id="found-banner" class="bk-found-banner">
+          ✓ お客様情報が見つかりました。以下のフォームをご確認ください。<br>
+          <span class="font_proxima" style="font-size:12px">Your information was found and pre-filled below. Please verify before continuing.</span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-row">
+            <label>姓 <span class="req">*</span><span class="opt font_proxima">/ Last Name</span></label>
+            <input type="text" id="input-last" autocomplete="family-name">
+          </div>
+          <div class="form-row">
+            <label>名 <span class="req">*</span><span class="opt font_proxima">/ First Name</span></label>
+            <input type="text" id="input-first" autocomplete="given-name">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>電話番号 <span class="req">*</span><span class="opt font_proxima">/ Phone</span></label>
+          <input type="tel" id="input-phone" autocomplete="tel">
+        </div>
+
+        <div class="form-row">
+          <label>生年月日 <span class="req">*</span><span class="opt font_proxima">/ Date of Birth</span></label>
+          <div class="dob-selects">
+            <select id="dob-year"><option value="">YYYY</option></select>
+            <span class="dob-sep">/</span>
+            <select id="dob-month">
+              <option value="">MM</option>
+              <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+              <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+              <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+              <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+            </select>
+            <span class="dob-sep">/</span>
+            <select id="dob-day"><option value="">DD</option></select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>性別 <span class="req">*</span><span class="opt font_proxima">/ Gender</span></label>
+          <div class="gender-group">
+            <label><input type="radio" name="gender" value="male"> 男性 / Male</label>
+            <label><input type="radio" name="gender" value="female"> 女性 / Female</label>
+            <label><input type="radio" name="gender" value="other"> その他 / Other</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>住所 <span class="req">*</span><span class="opt font_proxima">/ Address</span></label>
+          <input type="text" id="input-address" autocomplete="street-address">
+        </div>
+
+        <div class="form-row">
+          <label>備考<span class="opt font_proxima"> / Notes (optional)</span></label>
+          <textarea id="input-notes" rows="3" placeholder="ご質問・ご要望など / Questions or requests"></textarea>
+        </div>
+
+        <div id="error-step2" class="bk-error"></div>
+
+        <div class="step-actions">
+          <button id="btn-to-step3" class="bk-btn bk-btn-primary">
+            次へ：お支払い <span class="font_proxima">NEXT: PAYMENT</span>
+          </button>
+          <button id="btn-back-1" class="bk-btn bk-btn-secondary">
+            ← クラス選択に戻る <span class="font_proxima">BACK</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 3: Payment ──────────────────────────────────────────── -->
+      <div id="step-3" class="booking-step">
+        <h3 class="step-title">
+          お支払い
+          <span class="en font_proxima">PAYMENT</span>
+        </h3>
+
+        <!-- Order summary -->
+        <div class="summary-card">
+          <div class="sum-title font_proxima">ORDER SUMMARY</div>
+          <div class="sum-row">
+            <span class="key">クラス / Class</span>
+            <span id="sum-class">—</span>
+          </div>
+          <div class="sum-row">
+            <span class="key">日時 / Date &amp; Time</span>
+            <span id="sum-datetime">—</span>
+          </div>
+          <div class="sum-row">
+            <span class="key">トレーナー / Trainer</span>
+            <span id="sum-trainer">—</span>
+          </div>
+          <div class="sum-row">
+            <span class="key">氏名 / Name</span>
+            <span id="sum-name">—</span>
+          </div>
+          <div class="sum-row" id="sum-discount-row" style="display:none;">
+            <span class="key" style="color:#16a34a;">割引 / Discount</span>
+            <span id="sum-discount" style="color:#16a34a;">—</span>
+          </div>
+          <div class="sum-row total">
+            <span>合計 <span class="font_proxima" style="font-size:12px; font-weight:400; color:#888">TOTAL</span></span>
+            <span id="sum-total-price">¥4,400</span> <small style="font-size:12px; font-weight:400; color:#888">税込</small>
+          </div>
+        </div>
+
+
+        <!-- Coupon code -->
+        <div class="coupon-section" id="coupon-section">
+          <label style="font-size:13px; font-weight:600; color:#333; display:block; margin-bottom:8px;">
+            クーポンコード<span class="font_proxima" style="font-size:11px; font-weight:400; color:#888;"> / Coupon Code (optional)</span>
+          </label>
+          <div class="email-lookup">
+            <input type="text" id="coupon-input" placeholder="会員コードを入 / Members Code" style="text-transform:uppercase; letter-spacing:0.08em; flex: 2; padding: 10px 12px; background: #f2f2f2; border: none; border-radius: 6px; font-family: inherit; font-size: 14px; color: #222; outline: none;">
+            <button type="button" id="btn-apply-coupon" class="btn-lookup">適用 / Apply</button>
+          </div>
+          <div id="coupon-result" style="display:none; margin-top:8px; font-size:13px; padding:10px 14px; border-radius:6px;"></div>
+        </div>
+
+        <!-- Discount row (shown when coupon applied) -->
+
+        <!-- Payment method tabs -->
+        <div class="pm-tabs">
+          <button type="button" class="pm-tab active" data-method="card">
+            💳 クレジットカード<br><span class="font_proxima" style="font-size:11px; font-weight:400;">Credit Card</span>
+          </button>
+          <button type="button" class="pm-tab" data-method="googlepay" id="tab-gpay">
+            Google Pay
+          </button>
+          <button type="button" class="pm-tab" data-method="applepay" id="tab-apple">
+            Apple Pay
+          </button>
+        </div>
+
+        <div class="pm-panel active" id="panel-card">
+          <div id="card-container"></div>
+        </div>
+        <div class="pm-panel" id="panel-googlepay">
+          <div id="gpay-container"></div>
+        </div>
+        <div class="pm-panel" id="panel-applepay">
+          <div id="applepay-container"></div>
+        </div>
+
+        <div id="square-loading" class="loading-wrap" style="display:none;">
+          <div class="loading-ring"></div>
+          <p style="margin-top:10px; font-size:13px; color:#888;">決済システムを読み込み中… / Loading payment system…</p>
+        </div>
+
+        <!-- Privacy -->
+        <div class="privacy-check">
+          <input type="checkbox" id="privacy-check">
+          <label for="privacy-check">
+            <span style="display:block;"><a href="privacy.html" target="_blank" style="color:var(--color-brand);">プライバシーポリシー</a>をご確認いただき、ご同意の上送信ください。</span>
+            <span class="font_proxima" style="display:block; font-size:12px;">Please review our <a href="privacy.html" target="_blank" style="color:var(--color-brand);">Privacy Policy</a> and submit after agreeing to its terms.</span>
+          </label>
+        </div>
+
+        <div id="error-step3" class="bk-error"></div>
+
+        <div class="step-actions">
+          <button id="btn-pay" class="bk-btn bk-btn-primary" disabled>
+            ¥4,400 を支払い予約する <span class="font_proxima">PAY &amp; BOOK</span>
+          </button>
+          <button id="btn-back-2" class="bk-btn bk-btn-secondary">
+            ← お客様情報に戻る <span class="font_proxima">BACK</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── STEP 4: Confirmation ─────────────────────────────────────── -->
+      <div id="step-4" class="booking-step">
+        <div class="confirm-wrap">
+          <div class="confirm-icon">✓</div>
+          <h3 style="font-size:22px; margin-bottom:8px;">ご予約が確定しました！</h3>
+          <p style="font-size:14px; color:#555;">Thank you for your booking.</p>
+          <p style="font-size:13px; color:#888; margin-top:4px;">確認メールをお送りしました。 / A confirmation email has been sent.</p>
+
+          <div class="confirm-booking-id">
+            予約番号 / Booking ID: <span id="confirm-booking-id">—</span>
+          </div>
+
+          <div class="confirm-details">
+            <div class="confirm-row">
+              <span class="key">クラス / Class</span>
+              <span id="confirm-class">—</span>
+            </div>
+            <div class="confirm-row">
+              <span class="key">日時 / Date &amp; Time</span>
+              <span id="confirm-datetime">—</span>
+            </div>
+            <div class="confirm-row">
+              <span class="key">氏名 / Name</span>
+              <span id="confirm-name">—</span>
+            </div>
+            <div class="confirm-row">
+              <span class="key">料金 / Price</span>
+              <span id="confirm-price">¥4,950 (税込)</span>
+            </div>
+          </div>
+
+          <a id="confirm-cal-link" class="confirm-cal-link" href="#" target="_blank">
+            📅 Googleカレンダーに追加 / Add to Google Calendar
+          </a>
+
+          <div class="step-actions" style="max-width:320px; margin:0 auto;">
+            <a href="index.html" class="bk-btn bk-btn-primary" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px;">
+              トップページへ <span class="font_proxima">BACK TO HOME</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /booking-wrap -->
+  </section>
+</div><!-- /page_booking -->
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="inner">
+    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+    <div class="text_wrap">
+      <div class="footer_l">
+        <p class="company font_proxima">CrossFit Roppongi</p>
+        <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo 106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
+        <ul class="sns_list">
+          <li><a href="https://www.instagram.com/crossfitroppongi/" target="_blank" class="in"></a></li>
+          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" class="fb"></a></li>
+        </ul>
+      </div>
+      <div class="footer_r">
+        <ul class="footer_nav">
+          <li><a href="index.html"><p class="jp"><span>トップページ</span></p><p class="en font_proxima"><span>HOME</span></p></a></li>
+          <li><a href="about.html"><p class="jp"><span>CrossFitとは</span></p><p class="en font_proxima"><span>ABOUT CROSSFIT</span></p></a></li>
+          <li><a href="facility.html"><p class="jp"><span>施設・設備</span></p><p class="en font_proxima"><span>FACILITY</span></p></a></li>
+          <li><a href="coach.html"><p class="jp"><span>コーチ</span></p><p class="en font_proxima"><span>COACHES</span></p></a></li>
+          <li><a href="plan.html"><p class="jp"><span>プラン・料金</span></p><p class="en font_proxima"><span>MEMBERSHIP・PRICING</span></p></a></li>
+          <li><a href="schedule.html"><p class="jp"><span>スケジュール</span></p><p class="en font_proxima"><span>SCHEDULE</span></p></a></li>
+          <li><a href="access.html"><p class="jp"><span>アクセス</span></p><p class="en font_proxima"><span>ACCESS</span></p></a></li>
+        </ul>
+        <ul class="footer_nav">
+          <li><a href="trial.html"><p class="jp"><span>体験レッスン</span></p><p class="en font_proxima"><span>TRIAL</span></p></a></li>
+          <li><a href="dropin.html"><p class="jp"><span>ドロップイン</span></p><p class="en font_proxima"><span>DROP IN</span></p></a></li>
+          <li><a href="hyrox.html"><p class="jp"><span>ハイロックス</span></p><p class="en font_proxima"><span>HYROX</span></p></a></li>
+          <li><a href="spartan.html"><p class="jp"><span>スパルタン</span></p><p class="en font_proxima"><span>SPARTAN</span></p></a></li>
+          <li><a href="career.html"><p class="jp"><span>採用情報</span></p><p class="en font_proxima"><span>CAREER</span></p></a></li>
+          <li><a href="contact.html"><p class="jp"><span>お問い合わせ</span></p><p class="en font_proxima"><span>CONTACT</span></p></a></li>
+          <li><a href="privacy.html"><p class="jp"><span>プライバシーポリシー</span></p><p class="en font_proxima"><span>PRIVACY POLICY</span></p></a></li>
+        </ul>
+      </div>
+    </div>
+    <small class="copyright font_proxima">© 2026 CrossFit Roppongi </small>
+    <a href="https://journal.crossfit.com/" target="_blank" class="journal">
+      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+    </a>
+  </div>
+</footer>
+
+<script defer src="assets/js/scrollin.js"></script>
+<script type="module" src="assets/js/booking-spartan.js"></script>
+</body>
+</html>

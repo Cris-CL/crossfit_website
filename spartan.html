@@ -340,27 +340,7 @@
 
     <script>
       function showBooking() {
-        const infoContent = document.getElementById('spartan-info-content');
-        const bookingSection = document.getElementById('spartan-booking-section');
-        const kiyaku = document.querySelector('#spartan-booking-section .kiyaku_box');
-        const hero = document.getElementById('spartan-hero');
-
-        // Hide info, show booking
-        infoContent.style.display = 'none';
-        bookingSection.style.display = 'block';
-        kiyaku.style.display = 'block';
-
-        // Shrink hero image
-        if (hero) hero.style.padding = '15vh 0';
-
-        // Change page background to white
-        document.getElementById('page_spartan').style.backgroundColor = '#fff';
-
-        // Scroll to absolute top for consistency
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        window.location.href = 'booking-spartan.html';
       }
 
       function hideBooking() {
