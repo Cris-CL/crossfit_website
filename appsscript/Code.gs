@@ -1,27 +1,26 @@
-// CrossFit Roppongi — Apps Script Web App v2.0
-// Phase 2: Full booking backend + forms
-// All email via GmailApp. Square Access Token lives here only — never in frontend.
+// CrossFit Roppongi — Apps Script Web App
+// Booking backend: Calendar availability, Square payments, Sheets logging, GmailApp emails.
+// Square Access Token lives here only — never in frontend.
 
 // ===== CONFIGURATION =====
 var CONFIG = {
   SHEETS_ID:             '1pNDApfzNDPUx36DuNScxI0kDIRF1NaEgcUrZi4n8Pac',
   CALENDAR_SCHEDULE:     'c_96a7c8918d366b36d5a653ea46c7bb3478e719c18a158885a2ac243e8887728b@group.calendar.google.com',
   CALENDAR_RESERVATIONS: 'c_8fc3731011a121e80791665e359fb142546cb215d525aae1efd4bce6e4f18817@group.calendar.google.com',
-  SQUARE_ACCESS_TOKEN:   'EAAAljgcYGVStuET69QZYwevLrXJBg4Vlc4M0RdoVVDdsK6GjMnYEhmp4bks0yED',
-  SQUARE_APP_ID:         'sq0idp-eChh4aLkTbdSX1wjBkUjbA',
-  SQUARE_LOCATION_ID:    'LS9F1QVWR4QQ7',
+  SQUARE_ACCESS_TOKEN:   'EAAAl98tcIYj7_5oe1886v1g_cOnulHBGvS37wkFrqmQzz-XsApACyKgmFV8iVKR',
+  SQUARE_LOCATION_ID:    '8Z8S2HH0WHBKM',
   SQUARE_BASE_URL:       'https://connect.squareup.com/v2',
   SQUARE_VERSION:        '2024-07-17',
 
-  // Production Square catalog_object_ids
+  // Square catalog item VARIATION IDs (required by Orders API — not the parent item IDs)
   CATALOG: {
-    trial:             '4PRHSDJ6BC5TKW3NC5XH5AEG',
-    dropin:            'XTC3KQLY53HFTWI7NELLUOS4',
-    opengym:           'XTC3KQLY53HFTWI7NELLUOS4', // shares catalog item with dropin
-    dropin_3pack:      'IOAQWVXXEOBQIJJ77WMTSVQH',
-    hyrox_competitors: 'MKRQUSWMXOQ3YYZYAUHTVZSD',
-    hyrox_strength:    'BABEL5AAKGG4ZROWF62JQMHM',
-    spartan:           'J5X2OVBQA5EXXJKJYJXKF75M',
+    trial:             'LX5UQFCYHKSYGY4ANB5KTALH',
+    dropin:            'X3QFYFK6ZDQBBVD4EK7USLYS',
+    opengym:           'X3QFYFK6ZDQBBVD4EK7USLYS', // shares variation with dropin
+    dropin_3pack:      '3OLF7TEVUNROCDM77BAWE5K5',
+    hyrox_competitors: '2D5MRB6QAG4VI2PAI6ATAASW',
+    hyrox_strength:    'JR4WFQ2X4CQAOR4O3WQQT5S7',
+    spartan:           'TV6ICKD4NG2C4TRK3Y7EYJTF',
   },
 
   // Default capacity per class type (overridden by calendar event description MAX_CAPACITY)
@@ -219,8 +218,8 @@ function _postSearchCustomer(body) {
   if (!email && !phone) return _err('email or phone required');
 
   var filter = email
-    ? { emailAddress: { exact: email } }
-    : { phoneNumber:  { exact: phone } };
+    ? { email_address: { exact: email } }
+    : { phone_number:  { exact: phone } };
 
   var result = _squareRequest('POST', '/customers/search', { query: { filter: filter } });
   if (result.errors) return _err(result.errors[0].detail || 'Square API error');
@@ -240,6 +239,7 @@ function _postSearchCustomer(body) {
       family_name:   c.family_name   || '',
       email_address: c.email_address || '',
       phone_number:  c.phone_number  || '',
+      birthday:      c.birthday      || '',
       address:       c.address       || null,
     },
     has_credits:       creditData.has_credits,
@@ -321,27 +321,27 @@ function _postCreateBooking(body) {
     if (!packCatalogId) return _err('3-pack catalog item not configured.');
 
     var orderRes = _squareRequest('POST', '/orders', {
-      idempotencyKey: _uuid(),
+      idempotency_key: _uuid(),
       order: {
-        locationId: CONFIG.SQUARE_LOCATION_ID,
-        customerId: squareCustomerId || undefined,
-        lineItems:  [{ catalogObjectId: packCatalogId, quantity: '1' }],
-        metadata:   { class_type: class_type, class_date: class_date, source: 'website' },
+        location_id: CONFIG.SQUARE_LOCATION_ID,
+        customer_id: squareCustomerId || undefined,
+        line_items:  [{ catalog_object_id: packCatalogId, quantity: '1' }],
+        metadata:    { class_type: class_type, class_date: class_date, source: 'website' },
       },
     });
     if (orderRes.errors) return _err(orderRes.errors[0].detail || 'Order creation failed.');
     squareOrderId = orderRes.order.id;
 
     var packPayBody = {
-      sourceId:       sourceId,
-      idempotencyKey: _uuid(),
-      amountMoney:    orderRes.order.totalMoney,
-      orderId:        squareOrderId,
-      locationId:     CONFIG.SQUARE_LOCATION_ID,
-      customerId:     squareCustomerId || undefined,
-      note:           'Drop In 3-Pack — ' + customer_last + ' ' + customer_first,
+      source_id:       sourceId,
+      idempotency_key: _uuid(),
+      amount_money:    orderRes.order.total_money,
+      order_id:        squareOrderId,
+      location_id:     CONFIG.SQUARE_LOCATION_ID,
+      customer_id:     squareCustomerId || undefined,
+      note:            'Drop In 3-Pack — ' + customer_last + ' ' + customer_first,
     };
-    if (verToken) packPayBody.verificationToken = verToken;
+    if (verToken) packPayBody.verification_token = verToken;
 
     var packPayRes = _squareRequest('POST', '/payments', packPayBody);
     if (packPayRes.errors) return _err(packPayRes.errors[0].detail || 'Payment failed.');
@@ -366,30 +366,37 @@ function _postCreateBooking(body) {
     if (!catalog_obj) return _err('catalog_object_id is required for payment.');
 
     var singleOrderRes = _squareRequest('POST', '/orders', {
-      idempotencyKey: _uuid(),
+      idempotency_key: _uuid(),
       order: {
-        locationId: CONFIG.SQUARE_LOCATION_ID,
-        customerId: squareCustomerId || undefined,
-        lineItems:  [{ catalogObjectId: catalog_obj, quantity: '1' }],
-        metadata:   { class_type: class_type, class_date: class_date, source: 'website' },
+        location_id: CONFIG.SQUARE_LOCATION_ID,
+        customer_id: squareCustomerId || undefined,
+        line_items:  [{ catalog_object_id: catalog_obj, quantity: '1' }],
+        metadata:    { class_type: class_type, class_date: class_date, source: 'website' },
       },
     });
-    if (singleOrderRes.errors) return _err(singleOrderRes.errors[0].detail || 'Order creation failed.');
+    if (singleOrderRes.errors) {
+      var oe = singleOrderRes.errors[0];
+      return _err('[Order] ' + (oe.field ? oe.field + ': ' : '') + (oe.detail || 'Order creation failed.'));
+    }
     squareOrderId = singleOrderRes.order.id;
+    var totalMoney = singleOrderRes.order.total_money || { amount: price, currency: 'JPY' };
 
     var singlePayBody = {
-      sourceId:       sourceId,
-      idempotencyKey: _uuid(),
-      amountMoney:    singleOrderRes.order.totalMoney,
-      orderId:        squareOrderId,
-      locationId:     CONFIG.SQUARE_LOCATION_ID,
-      customerId:     squareCustomerId || undefined,
-      note:           class_name_en + ' ' + class_date + ' ' + class_time_start + ' — ' + customer_last + ' ' + customer_first,
+      source_id:       sourceId,
+      idempotency_key: _uuid(),
+      amount_money:    totalMoney,
+      order_id:        squareOrderId,
+      location_id:     CONFIG.SQUARE_LOCATION_ID,
+      customer_id:     squareCustomerId || undefined,
+      note:            class_name_en + ' ' + class_date + ' ' + class_time_start + ' — ' + customer_last + ' ' + customer_first,
     };
-    if (verToken) singlePayBody.verificationToken = verToken;
+    if (verToken) singlePayBody.verification_token = verToken;
 
     var singlePayRes = _squareRequest('POST', '/payments', singlePayBody);
-    if (singlePayRes.errors) return _err(singlePayRes.errors[0].detail || 'Payment failed.');
+    if (singlePayRes.errors) {
+      var pe = singlePayRes.errors[0];
+      return _err('[Payment] ' + (pe.field ? pe.field + ': ' : '') + (pe.detail || 'Payment failed.'));
+    }
     squarePaymentId = singlePayRes.payment.id;
     paymentMethod   = 'square_payment';
   }
@@ -398,7 +405,7 @@ function _postCreateBooking(body) {
   var bookingId = _generateBookingId();
 
   // ── 4. Add Calendar 2 reservation event ──
-  var calRes = _addReservationEvent({
+  _addReservationEvent({
     booking_id:   bookingId,
     class_name_en: class_name_en,
     customer_last: customer_last,
@@ -804,19 +811,19 @@ function _squareUpsertCustomer(data) {
   if (!data.email_address) return null;
   try {
     var searchRes = _squareRequest('POST', '/customers/search', {
-      query: { filter: { emailAddress: { exact: data.email_address } } },
+      query: { filter: { email_address: { exact: data.email_address } } },
     });
     if (!searchRes.errors && searchRes.customers && searchRes.customers.length > 0) {
       return searchRes.customers[0].id;
     }
     var createRes = _squareRequest('POST', '/customers', {
-      idempotencyKey: _uuid(),
-      given_name:     data.given_name    || '',
-      family_name:    data.family_name   || '',
-      email_address:  data.email_address,
-      phone_number:   data.phone_number  || undefined,
-      birthday:       data.birthday      || undefined,
-      note:           'Created via website booking',
+      idempotency_key: _uuid(),
+      given_name:      data.given_name    || '',
+      family_name:     data.family_name   || '',
+      email_address:   data.email_address,
+      phone_number:    data.phone_number  || undefined,
+      birthday:        data.birthday      || undefined,
+      note:            'Created via website booking',
     });
     if (createRes.errors) {
       console.error('Square create customer error', createRes.errors[0].detail);

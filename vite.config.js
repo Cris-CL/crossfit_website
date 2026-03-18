@@ -53,7 +53,7 @@ export default defineConfig({
         'trial-reserve':             'trial-reserve.html',
 
         // ── New booking pages (add entries here as pages are created) ──
-        // 'booking-trial':              'booking-trial.html',
+        'booking-trial':              'booking-trial.html',
         // 'booking-dropin':             'booking-dropin.html',
         // 'booking-hyrox-competitors':  'booking-hyrox-competitors.html',
         // 'booking-hyrox-strength':     'booking-hyrox-strength.html',

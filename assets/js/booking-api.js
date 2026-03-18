@@ -21,7 +21,7 @@ export async function gasGet(action, params = {}) {
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error(`GAS GET ${action} failed: ${res.status}`);
   const data = await res.json();
-  if (data.status === 'error') throw new Error(data.message || `GAS error (${action})`);
+  if (data.success === false) throw new Error(data.message || `GAS error (${action})`);
   return data;
 }
 
@@ -32,14 +32,15 @@ export async function gasGet(action, params = {}) {
  * @returns {Promise<any>} parsed JSON response
  */
 export async function gasPost(action, body = {}) {
+  // Use text/plain to avoid CORS preflight — GAS parses the body the same way
   const res = await fetch(GAS_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ action, ...body }),
   });
   if (!res.ok) throw new Error(`GAS POST ${action} failed: ${res.status}`);
   const data = await res.json();
-  if (data.status === 'error') throw new Error(data.message || `GAS error (${action})`);
+  if (data.success === false) throw new Error(data.message || `GAS error (${action})`);
   return data;
 }
 
@@ -74,7 +75,7 @@ export async function getMonthAvailability(classType, year, month) {
  * @returns {Promise<Array>}
  */
 export async function getSlots(classType, dateStr) {
-  const data = await gasGet('availability', { classType, dateStr });
+  const data = await gasGet('availability', { classType, date: dateStr });
   return data.slots || [];
 }
 
