@@ -10,7 +10,29 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      { "source": "/dropin-booking.html",          "destination": "/booking-dropin",            "type": 301 },
+      { "source": "/dropin-reserve.html",           "destination": "/booking-dropin",            "type": 301 },
+      { "source": "/trial-booking.html",            "destination": "/booking-trial",             "type": 301 },
+      { "source": "/trial-reserve.html",            "destination": "/booking-trial",             "type": 301 },
+      { "source": "/hyrox-booking.html",            "destination": "/booking-hyrox-competitors", "type": 301 },
+      { "source": "/hyrox-performance-booking.html","destination": "/booking-hyrox-competitors", "type": 301 },
+      { "source": "/hyrox-strength-booking.html",   "destination": "/booking-hyrox-strength",    "type": 301 },
+      { "source": "/spartan-booking.html",          "destination": "/booking-spartan",           "type": 301 },
+      { "source": "/spartan-reserve.html",          "destination": "/booking-spartan",           "type": 301 },
+      { "source": "/spartan3.html",                 "destination": "/spartan",                   "type": 301 },
+      { "source": "/success.html",                  "destination": "/",                          "type": 301 }
+    ],
     "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "X-Frame-Options",        "value": "SAMEORIGIN" },
+          { "key": "Referrer-Policy",        "value": "strict-origin-when-cross-origin" },
+          { "key": "Permissions-Policy",     "value": "camera=(), microphone=(), geolocation=()" }
+        ]
+      },
       {
         "source": "/assets/**",
         "headers": [

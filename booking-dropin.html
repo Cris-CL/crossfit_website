@@ -2,6 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4BHRZ36FYN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4BHRZ36FYN');
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ドロップイン 予約 | CrossFit Roppongi Tokyo</title>
@@ -573,6 +581,42 @@
       .step-node .label { font-size: 9px; }
     }
   </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    "name": "CrossFit Roppongi Drop-In Class",
+    "alternateName": "CrossFit Roppongi ドロップイン",
+    "url": "https://crossfitroppongi.com/dropin",
+    "location": {
+      "@type": "SportsActivityLocation",
+      "name": "CrossFit Roppongi",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "7-4-8 Roppongi, B1F Wind Building",
+        "addressLocality": "Minato-ku",
+        "addressRegion": "Tokyo",
+        "postalCode": "106-0032",
+        "addressCountry": "JP"
+      }
+    },
+    "organizer": {
+      "@type": "SportsOrganization",
+      "name": "CrossFit Roppongi",
+      "url": "https://crossfitroppongi.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "4950",
+      "priceCurrency": "JPY",
+      "url": "https://crossfitroppongi.com/booking-dropin",
+      "availability": "https://schema.org/InStock"
+    },
+    "duration": "PT60M"
+  }
+  </script>
 </head>
 <body>
 
