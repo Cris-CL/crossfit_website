@@ -582,7 +582,7 @@ function _postCreateBooking(body) {
     class_date: class_date, class_time_start: class_time_start, trainer: trainer,
     customer_last: customer_last, customer_first: customer_first,
     email: email, phone: phone, dob: dob, gender: gender, address: address,
-    paymentMethod: paymentMethod, squareOrderId: squareOrderId, notes: notes,
+    paymentMethod: paymentMethod, squareOrderId: squareOrderId, price: price, notes: notes,
     pack: pack, usedCreditId: usedCreditId,
   });
 
@@ -1411,7 +1411,8 @@ function _sendBookingConfirmation(d) {
     pack3line +
     '\nGoogleカレンダーに追加 / Add to Google Calendar → ' + (d.calLink || '') + '\n\n' +
     '決済方法 / Payment Method\n' +
-    creditLine + '\n\n' +
+    creditLine + '\n' +
+    '合計金額 / Total Amount      ¥' + (d.price ? d.price.toLocaleString() : '—') + '（税込 / Tax included）\n\n' +
     'お客様情報 / Customer Information\n' +
     '姓 / Last Name:           ' + d.customer_last  + '\n' +
     '名 / First Name:          ' + d.customer_first + '\n' +
@@ -1449,6 +1450,7 @@ function _sendBookingAdminNotification(d) {
     'Address    : ' + (d.address || '—') + '\n\n' +
     'Payment    : ' + d.paymentMethod   + '\n' +
     'Order ID   : ' + (d.squareOrderId || '—') + '\n' +
+    'Total      : ¥' + (d.price ? d.price.toLocaleString() : '—') + ' (Tax Incl.)\n' +
     'Pack       : ' + (d.pack || 'single') + '\n' +
     'Credit ID  : ' + (d.usedCreditId || '—') + '\n' +
     'Notes      : ' + (d.notes || '—');
