@@ -751,7 +751,7 @@ function _postCreateBookingThreePack(body) {
   try {
     GmailApp.sendEmail(
       CONFIG.STAFF_EMAILS,
-      '[Booking] ' + class_name_en + ' 3-Pack — ' + customer_last + ' ' + customer_first,
+      'CrossFit Roppongi | ' + class_name_en + ' 3-Pack — ' + customer_last + ' ' + customer_first + ' | ' + bookingIds.join(', '),
       'New 3-pack booking confirmed.\n\n' +
       'Booking IDs : ' + bookingIds.join(', ') + '\n' +
       'Class       : ' + class_name_en + ' / ' + class_name_jp + '\n' +
@@ -782,43 +782,38 @@ function _postCreateBookingThreePack(body) {
       return '  ' + ['①', '②', '③'][idx] + ' → ' + l;
     }).join('\n');
 
+    var sig3 = 'CrossFit Roppongi\n〒106-0032 Tokyo, Minato-ku, Roppongi 7-4-8 Wind Building B1F, Japan\ncrossfitroppongi.com\nTEL：03-6438-9813';
+
     try {
       GmailApp.sendEmail(
         email,
-        '予約確認 | Booking Confirmed — ' + CONFIG.GYM_NAME + ' (' + bookingIds.join(', ') + ')',
+        'CrossFit Roppongi | 予約確認 (Booking Confirmed) | ' + bookingIds.join(', '),
         'ご予約ありがとうございます。\n' +
-        'Thank you for your booking, ' + customer_first + ' ' + customer_last + '.\n' +
         'ジムでお会いできることを楽しみにしています。\n' +
+        'Thank you for your booking, ' + customer_first + ' ' + customer_last + '.\n' +
         'We look forward to seeing you at the gym!\n\n' +
-        '────────────────────────\n' +
         '注文番号 / Booking Numbers\n' +
         '  ① ' + bookingIds[0] + '\n' +
         '  ② ' + bookingIds[1] + '\n' +
         '  ③ ' + bookingIds[2] + '\n' +
         'クラス / Class               ' + class_name_jp + ' / ' + class_name_en + '\n' +
         'トレーナー / Trainer          ' + (trainer || 'Roppongi Staff') + '\n' +
-        '所要時間 / Duration          ' + duration + ' minutes\n' +
-        '────────────────────────\n' +
+        '所要時間 / Duration          ' + duration + ' minutes\n\n' +
         '日時 / Sessions\n' + sessionsEmailText + '\n\n' +
         'Googleカレンダーに追加 / Add to Google Calendar\n' + calLinksText + '\n\n' +
-        '────────────────────────\n' +
         '決済方法 / Payment Method\n' +
-        '  ドロップイン 3回パック / Drop In 3-Session Pack ¥11,550\n\n' +
-        '────────────────────────\n' +
+        'クレジットカード / Credit Card (Square)\n\n' +
         'お客様情報 / Customer Information\n' +
         '姓 / Last Name:           ' + customer_last  + '\n' +
         '名 / First Name:          ' + customer_first + '\n' +
         'メール / Email:            ' + email + '\n' +
-        '電話 / Phone:             ' + (phone || '—') + '\n\n' +
-        '────────────────────────\n' +
+        '電話 / Phone:             ' + (phone || '—') + '\n' +
+        '住所 / Address:           ' + (address || '—') + '\n\n' +
         '予約の変更またはキャンセルが必要な場合は、お気軽にご連絡ください。\n' +
-        'If you need to cancel or change your reservation, please contact us.\n\n' +
         'お越しをお待ちしています。\n' +
+        'If you need to cancel or change your reservation, please contact us.\n' +
         'Thank you and see you soon!\n\n' +
-        'CrossFit Roppongi\n' +
-        'crossfitroppongi.com\n' +
-        CONFIG.GYM_ADDRESS_JP + '\n' +
-        CONFIG.GYM_ADDRESS_EN,
+        sig3,
         { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL }
       );
     } catch (ex) { console.error('Customer email failed', ex); }
@@ -916,9 +911,8 @@ function _postSubmitContactForm(body) {
 
   _logContactForm({ inquiryType: inquiryType, name: name, phone: phone, email: email, message: message });
 
-  var div    = ' – – – – – – – ENGLISH – – – – – – –';
-  var addr   = CONFIG.GYM_ADDRESS_JP + '\nこのメールは CrossFit Roppongi (crossfitroppongi.com) のお問い合わせフォームから送信されました';
-  var addrEn = CONFIG.GYM_ADDRESS_EN + '\nThis email was sent from the inquiry form of CrossFit Roppongi (crossfitroppongi.com)';
+  var div = ' – – – – – – – ENGLISH – – – – – – –';
+  var sig = 'CrossFit Roppongi\n〒106-0032 Tokyo, Minato-ku, Roppongi 7-4-8 Wind Building B1F, Japan\ncrossfitroppongi.com\nTEL：03-6438-9813';
 
   var adminBody =
     '※このメールはシステムから自動で送信されています。\n\n' +
@@ -928,7 +922,6 @@ function _postSubmitContactForm(body) {
     '電話番号 : ' + phone + '\n' +
     'メールアドレス : ' + email + '\n' +
     'お問い合わせ詳細: ' + message + '\n\n' +
-    'CrossFit Roppongi\n' + addr + '\n\n' +
     div + '\n\n' +
     '※This email has been sent automatically by the system.\n\n' +
     'An inquiry has been received from ' + name + '.\n\n' +
@@ -937,13 +930,13 @@ function _postSubmitContactForm(body) {
     'Phone Number: ' + phone + '\n' +
     'Email Address: ' + email + '\n' +
     'Inquiry Details: ' + message + '\n\n' +
-    'CrossFit Roppongi\n' + addrEn;
+    sig;
 
   GmailApp.sendEmail(
     CONFIG.STAFF_EMAILS,
     'CrossFit Roppongi | ' + inquiryType + ' | ' + name,
     adminBody,
-    { name: CONFIG.GYM_NAME + ' Website', replyTo: email }
+    { name: CONFIG.GYM_NAME, replyTo: email }
   );
 
   var customerBody =
@@ -962,7 +955,6 @@ function _postSubmitContactForm(body) {
     'お問い合わせ詳細: ' + message + '\n\n' +
     'このメールにお心当たりがない場合、または誤って受信された場合は、お手数ですがご連絡ください。\n' +
     'このたびはお問い合わせ重ねてお礼申し上げます。\n\n' +
-    'CrossFit Roppongi\n' + addr + '\n\n' +
     div + '\n\n' +
     '※This email has been sent automatically by the system.\n\n' +
     'Dear ' + name + ',\n\n' +
@@ -978,7 +970,7 @@ function _postSubmitContactForm(body) {
     'Inquiry Details: ' + message + '\n\n' +
     'If you received this email by mistake or do not recognize this inquiry, please contact us.\n' +
     'Thank you again for your inquiry.\n\n' +
-    'CrossFit Roppongi\n' + addrEn;
+    sig;
 
   _emailCustomer(
     email,
@@ -1020,9 +1012,8 @@ function _postSubmitCareerForm(body) {
 
   _logCareerForm({ name: name, email: email, phone: phone, position: position, birthday: birthday, gender: gender, fileName: fileName, driveUrl: driveUrl, message: message });
 
-  var div    = ' – – – – – – – ENGLISH – – – – – – –';
-  var addr   = CONFIG.GYM_ADDRESS_JP + '\nこのメールは CrossFit Roppongi (crossfitroppongi.com) のお問い合わせフォームから送信されました';
-  var addrEn = CONFIG.GYM_ADDRESS_EN + '\nThis email was sent from the inquiry form of CrossFit Roppongi (crossfitroppongi.com)';
+  var div     = ' – – – – – – – ENGLISH – – – – – – –';
+  var sig     = 'CrossFit Roppongi\n〒106-0032 Tokyo, Minato-ku, Roppongi 7-4-8 Wind Building B1F, Japan\ncrossfitroppongi.com\nTEL：03-6438-9813';
   var fileRef = driveUrl ? driveUrl : (fileName || '—');
 
   var adminBody =
@@ -1036,7 +1027,6 @@ function _postSubmitCareerForm(body) {
     'メール : ' + email + '\n' +
     'ファイルを添付する : ' + fileRef + '\n' +
     'ご希望・ご質問: ' + (message || '—') + '\n\n' +
-    'CrossFit Roppongi\n' + addr + '\n\n' +
     div + '\n\n' +
     '※This email has been sent automatically by the system.\n\n' +
     'An application has been received from ' + name + '.\n\n' +
@@ -1048,7 +1038,7 @@ function _postSubmitCareerForm(body) {
     'Email: ' + email + '\n' +
     'Attachment: ' + fileRef + '\n' +
     'Requests / Questions: ' + (message || '—') + '\n\n' +
-    'CrossFit Roppongi\n' + addrEn;
+    sig;
 
   _emailAdmin(
     'CrossFit Roppongi | ' + (position || 'General') + ' | ' + name,
@@ -1074,7 +1064,6 @@ function _postSubmitCareerForm(body) {
     'ご希望・ご質問: ' + (message || '—') + '\n\n' +
     'このメールにお心当たりがない場合、または誤って受信された場合は、お手数ですがご連絡ください。\n' +
     'この度はお問い合わせ重ねてお礼申し上げます。\n\n' +
-    'CrossFit Roppongi\n' + addr + '\n\n' +
     div + '\n\n' +
     '※This email has been sent automatically by the system.\n\n' +
     'Dear ' + name + ',\n\n' +
@@ -1093,7 +1082,7 @@ function _postSubmitCareerForm(body) {
     'Requests / Questions: ' + (message || '—') + '\n\n' +
     'If you received this email by mistake or do not recognize this inquiry, please contact us.\n' +
     'Thank you again for your application.\n\n' +
-    'CrossFit Roppongi\n' + addrEn;
+    sig;
 
   _emailCustomer(
     email,
@@ -1400,51 +1389,44 @@ function _sendBookingConfirmation(d) {
 
   var creditLine = d.paymentMethod === 'credit'
     ? 'セッションクレジット使用 / Session Credit Used'
-    : d.paymentMethod === 'dropin_3pack'
-    ? 'ドロップイン 3回パック / Drop In 3-Session Pack ¥11,550'
     : 'クレジットカード / Credit Card (Square)';
 
   var hasCoachNote = d.has_coach === false
     ? '\n⚠️ このセッションにはコーチはいません。\n   No coach for this session — gym floor open for personal training.\n'
     : '';
 
+  var sig = 'CrossFit Roppongi\n〒106-0032 Tokyo, Minato-ku, Roppongi 7-4-8 Wind Building B1F, Japan\ncrossfitroppongi.com\nTEL：03-6438-9813';
+
   var body =
     'ご予約ありがとうございます。\n' +
-    'Thank you for your booking, ' + d.customer_first + ' ' + d.customer_last + '.\n' +
     'ジムでお会いできることを楽しみにしています。\n' +
+    'Thank you for your booking, ' + d.customer_first + ' ' + d.customer_last + '.\n' +
     'We look forward to seeing you at the gym!\n\n' +
-    '────────────────────────\n' +
     '注文番号 / Booking Number    ' + d.bookingId + '\n' +
     'クラス / Class               ' + d.class_name_jp + ' / ' + d.class_name_en + '\n' +
     '日時 / Date & Time           ' + d.class_date + ' · ' + d.class_time_start + (d.class_time_end ? '–' + d.class_time_end : '') + ' GMT+9\n' +
     'トレーナー / Trainer          ' + (d.trainer || 'Roppongi Staff') + '\n' +
     '所要時間 / Duration          ' + (d.duration || 60) + ' minutes\n' +
     hasCoachNote +
-    '────────────────────────\n' +
     pack3line +
-    'Googleカレンダーに追加 / Add to Google Calendar → ' + (d.calLink || '') + '\n\n' +
-    '────────────────────────\n' +
+    '\nGoogleカレンダーに追加 / Add to Google Calendar → ' + (d.calLink || '') + '\n\n' +
     '決済方法 / Payment Method\n' +
-    '  ' + creditLine + '\n\n' +
-    '────────────────────────\n' +
+    creditLine + '\n\n' +
     'お客様情報 / Customer Information\n' +
     '姓 / Last Name:           ' + d.customer_last  + '\n' +
     '名 / First Name:          ' + d.customer_first + '\n' +
     'メール / Email:            ' + d.email + '\n' +
-    '電話 / Phone:             ' + (d.phone || '—') + '\n\n' +
-    '────────────────────────\n' +
+    '電話 / Phone:             ' + (d.phone || '—') + '\n' +
+    '住所 / Address:           ' + (d.address || '—') + '\n\n' +
     '予約の変更またはキャンセルが必要な場合は、お気軽にご連絡ください。\n' +
-    'If you need to cancel or change your reservation, please contact us.\n\n' +
     'お越しをお待ちしています。\n' +
+    'If you need to cancel or change your reservation, please contact us.\n' +
     'Thank you and see you soon!\n\n' +
-    'CrossFit Roppongi\n' +
-    'crossfitroppongi.com\n' +
-    CONFIG.GYM_ADDRESS_JP + '\n' +
-    CONFIG.GYM_ADDRESS_EN;
+    sig;
 
   _emailCustomer(
     d.email,
-    '予約確認 | Booking Confirmed — ' + CONFIG.GYM_NAME + ' (' + d.bookingId + ')',
+    'CrossFit Roppongi | 予約確認 (Booking Confirmed) | ' + d.bookingId,
     body
   );
 }
@@ -1472,7 +1454,7 @@ function _sendBookingAdminNotification(d) {
     'Notes      : ' + (d.notes || '—');
 
   _emailAdmin(
-    '[Booking] ' + d.class_name_en + ' ' + d.class_date + ' ' + d.class_time_start + ' — ' + d.customer_last + ' ' + d.customer_first,
+    'CrossFit Roppongi | ' + d.class_name_en + ' ' + d.class_date + ' ' + d.class_time_start + ' — ' + d.customer_last + ' ' + d.customer_first + ' | ' + d.bookingId,
     body
   );
 }
@@ -1498,7 +1480,7 @@ function _logCareerForm(d) {
 function _emailAdmin(subject, body) {
   try {
     GmailApp.sendEmail(CONFIG.STAFF_EMAILS, subject, body,
-      { name: CONFIG.GYM_NAME + ' Website', replyTo: CONFIG.GYM_EMAIL });
+      { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL });
   } catch (ex) { console.error('Admin email failed', ex); }
 }
 
