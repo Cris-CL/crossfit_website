@@ -125,7 +125,7 @@ function _getAvailability(params) {
   var slots = [];
   classEvents.forEach(function(event) {
     var desc        = _parseEventDescription(event.getDescription());
-    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase();
+    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
 
     // Filter by classType if provided
     if (classType && evClassType !== classType) return;
@@ -187,7 +187,7 @@ function _getMonthAvailability(params) {
   var dateMap = {};
   events.forEach(function(ev) {
     var desc        = _parseEventDescription(ev.getDescription());
-    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase();
+    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
     if (classType && evClassType !== classType) return;
 
     var slotStart = ev.getStartTime();
@@ -229,7 +229,7 @@ function _getUpcomingClasses(params) {
   var slots = [];
   events.forEach(function(ev) {
     var desc        = _parseEventDescription(ev.getDescription());
-    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase();
+    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
     if (evClassType !== classType) return;
 
     var slotStart = ev.getStartTime();
@@ -375,7 +375,8 @@ function _postCreateBooking(body) {
   var price         = body.price         || 0;
 
   // ── payment fields ──
-  var pack          = body.pack          || 'single'; // 'single' | 'dropin_3pack'
+  var pack          = body.pack          || 'single'; // 'single' | 'dropin_3pack' | 'three_pack'
+  if (pack === 'three_pack') return _postCreateBookingThreePack(body);
   var use_credit    = body.use_credit    === true;
   var credit_id     = body.credit_id     || '';
   var sourceId      = body.sourceId      || '';
@@ -602,6 +603,231 @@ function _postCreateBooking(body) {
     booking_id:        bookingId,
     calendar_link:     calLink,
     credits_remaining: newCreditId ? 2 : undefined,
+  });
+}
+
+// ===== POST: CREATE BOOKING — 3-PACK (3 sessions, 1 payment) =====
+function _postCreateBookingThreePack(body) {
+  var class_type     = body.class_type    || '';
+  var customer_first = body.customer_first || '';
+  var customer_last  = body.customer_last  || '';
+  var email          = (body.email || '').trim();
+  var phone          = (body.phone || '').trim();
+  var dob            = body.dob    || '';
+  var gender         = body.gender || '';
+  var address        = body.address || '';
+  var notes          = body.notes   || '';
+  var sourceId       = body.sourceId || '';
+  var verToken       = body.verificationToken || '';
+  var sessions       = body.sessions || []; // [{event_id, class_date, class_time_start, class_time_end}]
+  var class_name_en  = body.class_name_en || CONFIG.CLASS_NAME_EN[class_type] || class_type;
+  var class_name_jp  = body.class_name_jp || CONFIG.CLASS_NAME_JP[class_type] || class_type;
+  var trainer        = body.trainer  || '';
+  var duration       = body.duration || 60;
+
+  // ── validation ──
+  if (!class_type)          return _err('class_type is required.');
+  if (sessions.length !== 3) return _err('3-pack requires exactly 3 sessions.');
+  if (!email)               return _err('Email is required.');
+  if (!dob)                 return _err('Date of birth is required.');
+  if (!gender)              return _err('Gender is required.');
+  if (!sourceId)            return _err('Payment token (sourceId) is required.');
+  for (var si = 0; si < 3; si++) {
+    if (!sessions[si].class_date)       return _err('class_date is required for session ' + (si + 1) + '.');
+    if (!sessions[si].class_time_start) return _err('class_time_start is required for session ' + (si + 1) + '.');
+  }
+
+  // ── 1. Square Customer ──
+  var squareCustomerId = _squareUpsertCustomer({
+    given_name:    customer_first,
+    family_name:   customer_last,
+    email_address: email,
+    phone_number:  phone,
+    address:       address,
+    birthday:      dob,
+  });
+
+  // ── 2. Square Order + Payment (¥11,550 — 1 order for all 3 sessions) ──
+  var packVariationId = CONFIG.CATALOG['dropin_3pack'];
+  if (!packVariationId) return _err('3-pack catalog item not configured.');
+
+  var orderRes = _squareRequest('POST', '/orders', {
+    idempotency_key: _uuid(),
+    order: {
+      location_id: CONFIG.SQUARE_LOCATION_ID,
+      customer_id: squareCustomerId || undefined,
+      line_items:  [{ catalog_object_id: packVariationId, quantity: '1' }],
+      metadata: {
+        class_type: class_type,
+        pack:       'three_pack',
+        dates:      sessions.map(function(s) { return s.class_date; }).join(','),
+        source:     'website',
+      },
+    },
+  });
+  if (orderRes.errors) return _err(orderRes.errors[0].detail || 'Order creation failed.');
+  var squareOrderId = orderRes.order.id;
+
+  var payBody = {
+    source_id:       sourceId,
+    idempotency_key: _uuid(),
+    amount_money:    orderRes.order.total_money,
+    order_id:        squareOrderId,
+    location_id:     CONFIG.SQUARE_LOCATION_ID,
+    customer_id:     squareCustomerId || undefined,
+    note:            'Drop In 3-Pack — ' + customer_last + ' ' + customer_first + ' — ' +
+                     sessions.map(function(s) { return s.class_date; }).join(', '),
+  };
+  if (verToken) payBody.verification_token = verToken;
+
+  var payRes = _squareRequest('POST', '/payments', payBody);
+  if (payRes.errors) return _err(payRes.errors[0].detail || 'Payment failed.');
+  var squarePaymentId = payRes.payment.id;
+
+  // ── 3. Generate 3 booking IDs, calendar events, Sheets rows ──
+  var bookingIds = [];
+  var calLinks   = [];
+
+  for (var i = 0; i < 3; i++) {
+    var sess = sessions[i];
+    var bId  = _generateBookingId();
+    bookingIds.push(bId);
+
+    _addReservationEvent({
+      booking_id:       bId,
+      class_name_en:    class_name_en,
+      customer_last:    customer_last,
+      customer_first:   customer_first,
+      email:            email,
+      phone:            phone,
+      class_date:       sess.class_date,
+      class_time_start: sess.class_time_start,
+      class_time_end:   sess.class_time_end || '',
+      class_type:       class_type,
+      duration:         duration,
+    });
+
+    var calLink = _calendarAddLink(class_name_en, sess.class_date, sess.class_time_start, sess.class_time_end || '');
+    calLinks.push(calLink);
+
+    _logBooking({
+      booking_id:         bId,
+      class_type:         class_type,
+      class_name_en:      class_name_en,
+      class_name_jp:      class_name_jp,
+      trainer:            trainer,
+      class_date:         sess.class_date,
+      class_time_start:   sess.class_time_start,
+      class_time_end:     sess.class_time_end || '',
+      duration:           duration,
+      calendar_event_id:  sess.event_id || '',
+      customer_last:      customer_last,
+      customer_first:     customer_first,
+      customer_email:     email,
+      customer_phone:     phone,
+      customer_address:   address,
+      customer_dob:       dob,
+      customer_gender:    gender,
+      square_customer_id: squareCustomerId || '',
+      square_order_id:    squareOrderId,
+      square_payment_id:  squarePaymentId,
+      catalog_object_id:  packVariationId,
+      price:              i === 0 ? 11550 : 0,  // full price on row 1, 0 on rows 2 & 3
+      payment_method:     'three_pack',
+      used_credit:        false,
+      credit_id:          '',
+      source:             'website',
+      status:             'confirmed',
+      calendar_link:      calLink,
+      notes:              notes,
+    });
+  }
+
+  // ── 4. Admin notification ──
+  var sessionsText = sessions.map(function(s, idx) {
+    return '  Session ' + (idx + 1) + ': ' + s.class_date + ' ' + s.class_time_start;
+  }).join('\n');
+
+  try {
+    GmailApp.sendEmail(
+      CONFIG.STAFF_EMAILS,
+      '[Booking] ' + class_name_en + ' 3-Pack — ' + customer_last + ' ' + customer_first,
+      'New 3-pack booking confirmed.\n\n' +
+      'Booking IDs : ' + bookingIds.join(', ') + '\n' +
+      'Class       : ' + class_name_en + ' / ' + class_name_jp + '\n' +
+      'Sessions    :\n' + sessionsText + '\n' +
+      'Trainer     : ' + (trainer || '—') + '\n\n' +
+      'Last Name   : ' + customer_last  + '\n' +
+      'First Name  : ' + customer_first + '\n' +
+      'Email       : ' + email          + '\n' +
+      'Phone       : ' + (phone   || '—') + '\n' +
+      'DOB         : ' + (dob     || '—') + '\n' +
+      'Gender      : ' + (gender  || '—') + '\n' +
+      'Address     : ' + (address || '—') + '\n\n' +
+      'Payment     : three_pack\n' +
+      'Order ID    : ' + squareOrderId + '\n' +
+      'Notes       : ' + (notes || '—'),
+      { name: CONFIG.GYM_NAME + ' Website', replyTo: CONFIG.GYM_EMAIL }
+    );
+  } catch (ex) { console.error('Admin email failed', ex); }
+
+  // ── 5. Customer confirmation email ──
+  if (email) {
+    var sessionsEmailText = sessions.map(function(s, idx) {
+      var num = ['①', '②', '③'][idx];
+      return '  ' + num + ' ' + s.class_date + ' · ' + s.class_time_start + (s.class_time_end ? '–' + s.class_time_end : '') + ' GMT+9';
+    }).join('\n');
+
+    var calLinksText = calLinks.map(function(l, idx) {
+      return '  ' + ['①', '②', '③'][idx] + ' → ' + l;
+    }).join('\n');
+
+    try {
+      GmailApp.sendEmail(
+        email,
+        '予約確認 | Booking Confirmed — ' + CONFIG.GYM_NAME + ' (' + bookingIds.join(', ') + ')',
+        'ご予約ありがとうございます。\n' +
+        'Thank you for your booking, ' + customer_first + ' ' + customer_last + '.\n' +
+        'ジムでお会いできることを楽しみにしています。\n' +
+        'We look forward to seeing you at the gym!\n\n' +
+        '────────────────────────\n' +
+        '注文番号 / Booking Numbers\n' +
+        '  ① ' + bookingIds[0] + '\n' +
+        '  ② ' + bookingIds[1] + '\n' +
+        '  ③ ' + bookingIds[2] + '\n' +
+        'クラス / Class               ' + class_name_jp + ' / ' + class_name_en + '\n' +
+        'トレーナー / Trainer          ' + (trainer || 'Roppongi Staff') + '\n' +
+        '所要時間 / Duration          ' + duration + ' minutes\n' +
+        '────────────────────────\n' +
+        '日時 / Sessions\n' + sessionsEmailText + '\n\n' +
+        'Googleカレンダーに追加 / Add to Google Calendar\n' + calLinksText + '\n\n' +
+        '────────────────────────\n' +
+        '決済方法 / Payment Method\n' +
+        '  ドロップイン 3回パック / Drop In 3-Session Pack ¥11,550\n\n' +
+        '────────────────────────\n' +
+        'お客様情報 / Customer Information\n' +
+        '姓 / Last Name:           ' + customer_last  + '\n' +
+        '名 / First Name:          ' + customer_first + '\n' +
+        'メール / Email:            ' + email + '\n' +
+        '電話 / Phone:             ' + (phone || '—') + '\n\n' +
+        '────────────────────────\n' +
+        '予約の変更またはキャンセルが必要な場合は、お気軽にご連絡ください。\n' +
+        'If you need to cancel or change your reservation, please contact us.\n\n' +
+        'お越しをお待ちしています。\n' +
+        'Thank you and see you soon!\n\n' +
+        'CrossFit Roppongi\n' +
+        'crossfitroppongi.com\n' +
+        CONFIG.GYM_ADDRESS_JP + '\n' +
+        CONFIG.GYM_ADDRESS_EN,
+        { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL }
+      );
+    } catch (ex) { console.error('Customer email failed', ex); }
+  }
+
+  return _ok({
+    booking_ids:    bookingIds,
+    calendar_links: calLinks,
+    calendar_link:  calLinks[0],
   });
 }
 
