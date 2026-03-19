@@ -111,7 +111,7 @@ function doPost(e) {
 // ?action=availability&date=YYYY-MM-DD&classType=dropin
 function _getAvailability(params) {
   var date      = params.date;
-  var classType = (params.classType || '').toLowerCase();
+  var classType = (params.classType || '').toLowerCase().replace(/_/g, '');
   if (!date) return _err('date parameter required (YYYY-MM-DD)');
 
   var parts = date.split('-').map(Number);
@@ -174,7 +174,7 @@ function _getAvailability(params) {
 function _getMonthAvailability(params) {
   var year      = parseInt(params.year,  10);
   var month     = parseInt(params.month, 10); // 1-based
-  var classType = (params.classType || '').toLowerCase();
+  var classType = (params.classType || '').toLowerCase().replace(/_/g, '');
   if (!year || !month) return _err('year and month parameters required');
 
   var start = new Date(year, month - 1, 1,  0,  0,  0);
@@ -213,7 +213,7 @@ function _getMonthAvailability(params) {
 // ===== GET: UPCOMING CLASSES (list view for HYROX / Spartan) =====
 // ?action=upcomingClasses&classType=spartan[&limit=5&offset=0]
 function _getUpcomingClasses(params) {
-  var classType = (params.classType || '').toLowerCase();
+  var classType = (params.classType || '').toLowerCase().replace(/_/g, '');
   var limit     = Math.min(parseInt(params.limit  || '5',  10), 20);
   var offset    = Math.max(parseInt(params.offset || '0',  10), 0);
   if (!classType) return _err('classType required');

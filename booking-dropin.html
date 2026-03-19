@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>体験レッスン 予約 | CrossFit Roppongi Tokyo</title>
+  <title>ドロップイン 予約 | CrossFit Roppongi Tokyo</title>
   <meta name="robots" content="noindex, nofollow">
 
   <!-- CSS -->
@@ -98,6 +98,67 @@
       margin-top: 3px;
     }
 
+    /* ── Class type selector ────────────────────────────────────────────── */
+    .class-type-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .class-type-card {
+      border: 2px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 28px 20px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      background: #fff;
+    }
+    .class-type-card:hover { border-color: #ccc; background: #fafafa; }
+    .class-type-card.selected { border-color: var(--color-brand); background: #fff5f5; }
+    .class-type-card .ct-name-jp { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #111; }
+    .class-type-card .ct-name-en { font-size: 11px; font-weight: 700; color: #888; letter-spacing: 0.1em; }
+    .class-type-card .ct-price { font-size: 22px; font-weight: 700; color: var(--color-brand); margin-top: 14px; }
+    .class-type-card .ct-price-sub { font-size: 11px; color: #888; font-weight: 400; }
+    .class-type-card .ct-note { font-size: 11px; color: #999; margin-top: 8px; line-height: 1.5; }
+
+    /* ── Open Gym note ──────────────────────────────────────────────────── */
+    #opengym-note {
+      display: none;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #92400e;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* ── Session divider ────────────────────────────────────────────────── */
+    .session-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 36px 0 24px;
+    }
+    .session-divider::before,
+    .session-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e5e5e5;
+    }
+    .session-badge {
+      background: #222;
+      color: #fff;
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
     /* ── Calendar ───────────────────────────────────────────────────────── */
     .calendar-header {
       display: flex;
@@ -135,7 +196,7 @@
     }
     .cal-day-names span:first-child { color: #e11d48; }
     .cal-day-names span:last-child  { color: #3b82f6; }
-    #calendar-grid {
+    .cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
@@ -154,6 +215,7 @@
     }
     .cal-cell.empty { visibility: hidden; }
     .cal-cell.unavailable { color: #ccc; }
+    .cal-cell.cal-blocked { color: #ccc; opacity: 0.4; }
     .cal-cell.available { cursor: pointer; font-weight: 700; }
     .cal-cell.available:hover { background: #fef2f2; }
     .cal-cell.available::after {
@@ -173,7 +235,7 @@
 
     /* ── Slots ──────────────────────────────────────────────────────────── */
     .slots-section { margin-top: 32px; min-height: 60px; }
-    #slots-list { display: flex; flex-direction: column; gap: 8px; }
+    .slots-list { display: flex; flex-direction: column; gap: 8px; }
     .slot-btn {
       display: flex;
       align-items: center;
@@ -338,6 +400,20 @@
       font-size: 18px;
       color: #111;
     }
+    .sum-pack-label {
+      display: none;
+      background: var(--color-brand);
+      color: #fff;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Proxima Nova', sans-serif;
+      letter-spacing: 0.06em;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    #sum-sessions { font-size: 13px; text-align: right; line-height: 1.8; }
 
     /* ── Payment methods ────────────────────────────────────────────────── */
     .pm-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
@@ -411,6 +487,20 @@
     .bk-btn-primary { background: var(--gradient-brand); color: #fff; }
     .bk-btn-secondary { background: #f2f2f2; color: #333; }
     .bk-btn-secondary:hover:not(:disabled) { background: #e5e5e5; }
+
+    /* ── Pack button (taller, outlined) ─────────────────────────────────── */
+    .bk-btn-pack {
+      background: #fff;
+      border: 2px solid #222;
+      color: #222;
+      padding: 18px 16px;
+      line-height: 1.4;
+    }
+    .bk-btn-pack:hover:not(:disabled) { background: #f5f5f5; }
+    .bk-btn-pack:disabled { opacity: 0.4; cursor: not-allowed; }
+    .bk-btn-pack .pack-jp { display: block; font-size: 15px; font-weight: 700; }
+    .bk-btn-pack .pack-en { display: block; font-size: 12px; font-weight: 400; margin-top: 5px; color: #555; }
+
     .step-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 32px; }
 
     /* ── Error ──────────────────────────────────────────────────────────── */
@@ -459,6 +549,7 @@
     }
     .confirm-row:last-child { border-bottom: none; }
     .confirm-row .key { color: #888; }
+    .confirm-sessions { font-size: 13px; text-align: right; line-height: 1.9; }
     .confirm-cal-link {
       display: inline-block;
       margin: 12px 0 24px;
@@ -474,6 +565,7 @@
 
     /* ── Responsive ─────────────────────────────────────────────────────── */
     @media (max-width: 600px) {
+      .class-type-cards { grid-template-columns: 1fr; }
       .form-grid-2 { grid-template-columns: 1fr; }
       .pm-tabs { flex-direction: column; }
       .step-line { min-width: 10px; }
@@ -542,8 +634,8 @@
 <div id="page_booking">
   <section class="sec_booking com_page">
     <h2 class="main_title">
-      <p class="en font_proxima extra">TRIAL</p>
-      <p class="jp">体験レッスン 予約</p>
+      <p class="en font_proxima extra">DROP IN</p>
+      <p class="jp">ドロップイン 予約</p>
     </h2>
 
     <div class="booking-wrap">
@@ -564,52 +656,131 @@
           <div class="circle">3</div>
           <div class="label">お支払い<br><span class="font_proxima" style="font-size:9px">PAYMENT</span></div>
         </div>
-        <div class="step-line" id="line-3-4"></div>
-        <div class="step-node" data-step="4">
-          <div class="circle">4</div>
-          <div class="label">予約完了<br><span class="font_proxima" style="font-size:9px">COMPLETE</span></div>
-        </div>
       </div>
 
-      <!-- ─── STEP 1: Date & Time ──────────────────────────────────────── -->
-      <div id="step-1" class="booking-step active">
+      <!-- ─── STEP 2: Date & Time ────────────────────────────────────── -->
+      <div id="step-2" class="booking-step active">
         <h3 class="step-title">
           日時を選択してください
           <span class="en font_proxima">SELECT DATE &amp; TIME</span>
         </h3>
 
-        <div class="calendar-header">
-          <button type="button" id="cal-prev" class="cal-nav">&#8592;</button>
-          <div class="cal-month-label font_proxima" id="cal-month-label"></div>
-          <button type="button" id="cal-next" class="cal-nav">&#8594;</button>
-        </div>
-        <div class="cal-day-names">
-          <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
-        </div>
-        <div id="calendar-grid"></div>
-
-        <div class="slots-section">
-          <div id="slots-placeholder" style="text-align:center; color:#aaa; font-size:13px; padding:24px 0; line-height:1.9;">
-            ↑ カレンダーから日付を選んでください。<br>
-            <span class="font_proxima" style="font-size:12px">Select a date from the calendar above.</span>
+        <!-- ── Session 1 ── -->
+        <div id="session-1-section">
+          <div id="session-1-badge" class="session-divider" style="display:none;">
+            <div class="session-badge">セッション① / Session 1</div>
           </div>
-          <div id="slots-loading" class="loading-wrap" style="display:none;">
-            <div class="loading-ring"></div>
+
+          <div class="calendar-header">
+            <button type="button" id="cal-1-prev" class="cal-nav">&#8592;</button>
+            <div class="cal-month-label font_proxima" id="cal-1-month-label"></div>
+            <button type="button" id="cal-1-next" class="cal-nav">&#8594;</button>
           </div>
-          <div id="slots-list" style="display:none;"></div>
+          <div class="cal-day-names">
+            <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+          </div>
+          <div id="cal-1-grid" class="cal-grid"></div>
+
+          <div class="slots-section">
+            <div id="cal-1-slots-placeholder" style="text-align:center; color:#aaa; font-size:13px; padding:24px 0; line-height:1.9;">
+              ↑ カレンダーから日付を選んでください。<br>
+              <span class="font_proxima" style="font-size:12px">Select a date from the calendar above.</span>
+            </div>
+            <div id="cal-1-slots-loading" class="loading-wrap" style="display:none;">
+              <div class="loading-ring"></div>
+            </div>
+            <div id="cal-1-slots-list" class="slots-list" style="display:none;"></div>
+          </div>
+
+          <div id="error-session-1" class="bk-error"></div>
+
+          <div class="step-actions">
+            <button id="btn-next-single" class="bk-btn bk-btn-primary" disabled>
+              次へ：お客様情報 <span class="font_proxima">NEXT</span>
+            </button>
+            <button id="btn-add-pack" class="bk-btn bk-btn-pack" disabled>
+              <span class="pack-jp">2セッション追加して3回パックにする</span>
+              <span class="pack-en font_proxima">Add 2 more sessions (3-pack ¥11,550)</span>
+            </button>
+          </div>
         </div>
 
-        <div id="error-step1" class="bk-error"></div>
+        <!-- ── Session 2 (shown when pack selected) ── -->
+        <div id="session-2-section" style="display:none;">
+          <div class="session-divider">
+            <div class="session-badge">セッション② / Session 2</div>
+          </div>
 
-        <div class="step-actions">
-          <button id="btn-to-step2" class="bk-btn bk-btn-primary" disabled>
-            次へ：お客様情報 <span class="font_proxima">NEXT</span>
-          </button>
+          <div class="calendar-header">
+            <button type="button" id="cal-2-prev" class="cal-nav">&#8592;</button>
+            <div class="cal-month-label font_proxima" id="cal-2-month-label"></div>
+            <button type="button" id="cal-2-next" class="cal-nav">&#8594;</button>
+          </div>
+          <div class="cal-day-names">
+            <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+          </div>
+          <div id="cal-2-grid" class="cal-grid"></div>
+
+          <div class="slots-section">
+            <div id="cal-2-slots-placeholder" style="text-align:center; color:#aaa; font-size:13px; padding:24px 0; line-height:1.9;">
+              ↑ カレンダーから日付を選んでください。<br>
+              <span class="font_proxima" style="font-size:12px">Select a date from the calendar above.</span>
+            </div>
+            <div id="cal-2-slots-loading" class="loading-wrap" style="display:none;">
+              <div class="loading-ring"></div>
+            </div>
+            <div id="cal-2-slots-list" class="slots-list" style="display:none;"></div>
+          </div>
+
+          <div id="error-session-2" class="bk-error"></div>
+
+          <div class="step-actions">
+            <button id="btn-session2-next" class="bk-btn bk-btn-primary" disabled>
+              セッション③の日時を選ぶ <span class="font_proxima">SELECT SESSION 3</span>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- ─── STEP 2: Customer Info ────────────────────────────────────── -->
-      <div id="step-2" class="booking-step">
+        <!-- ── Session 3 (shown after session 2 confirmed) ── -->
+        <div id="session-3-section" style="display:none;">
+          <div class="session-divider">
+            <div class="session-badge">セッション③ / Session 3</div>
+          </div>
+
+          <div class="calendar-header">
+            <button type="button" id="cal-3-prev" class="cal-nav">&#8592;</button>
+            <div class="cal-month-label font_proxima" id="cal-3-month-label"></div>
+            <button type="button" id="cal-3-next" class="cal-nav">&#8594;</button>
+          </div>
+          <div class="cal-day-names">
+            <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+          </div>
+          <div id="cal-3-grid" class="cal-grid"></div>
+
+          <div class="slots-section">
+            <div id="cal-3-slots-placeholder" style="text-align:center; color:#aaa; font-size:13px; padding:24px 0; line-height:1.9;">
+              ↑ カレンダーから日付を選んでください。<br>
+              <span class="font_proxima" style="font-size:12px">Select a date from the calendar above.</span>
+            </div>
+            <div id="cal-3-slots-loading" class="loading-wrap" style="display:none;">
+              <div class="loading-ring"></div>
+            </div>
+            <div id="cal-3-slots-list" class="slots-list" style="display:none;"></div>
+          </div>
+
+          <div id="error-session-3" class="bk-error"></div>
+
+          <div class="step-actions">
+            <button id="btn-session3-next" class="bk-btn bk-btn-primary" disabled>
+              次へ：お客様情報 <span class="font_proxima">NEXT: YOUR INFO</span>
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /step-2 -->
+
+      <!-- ─── STEP 3: Customer Info ──────────────────────────────────── -->
+      <div id="step-3" class="booking-step">
         <h3 class="step-title">
           お客様情報を入力してください
           <span class="en font_proxima">YOUR INFORMATION</span>
@@ -687,20 +858,20 @@
           <textarea id="input-notes" rows="3" placeholder="ご質問・ご要望など / Questions or requests"></textarea>
         </div>
 
-        <div id="error-step2" class="bk-error"></div>
+        <div id="error-step3" class="bk-error"></div>
 
         <div class="step-actions">
-          <button id="btn-to-step3" class="bk-btn bk-btn-primary">
+          <button id="btn-to-step4" class="bk-btn bk-btn-primary">
             次へ：お支払い <span class="font_proxima">NEXT: PAYMENT</span>
           </button>
-          <button id="btn-back-1" class="bk-btn bk-btn-secondary">
+          <button id="btn-back-to-step2" class="bk-btn bk-btn-secondary">
             ← 日時選択に戻る <span class="font_proxima">BACK</span>
           </button>
         </div>
       </div>
 
-      <!-- ─── STEP 3: Payment ──────────────────────────────────────────── -->
-      <div id="step-3" class="booking-step">
+      <!-- ─── STEP 4: Payment ────────────────────────────────────────── -->
+      <div id="step-4" class="booking-step">
         <h3 class="step-title">
           お支払い
           <span class="en font_proxima">PAYMENT</span>
@@ -711,15 +882,11 @@
           <div class="sum-title font_proxima">ORDER SUMMARY</div>
           <div class="sum-row">
             <span class="key">クラス / Class</span>
-            <span id="sum-class">—</span>
+            <span id="sum-class">—<span id="sum-pack-label" class="sum-pack-label">3-PACK</span></span>
           </div>
           <div class="sum-row">
             <span class="key">日時 / Date &amp; Time</span>
-            <span id="sum-datetime">—</span>
-          </div>
-          <div class="sum-row">
-            <span class="key">トレーナー / Trainer</span>
-            <span id="sum-trainer">—</span>
+            <span id="sum-sessions">—</span>
           </div>
           <div class="sum-row">
             <span class="key">氏名 / Name</span>
@@ -727,7 +894,7 @@
           </div>
           <div class="sum-row total">
             <span>合計 <span class="font_proxima" style="font-size:12px; font-weight:400; color:#888">TOTAL</span></span>
-            <span>¥3,300 <small style="font-size:12px; font-weight:400; color:#888">税込</small></span>
+            <span id="sum-total-price">¥4,950 <small style="font-size:12px; font-weight:400; color:#888">税込</small></span>
           </div>
         </div>
 
@@ -776,20 +943,20 @@
           </label>
         </div>
 
-        <div id="error-step3" class="bk-error"></div>
+        <div id="error-step4" class="bk-error"></div>
 
         <div class="step-actions">
           <button id="btn-pay" class="bk-btn bk-btn-primary" disabled>
-            ¥3,300 を支払い予約する <span class="font_proxima">PAY &amp; BOOK</span>
+            ¥4,950 を支払い予約する <span class="font_proxima">PAY &amp; BOOK</span>
           </button>
-          <button id="btn-back-2" class="bk-btn bk-btn-secondary">
+          <button id="btn-back-to-step3" class="bk-btn bk-btn-secondary">
             ← お客様情報に戻る <span class="font_proxima">BACK</span>
           </button>
         </div>
       </div>
 
-      <!-- ─── STEP 4: Confirmation ─────────────────────────────────────── -->
-      <div id="step-4" class="booking-step">
+      <!-- ─── STEP 5: Confirmation ───────────────────────────────────── -->
+      <div id="step-5" class="booking-step">
         <div class="confirm-wrap">
           <div class="confirm-icon">✓</div>
           <h3 style="font-size:22px; margin-bottom:8px;">ご予約が確定しました！</h3>
@@ -805,9 +972,13 @@
               <span class="key">クラス / Class</span>
               <span id="confirm-class">—</span>
             </div>
-            <div class="confirm-row">
+            <div class="confirm-row" id="confirm-datetime-row">
               <span class="key">日時 / Date &amp; Time</span>
               <span id="confirm-datetime">—</span>
+            </div>
+            <div class="confirm-row" id="confirm-sessions-wrap" style="display:none;">
+              <span class="key">日時 / Sessions</span>
+              <div id="confirm-sessions" class="confirm-sessions">—</div>
             </div>
             <div class="confirm-row">
               <span class="key">氏名 / Name</span>
@@ -815,7 +986,7 @@
             </div>
             <div class="confirm-row">
               <span class="key">料金 / Price</span>
-              <span id="confirm-price">¥3,300 (税込)</span>
+              <span id="confirm-price">¥4,950 (税込)</span>
             </div>
           </div>
 
@@ -877,6 +1048,6 @@
 </footer>
 
 <script defer src="assets/js/scrollin.js"></script>
-<script type="module" src="assets/js/booking-trial.js"></script>
+<script type="module" src="assets/js/booking-dropin.js"></script>
 </body>
 </html>
