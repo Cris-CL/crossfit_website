@@ -65,7 +65,8 @@ var CONFIG = {
   GYM_ADDRESS_JP:        '〒106-0032 東京都港区六本木７−４−８ ウインドビル B1F\nTEL：03-6438-9813',
   GYM_ADDRESS_EN:        '〒106-0032 Tokyo, Minato-ku, Roppongi 7-4-8 Wind Building B1F, Japan\nTEL：03-6438-9813',
   GYM_LOCATION:          '〒106-0032 東京都港区六本木７−４−８ ウインドビル B1F',
-  STAFF_EMAILS:          'alvaroaltamirano@crossfitroppongi.com, tsujimoto@crossfitroppongi.com, bruce@crossfitroppongi.com, bookings@crossfitroppongi.com, sato@crossfitroppongi.com',
+  BOOKING_CC:            'tsujimoto@crossfitroppongi.com, sato@crossfitroppongi.com, kozukarei@crossfitroppongi.com',
+  FORM_CC:               'alvaroaltamirano@crossfitroppongi.com, tsujimoto@crossfitroppongi.com, bruce@crossfitroppongi.com, sato@crossfitroppongi.com, kozukarei@crossfitroppongi.com',
 };
 
 // ===== RESPONSE HELPERS =====
@@ -767,7 +768,7 @@ function _postCreateBookingThreePack(body) {
       'Payment     : three_pack\n' +
       'Order ID    : ' + squareOrderId + '\n' +
       'Notes       : ' + (notes || '—'),
-      { name: CONFIG.GYM_NAME + ' Website', replyTo: CONFIG.GYM_EMAIL }
+      { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL, cc: CONFIG.BOOKING_CC }
     );
   } catch (ex) { console.error('Admin email failed', ex); }
 
@@ -933,10 +934,10 @@ function _postSubmitContactForm(body) {
     sig;
 
   GmailApp.sendEmail(
-    CONFIG.STAFF_EMAILS,
+    CONFIG.GYM_EMAIL,
     'CrossFit Roppongi | ' + inquiryType + ' | ' + name,
     adminBody,
-    { name: CONFIG.GYM_NAME, replyTo: email }
+    { name: CONFIG.GYM_NAME, replyTo: email, cc: CONFIG.FORM_CC }
   );
 
   var customerBody =
@@ -1040,10 +1041,12 @@ function _postSubmitCareerForm(body) {
     'Requests / Questions: ' + (message || '—') + '\n\n' +
     sig;
 
-  _emailAdmin(
-    'CrossFit Roppongi | ' + (position || 'General') + ' | ' + name,
-    adminBody
-  );
+  try {
+    GmailApp.sendEmail(CONFIG.GYM_EMAIL,
+      'CrossFit Roppongi | ' + (position || 'General') + ' | ' + name,
+      adminBody,
+      { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL, cc: CONFIG.FORM_CC });
+  } catch (ex) { console.error('Admin email failed', ex); }
 
   var customerBody =
     '※このメールはシステムから自動で送信されています。\n\n' +
@@ -1450,7 +1453,7 @@ function _sendBookingAdminNotification(d) {
     'Address    : ' + (d.address || '—') + '\n\n' +
     'Payment    : ' + d.paymentMethod   + '\n' +
     'Order ID   : ' + (d.squareOrderId || '—') + '\n' +
-    'Total      : ¥' + (d.price ? d.price.toLocaleString() : '—') + ' (Tax Incl.)\n' +
+    'Total      : ¥' + (d.price ? d.price.toLocaleString() : '—') + '\n' +
     'Pack       : ' + (d.pack || 'single') + '\n' +
     'Credit ID  : ' + (d.usedCreditId || '—') + '\n' +
     'Notes      : ' + (d.notes || '—');
@@ -1481,8 +1484,8 @@ function _logCareerForm(d) {
 
 function _emailAdmin(subject, body) {
   try {
-    GmailApp.sendEmail(CONFIG.STAFF_EMAILS, subject, body,
-      { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL });
+    GmailApp.sendEmail(CONFIG.GYM_EMAIL, subject, body,
+      { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL, cc: CONFIG.BOOKING_CC });
   } catch (ex) { console.error('Admin email failed', ex); }
 }
 
