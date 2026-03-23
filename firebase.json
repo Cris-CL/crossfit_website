@@ -10,6 +10,8 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "cleanUrls": true,
+    "404": "404.html",
     "redirects": [
       { "source": "/dropin-booking.html",          "destination": "/booking-dropin",            "type": 301 },
       { "source": "/dropin-reserve.html",           "destination": "/booking-dropin",            "type": 301 },
@@ -20,6 +22,7 @@
       { "source": "/hyrox-strength-booking.html",   "destination": "/booking-hyrox-strength",    "type": 301 },
       { "source": "/spartan-booking.html",          "destination": "/booking-spartan",           "type": 301 },
       { "source": "/spartan-reserve.html",          "destination": "/booking-spartan",           "type": 301 },
+      { "source": "/spartan3",                      "destination": "/spartan",                   "type": 301 },
       { "source": "/spartan3.html",                 "destination": "/spartan",                   "type": 301 },
       { "source": "/success.html",                  "destination": "/",                          "type": 301 }
     ],

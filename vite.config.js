@@ -38,19 +38,6 @@ export default defineConfig({
 
         // ── Utility ─────────────────────────────────────────────────
         '404':     '404.html',
-        success:   'success.html',
-
-        // ── Legacy booking pages (will be superseded by new booking pages) ──
-        'dropin-booking':            'dropin-booking.html',
-        'dropin-reserve':            'dropin-reserve.html',
-        'hyrox-booking':             'hyrox-booking.html',
-        'hyrox-performance-booking': 'hyrox-performance-booking.html',
-        'hyrox-strength-booking':    'hyrox-strength-booking.html',
-        'spartan-booking':           'spartan-booking.html',
-        'spartan-reserve':           'spartan-reserve.html',
-        'spartan3':                  'spartan3.html',
-        'trial-booking':             'trial-booking.html',
-        'trial-reserve':             'trial-reserve.html',
 
         // ── New booking pages (add entries here as pages are created) ──
         'booking-trial':              'booking-trial.html',
