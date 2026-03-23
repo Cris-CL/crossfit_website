@@ -174,7 +174,6 @@
 <div id="page_index">
   <!-- Video Section -->
   <section id="ytPlayerWrap" class="video-wrap">
-    <div id="videoLoader" class="video-loader"></div>
     <div id="videoCover" class="video-cover"></div>
     <div id="ytPlayer"
       data-property="{
@@ -429,9 +428,9 @@
     $(document).ready(function () {
       $("#ytPlayer").YTPlayer();
 
-      // Fade out loader when video starts playing
+      // Fade in video when it starts playing
       $('#ytPlayer').on('YTPStart', function () {
-        $('#videoLoader').addClass('hidden');
+        $('#ytPlayerWrap .mbYTP_wrapper').addClass('playing');
       });
 
       // Show cover.webp full-width when video ends

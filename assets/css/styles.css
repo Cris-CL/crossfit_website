@@ -263,19 +263,6 @@ nav.nav_mobile {
 }
 
 /* Video loading overlay — fades out when playback starts */
-.video-loader {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  background: #000;
-  opacity: 1;
-  transition: opacity 1s ease;
-  pointer-events: none;
-}
-.video-loader.hidden {
-  opacity: 0;
-}
-
 /* End-of-video cover image — fades in full-width when video ends */
 .video-cover {
   position: absolute;
@@ -299,7 +286,7 @@ nav.nav_mobile {
     height: auto;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: url(../img/mainv.webp) center / cover no-repeat;
+    background: #000;
   }
 
   .video-wrap #ytPlayer {
@@ -318,7 +305,12 @@ nav.nav_mobile {
     width: 100% !important;
     height: 100% !important;
     overflow: hidden;
-    background: #000;
+    background: transparent;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+  .video-wrap .mbYTP_wrapper.playing {
+    opacity: 1;
   }
   .video-wrap .mbYTP_wrapper .playerBox,
   .video-wrap .mbYTP_wrapper .mbYTPPlayer {
