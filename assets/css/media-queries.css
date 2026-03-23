@@ -1480,3 +1480,22 @@
         padding: 30px 20px 30px;
     }
 }
+
+/* ── Career form — stack label above input on mobile ──────────────────── */
+@media (max-width: 767px) {
+    #page_carrer .career-row {
+        flex-wrap: wrap;
+    }
+    #page_carrer .career-title {
+        width: auto;
+        flex: 1;
+    }
+    #page_carrer .career-content {
+        width: 100%;
+        flex-basis: 100%;
+        margin-top: 6px;
+    }
+    #page_carrer .career-privacy {
+        margin-left: 0;
+    }
+}
