@@ -1,5 +1,7 @@
 # User's specifics
 *.env
+.env.local
+.env.*.local
 
 # Dependencies
 node_modules/
