@@ -38,7 +38,7 @@ header {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
 }
 header .logo {
   font-size: 22px;
@@ -173,7 +173,7 @@ header nav ul li {
     background: none;
     border: none;
     cursor: pointer;
-    z-index: 110; /* Above nav */
+    z-index: 110; /* Above nav_mobile (99) within header stacking context */
   }
 
   .menu-toggle span {
@@ -260,6 +260,36 @@ nav.nav_mobile {
     position: relative;
     top: -6px;
     left: 6px;
+}
+
+/* Video loading overlay — fades out when playback starts */
+.video-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #000;
+  opacity: 1;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+.video-loader.hidden {
+  opacity: 0;
+}
+
+/* End-of-video cover image — fades in full-width when video ends */
+.video-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  background: url('../img/cover.webp') center / cover no-repeat;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+.video-cover.visible {
+  opacity: 1;
 }
 
 /* Top video: full width, height follows aspect ratio */
@@ -498,6 +528,7 @@ img {
     font-size: 0;
     line-height: 0;
     width: 100%;
+    height: auto;
     display: block;
 }
 
@@ -919,7 +950,7 @@ section.page-title.plan-page{
     background: url(../img/plan-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.carrer-page{
-    background: url(../img/carrer-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/career-bg.jpg) right top / 100% auto no-repeat;
 }
 .page-title.coach-page {
     background: url(../img/coach-bg.jpg) right top / 100% auto no-repeat;
@@ -1017,7 +1048,7 @@ section.page-title.hyrox-page {
 }
 section.page-title.hyrox-page h2,
 section.page-title.hyrox-page .sub-title {
-    color: #f2c94c;
+    color: #fff104;
 }
 section.page-title.spartan-page {
     background: url(../img/spartan-bg.jpg) right top / 100% auto no-repeat;
@@ -1030,7 +1061,7 @@ section.page-title.dropin-page {
     background: url(../img/dropin-bg.jpg) right top / 100% auto no-repeat;
 }
 section.page-title h2 {
-    color: #999;
+    color: #fff;
     font-size: 50px;
     width: 100%;
     line-height: 50px;
@@ -1039,7 +1070,7 @@ p.sub-title {
     font-size: 18px;
     letter-spacing: .08em;
     font-weight: bold;
-    color: #999;
+    color: #fff;
 }
 #page_about .com_page_link {
     margin-top: 90px;
@@ -2469,9 +2500,11 @@ body.no-scroll { overflow: hidden; }
     text-decoration: underline;
 }
 #hyrox-classes.hyrox-v3 .hyrox-info-rows .value .jp-line a {
+    display: inline;
     color: #fff;
 }
 #hyrox-classes.hyrox-v3 .hyrox-info-rows .value .en-line a {
+    display: inline;
     color: #8f8f8f;
 }
 #hyrox-classes.hyrox-v3 .hyrox-info-rows .value.single-line-pair .jp-line,

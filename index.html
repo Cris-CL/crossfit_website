@@ -174,6 +174,8 @@
 <div id="page_index">
   <!-- Video Section -->
   <section id="ytPlayerWrap" class="video-wrap">
+    <div id="videoLoader" class="video-loader"></div>
+    <div id="videoCover" class="video-cover"></div>
     <div id="ytPlayer"
       data-property="{
         videoURL: 'https://youtu.be/c7RrsRFt14c',
@@ -189,6 +191,33 @@
         quality: 'hd1080',
         realfullscreen: true
       }">
+    </div>
+  </section>
+
+  <!-- Issue 9: Mobile-only hero slider (portrait images) -->
+  <section class="sec_hero_sp display_sp">
+    <div class="swiper heroSwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="assets/img/hero_sp_01.jpg" alt="CrossFit Roppongi" loading="eager" width="750" height="1000">
+        </div>
+        <div class="swiper-slide">
+          <img src="assets/img/hero_sp_02.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+        </div>
+        <div class="swiper-slide">
+          <img src="assets/img/hero_sp_03.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+        </div>
+        <div class="swiper-slide">
+          <img src="assets/img/hero_sp_04.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+        </div>
+        <div class="swiper-slide">
+          <img src="assets/img/hero_sp_05.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+        </div>
+      </div>
+    </div>
+    <div class="hero_sp_text">
+      <p class="hero_sp_en font_proxima">CHANCE TO<br>CHANGE<br>YOUR LIFE</p>
+      <p class="hero_sp_jp">変わるきっかけは、ここにある。</p>
     </div>
   </section>
 
@@ -208,25 +237,17 @@
         </div>
     </div>
 
-    <div class="sp_movie display_sp">
-        <h4 class="title font_proxima">CROSSFIT ROPPONGI MOVIE</h4>
-        <div class="movie_wrap">
-            <div class="movie"></div>
-            
-            <video muted playsinline src="assets/img/crossfit.mp4" controls poster="https://crossfitwebsite.web.app/assets/img/cover.webp"></video>				
-        </div>
-    </div>
 </section>
 <!-- gallery Section -->
 <section class="com_sec_gallery">
     <div class="gallery_left fade_g scrollin">
         <picture>	
             <source media="(max-width:767px)" srcset="assets/img/gallery01_left_sp.jpg">
-            <img src="assets/img/gallery01_left.webp" alt="CrossFit Roppongiのトレーニング">
+            <img src="assets/img/gallery01_left.webp" alt="CrossFit Roppongiのトレーニング" loading="lazy" width="1860" height="801">
         </picture>
     </div>
     <div class="gallery_right fade_g scrollin">
-        <img src="assets/img/gallery01_right.webp" alt="CrossFit Roppongiのトレーニング">
+        <img src="assets/img/gallery01_right.webp" alt="CrossFit Roppongiのトレーニング" loading="lazy" width="860" height="801">
     </div>
 </section>
   <!-- Features Section -->
@@ -282,14 +303,14 @@
   <section class="sec_gallery2">
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="assets/img/slide_01.webp" alt="Slide 1"></div>
-        <div class="swiper-slide"><img src="assets/img/slide_02.webp" alt="Slide 2"></div>
-        <div class="swiper-slide"><img src="assets/img/slide_03.webp" alt="Slide 3"></div>
-        <div class="swiper-slide"><img src="assets/img/slide_04.jpg" alt="Slide 4"></div>
-        <div class="swiper-slide"><img src="assets/img/slide_05.jpg" alt="Slide 5"></div>
-        <div class="swiper-slide"><img src="assets/img/slide_06.webp" alt="Slide 6"></div>
-        <div class="swiper-slide"><img src="assets/img/slide_07.jpg" alt="Slide 7"></div>
-        <div class="swiper-slide"><img src="assets/img/slide_08.webp" alt="Slide 8"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_01.webp" alt="Slide 1" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_02.webp" alt="Slide 2" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_03.webp" alt="Slide 3" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_04.webp" alt="Slide 4" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_05.webp" alt="Slide 5" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_06.webp" alt="Slide 6" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_07.webp" alt="Slide 7" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_08.webp" alt="Slide 8" loading="lazy" width="655" height="437"></div>
       </div>
     </div>
   </section>
@@ -318,7 +339,7 @@
   <section class="sec_taiken">
 	<div class="inner">
 		<h2 class="copy">
-			<img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc">
+			<img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc" loading="lazy">
 			<span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
 		</h2>
 		<div class="inner2">
@@ -371,11 +392,52 @@
        disableOnInteraction: false,
      },
    });
+
+   // Issue 9: Mobile hero slider — crossfade + Ken Burns
+   var kbAnimations = ['kenBurns', 'kenBurns2', 'kenBurns3'];
+
+   function startKenBurns(swiper) {
+     var activeSlide = swiper.slides[swiper.activeIndex];
+     if (activeSlide) {
+       var img = activeSlide.querySelector('img');
+       if (img) {
+         img.style.animation = 'none';
+         img.offsetHeight; // force reflow on incoming slide only
+         var variant = kbAnimations[swiper.realIndex % kbAnimations.length];
+         img.style.animation = variant + ' 6.5s ease-out forwards';
+       }
+     }
+   }
+
+   const heroSwiper = new Swiper(".heroSwiper", {
+     loop: true,
+     effect: 'fade',
+     fadeEffect: { crossFade: true },
+     speed: 1500,
+     autoplay: {
+       delay: 5000,
+       disableOnInteraction: false,
+     },
+     on: {
+       afterInit:               function () { startKenBurns(this); },
+       slideChangeTransitionStart: function () { startKenBurns(this); },
+     },
+   });
  </script>
   <!-- Init Video Player -->
   <script>
     $(document).ready(function () {
       $("#ytPlayer").YTPlayer();
+
+      // Fade out loader when video starts playing
+      $('#ytPlayer').on('YTPStart', function () {
+        $('#videoLoader').addClass('hidden');
+      });
+
+      // Show cover.webp full-width when video ends
+      $('#ytPlayer').on('YTPEnd', function () {
+        $('#videoCover').addClass('visible');
+      });
     });
   </script>
 
@@ -485,7 +547,7 @@
     </div>
     <small class="copyright font_proxima">© 2026 CrossFit Roppongi </small>
     <a href="https://journal.crossfit.com/" target="_blank" class="journal">
-      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL">
+      <img src="assets/img/journal.webp" alt="THE CrossFit JOURNAL" loading="lazy" width="161" height="81">
     </a>
   </div>
   </footer>
@@ -493,7 +555,7 @@
   <a href="#top" id="totop" style="bottom: 30px;">
   <picture>	
     <source media="(max-width:767px)" srcset="assets/img/totop_sp.webp">
-    <img src="assets/img/totop.webp" alt="TOP">
+    <img src="assets/img/totop.webp" alt="TOP" loading="lazy" width="201" height="201">
   </picture>
   </a>
   
