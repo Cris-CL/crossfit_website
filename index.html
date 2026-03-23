@@ -12,8 +12,8 @@
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CrossFit Roppongi | 六本木のクロスフィットジム | Tokyo Gym</title>
-        <meta name="description" content="CrossFit gym in Roppongi, Tokyo. Classes for all levels, drop-in welcome. 六本木のクロスフィットジム。初心者から上級者まで歓迎。体験レッスン・ドロップイン受付中。">
+        <title>CrossFit Roppongi Tokyo — 六本木のクロスフィット</title>
+        <meta name="description" content="東京・六本木のクロスフィットジム。体験レッスン¥3,300〜。初心者歓迎、英語対応。CrossFit gym in Roppongi, Tokyo. Trial class from ¥3,300. Beginners welcome, English-speaking coaches.">
         <!-- Open Graph -->
         <meta property="og:type"        content="website">
         <meta property="og:site_name"   content="CrossFit Roppongi">
@@ -34,52 +34,49 @@
 
         <!-- Schema.org structured data -->
         <script type="application/ld+json">
-        {
-          "@context": "https://schema.org",
-          "@type": "SportsActivityLocation",
-          "name": "CrossFit Roppongi",
-          "alternateName": "クロスフィット六本木",
-          "url": "https://crossfitroppongi.com",
-          "logo": "https://crossfitroppongi.com/assets/img/logo.svg",
-          "image": "https://crossfitroppongi.com/assets/img/main.jpg",
-          "description": "CrossFit gym in Roppongi, Tokyo. Classes for all levels, drop-in welcome. 六本木のクロスフィットジム。体験レッスン・ドロップイン受付中。",
-          "telephone": "+81-3-6438-9813",
-          "email": "info@crossfitroppongi.com",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "7-4-8 Roppongi, B1F Wind Building",
-            "addressLocality": "Minato-ku",
-            "addressRegion": "Tokyo",
-            "postalCode": "106-0032",
-            "addressCountry": "JP"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 35.6651596,
-            "longitude": 139.7233594
-          },
-          "openingHoursSpecification": [
-            {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-              "opens": "08:00",
-              "closes": "20:30"
-            },
-            {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": "Saturday",
-              "opens": "08:00",
-              "closes": "16:00"
-            }
-          ],
-          "priceRange": "¥¥",
-          "currenciesAccepted": "JPY",
-          "paymentAccepted": "Cash, Credit Card",
-          "sameAs": [
-            "https://www.instagram.com/crossfit.roppongi/",
-            "https://www.facebook.com/crossfitroppongi"
-          ]
-        }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["LocalBusiness", "SportsActivityLocation"],
+      "@id": "https://crossfitroppongi.com/#business",
+      "name": "CrossFit Roppongi",
+      "alternateName": "クロスフィット六本木",
+      "url": "https://crossfitroppongi.com",
+      "logo": "https://crossfitroppongi.com/assets/img/logo.svg",
+      "image": "https://crossfitroppongi.com/assets/img/main.jpg",
+      "description": "東京・六本木のクロスフィットジム。体験レッスン¥3,300〜。初心者歓迎、英語対応。CrossFit gym in Roppongi, Tokyo. Trial class from ¥3,300. Beginners welcome, English-speaking coaches.",
+      "telephone": "+81-3-6438-9813",
+      "email": "bookings@crossfitroppongi.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "六本木7-4-8 ウインドビルB1F",
+        "addressLocality": "港区",
+        "addressRegion": "東京都",
+        "postalCode": "106-0032",
+        "addressCountry": "JP"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 35.6625,
+        "longitude": 139.7296
+      },
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "06:30", "closes": "21:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "17:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "14:00" }
+      ],
+      "priceRange": "¥¥",
+      "currenciesAccepted": "JPY",
+      "paymentAccepted": "Cash, Credit Card",
+      "sport": "CrossFit",
+      "sameAs": [
+        "https://www.instagram.com/crossfit.roppongi/",
+        "https://www.facebook.com/crossfitroppongi"
+      ]
+    }
+  ]
+}
         </script>
 
         <!-- CSS -->
@@ -198,19 +195,34 @@
     <div class="swiper heroSwiper">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_01.jpg" alt="CrossFit Roppongi" loading="eager" width="750" height="1000">
+          <picture>
+            <source srcset="assets/img/hero_sp_01.webp" type="image/webp">
+            <img src="assets/img/hero_sp_01.jpg" alt="CrossFit Roppongi" loading="eager" width="750" height="1000">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_02.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source srcset="assets/img/hero_sp_02.webp" type="image/webp">
+            <img src="assets/img/hero_sp_02.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_03.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source srcset="assets/img/hero_sp_03.webp" type="image/webp">
+            <img src="assets/img/hero_sp_03.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_04.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source srcset="assets/img/hero_sp_04.webp" type="image/webp">
+            <img src="assets/img/hero_sp_04.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_05.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source srcset="assets/img/hero_sp_05.webp" type="image/webp">
+            <img src="assets/img/hero_sp_05.jpg" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          </picture>
         </div>
       </div>
     </div>
@@ -241,6 +253,7 @@
 <section class="com_sec_gallery">
     <div class="gallery_left fade_g scrollin">
         <picture>	
+            <source media="(max-width:767px)" srcset="assets/img/gallery01_left_sp.webp" type="image/webp">
             <source media="(max-width:767px)" srcset="assets/img/gallery01_left_sp.jpg">
             <img src="assets/img/gallery01_left.webp" alt="CrossFit Roppongiのトレーニング" loading="lazy" width="1860" height="801">
         </picture>
