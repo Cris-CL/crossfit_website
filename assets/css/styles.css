@@ -16,7 +16,7 @@
 
 /* Global font */
 body {
-  font-family: "Noto Sans JP","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Helvetica,"MS Pゴシック","MS PGothic",sans-serif;
+  font-family: "Noto Sans JP","Hiragino Sans","ヒラギノ角ゴシック","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,Helvetica,"MS Pゴシック","MS PGothic",sans-serif;
   font-size: 14px;
   font-weight: 400;
   font-style: normal;
@@ -371,7 +371,7 @@ nav.nav_mobile {
     letter-spacing: .04em;
 }
 .font_proxima {
-    font-family: "proxima-nova","Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3","Noto Sans JP","Noto Sans",Arial,sans-serif;
+    font-family: "proxima-nova","Hiragino Sans","ヒラギノ角ゴシック","Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3","Noto Sans JP","Noto Sans",Arial,sans-serif;
 }
 .font_noto {
     font-family: "Noto Sans JP", sans-serif;

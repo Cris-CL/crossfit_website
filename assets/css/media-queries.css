@@ -91,6 +91,8 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+        align-items: flex-start;
+        row-gap: 70px;
     }
     #page_index .sec_feature .text_area .feature_list li .com_title .jp {
         letter-spacing: 0.02em;
