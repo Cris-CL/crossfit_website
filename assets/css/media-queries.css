@@ -379,7 +379,7 @@
 @media (max-width: 1024px) {
     :root {
         --mobile-header-h: 70px;
-        --menu-x-shift: calc(var(--mobile-header-h) * 0.13);
+        --menu-x-shift: 6px;
     }
     .nav_top,
     header .reserve_btn.trial {
@@ -472,12 +472,13 @@
         height: var(--mobile-header-h);
         align-self: center;
         justify-content: center;
-        gap: 6px;
-        padding: 0 20px;
+        gap: 4px;
+        padding: 0 25px;
         align-items: center;
     }
     .menu-toggle span {
         width: 100%;
+        height: 2px;
         transform-origin: center;
     }
     .menu-toggle.active span:nth-child(1) {
@@ -507,7 +508,7 @@
 
     :root {
         --mobile-header-h: 70px; /* change here for adjusting the header height */
-        --menu-x-shift: calc(var(--mobile-header-h) * 0.13);
+        --menu-x-shift: 6px;
     }
     /* Hide desktop YouTube video player on mobile */
     #ytPlayerWrap {
@@ -747,6 +748,7 @@
       /* CLOSE label */
       .menu-toggle .close-text {
         display: none;
+        font-size: 6px;
       }
       .menu-toggle.active .close-text {
         display: block;
@@ -773,13 +775,14 @@
         height: var(--mobile-header-h);
         align-self: center;
         justify-content: center;
-        gap: 6px;
-        padding: 0 20px;
+        gap: 4px;
+        padding: 0 25px;
         display: flex;
         align-items: center;
       }
       .menu-toggle span {
         width: 100%;
+        height: 2px;
         transform-origin: center;
       }
       .menu-toggle.active span:nth-child(1) {
@@ -1047,8 +1050,14 @@
         transition: color 0.2s;
     }
     #page_plan .sec_plan .plan_list > li .plan_title.accordion-open::after {
-        content: "^";
-        transform: translateY(-60%);
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-top: 1.5px solid #999;
+        border-right: 1.5px solid #999;
+        right: 21px;
+        font-size: 0;
+        transform: translateY(-25%) rotate(-45deg);
     }
     #page_plan .sec_plan .plan_list > li .plan_title .text_en {
         font-size: 11px;
