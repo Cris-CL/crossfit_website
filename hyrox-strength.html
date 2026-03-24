@@ -52,15 +52,15 @@
 
 
   <!-- Fonts -->
-  <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
+  <link rel="preload" href="https://use.typekit.net/jli2vln.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://use.typekit.net/jli2vln.css"></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="preconnect" href="https://use.typekit.net" crossorigin>
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
-  <!--Custom Style-->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></noscript>
+        <!--Custom Style-->
   <style>
     /* minimal styles for the inserted section */
     .booking-frame {
@@ -127,8 +127,8 @@
       <li><a href="privacy.html"><p class="jp">プライバシーポリシー</p><p class="en font_proxima">PRIVACY POLICY</p></a></li>
     </ul>
     <ul class="sns_list nav_mobile_sns">
-      <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in"></a></li>
-      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb"></a></li>
+      <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in" aria-label="Instagram"></a></li>
+      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb" aria-label="Facebook"></a></li>
     </ul>
     <div class="nav_mobile_cta">
       <a href="trial.html" class="cta_trial font_proxima">TRIAL<span>体験レッスン</span></a>
@@ -139,7 +139,8 @@
         class="jp">体験レッスン</span></a>
   </header>
 
-  <div id="page_spartan">
+  <main>
+<div id="page_spartan">
     <!-- Title Section -->
     <section class="page-title hyrox-page scrollin"      style="background: url('assets/img/hero.jpg') center/cover no-repeat; padding: 300px 0;">
       <div class="com_column">
@@ -683,7 +684,9 @@
     </section>
   </div>
 
-  <!-- Footer -->
+  </main>
+
+<!-- Footer -->
   <footer class="footer">
     <div class="inner">
       <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
@@ -694,8 +697,8 @@
               href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi,
               Minato-ku, Tokyo 106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
           <ul class="sns_list">
-            <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in"></a></li>
-            <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb"></a></li>
+            <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in" aria-label="Instagram"></a></li>
+            <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb" aria-label="Facebook"></a></li>
           </ul>
         </div>
         <div class="footer_r">

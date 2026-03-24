@@ -1,352 +1,3 @@
-/* Mobile Responsive querries---*/
-
-@media (min-width: 1181px) {
-    .footer .inner .text_wrap .footer_l {
-        margin-right: 20px;
-    }
-    .footer .inner .text_wrap .footer_r {
-        padding-right: 30px;
-    }
-}
-
-@media (min-width: 1001px) {
-    .sec_taiken .inner2 {
-        display: flex;
-    }
-    #page_access .sec_access .com_inner .list_wrap {
-        display: flex;
-        justify-content: space-between;
-    }
-    #page_access .sec_access .com_inner .access_list {
-        border-bottom: 1px solid #999;
-    }
-
-}
-
-@media (min-width: 768px) {
-    header nav {
-        margin-right: 155px;
-    }
-    header .reserve_btn.trial {
-        overflow: hidden;
-    }
-    header .reserve_btn.trial::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: -50px;
-        bottom: 0;
-        left: 0;
-        border-right: 50px solid rgba(0, 0, 0, 0);
-        border-bottom: 100px solid rgba(255, 103, 114, .5);
-        transform: translateX(-100%);
-        transition: .5s ease;
-        pointer-events: none;
-    }
-    header .reserve_btn.trial:hover::before {
-        transform: translateX(0);
-    }
-    .com_sec_lesson.dropin .info_list .price_area .price_list li {
-        display: flex;
-    }
-    .com_sec_lesson.dropin .info_list .price_area .price_list li .kaisu span {
-        display: block;
-    }
-    #page_spartan .sec_coach .com_inner .text_wrap .insta_link {
-        border-bottom: 1px solid rgba(0, 0, 0, 0);
-        transition: .3s;
-    }
-    #page_spartan .sec_coach .com_inner {
-        display: flex;
-        justify-content: space-between;
-    }
-    .com_sec_lesson .info_list>li {
-        display: flex;
-    }
-    section.page-title .com_column {
-        display: block;
-    }
-    #page_index .sec_about {
-        margin-top: -9%;
-        position: relative;
-        z-index: 1;
-    }
-    .com_column {
-        display: flex;
-    }
-    .com_sec_gallery {
-        display: flex;
-        justify-content: space-between;
-    }
-    .com_sec_gallery .gallery_left.scrollin::before {
-        transition-delay: 0.3s;
-    }
-    .com_sec_gallery .gallery_left.scrollin::before {
-        right: -100%;
-    }
-    br.br_sp {
-        display: none;
-    }
-    #page_index .sec_feature .text_area .feature_list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: flex-start;
-        row-gap: 70px;
-    }
-    #page_index .sec_feature .text_area .feature_list li .com_title .jp {
-        letter-spacing: 0.02em;
-    }
-    .com_btn:hover .arrow::before {
-        animation: 0.6s ease 0s 1 normal none running arroww;
-    }
-    .com_sec_link .link_list {
-        display: flex;
-    }
-    .com_sec_link .link_list li a {
-        transition: 0.3s;
-    }
-    .com_sec_link .link_list li a:hover {
-        background-color: rgb(51, 51, 51);
-    }
-    .sec_insta .inner .follow a {
-        position: relative;
-    }
-    .sec_insta .inner .follow a::before {
-        content: "";
-        width: 150px;
-        height: 1px;
-        position: absolute;
-        left: 0px;
-        bottom: -3px;
-        background-color: rgb(127, 127, 127);
-        opacity: 0;
-        transition: 0.3s;
-    }
-    .display_pc {
-        display: block !important;
-    }
-    .display_sp {
-        display: none !important;
-    }
-    .grad_btn {
-        overflow: hidden;
-    }
-    .grad_btn:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: -50px;
-        bottom: 0;
-        left: 0;
-        border-right: 50px solid rgba(0, 0, 0, 0);
-        border-bottom: 100px solid rgba(255, 103, 114, .5);
-        transform: translateX(-100%);
-        transition: .5s ease;
-    }
-    .grad_btn:hover:before {
-        transform: translateX(0);
-    }
-    #hyrox-classes.hyrox-v3 .hyrox-tab-btn:hover::before {
-        transform: translateX(0);
-    }
-    .br_pc {
-        display: block;
-    }
-    .footer .inner .logo {
-        transition: .3s;
-    }
-    .br_sp {
-        display: none;
-    }
-    .footer .inner .text_wrap .footer_l .sns_list a {
-        transition: .3s;
-    }
-    .footer .inner .journal {
-        transition: .3s;
-    }
-    #totop {
-        transition: opacity .3s;
-    }
-    #page_about .com_page_link {
-        padding-bottom: 30px;
-    }
-    #page_about .com_page_link li {
-        max-width: 300px;
-    }
-    .com_page_link li {
-        max-width: 400px;
-        position: relative;
-    }
-    .com_page_link li:before, .com_page_link li:last-child:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        width: 1px;
-        height: 40px;
-        background-color: #666;
-    }
-    .com_page_link li a {
-        position: relative;
-    }
-    .com_page_link li a.active:before, .com_page_link li a:hover:before {
-        opacity: 1;
-    }
-    .com_page_link li a:before {
-        content: "";
-        position: absolute;
-        bottom: 5px;
-        left: 0;
-        right: 0;
-        margin: auto;
-        width: 10px;
-        height: 5px;
-        background: url(../img/arrow_black_bottom.svg) center / 10px 5px no-repeat;
-        opacity: 0;
-        transition: .3s;
-    }
-    .com_page_link li:last-child:after {
-        left: auto;
-        right: 0;
-    }
-    #page_about .sec_feature .feature_list li {
-        display: flex;
-        justify-content: space-between;
-    }
-    #page_about .sec_flow .flow_list li .text_wrap {
-        border-left: 1px solid #e0e0e0;
-    }
-    #page_about .sec_voice .voice_list {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-    #page_about .sec_voice .voice_list li:nth-child(n+3) {
-        margin-top: 60px;
-    }
-    nav ul li a.active, nav ul li a:hover {
-        border-bottom: 1px solid;
-    }
-    #page_facility .sec_facility_slide .inner2 {
-        max-width: 1315px;
-        margin-left: auto;
-        display: flex;
-        position: relative;
-        padding-left: 20px;
-    }
-    #page_coach .sec_coach .coach_list {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-    #page_coach .sec_coach .coach_list>li .shikaku_detail .shikaku_wrap {
-        display: flex;
-        justify-content: space-between;
-    }
-    #page_coach .sec_coach .coach_list>li:nth-child(n+3) {
-        margin-top: 100px;
-    }
-    #page_coach .sec_coach .coach_list>li .shikaku_detail {
-        min-height: 117px;
-    }
-    #page_plan .sec_plan .info_list>li {
-        display: flex;
-    }
-    #page_plan .sec_plan .plan_list>li .plan_title {
-        display: flex;
-        align-items: center;
-        pointer-events: none;
-    }
-    #page_plan .sec_plan .plan_list>li .plan_title .jp {
-        width: 235px;
-    }
-    #page_plan .sec_plan .plan_list>li .detail_list {
-        display: block !important;
-    }
-    #page_plan .sec_plan .plan_list>li .detail_list>li .price_wrap {
-        border-left: 1px solid #999;
-    }
-    #page_plan .sec_plan .plan_list>li .detail_list>li:nth-child(n+2) {
-        border-top: 1px solid #999;
-    }
-    #page_plan .sec_plan .plan_list>li:last-child .detail_list>li:last-child {
-        border-bottom: 1px solid #999;
-    }
-    #page_plan .contact_area .inner {
-        display: flex;
-        align-items: flex-end;
-    }
-    #page_plan .contact_area .inner .text_wrap {
-        width: calc(100% - 300px);
-        padding-right: 50px;
-    }
-    #page_plan .sec_corporate .corporate_list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-    #page_plan .sec_corporate .corporate_list li {
-        width: calc((100% - 10px) / 2);
-    }
-    #page_plan .sec_corporate .corporate_list li:nth-child(n+3) {
-        margin-top: 10px;
-    }
-    #page_access .sec_access .com_inner .access_list>li {
-        display: flex;
-    }
-    #page_access .sec_company .com_inner {
-        display: flex;
-    }
-    #page_access .sec_company .com_inner .com_title {
-        margin-top: -7px;
-    }
-    #page_access .sec_company .com_inner .company_list li {
-        display: flex;
-    }
-    .com_page_link li {
-        max-width: 400px;
-        position: relative;
-    }
-    #page_carrer .sec_career .career_list li {
-        display: flex;
-        border-bottom: 1px solid #999;
-    }
-    .sec_reserve .reserve_list {
-        display: flex;
-    }
-    .sec_reserve .reserve_list li {
-        position: relative;
-    }
-    .sec_reserve .reserve_list li .inner .more_btn {
-        padding-bottom: 6px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0);
-        transition: .3s;
-    }
-    .sec_reserve .reserve_list li:nth-child(2):before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        width: 1px;
-        height: 100px;
-        background-color: #cacaca;
-    }
-    .hyrox_reserve_list {
-        display: flex;
-    }
-    .hyrox_reserve_list li {
-        position: relative;
-    }
-    .hyrox_reserve_list li .inner .hyrox_cta_btn {
-        padding-bottom: 6px;
-    }
-
-}
 @media (min-width: 371px) {
     .grad_btn.center, .grad_btn.black {
         width: 300px;
@@ -1527,4 +1178,364 @@
     #page_carrer .career-privacy {
         margin-left: 0;
     }
+}
+/* Mobile Responsive querries---*/
+
+@media (min-width: 1181px) {
+    .footer .inner .text_wrap .footer_l {
+        margin-right: 20px;
+    }
+    .footer .inner .text_wrap .footer_r {
+        padding-right: 30px;
+    }
+}
+
+@media (min-width: 1001px) {
+    .sec_taiken .inner2 {
+        display: flex;
+    }
+    #page_access .sec_access .com_inner .list_wrap {
+        display: flex;
+        justify-content: space-between;
+    }
+    #page_access .sec_access .com_inner .access_list {
+        border-bottom: 1px solid #999;
+    }
+
+}
+
+@media (min-width: 768px) {
+    header nav {
+        margin-right: 155px;
+    }
+    header .reserve_btn.trial {
+        overflow: hidden;
+    }
+    header .reserve_btn.trial::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -50px;
+        bottom: 0;
+        left: 0;
+        border-right: 50px solid rgba(0, 0, 0, 0);
+        border-bottom: 100px solid rgba(255, 103, 114, .5);
+        transform: translateX(-100%);
+        transition: .5s ease;
+        pointer-events: none;
+    }
+    header .reserve_btn.trial:hover::before {
+        transform: translateX(0);
+    }
+    .com_sec_lesson.dropin .info_list .price_area .price_list li {
+        display: flex;
+    }
+    .com_sec_lesson.dropin .info_list .price_area .price_list li .kaisu span {
+        display: block;
+    }
+    #page_spartan .sec_coach .com_inner .text_wrap .insta_link {
+        border-bottom: 1px solid rgba(0, 0, 0, 0);
+        transition: .3s;
+    }
+    #page_spartan .sec_coach .com_inner {
+        display: flex;
+        justify-content: space-between;
+    }
+    .com_sec_lesson .info_list>li {
+        display: flex;
+    }
+    section.page-title .com_column {
+        display: block;
+    }
+    #page_index .sec_about {
+        margin-top: -9%;
+        position: relative;
+        z-index: 1;
+    }
+    .com_column {
+        display: flex;
+    }
+    .com_sec_gallery {
+        display: flex;
+        justify-content: space-between;
+    }
+    .com_sec_gallery .gallery_left {
+        flex: 0 0 68%;
+    }
+    .com_sec_gallery .gallery_right {
+        flex: 0 0 calc(32% - 10px);
+    }
+    .com_sec_gallery .gallery_left img,
+    .com_sec_gallery .gallery_right img {
+        height: 100%;
+        object-fit: cover;
+    }
+    .com_sec_gallery .gallery_left.scrollin::before {
+        transition-delay: 0.3s;
+    }
+    .com_sec_gallery .gallery_left.scrollin::before {
+        right: -100%;
+    }
+    br.br_sp {
+        display: none;
+    }
+    #page_index .sec_feature .text_area .feature_list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        row-gap: 70px;
+    }
+    #page_index .sec_feature .text_area .feature_list li .com_title .jp {
+        letter-spacing: 0.02em;
+    }
+    .com_btn:hover .arrow::before {
+        animation: 0.6s ease 0s 1 normal none running arroww;
+    }
+    .com_sec_link .link_list {
+        display: flex;
+    }
+    .com_sec_link .link_list li a {
+        transition: 0.3s;
+    }
+    .com_sec_link .link_list li a:hover {
+        background-color: rgb(51, 51, 51);
+    }
+    .sec_insta .inner .follow a {
+        position: relative;
+    }
+    .sec_insta .inner .follow a::before {
+        content: "";
+        width: 150px;
+        height: 1px;
+        position: absolute;
+        left: 0px;
+        bottom: -3px;
+        background-color: rgb(127, 127, 127);
+        opacity: 0;
+        transition: 0.3s;
+    }
+    .display_pc {
+        display: block !important;
+    }
+    .display_sp {
+        display: none !important;
+    }
+    .grad_btn {
+        overflow: hidden;
+    }
+    .grad_btn:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -50px;
+        bottom: 0;
+        left: 0;
+        border-right: 50px solid rgba(0, 0, 0, 0);
+        border-bottom: 100px solid rgba(255, 103, 114, .5);
+        transform: translateX(-100%);
+        transition: .5s ease;
+    }
+    .grad_btn:hover:before {
+        transform: translateX(0);
+    }
+    #hyrox-classes.hyrox-v3 .hyrox-tab-btn:hover::before {
+        transform: translateX(0);
+    }
+    .br_pc {
+        display: block;
+    }
+    .footer .inner .logo {
+        transition: .3s;
+    }
+    .br_sp {
+        display: none;
+    }
+    .footer .inner .text_wrap .footer_l .sns_list a {
+        transition: .3s;
+    }
+    .footer .inner .journal {
+        transition: .3s;
+    }
+    #totop {
+        transition: opacity .3s;
+    }
+    #page_about .com_page_link {
+        padding-bottom: 30px;
+    }
+    #page_about .com_page_link li {
+        max-width: 300px;
+    }
+    .com_page_link li {
+        max-width: 400px;
+        position: relative;
+    }
+    .com_page_link li:before, .com_page_link li:last-child:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 1px;
+        height: 40px;
+        background-color: #666;
+    }
+    .com_page_link li a {
+        position: relative;
+    }
+    .com_page_link li a.active:before, .com_page_link li a:hover:before {
+        opacity: 1;
+    }
+    .com_page_link li a:before {
+        content: "";
+        position: absolute;
+        bottom: 5px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 10px;
+        height: 5px;
+        background: url(../img/arrow_black_bottom.svg) center / 10px 5px no-repeat;
+        opacity: 0;
+        transition: .3s;
+    }
+    .com_page_link li:last-child:after {
+        left: auto;
+        right: 0;
+    }
+    #page_about .sec_feature .feature_list li {
+        display: flex;
+        justify-content: space-between;
+    }
+    #page_about .sec_flow .flow_list li .text_wrap {
+        border-left: 1px solid #e0e0e0;
+    }
+    #page_about .sec_voice .voice_list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    #page_about .sec_voice .voice_list li:nth-child(n+3) {
+        margin-top: 60px;
+    }
+    nav ul li a.active, nav ul li a:hover {
+        border-bottom: 1px solid;
+    }
+    #page_facility .sec_facility_slide .inner2 {
+        max-width: 1315px;
+        margin-left: auto;
+        display: flex;
+        position: relative;
+        padding-left: 20px;
+    }
+    #page_coach .sec_coach .coach_list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    #page_coach .sec_coach .coach_list>li .shikaku_detail .shikaku_wrap {
+        display: flex;
+        justify-content: space-between;
+    }
+    #page_coach .sec_coach .coach_list>li:nth-child(n+3) {
+        margin-top: 100px;
+    }
+    #page_coach .sec_coach .coach_list>li .shikaku_detail {
+        min-height: 117px;
+    }
+    #page_plan .sec_plan .info_list>li {
+        display: flex;
+    }
+    #page_plan .sec_plan .plan_list>li .plan_title {
+        display: flex;
+        align-items: center;
+        pointer-events: none;
+    }
+    #page_plan .sec_plan .plan_list>li .plan_title .jp {
+        width: 235px;
+    }
+    #page_plan .sec_plan .plan_list>li .detail_list {
+        display: block !important;
+    }
+    #page_plan .sec_plan .plan_list>li .detail_list>li .price_wrap {
+        border-left: 1px solid #999;
+    }
+    #page_plan .sec_plan .plan_list>li .detail_list>li:nth-child(n+2) {
+        border-top: 1px solid #999;
+    }
+    #page_plan .sec_plan .plan_list>li:last-child .detail_list>li:last-child {
+        border-bottom: 1px solid #999;
+    }
+    #page_plan .contact_area .inner {
+        display: flex;
+        align-items: flex-end;
+    }
+    #page_plan .contact_area .inner .text_wrap {
+        width: calc(100% - 300px);
+        padding-right: 50px;
+    }
+    #page_plan .sec_corporate .corporate_list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    #page_plan .sec_corporate .corporate_list li {
+        width: calc((100% - 10px) / 2);
+    }
+    #page_plan .sec_corporate .corporate_list li:nth-child(n+3) {
+        margin-top: 10px;
+    }
+    #page_access .sec_access .com_inner .access_list>li {
+        display: flex;
+    }
+    #page_access .sec_company .com_inner {
+        display: flex;
+    }
+    #page_access .sec_company .com_inner .com_title {
+        margin-top: -7px;
+    }
+    #page_access .sec_company .com_inner .company_list li {
+        display: flex;
+    }
+    .com_page_link li {
+        max-width: 400px;
+        position: relative;
+    }
+    #page_carrer .sec_career .career_list li {
+        display: flex;
+        border-bottom: 1px solid #999;
+    }
+    .sec_reserve .reserve_list {
+        display: flex;
+    }
+    .sec_reserve .reserve_list li {
+        position: relative;
+    }
+    .sec_reserve .reserve_list li .inner .more_btn {
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0);
+        transition: .3s;
+    }
+    .sec_reserve .reserve_list li:nth-child(2):before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: 1px;
+        height: 100px;
+        background-color: #cacaca;
+    }
+    .hyrox_reserve_list {
+        display: flex;
+    }
+    .hyrox_reserve_list li {
+        position: relative;
+    }
+    .hyrox_reserve_list li .inner .hyrox_cta_btn {
+        padding-bottom: 6px;
+    }
+
 }

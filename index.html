@@ -82,26 +82,34 @@
         <!-- CSS -->
         <link rel="stylesheet" href="assets/css/styles.css">
         <link rel="stylesheet" href="assets/css/media-queries.css">
-      
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://use.typekit.net/jli2vln.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+        <!-- LCP image preloads -->
+        <link rel="preload" as="image" href="assets/img/hero_sp_01-414w.webp"
+          media="(max-width:767px) and (max-resolution: 191dpi)">
+        <link rel="preload" as="image" href="assets/img/hero_sp_01-828w.webp"
+          media="(max-width:767px) and (min-resolution: 192dpi)">
+        <link rel="preload" as="image" href="assets/img/slide_01.webp" media="(min-width:768px)">
+
+        <!-- Preconnects (max 4) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="preconnect" href="https://use.typekit.net" crossorigin>
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-        <link rel="preconnect" href="https://code.jquery.com" crossorigin>
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        
-        <!-- jQuery (needed for mb.YTPlayer) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
-      
-        <!-- mb.YTPlayer plugin -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/jquery.mb.YTPlayer.min.js" integrity="sha384-XYQlXuTrbKHa6fJZPTwpGKlG/boqx1tUFhVM4axQOG0306lat1PrrXKI6Q9lrsqC" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/css/jquery.mb.YTPlayer.min.css" integrity="sha384-12fTCEDDNXZWRi/SPEa/fc1Zw3fBEXWK92yysSfy61GfibpLOqs9ZPkcjqQO7WJ8" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" integrity="sha384-gAPqlBuTCdtVcYt9ocMOYWrnBZ4XSL6q+4eXqwNycOr4iFczhNKtnYhF3NEXJM51" crossorigin="anonymous" />
-          
+        <!-- Fonts (non-render-blocking) -->
+        <link rel="preload" href="https://use.typekit.net/jli2vln.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://use.typekit.net/jli2vln.css"></noscript>
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></noscript>
+
+        <!-- Swiper CSS (non-render-blocking) -->
+        <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha384-gAPqlBuTCdtVcYt9ocMOYWrnBZ4XSL6q+4eXqwNycOr4iFczhNKtnYhF3NEXJM51" crossorigin="anonymous">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" integrity="sha384-gAPqlBuTCdtVcYt9ocMOYWrnBZ4XSL6q+4eXqwNycOr4iFczhNKtnYhF3NEXJM51" crossorigin="anonymous"></noscript>
+
+        <!-- mbYTPlayer CSS — desktop only, non-render-blocking -->
+        <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/css/jquery.mb.YTPlayer.min.css" as="style" media="(min-width:768px)" onload="this.onload=null;this.rel='stylesheet'" integrity="sha384-12fTCEDDNXZWRi/SPEa/fc1Zw3fBEXWK92yysSfy61GfibpLOqs9ZPkcjqQO7WJ8" crossorigin="anonymous">
+        <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/css/jquery.mb.YTPlayer.min.css" media="(min-width:768px)" integrity="sha384-12fTCEDDNXZWRi/SPEa/fc1Zw3fBEXWK92yysSfy61GfibpLOqs9ZPkcjqQO7WJ8" crossorigin="anonymous"></noscript>
+
         <script defer src="assets/js/mobile-menu.js"></script>
       </head>
 <body>
@@ -110,7 +118,7 @@
 <header>
   <div class="logo">
     <a href="index.html">
-      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo">
+      <img src="assets/img/logo.svg" alt="CrossFit Roppongi Logo" width="241" height="56">
     </a>
   </div>
   <!-- Hamburger Button -->
@@ -157,8 +165,8 @@
       <li><a href="privacy.html"><p class="jp">プライバシーポリシー</p><p class="en font_proxima">PRIVACY POLICY</p></a></li>
     </ul>
     <ul class="sns_list nav_mobile_sns">
-      <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in"></a></li>
-      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb"></a></li>
+      <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in" aria-label="Instagram"></a></li>
+      <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb" aria-label="Facebook"></a></li>
     </ul>
     <div class="nav_mobile_cta">
       <a href="trial.html" class="cta_trial font_proxima">TRIAL<span>体験レッスン</span></a>
@@ -168,6 +176,7 @@
   <a href="trial.html" class="reserve_btn trial"><span class="en font_proxima">TRIAL</span><span class="jp">体験レッスン</span></a>
 </header>
 
+<main>
 <div id="page_index">
   <!-- Video Section -->
   <section id="ytPlayerWrap" class="video-wrap">
@@ -195,19 +204,39 @@
     <div class="swiper heroSwiper">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_01.webp" alt="CrossFit Roppongi" loading="eager" width="750" height="1000">
+          <picture>
+            <source media="(min-resolution: 192dpi)" srcset="assets/img/hero_sp_01-828w.webp">
+            <img src="assets/img/hero_sp_01-414w.webp"
+                 alt="CrossFit Roppongi" loading="eager" fetchpriority="high" width="414" height="617">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_02.webp" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source media="(min-resolution: 192dpi)" srcset="assets/img/hero_sp_02-828w.webp">
+            <img src="assets/img/hero_sp_02-414w.webp"
+                 alt="CrossFit Roppongi" loading="lazy" width="414" height="617">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_03.webp" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source media="(min-resolution: 192dpi)" srcset="assets/img/hero_sp_03-828w.webp">
+            <img src="assets/img/hero_sp_03-414w.webp"
+                 alt="CrossFit Roppongi" loading="lazy" width="414" height="617">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_04.webp" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source media="(min-resolution: 192dpi)" srcset="assets/img/hero_sp_04-828w.webp">
+            <img src="assets/img/hero_sp_04-414w.webp"
+                 alt="CrossFit Roppongi" loading="lazy" width="414" height="617">
+          </picture>
         </div>
         <div class="swiper-slide">
-          <img src="assets/img/hero_sp_05.webp" alt="CrossFit Roppongi" loading="lazy" width="750" height="1000">
+          <picture>
+            <source media="(min-resolution: 192dpi)" srcset="assets/img/hero_sp_05-828w.webp">
+            <img src="assets/img/hero_sp_05-414w.webp"
+                 alt="CrossFit Roppongi" loading="lazy" width="414" height="617">
+          </picture>
         </div>
       </div>
     </div>
@@ -237,14 +266,17 @@
 <!-- gallery Section -->
 <section class="com_sec_gallery">
     <div class="gallery_left fade_g scrollin">
-        <picture>	
+        <picture>
             <source media="(max-width:767px)" srcset="assets/img/gallery01_left_sp.webp" type="image/webp">
             <source media="(max-width:767px)" srcset="assets/img/gallery01_left_sp.jpg">
             <img src="assets/img/gallery01_left.webp" alt="CrossFit Roppongiのトレーニング" loading="lazy" width="1860" height="801">
         </picture>
     </div>
     <div class="gallery_right fade_g scrollin">
-        <img src="assets/img/gallery01_right.webp" alt="CrossFit Roppongiのトレーニング" loading="lazy" width="860" height="801">
+        <img src="assets/img/gallery01_right.webp"
+             srcset="assets/img/gallery01_right-392w.webp 392w, assets/img/gallery01_right.webp 860w"
+             sizes="(max-width:767px) 100vw, 392px"
+             alt="CrossFit Roppongiのトレーニング" loading="lazy" width="860" height="801">
     </div>
 </section>
   <!-- Features Section -->
@@ -300,7 +332,7 @@
   <section class="sec_gallery2">
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="assets/img/slide_01.webp" alt="Slide 1" loading="lazy" width="655" height="437"></div>
+        <div class="swiper-slide"><img src="assets/img/slide_01.webp" alt="Slide 1" loading="eager" fetchpriority="high" width="655" height="437"></div>
         <div class="swiper-slide"><img src="assets/img/slide_02.webp" alt="Slide 2" loading="lazy" width="655" height="437"></div>
         <div class="swiper-slide"><img src="assets/img/slide_03.webp" alt="Slide 3" loading="lazy" width="655" height="437"></div>
         <div class="swiper-slide"><img src="assets/img/slide_04.webp" alt="Slide 4" loading="lazy" width="655" height="437"></div>
@@ -336,7 +368,7 @@
   <section class="sec_taiken">
 	<div class="inner">
 		<h2 class="copy">
-			<img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc" loading="lazy">
+			<img src="assets/img/taiken_copy.svg" alt="さぁ、CrossFitを体験しよう" class="display_pc" loading="lazy" width="653" height="47">
 			<span class="display_sp">さぁ、CrossFitを<br>体験しよう</span>
 		</h2>
 		<div class="inner2">
@@ -421,34 +453,63 @@
      },
    });
  </script>
-  <!-- Init Video Player -->
+  <!-- jQuery + mb.YTPlayer: desktop only, loaded when video section enters viewport -->
   <script>
-    $(document).ready(function () {
-      $("#ytPlayer").YTPlayer();
+    if (window.matchMedia('(min-width: 768px)').matches) {
+      function loadYTPlayer() {
+        var jq = document.createElement('script');
+        jq.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+        jq.integrity = 'sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK';
+        jq.crossOrigin = 'anonymous';
+        jq.onload = function () {
+          var ytp = document.createElement('script');
+          ytp.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mb.YTPlayer/3.3.9/jquery.mb.YTPlayer.min.js';
+          ytp.integrity = 'sha384-XYQlXuTrbKHa6fJZPTwpGKlG/boqx1tUFhVM4axQOG0306lat1PrrXKI6Q9lrsqC';
+          ytp.crossOrigin = 'anonymous';
+          ytp.onload = function () {
+            $(document).ready(function () {
+              $('#ytPlayer').YTPlayer();
+              $('#ytPlayer').on('YTPStart', function () {
+                $('#ytPlayerWrap .mbYTP_wrapper').addClass('playing');
+              });
+              $('#ytPlayer').on('YTPEnd', function () {
+                $('#videoCover').addClass('visible');
+              });
+            });
+          };
+          document.body.appendChild(ytp);
+        };
+        document.body.appendChild(jq);
+      }
 
-      // Fade in video when it starts playing
-      $('#ytPlayer').on('YTPStart', function () {
-        $('#ytPlayerWrap .mbYTP_wrapper').addClass('playing');
-      });
-
-      // Show cover.webp full-width when video ends
-      $('#ytPlayer').on('YTPEnd', function () {
-        $('#videoCover').addClass('visible');
-      });
-    });
+      var ytWrap = document.getElementById('ytPlayerWrap');
+      if ('IntersectionObserver' in window) {
+        var ytObserver = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) {
+            ytObserver.disconnect();
+            loadYTPlayer();
+          }
+        }, { rootMargin: '300px' });
+        ytObserver.observe(ytWrap);
+      } else {
+        loadYTPlayer();
+      }
+    }
   </script>
+
+</main>
 
 <!-- Footer -->
 <footer class="footer">
   <div class="inner">
-    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi"></a>
+    <a href="index.html" class="logo"><img src="assets/img/logo.svg" alt="Crossfit Roppongi" width="241" height="56"></a>
     <div class="text_wrap">
       <div class="footer_l">
         <p class="company font_proxima">CrossFit Roppongi</p>
         <address>〒106-0032<br class="br_sp">東京都港区六本木７−４−８ ウインドビル B1F<br>TEL. <a href="tel:03-6438-9813">03-6438-9813</a><span class="font_proxima">1F Wind Building, 7-4-8 Roppongi, Minato-ku, Tokyo  106-0032, Japan<br>TEL. <a href="tel:+81-3-6438-9813">81-3-6438-9813</a></span></address>
         <ul class="sns_list">
-          <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in"></a></li>
-          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb"></a></li>
+          <li><a href="https://www.instagram.com/crossfit.roppongi/" target="_blank" rel="noopener noreferrer" class="in" aria-label="Instagram"></a></li>
+          <li><a href="https://www.facebook.com/crossfitroppongi" target="_blank" rel="noopener noreferrer" class="fb" aria-label="Facebook"></a></li>
         </ul>
       </div>
       <div class="footer_r">

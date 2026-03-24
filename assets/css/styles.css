@@ -427,6 +427,9 @@ nav.nav_mobile {
     height: 100%;
     transition: 0.7s cubic-bezier(0.33, 1, 0.68, 1);
 }
+.com_sec_gallery .gallery_left.scrollin::before {
+    right: -100%;
+}
 .com_sec_gallery .gallery_right.scrollin::before {
     top: -100%;
 }
