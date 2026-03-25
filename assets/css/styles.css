@@ -343,7 +343,7 @@ nav.nav_mobile {
 /* About */
 #page_index .sec_about {
     color: #fff;
-    background: url(../img/bg_about.webp) center / cover no-repeat;
+    background: url(../img/b_about.webp) center / cover no-repeat;
 }
 #page_index .sec_about .com_column {
     padding-bottom: 150px;
@@ -681,14 +681,14 @@ ol, ul {
 }
 .sec_insta {
     background-color: rgb(242, 242, 242);
-    padding: 120px 30px 55px;
+    padding: 70px 30px 40px;
 }
 .sec_insta .inner {
     max-width: 1200px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0px auto;
+    margin: 40px auto 0;
 }
 .sec_insta .inner .follow {
     font-size: 13px;
@@ -707,7 +707,7 @@ ol, ul {
 }
 .sec_taiken {
     padding: 190px 20px 95px;
-    background: url(../img/bg_trial.svg) right top 77px / 70% auto no-repeat;
+    background: url(../img/b_trial.svg) right top 77px / 70% auto no-repeat;
 }
 .sec_taiken .inner {
     max-width: 1200px;
@@ -936,25 +936,25 @@ a{
 }
 
 .page-title.about-page{
-    background: url(../img/main.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_about.jpg) right top / 100% auto no-repeat;
 }
 .page-title.facility-page{
-    background: url(../img/facility-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_facility.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.plan-page{
-    background: url(../img/plan-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_plan.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.carrer-page{
-    background: url(../img/career-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_career.jpg) right top / 100% auto no-repeat;
 }
 .page-title.coach-page {
-    background: url(../img/coach-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_coach.jpg) right top / 100% auto no-repeat;
 }
 .page-title.schedule-page {
-    background: url(../img/schedule-calendar.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_schedule.jpg) right top / 100% auto no-repeat;
 }
 .page-title.access-page {
-    background: url(../img/access-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_access.jpg) right top / 100% auto no-repeat;
 }
 .page-title.facility-page,
 .page-title.about-page,
@@ -1038,22 +1038,19 @@ section.page-title.carrer-page{
 #page_plan .com_page_link .en {
     letter-spacing: .08em;
 }
-section.page-title.hyrox-page {
-    background: url(../img/hyrox-bg.jpg) right top / 100% auto no-repeat;
-}
 section.page-title.hyrox-page h2,
 section.page-title.hyrox-page .sub-title {
     color: #fff104;
 }
 section.page-title.spartan-page {
-    background: url(../img/spartan-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_spartan.jpg) right top / 100% auto no-repeat;
 }
 
 section.page-title.trial-page {
-    background: url(../img/trial-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_trial.jpg) right top / 100% auto no-repeat;
 }
 section.page-title.dropin-page {
-    background: url(../img/dropin-bg.jpg) right top / 100% auto no-repeat;
+    background: url(../img/bg_dropin.jpg) right top / 100% auto no-repeat;
 }
 section.page-title h2 {
     color: #fff;
@@ -2731,7 +2728,7 @@ body.no-scroll { overflow: hidden; }
     font-size: 16px;
     font-weight: bold;
     color: #999;
-    background: url(../img/icon_in_g.svg) left center / 18px 18px no-repeat, url(../img/icon_link_g.svg) right center / 10px 10px no-repeat;
+    background: url(../img/icon_in.svg) left center / 18px 18px no-repeat, url(../img/icon_link_g.svg) right center / 10px 10px no-repeat;
     margin-top: 18px;
 }
 #page_spartan .sec_spartan {

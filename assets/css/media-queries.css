@@ -202,24 +202,15 @@
         font-size: 18px;
     }
     .sec_insta {
-        padding: 95px 30px 90px;
-    }
-    .sec_insta .inner .com_small_title {
-        width: 100%;
-        order: 0;
+        padding: 50px 20px 50px;
     }
     .sec_insta .inner .follow {
-        order: 2;
         letter-spacing: .04em;
         margin-top: 30px;
     }
-    .sec_insta .inner .insta_wrap {
-        order: 1;
-        margin-top: 25px;
-    }
     .sec_taiken {
         padding: 93px 27px 100px;
-        background: url(../img/bg_trial_sp.svg) right top / 93% auto no-repeat;
+        background: url(../img/b_trial_sp.svg) right top / 93% auto no-repeat;
     }
     .sec_taiken .copy {
         font-size: 33px;
