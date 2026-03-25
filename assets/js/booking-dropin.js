@@ -416,6 +416,7 @@ function updateOrderSummary(last, first) {
   const ct = sessions[0]?.selectedSlot?.class_type || classType || '';
   const classNameJP = ct === 'opengym' ? 'オープンジム' : 'ドロップイン';
   const classNameEN = ct === 'opengym' ? 'Open Gym' : 'Drop In';
+  // NOTE: sum-pack-label is a sibling span (not nested), so textContent is safe here
   $('sum-class').textContent = `${classNameJP} / ${classNameEN}`;
 
   if (packMode) {
