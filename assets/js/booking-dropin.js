@@ -218,7 +218,7 @@ function renderSlots(si, slots) {
         ${ctLabelJP ? `<div style="font-size:12px; color:#555; margin-top:3px;">${ctLabelJP}<span class="font_proxima" style="margin-left:6px; color:#999;">${ctLabelEN}</span></div>` : ''}
       </div>
       <div class="slot-meta">
-        ${slot.trainer && slot.trainer !== 'none' ? `<span class="slot-trainer">${slot.trainer}</span>` : ''}
+        ${slot.coach && slot.coach !== 'none' ? `<span class="slot-trainer">${slot.coach}</span>` : ''}
         <span class="slot-spots ${spotsClass}">${spotsText}</span>
       </div>`;
     if (!isFull) btn.addEventListener('click', () => onSlotClick(si, slot, btn));
@@ -406,6 +406,7 @@ async function goToStep4() {
   if (!dobY || !dobM || !dobD)        return showError('error-step3', '生年月日を選択してください。/ Please select your date of birth.');
   if (!gender)                        return showError('error-step3', '性別を選択してください。/ Please select your gender.');
   if (!addr)                          return showError('error-step3', '住所を入力してください。/ Please enter your address.');
+  if (!$('input-lead-source').value)  return showError('error-step3', 'どこで知りましたか？をご選択ください。/ Please select how you heard about us.');
 
   updateOrderSummary(last, first);
   showStep(4);
@@ -507,6 +508,7 @@ async function handlePayment() {
       gender,
       address:        $('input-address').value.trim(),
       notes:          $('input-notes').value.trim(),
+      lead_source:    $('input-lead-source').value || '',
       sourceId:       nonce,
     };
 

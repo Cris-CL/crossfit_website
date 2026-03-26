@@ -160,7 +160,7 @@ function renderSlots(slots) {
     btn.innerHTML = `
       <div class="slot-time font_proxima">${slot.timeStart ?? slot.time_start} – ${slot.timeEnd ?? slot.time_end}</div>
       <div class="slot-meta">
-        ${slot.trainer ? `<span class="slot-trainer">${slot.trainer}</span>` : ''}
+        ${slot.coach ? `<span class="slot-trainer">${slot.coach}</span>` : ''}
         <span class="slot-spots ${spotsClass}">${spotsText}</span>
       </div>`;
 
@@ -311,10 +311,11 @@ async function goToStep3() {
   if (!dobY || !dobM || !dobD)        return showError('error-step2', '生年月日を選択してください。/ Please select your date of birth.');
   if (!gender)                        return showError('error-step2', '性別を選択してください。/ Please select your gender.');
   if (!addr)                          return showError('error-step2', '住所を入力してください。/ Please enter your address.');
+  if (!$('input-lead-source').value)  return showError('error-step2', 'どこで知りましたか？をご選択ください。/ Please select how you heard about us.');
 
   $('sum-class').textContent    = `${selectedSlot.langJP || selectedSlot.class_name_jp || '体験レッスン'} / Trial Class`;
   $('sum-datetime').textContent = `${selectedDate} · ${selectedSlot.timeStart ?? selectedSlot.time_start}–${selectedSlot.timeEnd ?? selectedSlot.time_end}`;
-  $('sum-trainer').textContent  = selectedSlot.trainer || 'Roppongi Staff';
+  $('sum-trainer').textContent  = selectedSlot.coach || 'Roppongi Staff';
   $('sum-name').textContent     = `${last} ${first}`;
 
   showStep(3);
@@ -398,6 +399,7 @@ async function handlePayment() {
       gender,
       address:           $('input-address').value.trim(),
       notes:             $('input-notes').value.trim(),
+      lead_source:       $('input-lead-source').value || '',
       pack:              'single',
       use_credit:        false,
       sourceId:          nonce,

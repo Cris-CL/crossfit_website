@@ -111,7 +111,7 @@ function appendClassCard(slot) {
       </div>
       <div class="class-card-meta">
         <span class="font_proxima">${slot.time_start} – ${slot.time_end}</span>
-        ${slot.trainer ? `<span>· ${slot.trainer}</span>` : ''}
+        ${slot.coach ? `<span>· ${slot.coach}</span>` : ''}
         <span>· ${slot.duration}分</span>
       </div>
       <div style="margin-top:6px;">
@@ -249,13 +249,14 @@ async function goToStep3() {
   if (!dobY || !dobM || !dobD)        return showError('error-step2', '生年月日を選択してください。/ Please select your date of birth.');
   if (!gender)                        return showError('error-step2', '性別を選択してください。/ Please select your gender.');
   if (!addr)                          return showError('error-step2', '住所を入力してください。/ Please enter your address.');
+  if (!$('input-lead-source').value)  return showError('error-step2', 'どこで知りましたか？をご選択ください。/ Please select how you heard about us.');
 
   const classNameJP = selectedSlot.class_name_jp || 'HYROXストレングス';
   const classNameEN = selectedSlot.class_name_en || 'HYROX Strength';
 
   $('sum-class').textContent    = `${classNameJP} / ${classNameEN}`;
   $('sum-datetime').textContent = `${selectedSlot.date} · ${selectedSlot.time_start}–${selectedSlot.time_end}`;
-  $('sum-trainer').textContent  = selectedSlot.trainer || 'Roppongi Staff';
+  $('sum-trainer').textContent  = selectedSlot.coach || 'Roppongi Staff';
   $('sum-name').textContent     = `${last} ${first}`;
 
   showStep(3);
@@ -332,7 +333,7 @@ async function handlePayment() {
       class_time_end:    selectedSlot.time_end,
       class_name_en:     selectedSlot.class_name_en || 'HYROX Strength',
       class_name_jp:     selectedSlot.class_name_jp || 'HYROXストレングス',
-      trainer:           selectedSlot.trainer || '',
+      coach:             selectedSlot.coach || '',
       catalog_object_id: selectedSlot.catalog_object_id || '',
       price:             selectedSlot.price || PRICE,
       duration:          selectedSlot.duration || 60,
@@ -344,6 +345,7 @@ async function handlePayment() {
       gender,
       address:           $('input-address').value.trim(),
       notes:             $('input-notes').value.trim(),
+      lead_source:       $('input-lead-source').value || '',
       pack:              'single',
       use_credit:        false,
       sourceId:          nonce,

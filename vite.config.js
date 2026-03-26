@@ -45,6 +45,7 @@ export default defineConfig({
         'booking-hyrox-competitors':  'booking-hyrox-competitors.html',
         'booking-hyrox-strength':     'booking-hyrox-strength.html',
         'booking-spartan':            'booking-spartan.html',
+        'booking-foundation':         'booking-foundation.html',
         // 'admin-credits':              'admin-credits.html',
         'contact-thanks':             'contact-thanks.html',
         'career-thanks':              'career-thanks.html',

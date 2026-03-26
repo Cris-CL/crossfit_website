@@ -281,6 +281,7 @@
     .form-row input:focus,
     .form-row select:focus,
     .form-row textarea:focus { box-shadow: 0 0 0 2px var(--color-brand); }
+    .form-row select { height: 44px; box-sizing: border-box; }
     .form-row textarea { resize: vertical; }
     .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .dob-selects { display: flex; align-items: center; gap: 8px; }
@@ -755,6 +756,24 @@
         <div class="form-row">
           <label>備考<span class="opt font_proxima"> / Notes (optional)</span></label>
           <textarea id="input-notes" rows="3" placeholder="ご質問・ご要望など / Questions or requests"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label for="input-lead-source">どこで知りましたか？<span class="req">*</span><span class="opt font_proxima"> / How did you hear about us?</span></label>
+          <select id="input-lead-source">
+            <option value="">選択してください / Please select</option>
+            <option value="Friend/Family">友人・家族 / Friend/Family</option>
+            <option value="Internet/Blog/Search Engine">インターネット・ブログ・検索 / Internet/Blog/Search Engine</option>
+            <option value="Facebook/Instagram">Facebook/Instagram</option>
+            <option value="Media (Magazine/TV)">メディア（雑誌・テレビ） / Media (Magazine/TV)</option>
+            <option value="Poster/Pamphlet/Flyer">ポスター・パンフレット・チラシ / Poster/Pamphlet/Flyer</option>
+            <option value="While walking around">街を歩いていて / While walking around</option>
+            <option value="Event/Staff">イベント・スタッフ / Event/Staff</option>
+            <option value="SMS">SMS</option>
+            <option value="Online Sales">オンラインセールス / Online Sales</option>
+            <option value="Other">その他 / Other</option>
+            <option value="Returning Customer">リピーター / Returning Customer</option>
+          </select>
         </div>
 
         <div id="error-step2" class="bk-error"></div>

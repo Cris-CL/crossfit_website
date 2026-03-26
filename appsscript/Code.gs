@@ -7,6 +7,7 @@ var CONFIG = {
   SHEETS_ID:             '1pNDApfzNDPUx36DuNScxI0kDIRF1NaEgcUrZi4n8Pac',
   CALENDAR_SCHEDULE:     'c_96a7c8918d366b36d5a653ea46c7bb3478e719c18a158885a2ac243e8887728b@group.calendar.google.com',
   CALENDAR_RESERVATIONS: 'c_8fc3731011a121e80791665e359fb142546cb215d525aae1efd4bce6e4f18817@group.calendar.google.com',
+  CALENDAR_COACH:        'c_4306417408765080b49aa9ddd792458f466902b96fa0909191653e7929c9cb6d@group.calendar.google.com',
   SQUARE_ACCESS_TOKEN:   'EAAAl98tcIYj7_5oe1886v1g_cOnulHBGvS37wkFrqmQzz-XsApACyKgmFV8iVKR',
   SQUARE_LOCATION_ID:    '8Z8S2HH0WHBKM',
   SQUARE_BASE_URL:       'https://connect.squareup.com/v2',
@@ -21,6 +22,7 @@ var CONFIG = {
     hyrox_performance: '2D5MRB6QAG4VI2PAI6ATAASW',
     hyrox_strength:    'JR4WFQ2X4CQAOR4O3WQQT5S7',
     spartan:           'TV6ICKD4NG2C4TRK3Y7EYJTF',
+    foundation:        'SPR3UEYCK6PRWKFIZQE3BAI2',
   },
 
   // Default capacity per class type (overridden by calendar event description MAX_CAPACITY)
@@ -31,6 +33,7 @@ var CONFIG = {
     hyrox_performance: 15,
     hyrox_strength:    16,
     spartan:           23,
+    foundation:        3,
   },
 
   // Class labels (fallback if LANG_EN not in event description)
@@ -41,6 +44,7 @@ var CONFIG = {
     hyrox_performance: 'HYROX Performance',
     hyrox_strength:    'HYROX Strength',
     spartan:           'Spartan',
+    foundation:        'Foundation',
   },
   CLASS_NAME_JP: {
     trial:             '体験レッスン',
@@ -49,6 +53,7 @@ var CONFIG = {
     hyrox_performance: 'ハイロックス・パフォーマンス',
     hyrox_strength:    'HYROXストレングス',
     spartan:           'スパルタントレーニング',
+    foundation:        'ファウンデーションプログラム',
   },
 
   // Spartan coupon codes — static, distributed to select customers
@@ -56,6 +61,10 @@ var CONFIG = {
   COUPONS: {
     'LEONIDAS': { class_type: 'spartan', type: 'fixed', amount: 1000, label: '¥1,000 OFF' },
   },
+
+  // Email template Google Docs (edit these docs to change email bodies)
+  TRIAL_REMINDER_DOC_ID:      '1bsRNuuMvob-LFNYuX4Xq-cXhy4SNV-BGEX2BwSjI3lc',
+  FOUNDATION_REMINDER_DOC_ID: '1rjhhdNb-RA1vqzOMyx9C7LBvhBSO8yL2u9kk0xVaXYA',
 
   CREDITS_EXPIRY_DAYS:   90,
   ADMIN_PASSWORD:        'gBaN0EP8XBjuA8P',
@@ -67,7 +76,72 @@ var CONFIG = {
   GYM_LOCATION:          '〒106-0032 東京都港区六本木７−４−８ ウインドビル B1F',
   BOOKING_CC:            'tsujimoto@crossfitroppongi.com, sato@crossfitroppongi.com, kozukarei@crossfitroppongi.com',
   FORM_CC:               'alvaroaltamirano@crossfitroppongi.com, tsujimoto@crossfitroppongi.com, bruce@crossfitroppongi.com, sato@crossfitroppongi.com, kozukarei@crossfitroppongi.com',
+
+  // Wodify Lead Sync
+  WODIFY_API_KEY:     'm2oSGJq4xX2MtdX0V0Rfk5nszG80SJZV2dx8PU9Z',
+  WODIFY_BASE_URL:    'https://api.wodify.com/v1',
+  WODIFY_LOCATION_ID: 2598,
+  WODIFY_SOURCE_IDS: {
+    'Friend/Family':               83417,
+    'Facebook/Instagram':          83418,
+    'Internet/Blog/Search Engine': 83419,
+    'SMS':                         83420,
+    'Online Sales':                83421,
+    'Other':                       83422,
+    'Media (Magazine/TV)':         88439,
+    'Poster/Pamphlet/Flyer':       88440,
+    'While walking around':        88441,
+    'Event/Staff':                 88442,
+    'Returning Customer':          376393,
+  },
+  WODIFY_STATUS_IDS: {
+    trial:             59869, // "Trial"
+    dropin:            64255, // "Drop in"
+    opengym:           64255, // "Drop in" (same as dropin)
+    hyrox_performance: 64256, // "Hyrox"
+    hyrox_strength:    64256, // "Hyrox"
+    spartan:           64254, // "Spartan"
+    foundation:        59869, // "Trial" (closest match — update if a Foundation status is added)
+  },
 };
+
+// ===== CACHE HELPERS =====
+var CACHE_TTL_4H = 14400;
+var CACHE_TTL_1H =  3600;
+
+function _cacheGet(key) {
+  try { var r = CacheService.getScriptCache().get(key); return r ? JSON.parse(r) : null; } catch(e) { return null; }
+}
+function _cacheSet(key, data, ttl) {
+  try { CacheService.getScriptCache().put(key, JSON.stringify(data), ttl || CACHE_TTL_4H); } catch(e) {}
+}
+function _cacheDelete(key) {
+  try { CacheService.getScriptCache().remove(key); } catch(e) {}
+}
+
+// ===== COACH HELPERS =====
+function _getCoachForSlot(coachEvents, slotStart) {
+  var slotT = slotStart.getTime();
+  var matches = coachEvents.filter(function(ev) {
+    return ev.getStartTime().getTime() <= slotT && slotT < ev.getEndTime().getTime();
+  });
+  if (matches.length === 0) return 'Roppongi Staff';
+  if (matches.length === 1) return matches[0].getTitle().trim() || 'Roppongi Staff';
+  var exact = matches.filter(function(ev) { return ev.getStartTime().getTime() === slotT; });
+  if (exact.length === 1) return exact[0].getTitle().trim() || 'Roppongi Staff';
+  matches.sort(function(a, b) { return b.getStartTime().getTime() - a.getStartTime().getTime(); });
+  var latestStart = matches[0].getStartTime().getTime();
+  var latestMatches = matches.filter(function(ev) { return ev.getStartTime().getTime() === latestStart; });
+  if (latestMatches.length === 1) return latestMatches[0].getTitle().trim() || 'Roppongi Staff';
+  return 'Roppongi Staff';
+}
+
+function _resolveCoach(desc, hasCoach, coachEvents, slotStart) {
+  var descCoach = (desc['COACH'] || '').trim();
+  if (!hasCoach) return descCoach || 'Roppongi Staff';
+  if (descCoach && descCoach !== 'Roppongi Staff') return descCoach;
+  return _getCoachForSlot(coachEvents, slotStart);
+}
 
 // ===== RESPONSE HELPERS =====
 function _json(data) {
@@ -115,41 +189,45 @@ function _getAvailability(params) {
   var classType = (params.classType || '').toLowerCase().replace(/_/g, '');
   if (!date) return _err('date parameter required (YYYY-MM-DD)');
 
+  var cacheKey = 'avail_' + classType + '_' + date;
+  var cached   = _cacheGet(cacheKey);
+  if (cached)  return _ok(cached);
+
   var parts = date.split('-').map(Number);
   var start = new Date(parts[0], parts[1] - 1, parts[2], 0,  0,  0);
   var end   = new Date(parts[0], parts[1] - 1, parts[2], 23, 59, 59);
 
   var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
   var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
+  var coachCal       = CalendarApp.getCalendarById(CONFIG.CALENDAR_COACH);
   var classEvents    = scheduleCal.getEvents(start, end);
+  var allReservations = reservationCal.getEvents(start, end);
+  var allCoachEvents  = coachCal.getEvents(start, end);
 
   var slots = [];
   classEvents.forEach(function(event) {
     var desc        = _parseEventDescription(event.getDescription());
     var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
 
-    // Filter by classType if provided
     if (classType && evClassType !== classType) return;
 
     var slotStart = event.getStartTime();
     var slotEnd   = event.getEndTime();
     var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
-
-    // Count confirmed reservations for this exact slot
-    var reservations = reservationCal.getEvents(slotStart, new Date(slotEnd.getTime() + 1)).filter(function(r) {
-      return Math.abs(r.getStartTime().getTime() - slotStart.getTime()) < 60000;
-    });
-    var booked    = reservations.length;
+    var slotT     = slotStart.getTime();
+    var hasCoach  = desc['HAS_COACH'] !== 'false';
+    var booked    = allReservations.filter(function(r) {
+      return Math.abs(r.getStartTime().getTime() - slotT) < 60000;
+    }).length;
     var available = Math.max(0, capacity - booked);
     var duration  = parseInt(desc['DURATION'], 10) || 60;
-    var hasCoach  = desc['HAS_COACH'] !== 'false';
 
     slots.push({
       event_id:          event.getId(),
       class_type:        evClassType,
       class_name_en:     desc['LANG_EN']    || CONFIG.CLASS_NAME_EN[evClassType] || event.getTitle(),
       class_name_jp:     desc['LANG_JP']    || CONFIG.CLASS_NAME_JP[evClassType] || event.getTitle(),
-      trainer:           desc['TRAINER']    || '',
+      coach:             _resolveCoach(desc, hasCoach, allCoachEvents, slotStart),
       has_coach:         hasCoach,
       time_start:        Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'HH:mm'),
       time_end:          Utilities.formatDate(slotEnd,   CONFIG.TIMEZONE, 'HH:mm'),
@@ -164,10 +242,11 @@ function _getAvailability(params) {
     });
   });
 
-  // Sort by start time
   slots.sort(function(a, b) { return a.time_start.localeCompare(b.time_start); });
 
-  return _ok({ date: date, class_type: classType, slots: slots });
+  var result = { date: date, class_type: classType, slots: slots };
+  _cacheSet(cacheKey, result, CACHE_TTL_1H);
+  return _ok(result);
 }
 
 // ===== GET: MONTH AVAILABILITY =====
@@ -178,12 +257,17 @@ function _getMonthAvailability(params) {
   var classType = (params.classType || '').toLowerCase().replace(/_/g, '');
   if (!year || !month) return _err('year and month parameters required');
 
+  var cacheKey = 'month_' + classType + '_' + year + '_' + month;
+  var cached   = _cacheGet(cacheKey);
+  if (cached)  return _ok(cached);
+
   var start = new Date(year, month - 1, 1,  0,  0,  0);
   var end   = new Date(year, month,     0, 23, 59, 59); // last day of month
 
   var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
   var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
   var events         = scheduleCal.getEvents(start, end);
+  var allReservations = reservationCal.getEvents(start, end);
 
   var dateMap = {};
   events.forEach(function(ev) {
@@ -192,13 +276,12 @@ function _getMonthAvailability(params) {
     if (classType && evClassType !== classType) return;
 
     var slotStart = ev.getStartTime();
-    var slotEnd   = ev.getEndTime();
     var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
-
-    var reservations = reservationCal.getEvents(slotStart, new Date(slotEnd.getTime() + 1)).filter(function(r) {
-      return Math.abs(r.getStartTime().getTime() - slotStart.getTime()) < 60000;
-    });
-    var available = Math.max(0, capacity - reservations.length);
+    var slotT     = slotStart.getTime();
+    var booked    = allReservations.filter(function(r) {
+      return Math.abs(r.getStartTime().getTime() - slotT) < 60000;
+    }).length;
+    var available = Math.max(0, capacity - booked);
 
     var d = Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'yyyy-MM-dd');
     if (!dateMap[d]) dateMap[d] = { has_availability: false, slots: 0 };
@@ -208,7 +291,9 @@ function _getMonthAvailability(params) {
     }
   });
 
-  return _ok({ year: year, month: month, class_type: classType, dates: dateMap });
+  var result = { year: year, month: month, class_type: classType, dates: dateMap };
+  _cacheSet(cacheKey, result, CACHE_TTL_4H);
+  return _ok(result);
 }
 
 // ===== GET: UPCOMING CLASSES (list view for HYROX / Spartan) =====
@@ -219,60 +304,71 @@ function _getUpcomingClasses(params) {
   var offset    = Math.max(parseInt(params.offset || '0',  10), 0);
   if (!classType) return _err('classType required');
 
-  var now     = new Date();
-  var toDate  = new Date(now);
-  toDate.setDate(toDate.getDate() + 90); // 3 months ahead
+  var cacheKey = 'upcoming_' + classType;
+  var cached   = _cacheGet(cacheKey);
+  var allSlots;
+  if (cached) {
+    allSlots = cached;
+  } else {
+    var now    = new Date();
+    var toDate = new Date(now);
+    toDate.setDate(toDate.getDate() + 90); // 3 months ahead
 
-  var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
-  var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
-  var events         = scheduleCal.getEvents(now, toDate);
+    var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
+    var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
+    var coachCal       = CalendarApp.getCalendarById(CONFIG.CALENDAR_COACH);
+    var events         = scheduleCal.getEvents(now, toDate);
+    var allReservations = reservationCal.getEvents(now, toDate);
+    var allCoachEvents  = coachCal.getEvents(now, toDate);
 
-  var slots = [];
-  events.forEach(function(ev) {
-    var desc        = _parseEventDescription(ev.getDescription());
-    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
-    if (evClassType !== classType) return;
+    allSlots = [];
+    var dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+    events.forEach(function(ev) {
+      var desc        = _parseEventDescription(ev.getDescription());
+      var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
+      if (evClassType !== classType) return;
 
-    var slotStart = ev.getStartTime();
-    var slotEnd   = ev.getEndTime();
-    var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
+      var slotStart = ev.getStartTime();
+      var slotEnd   = ev.getEndTime();
+      var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
+      var slotT     = slotStart.getTime();
+      var hasCoach  = desc['HAS_COACH'] !== 'false';
+      var booked    = allReservations.filter(function(r) {
+        return Math.abs(r.getStartTime().getTime() - slotT) < 60000;
+      }).length;
+      var available = Math.max(0, capacity - booked);
+      var duration  = parseInt(desc['DURATION'], 10) || 60;
 
-    var reservations = reservationCal.getEvents(slotStart, new Date(slotEnd.getTime() + 1)).filter(function(r) {
-      return Math.abs(r.getStartTime().getTime() - slotStart.getTime()) < 60000;
+      allSlots.push({
+        event_id:          ev.getId(),
+        date:              Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'yyyy-MM-dd'),
+        day_of_week:       dayNames[slotStart.getDay()],
+        time_start:        Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'HH:mm'),
+        time_end:          Utilities.formatDate(slotEnd,   CONFIG.TIMEZONE, 'HH:mm'),
+        duration:          duration,
+        coach:             _resolveCoach(desc, hasCoach, allCoachEvents, slotStart),
+        has_coach:         hasCoach,
+        capacity:          capacity,
+        booked:            booked,
+        available:         available,
+        class_type:        evClassType,
+        class_name_en:     desc['LANG_EN']    || CONFIG.CLASS_NAME_EN[evClassType] || '',
+        class_name_jp:     desc['LANG_JP']    || CONFIG.CLASS_NAME_JP[evClassType] || '',
+        catalog_object_id: desc['CATALOG_ID'] || CONFIG.CATALOG[evClassType]       || '',
+        price:             parseInt(desc['PRICE'], 10) || 0,
+      });
     });
-    var booked    = reservations.length;
-    var available = Math.max(0, capacity - booked);
-    var duration  = parseInt(desc['DURATION'], 10) || 60;
-    var dayNames  = ['日', '月', '火', '水', '木', '金', '土'];
 
-    slots.push({
-      event_id:          ev.getId(),
-      date:              Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'yyyy-MM-dd'),
-      day_of_week:       dayNames[slotStart.getDay()],
-      time_start:        Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'HH:mm'),
-      time_end:          Utilities.formatDate(slotEnd,   CONFIG.TIMEZONE, 'HH:mm'),
-      duration:          duration,
-      trainer:           desc['TRAINER']    || '',
-      capacity:          capacity,
-      booked:            booked,
-      available:         available,
-      class_type:        evClassType,
-      class_name_en:     desc['LANG_EN']    || CONFIG.CLASS_NAME_EN[evClassType] || '',
-      class_name_jp:     desc['LANG_JP']    || CONFIG.CLASS_NAME_JP[evClassType] || '',
-      catalog_object_id: desc['CATALOG_ID'] || CONFIG.CATALOG[evClassType]       || '',
-      price:             parseInt(desc['PRICE'], 10) || 0,
+    allSlots.sort(function(a, b) {
+      return a.date.localeCompare(b.date) || a.time_start.localeCompare(b.time_start);
     });
-  });
+    _cacheSet(cacheKey, allSlots, CACHE_TTL_4H);
+  }
 
-  // Sort chronologically
-  slots.sort(function(a, b) {
-    return a.date.localeCompare(b.date) || a.time_start.localeCompare(b.time_start);
-  });
+  var paged   = allSlots.slice(offset, offset + limit);
+  var hasMore = (offset + limit) < allSlots.length;
 
-  var paged   = slots.slice(offset, offset + limit);
-  var hasMore = (offset + limit) < slots.length;
-
-  return _ok({ slots: paged, total: slots.length, has_more: hasMore, offset: offset, limit: limit });
+  return _ok({ slots: paged, total: allSlots.length, has_more: hasMore, offset: offset, limit: limit });
 }
 
 // ===== GET: CHECK CREDITS =====
@@ -370,14 +466,16 @@ function _postCreateBooking(body) {
   var notes         = body.notes         || '';
   var class_name_en = body.class_name_en || CONFIG.CLASS_NAME_EN[class_type] || class_type;
   var class_name_jp = body.class_name_jp || CONFIG.CLASS_NAME_JP[class_type] || class_type;
-  var trainer       = body.trainer       || '';
+  var coach         = body.coach         || '';
+  var lead_source   = body.lead_source   || '';
   var catalog_obj   = body.catalog_object_id || CONFIG.CATALOG[class_type] || '';
   var duration      = body.duration      || 60;
   var price         = body.price         || 0;
 
   // ── payment fields ──
   var pack          = body.pack          || 'single'; // 'single' | 'dropin_3pack' | 'three_pack'
-  if (pack === 'three_pack') return _postCreateBookingThreePack(body);
+  if (pack === 'three_pack')       return _postCreateBookingThreePack(body);
+  if (pack === 'foundation_3pack') return _postCreateBookingFoundation(body);
   var use_credit    = body.use_credit    === true;
   var credit_id     = body.credit_id     || '';
   var sourceId      = body.sourceId      || '';
@@ -527,7 +625,7 @@ function _postCreateBooking(body) {
   var bookingId = _generateBookingId();
 
   // ── 4. Add Calendar 2 reservation event ──
-  _addReservationEvent({
+  var reservationEvent = _addReservationEvent({
     booking_id:   bookingId,
     class_name_en: class_name_en,
     customer_last: customer_last,
@@ -541,6 +639,19 @@ function _postCreateBooking(body) {
     duration:      duration,
   });
 
+  // ── 4a. Set reservation event color by class type ──
+  var _colorMap = {
+    'drop_in':           CalendarApp.EventColor.CYAN,
+    'open_gym':          CalendarApp.EventColor.CYAN,
+    'hyrox_strength':    CalendarApp.EventColor.CYAN,
+    'trial':             CalendarApp.EventColor.YELLOW,
+    'spartan':           CalendarApp.EventColor.BLUE,
+    'hyrox_performance': CalendarApp.EventColor.BLUE,
+    'foundation':        CalendarApp.EventColor.TEAL,
+  };
+  var _evColor = _colorMap[class_type];
+  if (_evColor && reservationEvent) reservationEvent.setColor(_evColor);
+
   // ── 5. Build Google Calendar quick-add link ──
   var calLink = _calendarAddLink(class_name_en, class_date, class_time_start, class_time_end);
 
@@ -550,7 +661,7 @@ function _postCreateBooking(body) {
     class_type:         class_type,
     class_name_en:      class_name_en,
     class_name_jp:      class_name_jp,
-    trainer:            trainer,
+    coach:              coach,
     class_date:         class_date,
     class_time_start:   class_time_start,
     class_time_end:     class_time_end,
@@ -571,16 +682,40 @@ function _postCreateBooking(body) {
     payment_method:     paymentMethod,
     used_credit:        use_credit || pack === 'dropin_3pack',
     credit_id:          usedCreditId,
-    source:             'website',
+    lead_source:        lead_source,
     status:             'confirmed',
     calendar_link:      calLink,
     notes:              notes,
   });
 
+  // ── 6b. Wodify lead sync (non-blocking) ──
+  try {
+    var _wr = _syncWodifyLead({
+      email: email, first_name: customer_first, last_name: customer_last,
+      phone: phone, lead_source: lead_source, class_type: class_type,
+    });
+    _updateBookingWodifyResult(bookingId, _wr.status, new Date().toISOString(), _wr.wodify_lead_id || '');
+  } catch(e) {
+    console.error('Wodify sync failed', e);
+    _updateBookingWodifyResult(bookingId, 'error', new Date().toISOString(), '');
+  }
+
+  // ── 6c. Wodify class reservation (Trial + Drop In only) ──
+  if (class_type === 'trial' || class_type === 'dropin') {
+    try {
+      var _wClientId = _findWodifyClientByEmail(email);
+      if (_wClientId) {
+        var _startISO = class_date + 'T' + class_time_start + ':00+09:00';
+        var _wClassId = _findWodifyClassByDateTime(_startISO);
+        if (_wClassId) _reserveWodifyClass(_wClientId, _wClassId);
+      }
+    } catch(e) { console.error('Wodify class reservation failed', e); }
+  }
+
   // ── 7. Send emails ──
   _sendBookingAdminNotification({
     bookingId: bookingId, class_name_en: class_name_en, class_name_jp: class_name_jp,
-    class_date: class_date, class_time_start: class_time_start, trainer: trainer,
+    class_date: class_date, class_time_start: class_time_start, coach: coach,
     customer_last: customer_last, customer_first: customer_first,
     email: email, phone: phone, dob: dob, gender: gender, address: address,
     paymentMethod: paymentMethod, squareOrderId: squareOrderId, price: price, notes: notes,
@@ -591,13 +726,28 @@ function _postCreateBooking(body) {
     _sendBookingConfirmation({
       bookingId: bookingId, class_name_en: class_name_en, class_name_jp: class_name_jp,
       class_date: class_date, class_time_start: class_time_start, class_time_end: class_time_end,
-      duration: duration, trainer: trainer,
+      duration: duration, coach: coach,
       customer_last: customer_last, customer_first: customer_first,
       email: email, phone: phone, paymentMethod: paymentMethod,
       price: price, calLink: calLink,
       pack: pack, newCreditId: newCreditId,
       has_coach: body.has_coach !== false,
     });
+  }
+
+  // ── 8. Cache invalidation ──
+  var _bd = class_date;
+  var _ct = class_type.toLowerCase().replace(/_/g, '');
+  var _dp = _bd.split('-');
+  _cacheDelete('avail_' + _ct + '_' + _bd);
+  _cacheDelete('upcoming_' + _ct);
+  if (_dp.length === 3) {
+    _cacheDelete('month_' + _ct + '_' + _dp[0] + '_' + parseInt(_dp[1], 10));
+    if (_ct === 'dropin' || _ct === 'opengym') {
+      _cacheDelete('avail_dropin_'  + _bd); _cacheDelete('avail_opengym_'  + _bd);
+      _cacheDelete('month_dropin_'  + _dp[0] + '_' + parseInt(_dp[1], 10));
+      _cacheDelete('month_opengym_' + _dp[0] + '_' + parseInt(_dp[1], 10));
+    }
   }
 
   return _ok({
@@ -623,7 +773,7 @@ function _postCreateBookingThreePack(body) {
   var sessions       = body.sessions || []; // [{event_id, class_date, class_time_start, class_time_end}]
   var class_name_en  = body.class_name_en || CONFIG.CLASS_NAME_EN[class_type] || class_type;
   var class_name_jp  = body.class_name_jp || CONFIG.CLASS_NAME_JP[class_type] || class_type;
-  var trainer        = body.trainer  || '';
+  var coach          = body.coach    || '';
   var duration       = body.duration || 60;
 
   // ── validation ──
@@ -694,7 +844,7 @@ function _postCreateBookingThreePack(body) {
     var bId  = _generateBookingId();
     bookingIds.push(bId);
 
-    _addReservationEvent({
+    var sessResEvent = _addReservationEvent({
       booking_id:       bId,
       class_name_en:    class_name_en,
       customer_last:    customer_last,
@@ -707,6 +857,17 @@ function _postCreateBookingThreePack(body) {
       class_type:       class_type,
       duration:         duration,
     });
+    var _3pColorMap = {
+      'drop_in':           CalendarApp.EventColor.CYAN,
+      'open_gym':          CalendarApp.EventColor.CYAN,
+      'hyrox_strength':    CalendarApp.EventColor.CYAN,
+      'trial':             CalendarApp.EventColor.YELLOW,
+      'spartan':           CalendarApp.EventColor.BLUE,
+      'hyrox_performance': CalendarApp.EventColor.BLUE,
+      'foundation':        CalendarApp.EventColor.TEAL,
+    };
+    var _3pColor = _3pColorMap[class_type];
+    if (_3pColor && sessResEvent) sessResEvent.setColor(_3pColor);
 
     var calLink = _calendarAddLink(class_name_en, sess.class_date, sess.class_time_start, sess.class_time_end || '');
     calLinks.push(calLink);
@@ -716,7 +877,7 @@ function _postCreateBookingThreePack(body) {
       class_type:         class_type,
       class_name_en:      class_name_en,
       class_name_jp:      class_name_jp,
-      trainer:            trainer,
+      coach:              coach,
       class_date:         sess.class_date,
       class_time_start:   sess.class_time_start,
       class_time_end:     sess.class_time_end || '',
@@ -757,7 +918,7 @@ function _postCreateBookingThreePack(body) {
       'Booking IDs : ' + bookingIds.join(', ') + '\n' +
       'Class       : ' + class_name_en + ' / ' + class_name_jp + '\n' +
       'Sessions    :\n' + sessionsText + '\n' +
-      'Trainer     : ' + (trainer || '—') + '\n\n' +
+      'Coach       : ' + (coach || '—') + '\n\n' +
       'Last Name   : ' + customer_last  + '\n' +
       'First Name  : ' + customer_first + '\n' +
       'Email       : ' + email          + '\n' +
@@ -798,7 +959,7 @@ function _postCreateBookingThreePack(body) {
         '  ② ' + bookingIds[1] + '\n' +
         '  ③ ' + bookingIds[2] + '\n' +
         'クラス / Class               ' + class_name_jp + ' / ' + class_name_en + '\n' +
-        'トレーナー / Trainer          ' + (trainer || 'Roppongi Staff') + '\n' +
+        'コーチ / Coach               ' + (coach || 'Roppongi Staff') + '\n' +
         '所要時間 / Duration          ' + duration + ' minutes\n\n' +
         '日時 / Sessions\n' + sessionsEmailText + '\n\n' +
         'Googleカレンダーに追加 / Add to Google Calendar\n' + calLinksText + '\n\n' +
@@ -815,6 +976,249 @@ function _postCreateBookingThreePack(body) {
         'If you need to cancel or change your reservation, please contact us.\n' +
         'Thank you and see you soon!\n\n' +
         sig3,
+        { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL }
+      );
+    } catch (ex) { console.error('Customer email failed', ex); }
+  }
+
+  return _ok({
+    booking_ids:    bookingIds,
+    calendar_links: calLinks,
+    calendar_link:  calLinks[0],
+  });
+}
+
+// ===== POST: CREATE BOOKING — FOUNDATION PROGRAM (3 sessions, 1 payment) =====
+function _postCreateBookingFoundation(body) {
+  var class_type     = 'foundation';
+  var customer_first = body.customer_first || '';
+  var customer_last  = body.customer_last  || '';
+  var email          = (body.email || '').trim();
+  var phone          = (body.phone || '').trim();
+  var dob            = body.dob    || '';
+  var gender         = body.gender || '';
+  var address        = body.address || '';
+  var notes          = body.notes   || '';
+  var lead_source    = body.lead_source || '';
+  var sourceId       = body.sourceId || '';
+  var verToken       = body.verificationToken || '';
+  var sessions       = body.sessions || []; // [{event_id, class_date, class_time_start, class_time_end}]
+  var duration       = body.duration || 60;
+
+  // ── validation ──
+  if (sessions.length !== 3) return _err('Foundation program requires exactly 3 sessions.');
+  if (!email)                return _err('Email is required.');
+  if (!dob)                  return _err('Date of birth is required.');
+  if (!gender)               return _err('Gender is required.');
+  if (!sourceId)             return _err('Payment token (sourceId) is required.');
+  for (var si = 0; si < 3; si++) {
+    if (!sessions[si].class_date)       return _err('class_date is required for session ' + (si + 1) + '.');
+    if (!sessions[si].class_time_start) return _err('class_time_start is required for session ' + (si + 1) + '.');
+  }
+
+  // Sort sessions chronologically → #1 is earliest
+  sessions = sessions.slice().sort(function(a, b) {
+    return (a.class_date + a.class_time_start).localeCompare(b.class_date + b.class_time_start);
+  });
+
+  var class_name_en = CONFIG.CLASS_NAME_EN[class_type] || 'Foundation';
+  var class_name_jp = CONFIG.CLASS_NAME_JP[class_type] || 'ファウンデーションプログラム';
+
+  // ── 1. Square Customer ──
+  var squareCustomerId = _squareUpsertCustomer({
+    given_name:    customer_first,
+    family_name:   customer_last,
+    email_address: email,
+    phone_number:  phone,
+    address:       address,
+    birthday:      dob,
+  });
+
+  // ── 2. Square Order + Payment (¥18,500) ──
+  var foundationVariationId = CONFIG.CATALOG['foundation'];
+  if (!foundationVariationId) return _err('Foundation catalog item not configured.');
+
+  var orderRes = _squareRequest('POST', '/orders', {
+    idempotency_key: _uuid(),
+    order: {
+      location_id: CONFIG.SQUARE_LOCATION_ID,
+      customer_id: squareCustomerId || undefined,
+      line_items:  [{ catalog_object_id: foundationVariationId, quantity: '1' }],
+      metadata: {
+        class_type: class_type,
+        pack:       'foundation_3pack',
+        dates:      sessions.map(function(s) { return s.class_date; }).join(','),
+        source:     'website',
+      },
+    },
+  });
+  if (orderRes.errors) return _err(orderRes.errors[0].detail || 'Order creation failed.');
+  var squareOrderId = orderRes.order.id;
+
+  var payBody = {
+    source_id:       sourceId,
+    idempotency_key: _uuid(),
+    amount_money:    orderRes.order.total_money,
+    order_id:        squareOrderId,
+    location_id:     CONFIG.SQUARE_LOCATION_ID,
+    customer_id:     squareCustomerId || undefined,
+    note:            'Foundation Program — ' + customer_last + ' ' + customer_first + ' — ' +
+                     sessions.map(function(s) { return s.class_date; }).join(', '),
+  };
+  if (verToken) payBody.verification_token = verToken;
+
+  var payRes = _squareRequest('POST', '/payments', payBody);
+  if (payRes.errors) return _err(payRes.errors[0].detail || 'Payment failed.');
+  var squarePaymentId = payRes.payment.id;
+
+  // ── 3. Generate 3 booking IDs, calendar events, Sheets rows ──
+  var bookingIds = [];
+  var calLinks   = [];
+
+  for (var i = 0; i < 3; i++) {
+    var sess       = sessions[i];
+    var sessionNum = i + 1; // #1 = earliest, chronologically sorted above
+    var bId        = _generateBookingId();
+    bookingIds.push(bId);
+
+    // Each event titled "Foundation #N — Last First — booking_id"
+    var sessResEvent = _addReservationEvent({
+      booking_id:       bId,
+      class_name_en:    'Foundation #' + sessionNum,
+      customer_last:    customer_last,
+      customer_first:   customer_first,
+      email:            email,
+      phone:            phone,
+      class_date:       sess.class_date,
+      class_time_start: sess.class_time_start,
+      class_time_end:   sess.class_time_end || '',
+      class_type:       class_type,
+      duration:         duration,
+    });
+    if (sessResEvent) sessResEvent.setColor(CalendarApp.EventColor.TEAL);
+
+    var calLink = _calendarAddLink('Foundation #' + sessionNum, sess.class_date, sess.class_time_start, sess.class_time_end || '');
+    calLinks.push(calLink);
+
+    _logBooking({
+      booking_id:         bId,
+      class_type:         class_type,
+      class_name_en:      class_name_en,
+      class_name_jp:      class_name_jp,
+      coach:              '',
+      class_date:         sess.class_date,
+      class_time_start:   sess.class_time_start,
+      class_time_end:     sess.class_time_end || '',
+      duration:           duration,
+      calendar_event_id:  sess.event_id || '',
+      customer_last:      customer_last,
+      customer_first:     customer_first,
+      customer_email:     email,
+      customer_phone:     phone,
+      customer_address:   address,
+      customer_dob:       dob,
+      customer_gender:    gender,
+      square_customer_id: squareCustomerId || '',
+      square_order_id:    squareOrderId,
+      square_payment_id:  squarePaymentId,
+      catalog_object_id:  foundationVariationId,
+      price:              i === 0 ? 18500 : 0, // full price on row 1, 0 on rows 2 & 3
+      payment_method:     'foundation_3pack',
+      used_credit:        false,
+      credit_id:          '',
+      lead_source:        lead_source,
+      status:             'confirmed',
+      calendar_link:      calLink,
+      notes:              notes,
+    });
+  }
+
+  // ── 4. Wodify Lead Sync ──
+  try {
+    var _wFoundationResult = _syncWodifyLead({
+      email:       email,
+      first_name:  customer_first,
+      last_name:   customer_last,
+      phone:       phone,
+      lead_source: lead_source,
+      class_type:  class_type,
+    });
+    _updateBookingWodifyResult(bookingIds[0], _wFoundationResult.status, new Date().toISOString(), _wFoundationResult.wodify_lead_id || '');
+  } catch(ex) {
+    console.error('Wodify sync failed', ex);
+    _updateBookingWodifyResult(bookingIds[0], 'error', new Date().toISOString(), '');
+  }
+
+  // ── 5. Admin notification ──
+  var sessionsText = sessions.map(function(s, idx) {
+    return '  Foundation #' + (idx + 1) + ': ' + s.class_date + ' ' + s.class_time_start;
+  }).join('\n');
+
+  try {
+    GmailApp.sendEmail(
+      CONFIG.STAFF_EMAILS,
+      'CrossFit Roppongi | Foundation Program — ' + customer_last + ' ' + customer_first + ' | ' + bookingIds.join(', '),
+      'New Foundation Program booking confirmed.\n\n' +
+      'Booking IDs : ' + bookingIds.join(', ') + '\n' +
+      'Program     : ' + class_name_en + ' / ' + class_name_jp + '\n' +
+      'Sessions    :\n' + sessionsText + '\n\n' +
+      'Last Name   : ' + customer_last  + '\n' +
+      'First Name  : ' + customer_first + '\n' +
+      'Email       : ' + email          + '\n' +
+      'Phone       : ' + (phone   || '—') + '\n' +
+      'DOB         : ' + (dob     || '—') + '\n' +
+      'Gender      : ' + (gender  || '—') + '\n' +
+      'Address     : ' + (address || '—') + '\n\n' +
+      'Payment     : foundation_3pack\n' +
+      'Order ID    : ' + squareOrderId + '\n' +
+      'Lead Source : ' + (lead_source || '—') + '\n' +
+      'Notes       : ' + (notes || '—'),
+      { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL, cc: CONFIG.BOOKING_CC }
+    );
+  } catch (ex) { console.error('Admin email failed', ex); }
+
+  // ── 6. Customer confirmation email ──
+  if (email) {
+    var sessionsEmailText = sessions.map(function(s, idx) {
+      var num = ['①', '②', '③'][idx];
+      return '  ' + num + ' Foundation #' + (idx + 1) + ': ' + s.class_date + ' · ' + s.class_time_start + (s.class_time_end ? '–' + s.class_time_end : '') + ' GMT+9';
+    }).join('\n');
+
+    var calLinksText = calLinks.map(function(l, idx) {
+      return '  ' + ['①', '②', '③'][idx] + ' → ' + l;
+    }).join('\n');
+
+    var sigFoundation = 'CrossFit Roppongi\n〒106-0032 Tokyo, Minato-ku, Roppongi 7-4-8 Wind Building B1F, Japan\ncrossfitroppongi.com\nTEL：03-6438-9813';
+
+    try {
+      GmailApp.sendEmail(
+        email,
+        'CrossFit Roppongi | ファウンデーション予約確認 (Foundation Booking Confirmed) | ' + bookingIds.join(', '),
+        'ファウンデーションプログラムのご予約ありがとうございます！\n' +
+        'ジムでお会いできることを楽しみにしています。\n' +
+        'Thank you for booking the Foundation Program, ' + customer_first + ' ' + customer_last + '.\n' +
+        'We look forward to seeing you at the gym!\n\n' +
+        '予約番号 / Booking Numbers\n' +
+        '  ① ' + bookingIds[0] + '\n' +
+        '  ② ' + bookingIds[1] + '\n' +
+        '  ③ ' + bookingIds[2] + '\n' +
+        'プログラム / Program    ' + class_name_jp + ' / ' + class_name_en + '\n' +
+        '所要時間 / Duration     60 minutes per session\n\n' +
+        'セッション日時 / Sessions\n' + sessionsEmailText + '\n\n' +
+        'Googleカレンダーに追加 / Add to Google Calendar\n' + calLinksText + '\n\n' +
+        '決済方法 / Payment Method\n' +
+        'クレジットカード / Credit Card (Square)\n\n' +
+        'お客様情報 / Customer Information\n' +
+        '姓 / Last Name:   ' + customer_last  + '\n' +
+        '名 / First Name:  ' + customer_first + '\n' +
+        'メール / Email:   ' + email + '\n' +
+        '電話 / Phone:     ' + (phone || '—') + '\n' +
+        '住所 / Address:   ' + (address || '—') + '\n\n' +
+        '予約の変更またはキャンセルが必要な場合は、お気軽にご連絡ください。\n' +
+        'お越しをお待ちしています。\n' +
+        'If you need to cancel or change your reservation, please contact us.\n' +
+        'Thank you and see you soon!\n\n' +
+        sigFoundation,
         { name: CONFIG.GYM_NAME, replyTo: CONFIG.GYM_EMAIL }
       );
     } catch (ex) { console.error('Customer email failed', ex); }
@@ -851,7 +1255,7 @@ function _postUseCreditFrontDesk(body) {
     class_type:         class_type,
     class_name_en:      CONFIG.CLASS_NAME_EN[class_type] || class_type,
     class_name_jp:      CONFIG.CLASS_NAME_JP[class_type] || class_type,
-    trainer:            '',
+    coach:              '',
     class_date:         class_date,
     class_time_start:   class_time_start,
     class_time_end:     '',
@@ -1300,31 +1704,34 @@ function _logBooking(d) {
     d.class_type,         // class_type
     d.class_name_en,      // class_name_en
     d.class_name_jp,      // class_name_jp
-    d.trainer || '',      // trainer
-    d.class_date,         // class_date
-    d.class_time_start,   // class_time_start
-    d.class_time_end || '',// class_time_end
-    d.duration || 60,     // duration
-    d.calendar_event_id || '', // calendar_event_id
-    d.customer_last,      // customer_last
-    d.customer_first,     // customer_first
-    d.customer_email,     // customer_email
-    d.customer_phone || '',// customer_phone
-    d.customer_address || '', // customer_address
-    d.customer_dob || '',  // customer_dob
-    d.customer_gender || '', // customer_gender
-    d.square_customer_id || '', // square_customer_id
-    d.square_order_id || '', // square_order_id
-    d.square_payment_id || '', // square_payment_id
-    d.catalog_object_id || '', // catalog_object_id
-    d.price || 0,         // price
-    d.payment_method,     // payment_method
-    d.used_credit ? 'true' : 'false', // used_credit
-    d.credit_id || '',    // credit_id
-    d.source || 'website',// source
-    d.status || 'confirmed', // status
-    d.calendar_link || '', // calendar_link
-    d.notes || '',        // notes
+    d.coach || '',        // coach (col 6)
+    d.class_date,         // class_date (col 7)
+    d.class_time_start,   // class_time_start (col 8)
+    d.class_time_end || '',// class_time_end (col 9)
+    d.duration || 60,     // duration (col 10)
+    d.calendar_event_id || '', // calendar_event_id (col 11)
+    d.customer_last,      // customer_last (col 12)
+    d.customer_first,     // customer_first (col 13)
+    d.customer_email,     // customer_email (col 14)
+    d.customer_phone || '',// customer_phone (col 15)
+    d.customer_address || '', // customer_address (col 16)
+    d.customer_dob || '',  // customer_dob (col 17)
+    d.customer_gender || '', // customer_gender (col 18)
+    d.square_customer_id || '', // square_customer_id (col 19)
+    d.square_order_id || '', // square_order_id (col 20)
+    d.square_payment_id || '', // square_payment_id (col 21)
+    d.catalog_object_id || '', // catalog_object_id (col 22)
+    d.price || 0,         // price (col 23)
+    d.payment_method,     // payment_method (col 24)
+    d.used_credit ? 'true' : 'false', // used_credit (col 25)
+    d.credit_id || '',    // credit_id (col 26)
+    d.lead_source || d.source || '', // lead_source / source (col 27 — repurposed)
+    d.status || 'confirmed', // status (col 28)
+    d.calendar_link || '', // calendar_link (col 29)
+    d.notes || '',        // notes (col 30)
+    '',                   // lead_status (col 31 — filled after Wodify sync)
+    '',                   // sync_timestamp (col 32)
+    '',                   // wodify_lead_id (col 33)
   ]);
 }
 
@@ -1346,13 +1753,14 @@ function _addReservationEvent(d) {
 
   var title = d.class_name_en + ' — ' + d.customer_last + ' ' + d.customer_first + ' — ' + d.booking_id;
 
-  reservationCal.createEvent(title, slotStart, slotEnd, {
+  var createdEvent = reservationCal.createEvent(title, slotStart, slotEnd, {
     description:
       'Booking ID: ' + d.booking_id + '\n' +
       'Email: ' + d.email + '\n' +
       'Phone: ' + (d.phone || '—') + '\n' +
       'Class: ' + d.class_name_en,
   });
+  return createdEvent;
 }
 
 // Build Google Calendar quick-add link
@@ -1408,7 +1816,7 @@ function _sendBookingConfirmation(d) {
     '注文番号 / Booking Number    ' + d.bookingId + '\n' +
     'クラス / Class               ' + d.class_name_jp + ' / ' + d.class_name_en + '\n' +
     '日時 / Date & Time           ' + d.class_date + ' · ' + d.class_time_start + (d.class_time_end ? '–' + d.class_time_end : '') + ' GMT+9\n' +
-    'トレーナー / Trainer          ' + (d.trainer || 'Roppongi Staff') + '\n' +
+    'コーチ / Coach               ' + (d.coach || 'Roppongi Staff') + '\n' +
     '所要時間 / Duration          ' + (d.duration || 60) + ' minutes\n' +
     hasCoachNote +
     pack3line +
@@ -1443,7 +1851,7 @@ function _sendBookingAdminNotification(d) {
     'Class      : ' + d.class_name_en   + ' / ' + d.class_name_jp + '\n' +
     'Date       : ' + d.class_date      + '\n' +
     'Time       : ' + d.class_time_start + '\n' +
-    'Trainer    : ' + (d.trainer || '—') + '\n\n' +
+    'Coach      : ' + (d.coach || '—') + '\n\n' +
     'Last Name  : ' + d.customer_last   + '\n' +
     'First Name : ' + d.customer_first  + '\n' +
     'Email      : ' + d.email           + '\n' +
@@ -1517,9 +1925,283 @@ function _getOrCreateDriveFolder(name) {
   return folders.hasNext() ? folders.next() : DriveApp.createFolder(name);
 }
 
+// Read a Google Doc as plain text — used for editable email templates
+function _getDocTemplate(docId) {
+  try {
+    return DocumentApp.openById(docId).getBody().getText();
+  } catch(e) {
+    console.error('_getDocTemplate failed for ' + docId, e);
+    return '';
+  }
+}
+
 function _addDays(date, days) {
   var d = new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
   return Utilities.formatDate(d, CONFIG.TIMEZONE, 'yyyy-MM-dd');
+}
+
+// ===== WODIFY HELPERS =====
+
+// Sync a new lead to Wodify. Returns { success, status, wodify_lead_id }.
+function _syncWodifyLead(d) {
+  // 1. Check for existing lead by email
+  try {
+    var searchRes = UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/leads?email=' + encodeURIComponent(d.email),
+      { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    );
+    var searchData = JSON.parse(searchRes.getContentText());
+    if (searchData && searchData.data && searchData.data.length > 0) {
+      return { success: true, status: 'exists', wodify_lead_id: String(searchData.data[0].id || '') };
+    }
+  } catch(e) { /* search endpoint may not be available — proceed to create */ }
+
+  // 2. Create lead
+  try {
+    var payload = {
+      location_id: CONFIG.WODIFY_LOCATION_ID,
+      first_name:  d.first_name || '',
+      last_name:   d.last_name  || '',
+      email:       d.email      || '',
+      phone_number: d.phone     || '',
+    };
+    var srcId = CONFIG.WODIFY_SOURCE_IDS[d.lead_source];
+    var stId  = CONFIG.WODIFY_STATUS_IDS[d.class_type];
+    if (srcId) payload.lead_source_id = srcId;
+    if (stId)  payload.lead_status_id = stId;
+
+    var res = UrlFetchApp.fetch(CONFIG.WODIFY_BASE_URL + '/leads', {
+      method:      'post',
+      contentType: 'application/json',
+      payload:     JSON.stringify(payload),
+      headers:     { 'x-api-key': CONFIG.WODIFY_API_KEY },
+      muteHttpExceptions: true,
+    });
+    var data = JSON.parse(res.getContentText());
+    var code = res.getResponseCode();
+    if (code === 200 || code === 201) {
+      return { success: true, status: 'created', wodify_lead_id: String(data.id || data.lead_id || '') };
+    }
+    return { success: false, status: 'error:' + code, wodify_lead_id: '' };
+  } catch(e) {
+    return { success: false, status: 'error', wodify_lead_id: '' };
+  }
+}
+
+// Write Wodify sync result back to CFR Bookings (cols 31–33)
+function _updateBookingWodifyResult(bookingId, lead_status, sync_timestamp, wodify_lead_id) {
+  try {
+    var sheet = SpreadsheetApp.openById(CONFIG.SHEETS_ID).getSheetByName('CFR Bookings');
+    var data  = sheet.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === bookingId) {
+        sheet.getRange(i + 1, 31).setValue(lead_status);
+        sheet.getRange(i + 1, 32).setValue(sync_timestamp);
+        sheet.getRange(i + 1, 33).setValue(wodify_lead_id);
+        return;
+      }
+    }
+  } catch(e) { console.error('_updateBookingWodifyResult failed', e); }
+}
+
+// Paginated scan of GET /clients to find client_id by email
+function _findWodifyClientByEmail(email) {
+  var page = 1;
+  while (true) {
+    var res  = UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/clients?page=' + page + '&page_size=100',
+      { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    );
+    var data    = JSON.parse(res.getContentText());
+    var clients = data.clients || [];
+    for (var i = 0; i < clients.length; i++) {
+      if ((clients[i].email || '').toLowerCase() === email.toLowerCase()) return clients[i].id;
+    }
+    if (!data.pagination || !data.pagination.has_more) break;
+    page++;
+  }
+  return null;
+}
+
+// Paginated scan of GET /classes to find class_id by start_date_time
+function _findWodifyClassByDateTime(startDateTimeISO) {
+  var targetMs = new Date(startDateTimeISO).getTime();
+  var page = 1;
+  while (true) {
+    var res  = UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/classes?page=' + page + '&page_size=100',
+      { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    );
+    var data    = JSON.parse(res.getContentText());
+    var classes = data.classes || [];
+    for (var i = 0; i < classes.length; i++) {
+      if (new Date(classes[i].start_date_time).getTime() === targetMs) return classes[i].id;
+    }
+    if (!data.pagination || !data.pagination.has_more) break;
+    page++;
+  }
+  return null;
+}
+
+// Reserve a client into a Wodify class
+function _reserveWodifyClass(clientId, classId) {
+  try {
+    var res = UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/classes/' + classId + '/clients/' + clientId + '/reserve',
+      { method: 'post', headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    );
+    var code = res.getResponseCode();
+    return code === 200 || code === 201;
+  } catch(e) { return false; }
+}
+
+// ===== PHASE C: REMINDER EMAILS =====
+
+// Daily trigger function — scan CFR Bookings for trial classes tomorrow, send reminders
+function _sendTrialReminders() {
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  var tomorrowStr = Utilities.formatDate(tomorrow, CONFIG.TIMEZONE, 'yyyy-MM-dd');
+
+  // Fetch template once for all emails in this run
+  var template = _getDocTemplate(CONFIG.TRIAL_REMINDER_DOC_ID);
+
+  var sheet = SpreadsheetApp.openById(CONFIG.SHEETS_ID).getSheetByName('CFR Bookings');
+  var rows  = sheet.getDataRange().getValues();
+
+  rows.slice(1).forEach(function(row) {
+    var classType = row[2];
+    var rawDate   = row[6];
+    var dateStr   = (rawDate instanceof Date)
+      ? Utilities.formatDate(rawDate, CONFIG.TIMEZONE, 'yyyy-MM-dd')
+      : String(rawDate);
+    var status    = row[27];
+    var email     = row[13];
+    var lastName  = row[11];
+    var firstName = row[12];
+    var timeStart = row[7];
+
+    if (classType === 'trial' && dateStr === tomorrowStr && status === 'confirmed' && email) {
+      _sendTrialReminderEmail({
+        email: email, lastName: String(lastName), firstName: String(firstName),
+        date: tomorrowStr, time: String(timeStart),
+      }, template);
+    }
+  });
+}
+
+// Daily trigger function — scan CFR Bookings for foundation classes tomorrow, send reminders
+function _sendFoundationReminders() {
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  var tomorrowStr = Utilities.formatDate(tomorrow, CONFIG.TIMEZONE, 'yyyy-MM-dd');
+
+  // Fetch template once for all emails in this run
+  var template = _getDocTemplate(CONFIG.FOUNDATION_REMINDER_DOC_ID);
+
+  var sheet = SpreadsheetApp.openById(CONFIG.SHEETS_ID).getSheetByName('CFR Bookings');
+  var rows  = sheet.getDataRange().getValues();
+
+  rows.slice(1).forEach(function(row) {
+    var classType = row[2];
+    var rawDate   = row[6];
+    var dateStr   = (rawDate instanceof Date)
+      ? Utilities.formatDate(rawDate, CONFIG.TIMEZONE, 'yyyy-MM-dd')
+      : String(rawDate);
+    var status    = row[27];
+    var email     = row[13];
+    var lastName  = row[11];
+    var firstName = row[12];
+    var timeStart = row[7];
+
+    if (classType === 'foundation' && dateStr === tomorrowStr && status === 'confirmed' && email) {
+      _sendFoundationReminderEmail({
+        email: email, lastName: String(lastName), firstName: String(firstName),
+        date: tomorrowStr, time: String(timeStart),
+      }, template);
+    }
+  });
+}
+
+// d: { email, lastName, firstName, date, time }
+// templateText: pre-fetched Google Doc text (optional — fetched if not provided)
+// Available placeholders: {{LAST_NAME}} {{FIRST_NAME}} {{DATE_JP}} {{DATE_EN}} {{DATE}} {{TIME}}
+function _sendTrialReminderEmail(d, templateText) {
+  var dateParsed = new Date(d.date + 'T00:00:00+09:00');
+  var dateJP = Utilities.formatDate(dateParsed, CONFIG.TIMEZONE, 'yyyy年M月d日');
+  var dateEN = Utilities.formatDate(dateParsed, CONFIG.TIMEZONE, 'MMMM d, yyyy');
+
+  var tmpl = templateText || _getDocTemplate(CONFIG.TRIAL_REMINDER_DOC_ID);
+  var body = tmpl
+    .replace(/\{\{LAST_NAME\}\}/g,  d.lastName)
+    .replace(/\{\{FIRST_NAME\}\}/g, d.firstName)
+    .replace(/\{\{DATE_JP\}\}/g,    dateJP)
+    .replace(/\{\{DATE_EN\}\}/g,    dateEN)
+    .replace(/\{\{DATE\}\}/g,       d.date)
+    .replace(/\{\{TIME\}\}/g,       d.time);
+
+  _emailCustomer(
+    d.email,
+    'CrossFit Roppongi | 明日の体験レッスンについて / Trial Class Reminder — ' + d.date,
+    body
+  );
+}
+
+// d: { email, lastName, firstName, date, time }
+// templateText: pre-fetched Google Doc text (optional — fetched if not provided)
+// Available placeholders: {{LAST_NAME}} {{FIRST_NAME}} {{DATE_JP}} {{DATE_EN}} {{DATE}} {{TIME}}
+function _sendFoundationReminderEmail(d, templateText) {
+  var dateParsed = new Date(d.date + 'T00:00:00+09:00');
+  var dateJP = Utilities.formatDate(dateParsed, CONFIG.TIMEZONE, 'yyyy年M月d日');
+  var dateEN = Utilities.formatDate(dateParsed, CONFIG.TIMEZONE, 'MMMM d, yyyy');
+
+  var tmpl = templateText || _getDocTemplate(CONFIG.FOUNDATION_REMINDER_DOC_ID);
+  var body = tmpl
+    .replace(/\{\{LAST_NAME\}\}/g,  d.lastName)
+    .replace(/\{\{FIRST_NAME\}\}/g, d.firstName)
+    .replace(/\{\{DATE_JP\}\}/g,    dateJP)
+    .replace(/\{\{DATE_EN\}\}/g,    dateEN)
+    .replace(/\{\{DATE\}\}/g,       d.date)
+    .replace(/\{\{TIME\}\}/g,       d.time);
+
+  _emailCustomer(
+    d.email,
+    'CrossFit Roppongi | 明日のファウンデーションプログラムについて / Foundation Reminder — ' + d.date,
+    body
+  );
+}
+
+// ===== CACHE WARMING — run _setupAllTriggers() once from Apps Script IDE =====
+function _warmCache() {
+  var now = new Date();
+  var m1 = now.getMonth() + 1, y1 = now.getFullYear();
+  var m2 = m1 === 12 ? 1 : m1 + 1, y2 = m1 === 12 ? y1 + 1 : y1;
+  ['dropin', 'opengym', 'trial'].forEach(function(ct) {
+    _cacheDelete('month_' + ct + '_' + y1 + '_' + m1);
+    _getMonthAvailability({ year: String(y1), month: String(m1), classType: ct });
+    _cacheDelete('month_' + ct + '_' + y2 + '_' + m2);
+    _getMonthAvailability({ year: String(y2), month: String(m2), classType: ct });
+  });
+  ['hyroxperformance', 'hyroxstrength', 'spartan', 'foundation'].forEach(function(ct) {
+    _cacheDelete('upcoming_' + ct);
+    _getUpcomingClasses({ classType: ct, limit: '20', offset: '0' });
+  });
+}
+
+// Run ONCE from Apps Script IDE after Phase C deploy (replaces _setupCacheTriggers)
+function _setupAllTriggers() {
+  // Remove existing managed triggers
+  ScriptApp.getProjectTriggers().forEach(function(t) {
+    var fn = t.getHandlerFunction();
+    if (fn === '_warmCache' || fn === '_sendTrialReminders' || fn === '_sendFoundationReminders') {
+      ScriptApp.deleteTrigger(t);
+    }
+  });
+  // Cache warm every 4 hours
+  ScriptApp.newTrigger('_warmCache').timeBased().everyHours(4).create();
+  // Daily reminder emails at 9am JST
+  ScriptApp.newTrigger('_sendTrialReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
+  ScriptApp.newTrigger('_sendFoundationReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
 }
 
 // ===== ONE-TIME SETUP — run manually from Apps Script editor =====
@@ -1530,12 +2212,13 @@ function setupSheetHeaders() {
   if (bookings && bookings.getLastRow() === 0) {
     bookings.appendRow([
       'booking_id','created_at','class_type','class_name_en','class_name_jp',
-      'trainer','class_date','class_time_start','class_time_end','duration',
+      'coach','class_date','class_time_start','class_time_end','duration',
       'calendar_event_id','customer_last','customer_first','customer_email',
       'customer_phone','customer_address','customer_dob','customer_gender',
       'square_customer_id','square_order_id','square_payment_id',
       'catalog_object_id','price','payment_method',
-      'used_credit','credit_id','source','status','calendar_link','notes',
+      'used_credit','credit_id','lead_source','status','calendar_link','notes',
+      'lead_status','sync_timestamp','wodify_lead_id',
     ]);
   }
 

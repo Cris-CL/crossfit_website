@@ -68,7 +68,7 @@ export async function getMonthAvailability(classType, year, month) {
  * Get time slots for a specific date.
  * Returns array of slot objects:
  * { eventId, timeStart, timeEnd, duration, slotsLeft, capacity,
- *   trainer, price, catalogId, langJP, langEN, hasCoach }
+ *   coach, price, catalogId, langJP, langEN, hasCoach }
  *
  * @param {string} classType
  * @param {string} dateStr - 'YYYY-MM-DD'

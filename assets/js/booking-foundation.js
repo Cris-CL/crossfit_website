@@ -1,23 +1,21 @@
-// CrossFit Roppongi — Spartan Booking Page JS
-import { getUpcomingClasses, searchCustomer, createBooking, validateCoupon, initSquare, tokenize } from './booking-api.js';
+// CrossFit Roppongi — Foundation Program Booking Page JS
+import { getUpcomingClasses, searchCustomer, createBooking, initSquare, tokenize } from './booking-api.js';
 
 // ── Constants ────────────────────────────────────────────────────────────────
-const CLASS_TYPE   = 'spartan';
-const PRICE        = 4400;
-const LOAD_SIZE    = 5;
-const HOLD_SECONDS = 15 * 60;
+const CLASS_TYPE        = 'foundation';
+const PRICE             = 18500;
+const REQUIRED_SESSIONS = 3;
+const LOAD_SIZE         = 5;
+const HOLD_SECONDS      = 15 * 60;
 
 // ── State ────────────────────────────────────────────────────────────────────
-let selectedSlot   = null;
-let squareHandles  = null;
-let paymentMethod  = 'card';
-let holdInterval   = null;
-let holdLeft       = HOLD_SECONDS;
-let currentOffset  = 0;
-let hasMore        = false;
-let couponCode     = '';
-let couponDiscount = 0;
-let effectivePrice = PRICE;
+let selectedSlots = [];   // array of up to 3 slot objects
+let squareHandles = null;
+let paymentMethod = 'card';
+let holdInterval  = null;
+let holdLeft      = HOLD_SECONDS;
+let currentOffset = 0;
+let hasMore       = false;
 
 // ── DOM helper ───────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -107,6 +105,7 @@ function appendClassCard(slot) {
 
   const card = document.createElement('div');
   card.className = 'class-card' + (isFull ? ' full' : '');
+  card.dataset.eventId = slot.event_id;
   card.innerHTML = `
     <div class="class-card-info">
       <div class="class-card-date">
@@ -126,27 +125,48 @@ function appendClassCard(slot) {
     </button>`;
 
   if (!isFull) {
-    card.querySelector('.btn-select-class').addEventListener('click', () => onSelectClass(slot, card));
+    card.querySelector('.btn-select-class').addEventListener('click', () => onSelectSlot(slot, card));
   }
   list.appendChild(card);
 }
 
-function onSelectClass(slot, card) {
-  selectedSlot = slot;
-  document.querySelectorAll('.class-card').forEach(c => c.classList.remove('selected'));
-  document.querySelectorAll('.btn-select-class').forEach(b => {
-    b.classList.remove('selected');
-    if (!b.disabled) b.textContent = '選択 / Select';
-  });
-  card.classList.add('selected');
-  card.querySelector('.btn-select-class').classList.add('selected');
-  card.querySelector('.btn-select-class').textContent = '✓ 選択済み / Selected';
-  $('btn-to-step2').disabled = false;
+function onSelectSlot(slot, card) {
+  const alreadyIdx = selectedSlots.findIndex(s => s.event_id === slot.event_id);
+
+  if (alreadyIdx >= 0) {
+    // Deselect
+    selectedSlots.splice(alreadyIdx, 1);
+    card.classList.remove('selected');
+    card.querySelector('.btn-select-class').classList.remove('selected');
+    card.querySelector('.btn-select-class').textContent = '選択 / Select';
+  } else {
+    if (selectedSlots.length >= REQUIRED_SESSIONS) {
+      showError('error-step1', `3つのセッションを選択済みです。変更する場合は選択を解除してください。 / You have already selected 3 sessions. Deselect one to change.`);
+      return;
+    }
+    clearError('error-step1');
+    selectedSlots.push(slot);
+    card.classList.add('selected');
+    card.querySelector('.btn-select-class').classList.add('selected');
+    card.querySelector('.btn-select-class').textContent = '✓ 選択済み / Selected';
+  }
+
+  updateCounter();
+}
+
+function updateCounter() {
+  const n = selectedSlots.length;
+  $('selection-counter').textContent = `${n} / ${REQUIRED_SESSIONS}`;
+  $('selection-counter').className   = n === REQUIRED_SESSIONS ? 'selection-counter full' : 'selection-counter';
+  $('btn-to-step2').disabled = n !== REQUIRED_SESSIONS;
+  $('btn-to-step2').textContent = n === REQUIRED_SESSIONS
+    ? `次へ：お客様情報 (${REQUIRED_SESSIONS}セッション選択済) ▶`
+    : `次へ：お客様情報 (${n}/${REQUIRED_SESSIONS} 選択済)`;
 }
 
 // ── Step 1 → 2 ────────────────────────────────────────────────────────────────
 function goToStep2() {
-  if (!selectedSlot) return;
+  if (selectedSlots.length !== REQUIRED_SESSIONS) return;
   startHoldTimer();
   showStep(2);
 }
@@ -168,9 +188,14 @@ function startHoldTimer() {
     if (holdLeft <= 0) {
       clearInterval(holdInterval);
       timerEl.classList.remove('visible');
-      selectedSlot = null;
-      $('btn-to-step2').disabled = true;
-      showError('error-step1', 'セッションの予約時間が過ぎました。もう一度クラスを選択してください。 / Your hold time has expired. Please select a class again.');
+      selectedSlots = [];
+      updateCounter();
+      document.querySelectorAll('.class-card.selected').forEach(c => {
+        c.classList.remove('selected');
+        const btn = c.querySelector('.btn-select-class');
+        if (btn && !btn.disabled) { btn.classList.remove('selected'); btn.textContent = '選択 / Select'; }
+      });
+      showError('error-step1', 'セッションの予約時間が過ぎました。もう一度クラスを選択してください。 / Your hold time has expired. Please select classes again.');
       showStep(1);
     }
   }, 1000);
@@ -211,10 +236,10 @@ async function lookupCustomer() {
 }
 
 function prefillForm(c) {
-  if (c.family_name)   $('input-last').value    = c.family_name;
-  if (c.given_name)    $('input-first').value   = c.given_name;
-  if (c.phone_number)  $('input-phone').value   = c.phone_number;
-  if (c.email_address) $('input-email').value   = c.email_address;
+  if (c.family_name)   $('input-last').value  = c.family_name;
+  if (c.given_name)    $('input-first').value = c.given_name;
+  if (c.phone_number)  $('input-phone').value = c.phone_number;
+  if (c.email_address) $('input-email').value = c.email_address;
   if (c.address) {
     const addr = c.address;
     const full = [addr.address_line_1, addr.locality].filter(Boolean).join(', ');
@@ -254,86 +279,24 @@ async function goToStep3() {
   if (!addr)                          return showError('error-step2', '住所を入力してください。/ Please enter your address.');
   if (!$('input-lead-source').value)  return showError('error-step2', 'どこで知りましたか？をご選択ください。/ Please select how you heard about us.');
 
-  const classNameJP = selectedSlot.class_name_jp || 'スパルタントレーニング';
-  const classNameEN = selectedSlot.class_name_en || 'Spartan';
+  // Sort sessions chronologically for display
+  const sorted = [...selectedSlots].sort((a, b) =>
+    (a.date + a.time_start).localeCompare(b.date + b.time_start));
 
-  $('sum-class').textContent    = `${classNameJP} / ${classNameEN}`;
-  $('sum-datetime').textContent = `${selectedSlot.date} · ${selectedSlot.time_start}–${selectedSlot.time_end}`;
-  $('sum-trainer').textContent  = selectedSlot.coach || 'Marc Keen';
-  $('sum-name').textContent     = `${last} ${first}`;
+  const sessionRows = sorted.map((s, i) => {
+    const dateObj   = new Date(s.date + 'T00:00:00+09:00');
+    const dateLabel = dateObj.toLocaleDateString('ja-JP', { month: 'long', day: 'numeric' });
+    return `<div class="sum-row">
+      <span class="key">セッション ${i + 1}</span>
+      <span class="font_proxima">${s.date} · ${s.time_start}–${s.time_end}</span>
+    </div>`;
+  }).join('');
 
-  // Reset coupon state when re-entering payment step
-  couponCode     = '';
-  couponDiscount = 0;
-  effectivePrice = PRICE;
-  updatePriceDisplay();
-  $('coupon-input').value        = '';
-  $('coupon-result').style.display = 'none';
-  $('sum-discount-row').style.display = 'none';
+  $('sum-sessions').innerHTML = sessionRows;
+  $('sum-name').textContent   = `${last} ${first}`;
 
   showStep(3);
   await initPayment();
-}
-
-// ── Coupon ────────────────────────────────────────────────────────────────────
-async function applyCoupon() {
-  const code = $('coupon-input').value.trim().toUpperCase();
-  if (!code) return;
-
-  const resultEl = $('coupon-result');
-  resultEl.style.display    = 'block';
-  resultEl.style.background = '#f9f9f9';
-  resultEl.style.color      = '#666';
-  resultEl.textContent      = '確認中… / Validating…';
-  $('btn-apply-coupon').disabled = true;
-
-  try {
-    const data = await validateCoupon(code, CLASS_TYPE);
-
-    if (data.valid) {
-      couponCode     = code;
-      couponDiscount = data.discount_amount;
-      effectivePrice = Math.max(0, PRICE - couponDiscount);
-
-      resultEl.style.background = '#f0fdf4';
-      resultEl.style.color      = '#16a34a';
-      resultEl.textContent      = `✓ 「${data.label}」が適用されました / "${data.label}" applied`;
-
-      updatePriceDisplay();
-
-      // Hide digital wallet tabs — price must match SDK init; credit card charges Order total_money
-      $('tab-gpay').style.display   = 'none';
-      $('tab-apple').style.display  = 'none';
-      selectPaymentMethod('card');
-
-    } else {
-      couponCode     = '';
-      couponDiscount = 0;
-      effectivePrice = PRICE;
-      resultEl.style.background = '#fef2f2';
-      resultEl.style.color      = '#b91c1c';
-      resultEl.textContent      = '✗ 無効なクーポンコードです / Invalid coupon code';
-      updatePriceDisplay();
-    }
-  } catch (e) {
-    resultEl.style.background = '#fef2f2';
-    resultEl.style.color      = '#b91c1c';
-    resultEl.textContent      = 'クーポンの確認に失敗しました / Coupon validation failed';
-  }
-
-  $('btn-apply-coupon').disabled = false;
-}
-
-function updatePriceDisplay() {
-  const discountRow = $('sum-discount-row');
-  if (couponDiscount > 0) {
-    discountRow.style.display = 'flex';
-    $('sum-discount').textContent = `-¥${couponDiscount.toLocaleString()}`;
-  } else {
-    discountRow.style.display = 'none';
-  }
-  $('sum-total-price').textContent = `¥${effectivePrice.toLocaleString()}`;
-  $('btn-pay').textContent = `¥${effectivePrice.toLocaleString()} を支払い予約する`;
 }
 
 // ── Square init ───────────────────────────────────────────────────────────────
@@ -367,9 +330,6 @@ async function initPayment() {
   privacyEl.addEventListener('change', () => {
     $('btn-pay').disabled = !privacyEl.checked;
   });
-
-  // Restore pay button text (may have been set by coupon)
-  updatePriceDisplay();
 }
 
 // ── Payment method tabs ───────────────────────────────────────────────────────
@@ -401,31 +361,35 @@ async function handlePayment() {
     const dobD   = $('dob-day').value;
     const gender = document.querySelector('input[name="gender"]:checked')?.value;
 
+    // Sort sessions chronologically before sending
+    const sessions = [...selectedSlots]
+      .sort((a, b) => (a.date + a.time_start).localeCompare(b.date + b.time_start))
+      .map(s => ({
+        event_id:        s.event_id,
+        class_date:      s.date,
+        class_time_start: s.time_start,
+        class_time_end:  s.time_end,
+      }));
+
     const result = await createBooking({
-      class_type:        CLASS_TYPE,
-      event_id:          selectedSlot.event_id,
-      class_date:        selectedSlot.date,
-      class_time_start:  selectedSlot.time_start,
-      class_time_end:    selectedSlot.time_end,
-      class_name_en:     selectedSlot.class_name_en || 'Spartan',
-      class_name_jp:     selectedSlot.class_name_jp || 'スパルタントレーニング',
-      coach:             selectedSlot.coach || '',
-      catalog_object_id: selectedSlot.catalog_object_id || '',
-      price:             selectedSlot.price || PRICE,
-      duration:          selectedSlot.duration || 60,
-      customer_last:     last,
-      customer_first:    first,
-      email:             $('input-email').value.trim(),
-      phone:             $('input-phone').value.trim(),
-      dob:               `${dobY}/${dobM}/${dobD}`,
+      class_type:    CLASS_TYPE,
+      pack:          'foundation_3pack',
+      sessions,
+      class_name_en: 'Foundation',
+      class_name_jp: 'ファウンデーションプログラム',
+      coach:         selectedSlots[0]?.coach || '',
+      duration:      selectedSlots[0]?.duration || 60,
+      price:         PRICE,
+      customer_last:  last,
+      customer_first: first,
+      email:          $('input-email').value.trim(),
+      phone:          $('input-phone').value.trim(),
+      dob:            `${dobY}/${dobM}/${dobD}`,
       gender,
-      address:           $('input-address').value.trim(),
-      notes:             $('input-notes').value.trim(),
-      lead_source:       $('input-lead-source').value || '',
-      pack:              'single',
-      use_credit:        false,
-      coupon_code:       couponCode,
-      sourceId:          nonce,
+      address:        $('input-address').value.trim(),
+      notes:          $('input-notes').value.trim(),
+      lead_source:    $('input-lead-source').value || '',
+      sourceId:       nonce,
     });
 
     stopHoldTimer();
@@ -435,20 +399,43 @@ async function handlePayment() {
   } catch (e) {
     showError('error-step3', `予約に失敗しました: ${e.message} / Booking failed: ${e.message}`);
     btn.disabled    = false;
-    updatePriceDisplay();
+    btn.textContent = `¥${PRICE.toLocaleString()} を支払い予約する / PAY & BOOK`;
   }
 }
 
 function showConfirmation(result, last, first) {
-  $('confirm-booking-id').textContent = result.booking_id || '—';
-  $('confirm-class').textContent      = 'スパルタントレーニング / Spartan';
-  $('confirm-datetime').textContent   = `${selectedSlot.date} · ${selectedSlot.time_start}–${selectedSlot.time_end}`;
-  $('confirm-name').textContent       = `${last} ${first}`;
-  $('confirm-price').textContent      = `¥${effectivePrice.toLocaleString()} (税込)`;
-  if (result.calendar_link) {
-    $('confirm-cal-link').href = result.calendar_link;
+  const bookingIds = result.booking_ids || [result.booking_id || '—'];
+  const calLinks   = result.calendar_links || [];
+
+  // Booking IDs
+  const idsHtml = bookingIds.map((id, i) =>
+    `<div>Foundation #${i + 1}: <span style="font-family:monospace; font-weight:700; color:#222; font-size:14px;">${id}</span></div>`
+  ).join('');
+  $('confirm-booking-ids').innerHTML = idsHtml;
+
+  // Sessions sorted
+  const sorted = [...selectedSlots].sort((a, b) =>
+    (a.date + a.time_start).localeCompare(b.date + b.time_start));
+
+  const sessionsHtml = sorted.map((s, i) => `
+    <div class="confirm-row">
+      <span class="key">セッション ${i + 1} / Session ${i + 1}</span>
+      <span class="font_proxima">${s.date} · ${s.time_start}–${s.time_end}</span>
+    </div>`).join('');
+  $('confirm-sessions').innerHTML = sessionsHtml;
+
+  $('confirm-name').textContent = `${last} ${first}`;
+
+  // Calendar links
+  const calLinksEl = $('confirm-cal-links');
+  if (calLinks.length > 0) {
+    calLinksEl.innerHTML = calLinks.map((link, i) =>
+      `<a class="confirm-cal-link" href="${link}" target="_blank" rel="noopener noreferrer" style="display:block; margin-bottom:8px;">
+        📅 Session ${i + 1} — Googleカレンダーに追加 / Add to Google Calendar
+      </a>`
+    ).join('');
   } else {
-    $('confirm-cal-link').style.display = 'none';
+    calLinksEl.style.display = 'none';
   }
 }
 
@@ -494,10 +481,6 @@ function bindEvents() {
   $('btn-back-2').addEventListener('click', () => showStep(2));
   $('btn-pay').addEventListener('click', handlePayment);
   $('btn-load-more').addEventListener('click', () => loadClasses(currentOffset));
-  $('btn-apply-coupon').addEventListener('click', applyCoupon);
-  $('coupon-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); applyCoupon(); }
-  });
   document.querySelectorAll('.pm-tab').forEach(tab =>
     tab.addEventListener('click', () => selectPaymentMethod(tab.dataset.method)));
   $('input-email').addEventListener('keydown', e => {
