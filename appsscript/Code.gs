@@ -158,6 +158,7 @@ function doGet(e) {
     if (action === 'monthAvailability')  return _getMonthAvailability(e.parameter);
     if (action === 'checkCredits')       return _getCheckCredits(e.parameter);
     if (action === 'upcomingClasses')    return _getUpcomingClasses(e.parameter);
+    if (action === 'cacheStatus')        return _getCacheStatus();
     return _err('Unknown GET action: ' + action);
   } catch (ex) {
     console.error('doGet error', ex);
@@ -245,7 +246,7 @@ function _getAvailability(params) {
   slots.sort(function(a, b) { return a.time_start.localeCompare(b.time_start); });
 
   var result = { date: date, class_type: classType, slots: slots };
-  _cacheSet(cacheKey, result, CACHE_TTL_1H);
+  _cacheSet(cacheKey, result, CACHE_TTL_4H);
   return _ok(result);
 }
 
@@ -2171,21 +2172,64 @@ function _sendFoundationReminderEmail(d, templateText) {
   );
 }
 
+// ===== CACHE STATUS DIAGNOSTIC =====
+function _getCacheStatus() {
+  var keys = [];
+  var now = new Date();
+  var m1 = now.getMonth() + 1, y1 = now.getFullYear();
+  var m2 = m1 === 12 ? 1 : m1 + 1, y2 = m1 === 12 ? y1 + 1 : y1;
+  ['dropin', 'opengym', 'trial'].forEach(function(ct) {
+    keys.push('month_' + ct + '_' + y1 + '_' + m1);
+    keys.push('month_' + ct + '_' + y2 + '_' + m2);
+  });
+  ['hyroxperformance', 'hyroxstrength', 'spartan', 'foundation'].forEach(function(ct) {
+    keys.push('upcoming_' + ct);
+  });
+  for (var d = 0; d < 7; d++) {
+    var day = new Date(now);
+    day.setDate(day.getDate() + d);
+    var ds = Utilities.formatDate(day, CONFIG.TIMEZONE, 'yyyy-MM-dd');
+    ['dropin', 'opengym', 'trial'].forEach(function(ct) {
+      keys.push('avail_' + ct + '_' + ds);
+    });
+  }
+  var cache = CacheService.getScriptCache();
+  var status = {};
+  keys.forEach(function(k) {
+    var v = cache.get(k);
+    status[k] = v ? 'HIT (' + v.length + ' bytes)' : 'MISS';
+  });
+  var triggers = ScriptApp.getProjectTriggers().map(function(t) { return t.getHandlerFunction(); });
+  status['_trigger_warmCache']                  = triggers.indexOf('_warmCache')                  >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
+  status['_trigger_sendTrialReminders']          = triggers.indexOf('_sendTrialReminders')          >= 0 ? 'EXISTS' : 'MISSING';
+  status['_trigger_sendFoundationReminders']     = triggers.indexOf('_sendFoundationReminders')     >= 0 ? 'EXISTS' : 'MISSING';
+  return _ok(status);
+}
+
 // ===== CACHE WARMING — run _setupAllTriggers() once from Apps Script IDE =====
 function _warmCache() {
   var now = new Date();
   var m1 = now.getMonth() + 1, y1 = now.getFullYear();
   var m2 = m1 === 12 ? 1 : m1 + 1, y2 = m1 === 12 ? y1 + 1 : y1;
+  // Month grid (current + next month) — no pre-delete; _cacheSet overwrites
   ['dropin', 'opengym', 'trial'].forEach(function(ct) {
-    _cacheDelete('month_' + ct + '_' + y1 + '_' + m1);
     _getMonthAvailability({ year: String(y1), month: String(m1), classType: ct });
-    _cacheDelete('month_' + ct + '_' + y2 + '_' + m2);
     _getMonthAvailability({ year: String(y2), month: String(m2), classType: ct });
   });
+  // Upcoming list (HYROX / Spartan / Foundation) — no pre-delete
   ['hyroxperformance', 'hyroxstrength', 'spartan', 'foundation'].forEach(function(ct) {
-    _cacheDelete('upcoming_' + ct);
     _getUpcomingClasses({ classType: ct, limit: '20', offset: '0' });
   });
+  // Daily availability for next 14 days (trial / dropin / opengym)
+  var _dailyTypes = ['dropin', 'opengym', 'trial'];
+  for (var _d = 0; _d < 14; _d++) {
+    var _day = new Date(now);
+    _day.setDate(_day.getDate() + _d);
+    var _dateStr = Utilities.formatDate(_day, CONFIG.TIMEZONE, 'yyyy-MM-dd');
+    _dailyTypes.forEach(function(ct) {
+      _getAvailability({ date: _dateStr, classType: ct });
+    });
+  }
 }
 
 // Run ONCE from Apps Script IDE after Phase C deploy (replaces _setupCacheTriggers)
