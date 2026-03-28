@@ -40,7 +40,9 @@ var CONFIG = {
   CLASS_NAME_EN: {
     trial:             'Trial Class',
     dropin:            'Drop In',
+    drop_in:           'Drop In',   // underscore alias
     opengym:           'Open Gym',
+    open_gym:          'Open Gym',  // underscore alias
     hyrox_performance: 'HYROX Performance',
     hyrox_strength:    'HYROX Strength',
     spartan:           'Spartan',
@@ -49,12 +51,19 @@ var CONFIG = {
   CLASS_NAME_JP: {
     trial:             '体験レッスン',
     dropin:            'ドロップイン',
+    drop_in:           'ドロップイン',            // underscore alias
     opengym:           'オープンジム',
+    open_gym:          'オープンジム',            // underscore alias
     hyrox_performance: 'ハイロックス・パフォーマンス',
     hyrox_strength:    'HYROXストレングス',
     spartan:           'スパルタントレーニング',
     foundation:        'ファウンデーションプログラム',
   },
+
+  // Wodify placeholder client IDs — assigned consecutively per time slot
+  // Fill after calling ?action=listWodifyClients to find numeric IDs
+  WODIFY_TRIAL_CLIENT_IDS:  [4525777, 4525779, 4525780, 4525781],                    // Trial 1–4
+  WODIFY_DROPIN_CLIENT_IDS: [4525783, 4525785, 5639563, 5639565, 5639569, 5639573],  // DropIn 1–6 (also opengym)
 
   // Spartan coupon codes — static, distributed to select customers
   // type: 'fixed' (JPY amount off) | 'percent' (percentage off)
@@ -159,6 +168,12 @@ function doGet(e) {
     if (action === 'checkCredits')       return _getCheckCredits(e.parameter);
     if (action === 'upcomingClasses')    return _getUpcomingClasses(e.parameter);
     if (action === 'cacheStatus')        return _getCacheStatus();
+    if (action === 'testCreateBooking')  return _testCreateBooking(e.parameter);
+    if (action === 'listWodifyClients')      return _listWodifyClients();
+    if (action === 'listWodifyClasses')      return _listWodifyClasses(e.parameter.page, e.parameter.date);
+    if (action === 'probeWodifyDateFilter')  return _probeWodifyDateFilter(e.parameter.date);
+    if (action === 'buildWodifyCache')       return _ok(_buildWodifyClassCache());
+    if (action === 'probeWodifyLeads')       return _probeWodifyLeads(e.parameter);
     return _err('Unknown GET action: ' + action);
   } catch (ex) {
     console.error('doGet error', ex);
@@ -701,16 +716,23 @@ function _postCreateBooking(body) {
     _updateBookingWodifyResult(bookingId, 'error', new Date().toISOString(), '');
   }
 
-  // ── 6c. Wodify class reservation (Trial + Drop In only) ──
-  if (class_type === 'trial' || class_type === 'dropin') {
+  // ── 6c. Wodify placeholder reservation ──
+  var _wPlaceholderIds = null;
+  var _wCtNorm = class_type.replace(/_/g, '');
+  if (_wCtNorm === 'trial')                                                                 _wPlaceholderIds = CONFIG.WODIFY_TRIAL_CLIENT_IDS;
+  else if (_wCtNorm === 'dropin' || _wCtNorm === 'opengym' || _wCtNorm === 'hyroxstrength') _wPlaceholderIds = CONFIG.WODIFY_DROPIN_CLIENT_IDS;
+
+  if (_wPlaceholderIds && _wPlaceholderIds.length > 0) {
     try {
-      var _wClientId = _findWodifyClientByEmail(email);
-      if (_wClientId) {
+      var _slotIdx        = _countSlotBookings(class_type, class_date, class_time_start) - 1;
+      var _wPlaceholderId = _wPlaceholderIds[_slotIdx];
+      if (_wPlaceholderId) {
         var _startISO = class_date + 'T' + class_time_start + ':00+09:00';
         var _wClassId = _findWodifyClassByDateTime(_startISO);
-        if (_wClassId) _reserveWodifyClass(_wClientId, _wClassId);
+        if (_wClassId) _reserveWodifyClass(_wPlaceholderId, _wClassId);
       }
-    } catch(e) { console.error('Wodify class reservation failed', e); }
+      // If undefined (slot idx >= array length), all placeholders taken — skip silently
+    } catch(e) { console.error('Wodify placeholder reservation failed', e); }
   }
 
   // ── 7. Send emails ──
@@ -1132,22 +1154,6 @@ function _postCreateBookingFoundation(body) {
       calendar_link:      calLink,
       notes:              notes,
     });
-  }
-
-  // ── 4. Wodify Lead Sync ──
-  try {
-    var _wFoundationResult = _syncWodifyLead({
-      email:       email,
-      first_name:  customer_first,
-      last_name:   customer_last,
-      phone:       phone,
-      lead_source: lead_source,
-      class_type:  class_type,
-    });
-    _updateBookingWodifyResult(bookingIds[0], _wFoundationResult.status, new Date().toISOString(), _wFoundationResult.wodify_lead_id || '');
-  } catch(ex) {
-    console.error('Wodify sync failed', ex);
-    _updateBookingWodifyResult(bookingIds[0], 'error', new Date().toISOString(), '');
   }
 
   // ── 5. Admin notification ──
@@ -1698,7 +1704,7 @@ function _checkCreditsData(email, classType) {
 
 // Log a confirmed booking to CFR Bookings sheet
 function _logBooking(d) {
-  var now = new Date().toISOString();
+  var now = Utilities.formatDate(new Date(), CONFIG.TIMEZONE, "yyyy-MM-dd'T'HH:mm:ss");
   SpreadsheetApp.openById(CONFIG.SHEETS_ID).getSheetByName('CFR Bookings').appendRow([
     d.booking_id,         // booking_id
     now,                  // created_at
@@ -1734,6 +1740,38 @@ function _logBooking(d) {
     '',                   // sync_timestamp (col 32)
     '',                   // wodify_lead_id (col 33)
   ]);
+}
+
+// Count confirmed bookings in CFR Bookings for a given slot (used to pick placeholder index)
+// Drop In and Open Gym are counted together since they share the same placeholder pool.
+// NOTE: called after _logBooking, so the current booking IS already included in the count.
+function _countSlotBookings(class_type, class_date, class_time_start) {
+  var types = (class_type === 'dropin' || class_type === 'opengym' ||
+               class_type === 'drop_in' || class_type === 'open_gym')
+    ? ['dropin', 'opengym', 'drop_in', 'open_gym']
+    : [class_type];
+  var sheet = SpreadsheetApp.openById(CONFIG.SHEETS_ID).getSheetByName('CFR Bookings');
+  var data  = sheet.getDataRange().getValues();
+  var count = 0;
+  for (var i = 1; i < data.length; i++) {
+    // Sheets auto-converts date/time strings to Date objects — normalize before comparing
+    var rawDate = data[i][6];
+    var rawTime = data[i][7];
+    var rowDate = (rawDate instanceof Date)
+      ? Utilities.formatDate(rawDate, CONFIG.TIMEZONE, 'yyyy-MM-dd')
+      : String(rawDate);
+    var rowTime = (rawTime instanceof Date)
+      ? Utilities.formatDate(rawTime, CONFIG.TIMEZONE, 'HH:mm')
+      : String(rawTime);
+
+    if (types.indexOf(String(data[i][2])) !== -1 &&  // col 3: class_type
+        rowDate === class_date                      &&  // col 7: class_date
+        rowTime === class_time_start               &&  // col 8: class_time_start
+        String(data[i][27]) === 'confirmed') {          // col 28: status
+      count++;
+    }
+  }
+  return count;
 }
 
 // Add reservation event to Calendar 2
@@ -1945,6 +1983,9 @@ function _addDays(date, days) {
 
 // Sync a new lead to Wodify. Returns { success, status, wodify_lead_id }.
 function _syncWodifyLead(d) {
+  // Foundation program does not sync to Wodify leads
+  if (d.class_type === 'foundation') return { success: true, status: 'skipped', wodify_lead_id: '' };
+
   // 1. Check for existing lead by email
   try {
     var searchRes = UrlFetchApp.fetch(
@@ -1952,8 +1993,13 @@ function _syncWodifyLead(d) {
       { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
     );
     var searchData = JSON.parse(searchRes.getContentText());
-    if (searchData && searchData.data && searchData.data.length > 0) {
-      return { success: true, status: 'exists', wodify_lead_id: String(searchData.data[0].id || '') };
+    // Wodify ignores the ?email= filter — returns all leads. Filter client-side.
+    var allHits    = searchData.data || searchData.leads || [];
+    var searchHits = allHits.filter(function(lead) {
+      return (lead.email || '').toLowerCase() === d.email.toLowerCase();
+    });
+    if (searchHits.length > 0) {
+      return { success: true, status: 'exists', wodify_lead_id: String(searchHits[0].id || '') };
     }
   } catch(e) { /* search endpoint may not be available — proceed to create */ }
 
@@ -1966,10 +2012,11 @@ function _syncWodifyLead(d) {
       email:       d.email      || '',
       phone_number: d.phone     || '',
     };
-    var srcId = CONFIG.WODIFY_SOURCE_IDS[d.lead_source];
-    var stId  = CONFIG.WODIFY_STATUS_IDS[d.class_type];
-    if (srcId) payload.lead_source_id = srcId;
-    if (stId)  payload.lead_status_id = stId;
+    // Only set lead_status_id for trial (59869) — confirmed valid from existing Wodify leads.
+    // Other status IDs (dropin 64255, hyrox 64256, spartan 64254) cause leads to be hidden
+    // in Wodify's UI and must be verified before re-enabling.
+    var stId = CONFIG.WODIFY_STATUS_IDS[d.class_type];
+    if (stId === 59869) payload.lead_status_id = stId;
 
     var res = UrlFetchApp.fetch(CONFIG.WODIFY_BASE_URL + '/leads', {
       method:      'post',
@@ -1983,9 +2030,9 @@ function _syncWodifyLead(d) {
     if (code === 200 || code === 201) {
       return { success: true, status: 'created', wodify_lead_id: String(data.id || data.lead_id || '') };
     }
-    return { success: false, status: 'error:' + code, wodify_lead_id: '' };
+    return { success: false, status: 'error:' + code, wodify_lead_id: '', response_body: data };
   } catch(e) {
-    return { success: false, status: 'error', wodify_lead_id: '' };
+    return { success: false, status: 'error', wodify_lead_id: '', response_body: e.message };
   }
 }
 
@@ -2024,36 +2071,133 @@ function _findWodifyClientByEmail(email) {
   return null;
 }
 
-// Paginated scan of GET /classes to find class_id by start_date_time
-function _findWodifyClassByDateTime(startDateTimeISO) {
-  var targetMs = new Date(startDateTimeISO).getTime();
-  var page = 1;
-  while (true) {
-    var res  = UrlFetchApp.fetch(
-      CONFIG.WODIFY_BASE_URL + '/classes?page=' + page + '&page_size=100',
+// Find Wodify class_id by start_date_time.
+// Wodify API has no date filter — classes are sorted oldest-first across ~70 pages.
+// Strategy: fetch page 1 to get total count, estimate the target page, scan ≤8 pages.
+// Binary search for the last page of Wodify classes (API has no total count)
+function _findWodifyLastPage() {
+  var lo = 1, hi = 1000;
+  while (lo < hi) {
+    var mid     = Math.ceil((lo + hi) / 2);
+    var res     = JSON.parse(UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/classes?page=' + mid + '&page_size=100',
       { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
-    );
-    var data    = JSON.parse(res.getContentText());
-    var classes = data.classes || [];
-    for (var i = 0; i < classes.length; i++) {
-      if (new Date(classes[i].start_date_time).getTime() === targetMs) return classes[i].id;
+    ).getContentText());
+    var classes = res.classes || [];
+    if (!classes.length || !res.pagination || !res.pagination.has_more) {
+      if (classes.length) return mid; // last non-empty page
+      hi = mid - 1;
+    } else {
+      lo = mid;
     }
-    if (!data.pagination || !data.pagination.has_more) break;
-    page++;
+  }
+  return lo;
+}
+
+// Build PropertiesService cache of future Wodify class IDs.
+// Classes are stored by programs in separate creation-order batches — start_date_time is NOT
+// monotonic across pages — so binary search fails. Full scan + cache is the only reliable fix.
+// Run once from Apps Script IDE: _buildWodifyClassCache()
+// Or via URL: ?action=buildWodifyCache  (may take 3–5 min; redeploy first)
+function _buildWodifyClassCache() {
+  var startTime = new Date();
+  var nowMs     = startTime.getTime();
+  var futureMs  = nowMs + 400 * 86400000; // 400 days ahead
+  var lastPage  = _findWodifyLastPage();
+  var cache     = {};
+  var count     = 0;
+  var MAX_MS    = 300000; // 5-minute safety limit — stops before 6-min GAS timeout
+
+  for (var pg = 1; pg <= lastPage; pg++) {
+    if (new Date().getTime() - nowMs > MAX_MS) {
+      // Partial result — save what we have
+      PropertiesService.getScriptProperties().setProperties({
+        'WODIFY_CLASS_CACHE':         JSON.stringify(cache),
+        'WODIFY_CLASS_CACHE_BUILT':   startTime.toISOString(),
+        'WODIFY_CLASS_CACHE_COUNT':   String(count),
+        'WODIFY_CLASS_CACHE_PARTIAL': 'stopped at page ' + pg + '/' + lastPage,
+      }, false);
+      return { entries: count, partial: true, stopped_at: pg, last_page: lastPage };
+    }
+    try {
+      var res = JSON.parse(UrlFetchApp.fetch(
+        CONFIG.WODIFY_BASE_URL + '/classes?page=' + pg + '&page_size=100',
+        { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+      ).getContentText());
+      (res.classes || []).forEach(function(c) {
+        var clsMs = new Date(c.start_date_time).getTime();
+        if (clsMs >= nowMs && clsMs <= futureMs) {
+          cache[c.start_date_time] = c.id;
+          count++;
+        }
+      });
+    } catch(e) { /* skip failed page, continue */ }
+  }
+
+  PropertiesService.getScriptProperties().setProperties({
+    'WODIFY_CLASS_CACHE':         JSON.stringify(cache),
+    'WODIFY_CLASS_CACHE_BUILT':   startTime.toISOString(),
+    'WODIFY_CLASS_CACHE_COUNT':   String(count),
+    'WODIFY_CLASS_CACHE_PARTIAL': 'false',
+  }, false);
+  return { entries: count, partial: false, last_page: lastPage };
+}
+
+function _findWodifyClassByDateTime(startDateTimeISO) {
+  // Normalise to UTC milliseconds — handles both "+09:00" and "Z" formats
+  var targetMs = new Date(startDateTimeISO).getTime();
+  if (isNaN(targetMs)) return null;
+
+  // Wodify stores start_date_time as JST naive with Z suffix (e.g. "2026-05-08T07:00:00Z" = 07:00 JST).
+  // Shift +9h before formatting so our key matches Wodify's format.
+  var pad      = function(n) { return String(n).padStart(2, '0'); };
+  var jstD     = new Date(targetMs + 9 * 3600000);
+  var key      = jstD.getUTCFullYear() + '-' + pad(jstD.getUTCMonth() + 1) + '-' + pad(jstD.getUTCDate()) +
+                 'T' + pad(jstD.getUTCHours()) + ':' + pad(jstD.getUTCMinutes()) + ':' + pad(jstD.getUTCSeconds()) + 'Z';
+
+  // Try PropertiesService cache (built by _buildWodifyClassCache / ?action=buildWodifyCache)
+  var cacheJson = PropertiesService.getScriptProperties().getProperty('WODIFY_CLASS_CACHE');
+  if (cacheJson) {
+    var cache = JSON.parse(cacheJson);
+    if (cache[key]) return cache[key];
+    // Near-match scan (±1 min) — compare in JST naive space
+    var targetNaiveMs = targetMs + 9 * 3600000;
+    var keys = Object.keys(cache);
+    for (var i = 0; i < keys.length; i++) {
+      if (Math.abs(new Date(keys[i]).getTime() - targetNaiveMs) < 60000) return cache[keys[i]];
+    }
+  }
+
+  // Cache miss — fall back to backward page scan for recently-added one-time events
+  // (recurring classes already in cache; newly added events land on last pages)
+  var lastPage = _findWodifyLastPage();
+  for (var pg = lastPage; pg >= Math.max(1, lastPage - 15); pg--) {
+    var res = JSON.parse(UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/classes?page=' + pg + '&page_size=100',
+      { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    ).getContentText());
+    var cls = res.classes || [];
+    for (var i = 0; i < cls.length; i++) {
+      if (Math.abs(new Date(cls[i].start_date_time).getTime() - targetMs) < 60000) return cls[i].id;
+    }
   }
   return null;
 }
 
 // Reserve a client into a Wodify class
+// Returns { success, code, body } for diagnostics
 function _reserveWodifyClass(clientId, classId) {
   try {
-    var res = UrlFetchApp.fetch(
+    var res  = UrlFetchApp.fetch(
       CONFIG.WODIFY_BASE_URL + '/classes/' + classId + '/clients/' + clientId + '/reserve',
       { method: 'post', headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
     );
     var code = res.getResponseCode();
-    return code === 200 || code === 201;
-  } catch(e) { return false; }
+    var body = res.getContentText();
+    return { success: code === 200 || code === 201, code: code, body: body };
+  } catch(e) {
+    return { success: false, code: 0, body: e.message };
+  }
 }
 
 // ===== PHASE C: REMINDER EMAILS =====
@@ -2172,7 +2316,315 @@ function _sendFoundationReminderEmail(d, templateText) {
   );
 }
 
+// ===== TEST BOOKING (no payment) =====
+function _testCreateBooking(params) {
+  var class_type       = params.class_type        || 'trial';
+  var class_date       = params.class_date        || Utilities.formatDate(new Date(), CONFIG.TIMEZONE, 'yyyy-MM-dd');
+  var class_time_start = params.class_time_start  || '10:00';
+  var duration         = parseInt(params.duration || '60', 10);
+  var class_time_end   = params.class_time_end    || (function() {
+    var p = class_time_start.split(':').map(Number);
+    var m = p[0] * 60 + p[1] + duration;
+    return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0');
+  })();
+  var coach            = params.coach             || '';
+  var customer_last    = params.last_name         || 'テスト';
+  var customer_first   = params.first_name        || 'ユーザー';
+  var email            = params.email             || 'test@crossfitroppongi.com';
+  var phone            = params.phone             || '09000000000';
+  var dob              = params.dob               || '1990-01-01';
+  var gender           = params.gender            || 'male';
+  var address          = params.address           || '';
+  var lead_source      = params.lead_source       || 'Other';
+  var price            = params.price             || '0';
+
+  var class_name_en = CONFIG.CLASS_NAME_EN[class_type] || class_type;
+  var class_name_jp = CONFIG.CLASS_NAME_JP[class_type] || class_type;
+  var catalog_obj   = CONFIG.CATALOG[class_type]       || '';
+
+  // Fake payment variables — skip Square entirely
+  var squareCustomerId = 'TEST';
+  var squareOrderId    = '';
+  var squarePaymentId  = 'TEST';
+  var paymentMethod    = 'test';
+  var usedCreditId     = '';
+
+  // Step 3: Generate booking ID
+  var bookingId = _generateBookingId();
+
+  // Step 4: Calendar reservation event
+  var reservationEvent = _addReservationEvent({
+    booking_id:       bookingId,
+    class_name_en:    class_name_en,
+    customer_last:    customer_last,
+    customer_first:   customer_first,
+    email:            email,
+    phone:            phone,
+    class_date:       class_date,
+    class_time_start: class_time_start,
+    class_time_end:   class_time_end,
+    class_type:       class_type,
+    duration:         duration,
+  });
+  var _colorMap = {
+    'drop_in': CalendarApp.EventColor.CYAN, 'open_gym': CalendarApp.EventColor.CYAN,
+    'hyrox_strength': CalendarApp.EventColor.CYAN, 'trial': CalendarApp.EventColor.YELLOW,
+    'spartan': CalendarApp.EventColor.BLUE, 'hyrox_performance': CalendarApp.EventColor.BLUE,
+    'foundation': CalendarApp.EventColor.TEAL,
+  };
+  var _evColor = _colorMap[class_type];
+  if (_evColor && reservationEvent) reservationEvent.setColor(_evColor);
+
+  // Step 5: Calendar quick-add link
+  var calLink = _calendarAddLink(class_name_en, class_date, class_time_start, class_time_end);
+
+  // Step 6: Log to sheet
+  _logBooking({
+    booking_id: bookingId, class_type: class_type,
+    class_name_en: class_name_en, class_name_jp: class_name_jp, coach: coach,
+    class_date: class_date, class_time_start: class_time_start, class_time_end: class_time_end,
+    duration: duration, calendar_event_id: '',
+    customer_last: customer_last, customer_first: customer_first,
+    customer_email: email, customer_phone: phone, customer_address: address,
+    customer_dob: dob, customer_gender: gender,
+    square_customer_id: squareCustomerId, square_order_id: squareOrderId,
+    square_payment_id: squarePaymentId, catalog_object_id: catalog_obj,
+    price: price, payment_method: paymentMethod,
+    used_credit: false, credit_id: usedCreditId,
+    lead_source: lead_source, status: 'confirmed',
+    calendar_link: calLink, notes: 'TEST BOOKING — DO NOT COUNT',
+  });
+
+  // Step 6b: Wodify lead sync
+  var wodifyResult = {};
+  try {
+    var _wr = _syncWodifyLead({ email: email, first_name: customer_first, last_name: customer_last,
+                                phone: phone, lead_source: lead_source, class_type: class_type });
+    _updateBookingWodifyResult(bookingId, _wr.status, new Date().toISOString(), _wr.wodify_lead_id || '');
+    wodifyResult = _wr;
+  } catch(e) {
+    wodifyResult = { success: false, error: e.message };
+    _updateBookingWodifyResult(bookingId, 'error', new Date().toISOString(), '');
+  }
+
+  // Step 6c: Wodify placeholder reservation
+  var _wPlaceholderIds = null;
+  var _wCtNorm = class_type.replace(/_/g, '');
+  if (_wCtNorm === 'trial')                                                                 _wPlaceholderIds = CONFIG.WODIFY_TRIAL_CLIENT_IDS;
+  else if (_wCtNorm === 'dropin' || _wCtNorm === 'opengym' || _wCtNorm === 'hyroxstrength') _wPlaceholderIds = CONFIG.WODIFY_DROPIN_CLIENT_IDS;
+
+  if (_wPlaceholderIds && _wPlaceholderIds.length > 0) {
+    try {
+      var _slotIdx        = _countSlotBookings(class_type, class_date, class_time_start) - 1;
+      var _wPlaceholderId = _wPlaceholderIds[_slotIdx];
+      wodifyResult.placeholder_id    = _wPlaceholderId || 'none (overflow)';
+      wodifyResult.placeholder_index = _slotIdx;
+      if (_wPlaceholderId) {
+        var _startISO = class_date + 'T' + class_time_start + ':00+09:00';
+        wodifyResult.start_iso_built  = _startISO;
+        wodifyResult.target_ms        = new Date(_startISO).getTime();
+        wodifyResult.last_page        = _findWodifyLastPage();
+        var _wClassId = _findWodifyClassByDateTime(_startISO);
+        wodifyResult.class_id = _wClassId || null;
+        if (_wClassId) {
+          var _reserveResult = _reserveWodifyClass(_wPlaceholderId, _wClassId);
+          wodifyResult.reserve_code    = _reserveResult.code;
+          wodifyResult.reserve_success = _reserveResult.success;
+          wodifyResult.reserve_body    = _reserveResult.body;
+        }
+      }
+    } catch(e) { wodifyResult.reservation_error = e.message; }
+  }
+
+  // Step 7: Emails
+  _sendBookingAdminNotification({
+    bookingId: bookingId, class_name_en: class_name_en, class_name_jp: class_name_jp,
+    class_date: class_date, class_time_start: class_time_start, coach: coach,
+    customer_last: customer_last, customer_first: customer_first,
+    email: email, phone: phone, dob: dob, gender: gender, address: address,
+    paymentMethod: paymentMethod, squareOrderId: squareOrderId, price: price,
+    notes: 'TEST BOOKING — DO NOT COUNT', pack: 'single', usedCreditId: '',
+  });
+  if (email) {
+    _sendBookingConfirmation({
+      bookingId: bookingId, class_name_en: class_name_en, class_name_jp: class_name_jp,
+      class_date: class_date, class_time_start: class_time_start, class_time_end: class_time_end,
+      duration: duration, coach: coach,
+      customer_last: customer_last, customer_first: customer_first,
+      email: email, phone: phone, paymentMethod: paymentMethod,
+      price: price, calLink: calLink, pack: 'single', newCreditId: '',
+      has_coach: coach !== '',
+    });
+  }
+
+  // Step 8: Cache invalidation
+  var _ct = class_type.toLowerCase().replace(/_/g, '');
+  var _dp = class_date.split('-');
+  _cacheDelete('avail_' + _ct + '_' + class_date);
+  _cacheDelete('upcoming_' + _ct);
+  if (_dp.length === 3) {
+    _cacheDelete('month_' + _ct + '_' + _dp[0] + '_' + parseInt(_dp[1], 10));
+    if (_ct === 'dropin' || _ct === 'opengym') {
+      _cacheDelete('avail_dropin_' + class_date); _cacheDelete('avail_opengym_' + class_date);
+      _cacheDelete('month_dropin_' + _dp[0] + '_' + parseInt(_dp[1], 10));
+      _cacheDelete('month_opengym_' + _dp[0] + '_' + parseInt(_dp[1], 10));
+    }
+  }
+
+  return _ok({
+    booking_id:    bookingId,
+    calendar_link: calLink,
+    wodify:        wodifyResult,
+    note:          'TEST BOOKING — delete row from CFR Bookings sheet and event from Calendar when done',
+  });
+}
+
 // ===== CACHE STATUS DIAGNOSTIC =====
+// Diagnostic: list all Wodify clients (paginated) — used to find placeholder client IDs
+// Usage: ?action=listWodifyClients
+function _listWodifyClients() {
+  var all = [];
+  var page = 1;
+  while (true) {
+    var res  = UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/clients?page=' + page + '&page_size=100',
+      { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    );
+    var data    = JSON.parse(res.getContentText());
+    var clients = data.clients || [];
+    for (var i = 0; i < clients.length; i++) {
+      all.push({ id: clients[i].id, name: (clients[i].first_name || '') + ' ' + (clients[i].last_name || '') });
+    }
+    if (!data.pagination || !data.pagination.has_more) break;
+    page++;
+  }
+  all.sort(function(a, b) { return a.name.localeCompare(b.name); });
+  return _ok({ count: all.length, clients: all });
+}
+
+// Diagnostic: list recent/upcoming Wodify classes — verify start_date_time format.
+// Fetches page 1 to estimate total, then reads the last 3 pages (most recent classes).
+// Usage: ?action=listWodifyClasses            — returns last 3 pages (most recent ~300 classes)
+//        ?action=listWodifyClasses&page=200   — returns that specific page
+function _listWodifyClasses(pageParam, dateParam) {
+  var all = [];
+
+  if (dateParam) {
+    // Wodify /classes API ignores all date-filter params; start_date_time is non-monotonic
+    // across pages (classes are batched by program). Use PropertiesService cache instead.
+    // Wodify keys are JST naive with Z suffix — date prefix IS the JST date, so string match is correct.
+    var cacheJson  = PropertiesService.getScriptProperties().getProperty('WODIFY_CLASS_CACHE');
+    var cacheBuilt = PropertiesService.getScriptProperties().getProperty('WODIFY_CLASS_CACHE_BUILT') || 'not built';
+    if (cacheJson) {
+      var cache = JSON.parse(cacheJson);
+      Object.keys(cache).forEach(function(k) {
+        if (k.substring(0, 10) === dateParam) {
+          all.push({ id: cache[k], start_date_time: k, program: '' });
+        }
+      });
+      all.sort(function(a, b) { return a.start_date_time > b.start_date_time ? 1 : -1; });
+      return _ok({ date: dateParam, count: all.length, classes: all, cache_built: cacheBuilt });
+    }
+    return _ok({ date: dateParam, count: 0, classes: [],
+                 error: 'Cache not built. Run ?action=buildWodifyCache (or _buildWodifyClassCache() from IDE).' });
+  }
+
+  if (pageParam) {
+    // Specific page requested — return just that page for manual probing
+    var pg   = parseInt(pageParam, 10);
+    var data = JSON.parse(UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/classes?page=' + pg + '&page_size=100',
+      { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    ).getContentText());
+    var cls = data.classes || [];
+    for (var i = 0; i < cls.length; i++) {
+      all.push({ id: cls[i].id, start_date_time: cls[i].start_date_time,
+                 program: cls[i].program_name || cls[i].program || '' });
+    }
+    return _ok({ page: pg, pagination_meta: data.pagination || {}, count: all.length, classes: all });
+  }
+
+  // No params — return last 3 pages (most recently created classes)
+  var lastPage = _findWodifyLastPage();
+  var startPg  = Math.max(1, lastPage - 2);
+  for (var p = startPg; p <= lastPage; p++) {
+    var res = JSON.parse(UrlFetchApp.fetch(
+      CONFIG.WODIFY_BASE_URL + '/classes?page=' + p + '&page_size=100',
+      { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+    ).getContentText());
+    var classes = res.classes || [];
+    for (var i = 0; i < classes.length; i++) {
+      all.push({ id: classes[i].id, start_date_time: classes[i].start_date_time,
+                 program: classes[i].program_name || classes[i].program || '' });
+    }
+  }
+  all.sort(function(a, b) { return a.start_date_time > b.start_date_time ? 1 : -1; });
+  return _ok({ last_page: lastPage, start_page: startPg, count: all.length, classes: all });
+}
+
+// Diagnostic: probe Wodify /leads — search + dry-run create to expose API response structure.
+// Usage: ?action=probeWodifyLeads&email=someone@example.com
+function _probeWodifyLeads(params) {
+  var email = params.email || '';
+  var results = {};
+
+  // 1. Search
+  var searchRes = UrlFetchApp.fetch(
+    CONFIG.WODIFY_BASE_URL + '/leads' + (email ? '?email=' + encodeURIComponent(email) : ''),
+    { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+  );
+  results.search = { code: searchRes.getResponseCode(), body: JSON.parse(searchRes.getContentText()) };
+
+  // 2. Dry-run create — shows exact error (payload, auth, duplicate, etc.)
+  if (email) {
+    var payload = {
+      location_id: CONFIG.WODIFY_LOCATION_ID,
+      first_name:  'Test',
+      last_name:   'Lead',
+      email:       email,
+    };
+    var createRes = UrlFetchApp.fetch(CONFIG.WODIFY_BASE_URL + '/leads', {
+      method: 'post', contentType: 'application/json',
+      payload: JSON.stringify(payload),
+      headers: { 'x-api-key': CONFIG.WODIFY_API_KEY },
+      muteHttpExceptions: true,
+    });
+    results.create_attempt = { code: createRes.getResponseCode(), body: JSON.parse(createRes.getContentText()) };
+  }
+
+  return _ok(results);
+}
+
+// Diagnostic: probe which date-filter parameter Wodify's /classes endpoint accepts.
+// Usage: ?action=probeWodifyDateFilter&date=2026-05-08
+function _probeWodifyDateFilter(dateStr) {
+  if (!dateStr) return _err('date parameter required (YYYY-MM-DD)');
+  var results = {};
+  var params = [
+    'start_date=' + dateStr + '&end_date=' + dateStr,
+    'date_from='  + dateStr + '&date_to='  + dateStr,
+    'date='       + dateStr,
+    'schedule_date=' + dateStr,
+  ];
+  params.forEach(function(p) {
+    try {
+      var res  = UrlFetchApp.fetch(
+        CONFIG.WODIFY_BASE_URL + '/classes?' + p + '&page_size=100',
+        { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+      );
+      var data = JSON.parse(res.getContentText());
+      results[p] = {
+        http_code: res.getResponseCode(),
+        count:     (data.classes || []).length,
+        sample:    (data.classes || []).slice(0, 3).map(function(c) {
+          return { id: c.id, start_date_time: c.start_date_time, program: c.program_name || c.program || '' };
+        }),
+      };
+    } catch(e) { results[p] = { error: e.message }; }
+  });
+  return _ok({ date_tested: dateStr, results: results });
+}
+
 function _getCacheStatus() {
   var keys = [];
   var now = new Date();
@@ -2237,12 +2689,15 @@ function _setupAllTriggers() {
   // Remove existing managed triggers
   ScriptApp.getProjectTriggers().forEach(function(t) {
     var fn = t.getHandlerFunction();
-    if (fn === '_warmCache' || fn === '_sendTrialReminders' || fn === '_sendFoundationReminders') {
+    if (fn === '_warmCache' || fn === '_sendTrialReminders' || fn === '_sendFoundationReminders' ||
+        fn === '_buildWodifyClassCache') {
       ScriptApp.deleteTrigger(t);
     }
   });
-  // Cache warm every 4 hours
+  // Calendar cache warm every 4 hours
   ScriptApp.newTrigger('_warmCache').timeBased().everyHours(4).create();
+  // Wodify class cache rebuild weekly (picks up newly-added classes)
+  ScriptApp.newTrigger('_buildWodifyClassCache').timeBased().everyWeeks(1).onWeekDay(ScriptApp.WeekDay.MONDAY).atHour(3).inTimezone(CONFIG.TIMEZONE).create();
   // Daily reminder emails at 9am JST
   ScriptApp.newTrigger('_sendTrialReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
   ScriptApp.newTrigger('_sendFoundationReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
