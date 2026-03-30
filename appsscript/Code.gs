@@ -173,6 +173,7 @@ function doGet(e) {
     if (action === 'listWodifyClasses')      return _listWodifyClasses(e.parameter.page, e.parameter.date);
     if (action === 'probeWodifyDateFilter')  return _probeWodifyDateFilter(e.parameter.date);
     if (action === 'buildWodifyCache')       return _ok(_buildWodifyClassCache());
+    if (action === 'updateWodifyCache')      return _ok(_updateWodifyClassCache());
     if (action === 'probeWodifyLeads')       return _probeWodifyLeads(e.parameter);
     return _err('Unknown GET action: ' + action);
   } catch (ex) {
@@ -2112,10 +2113,11 @@ function _buildWodifyClassCache() {
     if (new Date().getTime() - nowMs > MAX_MS) {
       // Partial result — save what we have
       PropertiesService.getScriptProperties().setProperties({
-        'WODIFY_CLASS_CACHE':         JSON.stringify(cache),
-        'WODIFY_CLASS_CACHE_BUILT':   startTime.toISOString(),
-        'WODIFY_CLASS_CACHE_COUNT':   String(count),
-        'WODIFY_CLASS_CACHE_PARTIAL': 'stopped at page ' + pg + '/' + lastPage,
+        'WODIFY_CLASS_CACHE':          JSON.stringify(cache),
+        'WODIFY_CLASS_CACHE_BUILT':    startTime.toISOString(),
+        'WODIFY_CLASS_CACHE_COUNT':    String(count),
+        'WODIFY_CLASS_CACHE_PARTIAL':  'stopped at page ' + pg + '/' + lastPage,
+        'WODIFY_CLASS_CACHE_LASTPAGE': String(lastPage),
       }, false);
       return { entries: count, partial: true, stopped_at: pg, last_page: lastPage };
     }
@@ -2135,12 +2137,72 @@ function _buildWodifyClassCache() {
   }
 
   PropertiesService.getScriptProperties().setProperties({
-    'WODIFY_CLASS_CACHE':         JSON.stringify(cache),
-    'WODIFY_CLASS_CACHE_BUILT':   startTime.toISOString(),
-    'WODIFY_CLASS_CACHE_COUNT':   String(count),
-    'WODIFY_CLASS_CACHE_PARTIAL': 'false',
+    'WODIFY_CLASS_CACHE':          JSON.stringify(cache),
+    'WODIFY_CLASS_CACHE_BUILT':    startTime.toISOString(),
+    'WODIFY_CLASS_CACHE_COUNT':    String(count),
+    'WODIFY_CLASS_CACHE_PARTIAL':  'false',
+    'WODIFY_CLASS_CACHE_LASTPAGE': String(lastPage),
   }, false);
   return { entries: count, partial: false, last_page: lastPage };
+}
+
+// Incremental daily update — only scans new pages since last build.
+// Falls back to full rebuild if cache is missing or stale (> 8 days old).
+// Returns { entries_total, new_entries, pages_scanned, full_rebuild }
+function _updateWodifyClassCache() {
+  var props     = PropertiesService.getScriptProperties();
+  var cacheJson = props.getProperty('WODIFY_CLASS_CACHE');
+  var builtStr  = props.getProperty('WODIFY_CLASS_CACHE_BUILT');
+  var savedPage = parseInt(props.getProperty('WODIFY_CLASS_CACHE_LASTPAGE') || '0', 10);
+
+  // Full rebuild if: no cache, no saved page, or cache is > 8 days old
+  var cacheAge = builtStr ? (new Date() - new Date(builtStr)) / 86400000 : 999;
+  if (!cacheJson || !savedPage || cacheAge > 8) {
+    return Object.assign(_buildWodifyClassCache(), { full_rebuild: true });
+  }
+
+  var cache    = JSON.parse(cacheJson);
+  var nowMs    = Date.now();
+  var futureMs = nowMs + 400 * 86400000;
+
+  // Prune entries that are now in the past (keep cache lean)
+  Object.keys(cache).forEach(function(k) {
+    if (new Date(k).getTime() < nowMs) delete cache[k];
+  });
+
+  // Find current last page
+  var newLastPage = _findWodifyLastPage();
+  // Scan from (savedPage - 2) to newLastPage — small overlap catches edge cases
+  var startPg  = Math.max(1, savedPage - 2);
+  var newCount = 0;
+
+  for (var pg = startPg; pg <= newLastPage; pg++) {
+    try {
+      var res = JSON.parse(UrlFetchApp.fetch(
+        CONFIG.WODIFY_BASE_URL + '/classes?page=' + pg + '&page_size=100',
+        { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+      ).getContentText());
+      (res.classes || []).forEach(function(c) {
+        var clsMs = new Date(c.start_date_time).getTime();
+        if (clsMs >= nowMs && clsMs <= futureMs) {
+          if (!cache[c.start_date_time]) newCount++;
+          cache[c.start_date_time] = c.id;
+        }
+      });
+    } catch(e) { /* skip failed page */ }
+  }
+
+  var total = Object.keys(cache).length;
+  props.setProperties({
+    'WODIFY_CLASS_CACHE':          JSON.stringify(cache),
+    'WODIFY_CLASS_CACHE_BUILT':    new Date().toISOString(),
+    'WODIFY_CLASS_CACHE_COUNT':    String(total),
+    'WODIFY_CLASS_CACHE_PARTIAL':  'false',
+    'WODIFY_CLASS_CACHE_LASTPAGE': String(newLastPage),
+  }, false);
+
+  return { entries_total: total, new_entries: newCount,
+           pages_scanned: newLastPage - startPg + 1, full_rebuild: false };
 }
 
 function _findWodifyClassByDateTime(startDateTimeISO) {
@@ -2696,8 +2758,8 @@ function _setupAllTriggers() {
   });
   // Calendar cache warm every 4 hours
   ScriptApp.newTrigger('_warmCache').timeBased().everyHours(4).create();
-  // Wodify class cache rebuild weekly (picks up newly-added classes)
-  ScriptApp.newTrigger('_buildWodifyClassCache').timeBased().everyWeeks(1).onWeekDay(ScriptApp.WeekDay.MONDAY).atHour(3).inTimezone(CONFIG.TIMEZONE).create();
+  // Wodify class cache — daily incremental update (falls back to full rebuild if stale)
+  ScriptApp.newTrigger('_updateWodifyClassCache').timeBased().everyDays(1).atHour(3).inTimezone(CONFIG.TIMEZONE).create();
   // Daily reminder emails at 9am JST
   ScriptApp.newTrigger('_sendTrialReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
   ScriptApp.newTrigger('_sendFoundationReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
