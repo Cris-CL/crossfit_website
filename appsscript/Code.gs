@@ -5,9 +5,7 @@
 // ===== CONFIGURATION =====
 var CONFIG = {
   SHEETS_ID:             '1pNDApfzNDPUx36DuNScxI0kDIRF1NaEgcUrZi4n8Pac',
-  CALENDAR_SCHEDULE:     'c_96a7c8918d366b36d5a653ea46c7bb3478e719c18a158885a2ac243e8887728b@group.calendar.google.com',
   CALENDAR_RESERVATIONS: 'c_8fc3731011a121e80791665e359fb142546cb215d525aae1efd4bce6e4f18817@group.calendar.google.com',
-  CALENDAR_COACH:        'c_4306417408765080b49aa9ddd792458f466902b96fa0909191653e7929c9cb6d@group.calendar.google.com',
   SQUARE_ACCESS_TOKEN:   'EAAAl98tcIYj7_5oe1886v1g_cOnulHBGvS37wkFrqmQzz-XsApACyKgmFV8iVKR',
   SQUARE_LOCATION_ID:    '8Z8S2HH0WHBKM',
   SQUARE_BASE_URL:       'https://connect.squareup.com/v2',
@@ -25,18 +23,7 @@ var CONFIG = {
     foundation:        'SPR3UEYCK6PRWKFIZQE3BAI2',
   },
 
-  // Default capacity per class type (overridden by calendar event description MAX_CAPACITY)
-  CAPACITY: {
-    trial:             3,
-    dropin:            6,
-    opengym:           6,
-    hyrox_performance: 15,
-    hyrox_strength:    16,
-    spartan:           23,
-    foundation:        3,
-  },
-
-  // Class labels (fallback if LANG_EN not in event description)
+  // Class labels
   CLASS_NAME_EN: {
     trial:             'Trial Class',
     dropin:            'Drop In',
@@ -112,6 +99,39 @@ var CONFIG = {
     spartan:           64254, // "Spartan"
     foundation:        59869, // "Trial" (closest match — update if a Foundation status is added)
   },
+
+  // Wodify program_name → website class_type mapping (single source of truth for schedule)
+  // Keys must match exact Wodify program_name strings from GET /classes API
+  // Values are ARRAYS — one Wodify program can emit multiple website class types
+  // (e.g., CrossFit emits both dropin + trial slots from the same physical class)
+  WODIFY_CLASS_MAP: {
+    'CrossFit': [
+      { class_type: 'dropin',  capacity: 6,  price: 4950,  has_coach: true,  coach: 'Roppongi Staff' },
+      { class_type: 'trial',   capacity: 3,  price: 3300,  has_coach: true,  coach: 'Roppongi Staff' },
+    ],
+    'Open Gym': [
+      { class_type: 'opengym', capacity: 6,  price: 4950,  has_coach: false, coach: '' },
+      { class_type: 'trial',   capacity: 3,  price: 3300,  has_coach: true,  coach: 'Roppongi Staff' },
+    ],
+    'HYROX Performance': [{ class_type: 'hyrox_performance', capacity: 15, price: 4950,  has_coach: true,  coach: 'Marc Keen' }],
+    'HYROX Strength':    [{ class_type: 'hyrox_strength',    capacity: 16, price: 4950,  has_coach: false, coach: 'Roppongi Staff' }],
+    'Spartan':        [{ class_type: 'spartan',           capacity: 23, price: 4400,  has_coach: true,  coach: 'Marc Keen' }],
+    'Foundation':     [{ class_type: 'foundation',        capacity: 3,  price: 18500, has_coach: false, coach: '' }],
+  },
+
+  // Minimum hours before class start that a booking is allowed
+  BOOKING_CUTOFF_HOURS: {
+    trial:             12,
+    dropin:            4,
+    opengym:           4,
+    hyrox_performance: 4,
+    hyrox_strength:    4,
+    spartan:           4,
+    foundation:        4,
+  },
+
+  // Centralized JST offset — used for cutoff calculations
+  JST_OFFSET: '+09:00',
 };
 
 // ===== CACHE HELPERS =====
@@ -128,29 +148,6 @@ function _cacheDelete(key) {
   try { CacheService.getScriptCache().remove(key); } catch(e) {}
 }
 
-// ===== COACH HELPERS =====
-function _getCoachForSlot(coachEvents, slotStart) {
-  var slotT = slotStart.getTime();
-  var matches = coachEvents.filter(function(ev) {
-    return ev.getStartTime().getTime() <= slotT && slotT < ev.getEndTime().getTime();
-  });
-  if (matches.length === 0) return 'Roppongi Staff';
-  if (matches.length === 1) return matches[0].getTitle().trim() || 'Roppongi Staff';
-  var exact = matches.filter(function(ev) { return ev.getStartTime().getTime() === slotT; });
-  if (exact.length === 1) return exact[0].getTitle().trim() || 'Roppongi Staff';
-  matches.sort(function(a, b) { return b.getStartTime().getTime() - a.getStartTime().getTime(); });
-  var latestStart = matches[0].getStartTime().getTime();
-  var latestMatches = matches.filter(function(ev) { return ev.getStartTime().getTime() === latestStart; });
-  if (latestMatches.length === 1) return latestMatches[0].getTitle().trim() || 'Roppongi Staff';
-  return 'Roppongi Staff';
-}
-
-function _resolveCoach(desc, hasCoach, coachEvents, slotStart) {
-  var descCoach = (desc['COACH'] || '').trim();
-  if (!hasCoach) return descCoach || 'Roppongi Staff';
-  if (descCoach && descCoach !== 'Roppongi Staff') return descCoach;
-  return _getCoachForSlot(coachEvents, slotStart);
-}
 
 // ===== RESPONSE HELPERS =====
 function _json(data) {
@@ -174,6 +171,7 @@ function doGet(e) {
     if (action === 'probeWodifyDateFilter')  return _probeWodifyDateFilter(e.parameter.date);
     if (action === 'buildWodifyCache')       return _ok(_buildWodifyClassCache());
     if (action === 'updateWodifyCache')      return _ok(_updateWodifyClassCache());
+    if (action === 'enrichTrialCache')      return _ok(_enrichWodifyTrialCache());
     if (action === 'probeWodifyLeads')       return _probeWodifyLeads(e.parameter);
     return _err('Unknown GET action: ' + action);
   } catch (ex) {
@@ -199,70 +197,139 @@ function doPost(e) {
   }
 }
 
+// ===== WODIFY SCHEDULE HELPERS =====
+
+// Read class schedule from Wodify PropertiesService cache for a single date.
+// WODIFY_CLASS_MAP values are arrays — one Wodify class can emit multiple website slots
+// (e.g., a CrossFit class emits both dropin + trial slots).
+// Trial slots are gated by trial_available in the cache entry.
+// Booking cutoffs filter out classes too close to start time.
+// Returns array of slot objects (without booking counts — caller adds those).
+function _getWodifySchedule(dateStr, classTypeFilter) {
+  var cacheJson = PropertiesService.getScriptProperties().getProperty('WODIFY_CLASS_CACHE');
+  if (!cacheJson) return [];
+  var cache = JSON.parse(cacheJson);
+  var slots = [];
+  var nowMs = Date.now();
+
+  Object.keys(cache).forEach(function(key) {
+    if (key.substring(0, 10) !== dateStr) return;
+    var entry = cache[key];
+    if (typeof entry !== 'object' || !entry.program) return; // skip legacy bare IDs
+    var entryId = entry.id;
+    var program = entry.program;
+    var mapEntries = CONFIG.WODIFY_CLASS_MAP[program];
+    if (!mapEntries) return; // unknown/ignored program — skip
+
+    var timeStart = key.substring(11, 16); // "HH:MM"
+    var timeEnd = '', duration = 60;
+    if (entry.end_time) {
+      timeEnd = entry.end_time.substring(11, 16);
+      var s = parseInt(timeStart.substring(0, 2), 10) * 60 + parseInt(timeStart.substring(3, 5), 10);
+      var e = parseInt(timeEnd.substring(0, 2), 10) * 60 + parseInt(timeEnd.substring(3, 5), 10);
+      duration = (e - s > 0) ? (e - s) : 60;
+    }
+
+    // Compute hours until class start (JST)
+    var classStartMs = new Date(dateStr + 'T' + timeStart + ':00' + CONFIG.JST_OFFSET).getTime();
+    var hoursUntil   = (classStartMs - nowMs) / 3600000;
+
+    mapEntries.forEach(function(map) {
+      var ct = map.class_type;
+
+      // classTypeFilter match
+      if (classTypeFilter && ct.replace(/_/g, '') !== classTypeFilter.replace(/_/g, '')) return;
+
+      // Trial gating: only emit if Wodify says trial is available for this class
+      if (ct === 'trial' && entry.trial_available !== true) return;
+
+      // Booking cutoff
+      var cutoff = CONFIG.BOOKING_CUTOFF_HOURS[ct] || 4;
+      if (hoursUntil < cutoff) return;
+
+      slots.push({
+        event_id:          entryId,
+        class_type:        ct,
+        class_name_en:     CONFIG.CLASS_NAME_EN[ct] || program,
+        class_name_jp:     CONFIG.CLASS_NAME_JP[ct] || program,
+        coach:             map.coach,  // no fallback — '' means no coach (Open Gym)
+        has_coach:         map.has_coach,
+        time_start:        timeStart,
+        time_end:          timeEnd,
+        start_iso:         dateStr + 'T' + timeStart + ':00',
+        end_iso:           timeEnd ? (dateStr + 'T' + timeEnd + ':00') : '',
+        duration:          duration,
+        capacity:          map.capacity,
+        catalog_object_id: CONFIG.CATALOG[ct] || '',
+        price:             map.price,
+      });
+    });
+  });
+  slots.sort(function(a, b) { return a.time_start.localeCompare(b.time_start); });
+  return slots;
+}
+
+// Read CFR Bookings sheet once, return booking count map { "type|date|time": count }.
+// Dropin/opengym are grouped together since they share capacity.
+function _buildBookingCountMap() {
+  var sheet = SpreadsheetApp.openById(CONFIG.SHEETS_ID).getSheetByName('CFR Bookings');
+  var data = sheet.getDataRange().getValues();
+  var map = {};
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][27]) !== 'confirmed') continue;
+    var rowType = String(data[i][2]);
+    var rawDate = data[i][6], rawTime = data[i][7];
+    var rowDate = (rawDate instanceof Date)
+      ? Utilities.formatDate(rawDate, CONFIG.TIMEZONE, 'yyyy-MM-dd') : String(rawDate);
+    var rowTime = (rawTime instanceof Date)
+      ? Utilities.formatDate(rawTime, CONFIG.TIMEZONE, 'HH:mm') : String(rawTime);
+    var normType = (rowType === 'dropin' || rowType === 'opengym' ||
+                    rowType === 'drop_in' || rowType === 'open_gym')
+      ? 'dropin_group' : rowType;
+    var key = normType + '|' + rowDate + '|' + rowTime;
+    map[key] = (map[key] || 0) + 1;
+  }
+  return map;
+}
+
+// Look up booked count from pre-built map
+function _getBookedCount(countMap, classType, date, timeStart) {
+  var norm = (classType === 'dropin' || classType === 'opengym' ||
+              classType === 'drop_in' || classType === 'open_gym')
+    ? 'dropin_group' : classType;
+  return countMap[norm + '|' + date + '|' + timeStart] || 0;
+}
+
 // ===== GET: AVAILABILITY =====
 // ?action=availability&date=YYYY-MM-DD&classType=dropin
+// Reads schedule from Wodify PropertiesService cache, booking counts from CFR Bookings sheet.
+// Same-day requests bypass CacheService — cutoffs need current Date.now().
 function _getAvailability(params) {
   var date      = params.date;
   var classType = (params.classType || '').toLowerCase().replace(/_/g, '');
   if (!date) return _err('date parameter required (YYYY-MM-DD)');
 
-  var cacheKey = 'avail_' + classType + '_' + date;
-  var cached   = _cacheGet(cacheKey);
-  if (cached)  return _ok(cached);
+  // Today's availability is always fresh — cutoffs need current Date.now()
+  var todayStr = Utilities.formatDate(new Date(), CONFIG.TIMEZONE, 'yyyy-MM-dd');
+  var isToday  = (date === todayStr);
 
-  var parts = date.split('-').map(Number);
-  var start = new Date(parts[0], parts[1] - 1, parts[2], 0,  0,  0);
-  var end   = new Date(parts[0], parts[1] - 1, parts[2], 23, 59, 59);
+  if (!isToday) {
+    var cacheKey = 'avail_' + classType + '_' + date;
+    var cached   = _cacheGet(cacheKey);
+    if (cached)  return _ok(cached);
+  }
 
-  var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
-  var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
-  var coachCal       = CalendarApp.getCalendarById(CONFIG.CALENDAR_COACH);
-  var classEvents    = scheduleCal.getEvents(start, end);
-  var allReservations = reservationCal.getEvents(start, end);
-  var allCoachEvents  = coachCal.getEvents(start, end);
+  var rawSlots = _getWodifySchedule(date, classType);
+  var countMap = _buildBookingCountMap();
 
-  var slots = [];
-  classEvents.forEach(function(event) {
-    var desc        = _parseEventDescription(event.getDescription());
-    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
-
-    if (classType && evClassType !== classType) return;
-
-    var slotStart = event.getStartTime();
-    var slotEnd   = event.getEndTime();
-    var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
-    var slotT     = slotStart.getTime();
-    var hasCoach  = desc['HAS_COACH'] !== 'false';
-    var booked    = allReservations.filter(function(r) {
-      return Math.abs(r.getStartTime().getTime() - slotT) < 60000;
-    }).length;
-    var available = Math.max(0, capacity - booked);
-    var duration  = parseInt(desc['DURATION'], 10) || 60;
-
-    slots.push({
-      event_id:          event.getId(),
-      class_type:        evClassType,
-      class_name_en:     desc['LANG_EN']    || CONFIG.CLASS_NAME_EN[evClassType] || event.getTitle(),
-      class_name_jp:     desc['LANG_JP']    || CONFIG.CLASS_NAME_JP[evClassType] || event.getTitle(),
-      coach:             _resolveCoach(desc, hasCoach, allCoachEvents, slotStart),
-      has_coach:         hasCoach,
-      time_start:        Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'HH:mm'),
-      time_end:          Utilities.formatDate(slotEnd,   CONFIG.TIMEZONE, 'HH:mm'),
-      start_iso:         Utilities.formatDate(slotStart, CONFIG.TIMEZONE, "yyyy-MM-dd'T'HH:mm:ss"),
-      end_iso:           Utilities.formatDate(slotEnd,   CONFIG.TIMEZONE, "yyyy-MM-dd'T'HH:mm:ss"),
-      duration:          duration,
-      capacity:          capacity,
-      booked:            booked,
-      available:         available,
-      catalog_object_id: desc['CATALOG_ID'] || CONFIG.CATALOG[evClassType] || '',
-      price:             parseInt(desc['PRICE'], 10) || 0,
-    });
+  var slots = rawSlots.map(function(s) {
+    var booked    = _getBookedCount(countMap, s.class_type, date, s.time_start);
+    var available = Math.max(0, s.capacity - booked);
+    return Object.assign({}, s, { booked: booked, available: available });
   });
 
-  slots.sort(function(a, b) { return a.time_start.localeCompare(b.time_start); });
-
   var result = { date: date, class_type: classType, slots: slots };
-  _cacheSet(cacheKey, result, CACHE_TTL_4H);
+  if (!isToday) _cacheSet('avail_' + classType + '_' + date, result, CACHE_TTL_4H);
   return _ok(result);
 }
 
@@ -278,35 +345,23 @@ function _getMonthAvailability(params) {
   var cached   = _cacheGet(cacheKey);
   if (cached)  return _ok(cached);
 
-  var start = new Date(year, month - 1, 1,  0,  0,  0);
-  var end   = new Date(year, month,     0, 23, 59, 59); // last day of month
+  var countMap = _buildBookingCountMap();
+  var dateMap  = {};
+  var lastDay  = new Date(year, month, 0).getDate();
 
-  var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
-  var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
-  var events         = scheduleCal.getEvents(start, end);
-  var allReservations = reservationCal.getEvents(start, end);
-
-  var dateMap = {};
-  events.forEach(function(ev) {
-    var desc        = _parseEventDescription(ev.getDescription());
-    var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
-    if (classType && evClassType !== classType) return;
-
-    var slotStart = ev.getStartTime();
-    var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
-    var slotT     = slotStart.getTime();
-    var booked    = allReservations.filter(function(r) {
-      return Math.abs(r.getStartTime().getTime() - slotT) < 60000;
-    }).length;
-    var available = Math.max(0, capacity - booked);
-
-    var d = Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'yyyy-MM-dd');
-    if (!dateMap[d]) dateMap[d] = { has_availability: false, slots: 0 };
-    if (available > 0) {
-      dateMap[d].has_availability = true;
-      dateMap[d].slots += available;
-    }
-  });
+  for (var d = 1; d <= lastDay; d++) {
+    var ds = year + '-' + String(month).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    var daySlots = _getWodifySchedule(ds, classType);
+    daySlots.forEach(function(s) {
+      var booked    = _getBookedCount(countMap, s.class_type, ds, s.time_start);
+      var available = Math.max(0, s.capacity - booked);
+      if (!dateMap[ds]) dateMap[ds] = { has_availability: false, slots: 0 };
+      if (available > 0) {
+        dateMap[ds].has_availability = true;
+        dateMap[ds].slots += available;
+      }
+    });
+  }
 
   var result = { year: year, month: month, class_type: classType, dates: dateMap };
   _cacheSet(cacheKey, result, CACHE_TTL_4H);
@@ -324,57 +379,29 @@ function _getUpcomingClasses(params) {
   var cacheKey = 'upcoming_' + classType;
   var cached   = _cacheGet(cacheKey);
   var allSlots;
+
   if (cached) {
     allSlots = cached;
   } else {
-    var now    = new Date();
-    var toDate = new Date(now);
-    toDate.setDate(toDate.getDate() + 90); // 3 months ahead
-
-    var scheduleCal    = CalendarApp.getCalendarById(CONFIG.CALENDAR_SCHEDULE);
-    var reservationCal = CalendarApp.getCalendarById(CONFIG.CALENDAR_RESERVATIONS);
-    var coachCal       = CalendarApp.getCalendarById(CONFIG.CALENDAR_COACH);
-    var events         = scheduleCal.getEvents(now, toDate);
-    var allReservations = reservationCal.getEvents(now, toDate);
-    var allCoachEvents  = coachCal.getEvents(now, toDate);
-
-    allSlots = [];
+    var countMap = _buildBookingCountMap();
     var dayNames = ['日', '月', '火', '水', '木', '金', '土'];
-    events.forEach(function(ev) {
-      var desc        = _parseEventDescription(ev.getDescription());
-      var evClassType = (desc['CLASS_TYPE'] || '').toLowerCase().replace(/_/g, '');
-      if (evClassType !== classType) return;
+    allSlots = [];
 
-      var slotStart = ev.getStartTime();
-      var slotEnd   = ev.getEndTime();
-      var capacity  = parseInt(desc['MAX_CAPACITY'], 10) || CONFIG.CAPACITY[evClassType] || 6;
-      var slotT     = slotStart.getTime();
-      var hasCoach  = desc['HAS_COACH'] !== 'false';
-      var booked    = allReservations.filter(function(r) {
-        return Math.abs(r.getStartTime().getTime() - slotT) < 60000;
-      }).length;
-      var available = Math.max(0, capacity - booked);
-      var duration  = parseInt(desc['DURATION'], 10) || 60;
+    for (var d = 0; d < 90; d++) {
+      var day = new Date();
+      day.setDate(day.getDate() + d);
+      var ds = Utilities.formatDate(day, CONFIG.TIMEZONE, 'yyyy-MM-dd');
+      var daySlots = _getWodifySchedule(ds, classType);
 
-      allSlots.push({
-        event_id:          ev.getId(),
-        date:              Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'yyyy-MM-dd'),
-        day_of_week:       dayNames[slotStart.getDay()],
-        time_start:        Utilities.formatDate(slotStart, CONFIG.TIMEZONE, 'HH:mm'),
-        time_end:          Utilities.formatDate(slotEnd,   CONFIG.TIMEZONE, 'HH:mm'),
-        duration:          duration,
-        coach:             _resolveCoach(desc, hasCoach, allCoachEvents, slotStart),
-        has_coach:         hasCoach,
-        capacity:          capacity,
-        booked:            booked,
-        available:         available,
-        class_type:        evClassType,
-        class_name_en:     desc['LANG_EN']    || CONFIG.CLASS_NAME_EN[evClassType] || '',
-        class_name_jp:     desc['LANG_JP']    || CONFIG.CLASS_NAME_JP[evClassType] || '',
-        catalog_object_id: desc['CATALOG_ID'] || CONFIG.CATALOG[evClassType]       || '',
-        price:             parseInt(desc['PRICE'], 10) || 0,
+      daySlots.forEach(function(s) {
+        var booked    = _getBookedCount(countMap, s.class_type, ds, s.time_start);
+        var available = Math.max(0, s.capacity - booked);
+        allSlots.push(Object.assign({}, s, {
+          date: ds, day_of_week: dayNames[day.getDay()],
+          booked: booked, available: available,
+        }));
       });
-    });
+    }
 
     allSlots.sort(function(a, b) {
       return a.date.localeCompare(b.date) || a.time_start.localeCompare(b.time_start);
@@ -384,7 +411,6 @@ function _getUpcomingClasses(params) {
 
   var paged   = allSlots.slice(offset, offset + limit);
   var hasMore = (offset + limit) < allSlots.length;
-
   return _ok({ slots: paged, total: allSlots.length, has_more: hasMore, offset: offset, limit: limit });
 }
 
@@ -658,8 +684,8 @@ function _postCreateBooking(body) {
 
   // ── 4a. Set reservation event color by class type ──
   var _colorMap = {
-    'drop_in':           CalendarApp.EventColor.CYAN,
-    'open_gym':          CalendarApp.EventColor.CYAN,
+    'dropin':            CalendarApp.EventColor.CYAN,
+    'opengym':           CalendarApp.EventColor.CYAN,
     'hyrox_strength':    CalendarApp.EventColor.CYAN,
     'trial':             CalendarApp.EventColor.YELLOW,
     'spartan':           CalendarApp.EventColor.BLUE,
@@ -728,7 +754,7 @@ function _postCreateBooking(body) {
       var _slotIdx        = _countSlotBookings(class_type, class_date, class_time_start) - 1;
       var _wPlaceholderId = _wPlaceholderIds[_slotIdx];
       if (_wPlaceholderId) {
-        var _startISO = class_date + 'T' + class_time_start + ':00+09:00';
+        var _startISO = class_date + 'T' + class_time_start + ':00' + CONFIG.JST_OFFSET;
         var _wClassId = _findWodifyClassByDateTime(_startISO);
         if (_wClassId) _reserveWodifyClass(_wPlaceholderId, _wClassId);
       }
@@ -1510,20 +1536,6 @@ function _postSubmitCareerForm(body) {
 
 // ===== BOOKING HELPERS =====
 
-// Parse Google Calendar event description into key-value map
-function _parseEventDescription(description) {
-  var result = {};
-  if (!description) return result;
-  description.split('\n').forEach(function(line) {
-    var idx = line.indexOf(':');
-    if (idx < 0) return;
-    var key = line.substring(0, idx).trim().toUpperCase();
-    var val = line.substring(idx + 1).trim();
-    if (key) result[key] = val;
-  });
-  return result;
-}
-
 // Generate sequential booking ID: CFR-YYYY-NNNNN
 function _generateBookingId() {
   var year  = new Date().getFullYear();
@@ -2122,14 +2134,24 @@ function _buildWodifyClassCache() {
       return { entries: count, partial: true, stopped_at: pg, last_page: lastPage };
     }
     try {
-      var res = JSON.parse(UrlFetchApp.fetch(
+      var resp = UrlFetchApp.fetch(
         CONFIG.WODIFY_BASE_URL + '/classes?page=' + pg + '&page_size=100',
         { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
-      ).getContentText());
+      );
+      if (resp.getResponseCode() !== 200) continue;
+      var res = JSON.parse(resp.getContentText());
       (res.classes || []).forEach(function(c) {
         var clsMs = new Date(c.start_date_time).getTime();
         if (clsMs >= nowMs && clsMs <= futureMs) {
-          cache[c.start_date_time] = c.id;
+          cache[c.start_date_time] = {
+            id:              c.id,
+            program:         c.program_name || c.program || '',
+            end_time:        c.end_date_time || '',
+            trial_available: (c.has_free_trial_limit !== undefined)
+              ? ((c.is_free_trial_online === undefined || c.is_free_trial_online === true)
+                  && !c.is_free_trial_full && c.free_trial_limit > 0)
+              : null,
+          };
           count++;
         }
       });
@@ -2178,15 +2200,25 @@ function _updateWodifyClassCache() {
 
   for (var pg = startPg; pg <= newLastPage; pg++) {
     try {
-      var res = JSON.parse(UrlFetchApp.fetch(
+      var resp = UrlFetchApp.fetch(
         CONFIG.WODIFY_BASE_URL + '/classes?page=' + pg + '&page_size=100',
         { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
-      ).getContentText());
+      );
+      if (resp.getResponseCode() !== 200) continue;
+      var res = JSON.parse(resp.getContentText());
       (res.classes || []).forEach(function(c) {
         var clsMs = new Date(c.start_date_time).getTime();
         if (clsMs >= nowMs && clsMs <= futureMs) {
           if (!cache[c.start_date_time]) newCount++;
-          cache[c.start_date_time] = c.id;
+          cache[c.start_date_time] = {
+            id:              c.id,
+            program:         c.program_name || c.program || '',
+            end_time:        c.end_date_time || '',
+            trial_available: (c.has_free_trial_limit !== undefined)
+              ? ((c.is_free_trial_online === undefined || c.is_free_trial_online === true)
+                  && !c.is_free_trial_full && c.free_trial_limit > 0)
+              : null,
+          };
         }
       });
     } catch(e) { /* skip failed page */ }
@@ -2205,6 +2237,43 @@ function _updateWodifyClassCache() {
            pages_scanned: newLastPage - startPg + 1, full_rebuild: false };
 }
 
+// Enrich trial availability from GET /classes/{id} detail endpoint.
+// Re-fetches ALL CrossFit/Open Gym classes in next 14 days every run,
+// so staff changes to free_trial settings propagate by next morning.
+// Run daily at 3:30am (after _updateWodifyClassCache at 3am).
+function _enrichWodifyTrialCache() {
+  var props = PropertiesService.getScriptProperties();
+  var cacheJson = props.getProperty('WODIFY_CLASS_CACHE');
+  if (!cacheJson) return { enriched: 0 };
+  var cache = JSON.parse(cacheJson);
+  var nowMs = Date.now(), horizonMs = nowMs + 14 * 86400000;
+  var trialPrograms = ['CrossFit', 'Open Gym'];
+  var enriched = 0;
+
+  Object.keys(cache).forEach(function(key) {
+    var entry = cache[key];
+    if (typeof entry !== 'object' || !entry.program) return;
+    if (new Date(key).getTime() < nowMs || new Date(key).getTime() > horizonMs) return;
+    if (trialPrograms.indexOf(entry.program) === -1) return;
+
+    try {
+      var resp = UrlFetchApp.fetch(
+        CONFIG.WODIFY_BASE_URL + '/classes/' + entry.id,
+        { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+      );
+      if (resp.getResponseCode() !== 200) return;
+      var detail = JSON.parse(resp.getContentText());
+      entry.trial_available = detail.is_free_trial_online === true
+        && !detail.is_free_trial_full
+        && detail.free_trial_limit > 0;
+      enriched++;
+    } catch(e) { /* retry next run */ }
+  });
+
+  props.setProperty('WODIFY_CLASS_CACHE', JSON.stringify(cache));
+  return { enriched: enriched };
+}
+
 function _findWodifyClassByDateTime(startDateTimeISO) {
   // Normalise to UTC milliseconds — handles both "+09:00" and "Z" formats
   var targetMs = new Date(startDateTimeISO).getTime();
@@ -2221,12 +2290,19 @@ function _findWodifyClassByDateTime(startDateTimeISO) {
   var cacheJson = PropertiesService.getScriptProperties().getProperty('WODIFY_CLASS_CACHE');
   if (cacheJson) {
     var cache = JSON.parse(cacheJson);
-    if (cache[key]) return cache[key];
+    // Cache values are enriched objects { id, program, end_time, trial_available } — extract .id only
+    if (cache[key]) {
+      var val = cache[key];
+      return (typeof val === 'object') ? val.id : val;
+    }
     // Near-match scan (±1 min) — compare in JST naive space
     var targetNaiveMs = targetMs + 9 * 3600000;
     var keys = Object.keys(cache);
     for (var i = 0; i < keys.length; i++) {
-      if (Math.abs(new Date(keys[i]).getTime() - targetNaiveMs) < 60000) return cache[keys[i]];
+      if (Math.abs(new Date(keys[i]).getTime() - targetNaiveMs) < 60000) {
+        var nearVal = cache[keys[i]];
+        return (typeof nearVal === 'object') ? nearVal.id : nearVal;
+      }
     }
   }
 
@@ -2482,7 +2558,7 @@ function _testCreateBooking(params) {
       wodifyResult.placeholder_id    = _wPlaceholderId || 'none (overflow)';
       wodifyResult.placeholder_index = _slotIdx;
       if (_wPlaceholderId) {
-        var _startISO = class_date + 'T' + class_time_start + ':00+09:00';
+        var _startISO = class_date + 'T' + class_time_start + ':00' + CONFIG.JST_OFFSET;
         wodifyResult.start_iso_built  = _startISO;
         wodifyResult.target_ms        = new Date(_startISO).getTime();
         wodifyResult.last_page        = _findWodifyLastPage();
@@ -2581,7 +2657,8 @@ function _listWodifyClasses(pageParam, dateParam) {
       var cache = JSON.parse(cacheJson);
       Object.keys(cache).forEach(function(k) {
         if (k.substring(0, 10) === dateParam) {
-          all.push({ id: cache[k], start_date_time: k, program: '' });
+          var val = cache[k];
+          all.push({ id: val.id || val, start_date_time: k, program: val.program || '' });
         }
       });
       all.sort(function(a, b) { return a.start_date_time > b.start_date_time ? 1 : -1; });
@@ -2715,6 +2792,8 @@ function _getCacheStatus() {
   });
   var triggers = ScriptApp.getProjectTriggers().map(function(t) { return t.getHandlerFunction(); });
   status['_trigger_warmCache']                  = triggers.indexOf('_warmCache')                  >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
+  status['_trigger_updateWodifyClassCache']      = triggers.indexOf('_updateWodifyClassCache')      >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
+  status['_trigger_enrichWodifyTrialCache']      = triggers.indexOf('_enrichWodifyTrialCache')      >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
   status['_trigger_sendTrialReminders']          = triggers.indexOf('_sendTrialReminders')          >= 0 ? 'EXISTS' : 'MISSING';
   status['_trigger_sendFoundationReminders']     = triggers.indexOf('_sendFoundationReminders')     >= 0 ? 'EXISTS' : 'MISSING';
   return _ok(status);
@@ -2735,8 +2814,10 @@ function _warmCache() {
     _getUpcomingClasses({ classType: ct, limit: '20', offset: '0' });
   });
   // Daily availability for next 14 days (trial / dropin / opengym)
+  // Skip today (_d starts at 1) — same-day availability is always computed fresh
+  // so booking cutoffs are evaluated with current Date.now()
   var _dailyTypes = ['dropin', 'opengym', 'trial'];
-  for (var _d = 0; _d < 14; _d++) {
+  for (var _d = 1; _d < 14; _d++) {
     var _day = new Date(now);
     _day.setDate(_day.getDate() + _d);
     var _dateStr = Utilities.formatDate(_day, CONFIG.TIMEZONE, 'yyyy-MM-dd');
@@ -2752,14 +2833,16 @@ function _setupAllTriggers() {
   ScriptApp.getProjectTriggers().forEach(function(t) {
     var fn = t.getHandlerFunction();
     if (fn === '_warmCache' || fn === '_sendTrialReminders' || fn === '_sendFoundationReminders' ||
-        fn === '_buildWodifyClassCache') {
+        fn === '_buildWodifyClassCache' || fn === '_updateWodifyClassCache' || fn === '_enrichWodifyTrialCache') {
       ScriptApp.deleteTrigger(t);
     }
   });
-  // Calendar cache warm every 4 hours
+  // Availability cache warm every 4 hours (skips same-day — always computed fresh)
   ScriptApp.newTrigger('_warmCache').timeBased().everyHours(4).create();
-  // Wodify class cache — daily incremental update (falls back to full rebuild if stale)
+  // Wodify class cache — daily incremental update at 3:00am JST
   ScriptApp.newTrigger('_updateWodifyClassCache').timeBased().everyDays(1).atHour(3).inTimezone(CONFIG.TIMEZONE).create();
+  // Wodify trial enrichment — daily at 3:30am JST (after class cache update)
+  ScriptApp.newTrigger('_enrichWodifyTrialCache').timeBased().everyDays(1).atHour(3).nearMinute(30).inTimezone(CONFIG.TIMEZONE).create();
   // Daily reminder emails at 9am JST
   ScriptApp.newTrigger('_sendTrialReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
   ScriptApp.newTrigger('_sendFoundationReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();

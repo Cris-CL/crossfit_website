@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossFit Roppongi — Staff Operations Manual</title>
+<style>
+  :root {
+    --black:   #0a0a0a;
+    --dark:    #111111;
+    --card:    #1a1a1a;
+    --border:  #2a2a2a;
+    --muted:   #555;
+    --text:    #e0e0e0;
+    --dim:     #999;
+    --accent:  #d4a017;
+    --accent2: #e85d04;
+    --green:   #2ecc71;
+    --red:     #e74c3c;
+    --blue:    #3498db;
+    --purple:  #9b59b6;
+    --radius:  8px;
+    --font:    'Segoe UI', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--dark);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 24px 0;
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 0 20px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .sidebar-logo .logo-mark {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .sidebar-logo .logo-sub {
+    font-size: 10px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+  }
+
+  .nav-section {
+    padding: 8px 20px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 7px 20px;
+    color: var(--dim);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar a:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    border-left-color: var(--accent);
+  }
+
+  main {
+    margin-left: 220px;
+    padding: 40px 48px;
+    max-width: 960px;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    margin-bottom: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin: 24px 0 10px;
+  }
+  h3:first-of-type { margin-top: 0; }
+  p { color: var(--text); margin-bottom: 12px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+
+  /* ── GRID ── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  th {
+    background: #222;
+    color: var(--accent);
+    font-weight: 600;
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .badge-green  { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+  .badge-red    { background: rgba(231,76,60,0.15);  color: var(--red);   border: 1px solid rgba(231,76,60,0.3);  }
+  .badge-blue   { background: rgba(52,152,219,0.15); color: var(--blue);  border: 1px solid rgba(52,152,219,0.3);  }
+  .badge-amber  { background: rgba(212,160,23,0.15); color: var(--accent); border: 1px solid rgba(212,160,23,0.3); }
+  .badge-purple { background: rgba(155,89,182,0.15); color: var(--purple); border: 1px solid rgba(155,89,182,0.3); }
+  .badge-grey   { background: rgba(150,150,150,0.15); color: var(--dim);  border: 1px solid rgba(150,150,150,0.3); }
+
+  /* ── STEPS ── */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 16px;
+  }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+  .steps li::before {
+    content: counter(step);
+    width: 26px; height: 26px;
+    min-width: 26px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 1px;
+  }
+  .steps li .step-body {
+    flex: 1;
+  }
+  .steps li strong { color: #fff; }
+
+  /* ── CODE ── */
+  code {
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    background: #222;
+    border: 1px solid #333;
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: #e6db74;
+  }
+  pre {
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #e0e0e0;
+  }
+  pre .k  { color: #66d9ef; }
+  pre .s  { color: #a6e22e; }
+  pre .c  { color: var(--muted); font-style: italic; }
+  pre .n  { color: #fd971f; }
+  pre .p  { color: var(--dim); }
+
+  /* ── ALERT / CALLOUT ── */
+  .alert {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+  }
+  .alert-icon { font-size: 18px; flex-shrink: 0; line-height: 1.4; }
+  .alert-body { flex: 1; font-size: 13px; }
+  .alert-body strong { display: block; margin-bottom: 2px; color: #fff; }
+  .alert-warn  { background: rgba(212,160,23,0.08); border: 1px solid rgba(212,160,23,0.25); }
+  .alert-info  { background: rgba(52,152,219,0.08); border: 1px solid rgba(52,152,219,0.25); }
+  .alert-ok    { background: rgba(46,204,113,0.08); border: 1px solid rgba(46,204,113,0.25); }
+  .alert-danger{ background: rgba(231,76,60,0.08);  border: 1px solid rgba(231,76,60,0.25);  }
+
+  /* ── DIVIDER ── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* ── URL BLOCK ── */
+  .url-block {
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--blue);
+    margin-bottom: 12px;
+    word-break: break-all;
+  }
+  .url-block .param { color: #fd971f; }
+  .url-block .base  { color: var(--dim); }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+
+  /* ── TAG ROW ── */
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 48px 0 40px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.2;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    color: var(--dim);
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  .hero .meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .hero .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--dim);
+  }
+  .hero .meta-item .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+
+  /* print */
+  @media print {
+    .sidebar { display: none; }
+    main { margin-left: 0; padding: 20px; }
+    section { page-break-inside: avoid; }
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    main { margin-left: 0; padding: 20px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">CFR</div>
+    <div class="logo-sub">Staff Manual</div>
+  </div>
+  <div class="nav-section">Overview</div>
+  <a href="#architecture">System Architecture</a>
+  <a href="#catalog">Service Catalog</a>
+  <div class="nav-section">Daily Operations</div>
+  <a href="#schedule">Managing Classes</a>
+  <a href="#bookings">Booking Flow</a>
+  <a href="#credits">3-Pack Credits</a>
+  <div class="nav-section">Admin</div>
+  <a href="#actions">Apps Script Actions</a>
+  <a href="#triggers">Scheduled Triggers</a>
+  <a href="#sheets">Google Sheets</a>
+  <div class="nav-section">Reference</div>
+  <a href="#troubleshoot">Troubleshooting</a>
+  <a href="#contacts">Contacts</a>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+
+  <div class="hero">
+    <h1>CrossFit Roppongi<br><span>Staff Operations Manual</span></h1>
+    <p>Backend booking system — workflows, admin actions, and troubleshooting.</p>
+    <div class="meta">
+      <div class="meta-item"><div class="dot" style="background:var(--green)"></div> System: Live</div>
+      <div class="meta-item"><div class="dot" style="background:var(--blue)"></div> Schedule Source: Wodify</div>
+      <div class="meta-item"><div class="dot" style="background:var(--accent)"></div> Payments: Square</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 1 — ARCHITECTURE
+  ════════════════════════════════════════════════════════ -->
+  <section id="architecture">
+    <div class="section-header">
+      <div class="section-icon">🏗</div>
+      <h2>System Architecture</h2>
+    </div>
+
+    <p>The booking system has three layers: <strong>Wodify</strong> (class schedule), <strong>Google Apps Script</strong> (backend logic), and the <strong>website frontend</strong> (booking pages). Staff manage class schedules exclusively in Wodify — no Google Calendar maintenance required.</p>
+
+    <!-- Architecture flow diagram -->
+    <div class="flow-wrap">
+      <svg viewBox="0 0 860 340" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif">
+
+        <!-- ── Column 1: Wodify ── -->
+        <rect x="10" y="60" width="160" height="56" rx="8" fill="#1e2a1e" stroke="#2ecc71" stroke-width="1.5"/>
+        <text x="90" y="82" text-anchor="middle" fill="#2ecc71" font-size="11" font-weight="700">WODIFY</text>
+        <text x="90" y="99" text-anchor="middle" fill="#aaa" font-size="10">GET /classes API</text>
+        <text x="90" y="113" text-anchor="middle" fill="#aaa" font-size="10">class schedule</text>
+
+        <rect x="10" y="145" width="160" height="56" rx="8" fill="#1e2a1e" stroke="#2ecc71" stroke-width="1.5"/>
+        <text x="90" y="167" text-anchor="middle" fill="#2ecc71" font-size="11" font-weight="700">WODIFY</text>
+        <text x="90" y="184" text-anchor="middle" fill="#aaa" font-size="10">Staff creates/edits</text>
+        <text x="90" y="198" text-anchor="middle" fill="#aaa" font-size="10">classes here only</text>
+
+        <text x="90" y="40" text-anchor="middle" fill="#555" font-size="10" font-weight="600" letter-spacing="1">SOURCE</text>
+
+        <!-- ── Column 2: Apps Script ── -->
+        <text x="370" y="40" text-anchor="middle" fill="#555" font-size="10" font-weight="600" letter-spacing="1">APPS SCRIPT BACKEND</text>
+
+        <!-- PropertiesService -->
+        <rect x="220" y="50" width="145" height="56" rx="8" fill="#1a1a2e" stroke="#3498db" stroke-width="1.5"/>
+        <text x="292" y="72" text-anchor="middle" fill="#3498db" font-size="11" font-weight="700">PropertiesService</text>
+        <text x="292" y="89" text-anchor="middle" fill="#aaa" font-size="10">WODIFY_CLASS_CACHE</text>
+        <text x="292" y="103" text-anchor="middle" fill="#aaa" font-size="10">{ id, program, end_time }</text>
+
+        <!-- CFR Bookings sheet -->
+        <rect x="220" y="135" width="145" height="56" rx="8" fill="#2a1a1a" stroke="#e85d04" stroke-width="1.5"/>
+        <text x="292" y="157" text-anchor="middle" fill="#e85d04" font-size="11" font-weight="700">Google Sheets</text>
+        <text x="292" y="174" text-anchor="middle" fill="#aaa" font-size="10">CFR Bookings tab</text>
+        <text x="292" y="188" text-anchor="middle" fill="#aaa" font-size="10">confirmed bookings</text>
+
+        <!-- CacheService -->
+        <rect x="220" y="220" width="145" height="56" rx="8" fill="#1a1a2e" stroke="#9b59b6" stroke-width="1.5"/>
+        <text x="292" y="242" text-anchor="middle" fill="#9b59b6" font-size="11" font-weight="700">CacheService</text>
+        <text x="292" y="259" text-anchor="middle" fill="#aaa" font-size="10">avail_* / month_* /</text>
+        <text x="292" y="273" text-anchor="middle" fill="#aaa" font-size="10">upcoming_* (4h TTL)</text>
+
+        <!-- Calendar (write only) -->
+        <rect x="380" y="220" width="145" height="56" rx="8" fill="#1e1e1e" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="452" y="242" text-anchor="middle" fill="#777" font-size="11" font-weight="700">Google Calendar</text>
+        <text x="452" y="259" text-anchor="middle" fill="#666" font-size="10">Reservations cal</text>
+        <text x="452" y="273" text-anchor="middle" fill="#666" font-size="10">WRITE ONLY ✎</text>
+
+        <!-- GAS core -->
+        <rect x="380" y="50" width="145" height="170" rx="8" fill="#161616" stroke="#d4a017" stroke-width="1.5"/>
+        <text x="452" y="72" text-anchor="middle" fill="#d4a017" font-size="11" font-weight="700">Apps Script</text>
+        <text x="452" y="90" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="600">_getWodifySchedule()</text>
+        <line x1="420" y1="97" x2="484" y2="97" stroke="#333" stroke-width="1"/>
+        <text x="452" y="112" text-anchor="middle" fill="#aaa" font-size="10">_getAvailability()</text>
+        <text x="452" y="128" text-anchor="middle" fill="#aaa" font-size="10">_getMonthAvailability()</text>
+        <text x="452" y="144" text-anchor="middle" fill="#aaa" font-size="10">_getUpcomingClasses()</text>
+        <line x1="420" y1="151" x2="484" y2="151" stroke="#333" stroke-width="1"/>
+        <text x="452" y="167" text-anchor="middle" fill="#aaa" font-size="10">_postCreateBooking()</text>
+        <text x="452" y="183" text-anchor="middle" fill="#aaa" font-size="10">Square API / Emails</text>
+        <text x="452" y="199" text-anchor="middle" fill="#aaa" font-size="10">Sheets write / Wodify lead</text>
+
+        <!-- ── Column 3: Frontend ── -->
+        <text x="720" y="40" text-anchor="middle" fill="#555" font-size="10" font-weight="600" letter-spacing="1">WEBSITE</text>
+        <rect x="610" y="50" width="220" height="230" rx="8" fill="#161616" stroke="#e85d04" stroke-width="1.5"/>
+        <text x="720" y="73" text-anchor="middle" fill="#e85d04" font-size="11" font-weight="700">Booking Pages</text>
+        <line x1="630" y1="80" x2="810" y2="80" stroke="#2a2a2a" stroke-width="1"/>
+
+        <text x="720" y="100" text-anchor="middle" fill="#aaa" font-size="10">booking-dropin.html</text>
+        <text x="720" y="116" text-anchor="middle" fill="#aaa" font-size="10">booking-trial.html</text>
+        <text x="720" y="132" text-anchor="middle" fill="#aaa" font-size="10">booking-hyrox-competitors.html</text>
+        <text x="720" y="148" text-anchor="middle" fill="#aaa" font-size="10">booking-hyrox-strength.html</text>
+        <text x="720" y="164" text-anchor="middle" fill="#aaa" font-size="10">booking-spartan.html</text>
+        <text x="720" y="180" text-anchor="middle" fill="#aaa" font-size="10">booking-foundation.html</text>
+        <line x1="630" y1="190" x2="810" y2="190" stroke="#2a2a2a" stroke-width="1"/>
+        <text x="720" y="210" text-anchor="middle" fill="#aaa" font-size="10">admin-credits.html</text>
+        <text x="720" y="230" text-anchor="middle" fill="#aaa" font-size="10">crossfitroppongi.com</text>
+        <text x="720" y="265" text-anchor="middle" fill="#555" font-size="10">Firebase Hosting</text>
+
+        <!-- ── Arrows ── -->
+        <!-- Wodify API → PropertiesService (daily 3am) -->
+        <line x1="170" y1="78" x2="220" y2="78" stroke="#2ecc71" stroke-width="1.5" marker-end="url(#arr-green)"/>
+        <text x="195" y="72" text-anchor="middle" fill="#2ecc71" font-size="9">daily 3am</text>
+
+        <!-- PropertiesService → GAS -->
+        <line x1="365" y1="78" x2="380" y2="105" stroke="#3498db" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+        <!-- CFR Bookings → GAS -->
+        <line x1="365" y1="163" x2="380" y2="140" stroke="#e85d04" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+
+        <!-- Wodify staff entry (dashed) -->
+        <line x1="170" y1="173" x2="220" y2="195" stroke="#2ecc71" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr-green-sm)"/>
+        <text x="185" y="185" text-anchor="middle" fill="#2ecc71" font-size="9" transform="rotate(-10,185,185)">update cache</text>
+
+        <!-- GAS → CacheService -->
+        <line x1="452" y1="220" x2="365" y2="255" stroke="#9b59b6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+        <text x="390" y="230" text-anchor="middle" fill="#9b59b6" font-size="9">_warmCache()</text>
+        <text x="390" y="241" text-anchor="middle" fill="#9b59b6" font-size="9">every 4h</text>
+
+        <!-- GAS → Cal (dashed write) -->
+        <line x1="452" y1="220" x2="452" y2="220" stroke="none"/>
+        <path d="M 452 220 L 452 248" stroke="#555" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr-grey)"/>
+
+        <!-- GAS → Frontend (API calls) -->
+        <line x1="525" y1="130" x2="610" y2="155" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+        <text x="568" y="138" text-anchor="middle" fill="#d4a017" font-size="9">JSON API</text>
+
+        <!-- CacheService → GAS (read on page load) -->
+        <path d="M 292 220 C 292 200 350 170 380 140" stroke="#9b59b6" stroke-width="1" stroke-dasharray="3,2" fill="none"/>
+
+        <!-- ── Arrow markers ── -->
+        <defs>
+          <marker id="arr-green"  markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#2ecc71"/>
+          </marker>
+          <marker id="arr-green-sm" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#2ecc71"/>
+          </marker>
+          <marker id="arr-blue"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#3498db"/>
+          </marker>
+          <marker id="arr-orange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#e85d04"/>
+          </marker>
+          <marker id="arr-purple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#9b59b6"/>
+          </marker>
+          <marker id="arr-amber"  markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#d4a017"/>
+          </marker>
+          <marker id="arr-grey"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#555"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Data Flow Summary</div>
+        <ol style="padding-left:18px; color:var(--text); font-size:13px; line-height:1.8;">
+          <li>Wodify API → <code>PropertiesService</code> cache (daily 3 am)</li>
+          <li>PropertiesService + CFR Bookings sheet → <code>CacheService</code> (every 4 h)</li>
+          <li>Booking page requests → Apps Script → CacheService (fast, no API call)</li>
+          <li>Customer pays → Square API → Sheets write → Wodify lead → Confirmation email</li>
+        </ol>
+      </div>
+      <div class="card">
+        <div class="card-title">What Staff Need to Know</div>
+        <ul style="padding-left:18px; color:var(--text); font-size:13px; line-height:1.8;">
+          <li><strong style="color:#fff">Manage classes in Wodify only</strong> — no Google Calendar</li>
+          <li>Google Calendar (Reservations) is auto-written for staff reference — don't edit it</li>
+          <li>After adding/changing Wodify classes: run <code>updateWodifyCache</code></li>
+          <li>Cache preloads automatically every 4 h via scheduled trigger</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 2 — SERVICE CATALOG
+  ════════════════════════════════════════════════════════ -->
+  <section id="catalog">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <h2>Service Catalog</h2>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Wodify Program</th>
+          <th>Price (税込)</th>
+          <th>Cap</th>
+          <th>Duration</th>
+          <th>Coach</th>
+          <th>UI Style</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Trial</strong><br><span style="color:var(--dim);font-size:12px">体験レッスン</span></td>
+          <td><code>Trial</code></td>
+          <td>¥3,300</td>
+          <td>3</td>
+          <td>60 min</td>
+          <td>Roppongi Staff</td>
+          <td><span class="badge badge-blue">Calendar</span></td>
+        </tr>
+        <tr>
+          <td><strong>Drop In</strong><br><span style="color:var(--dim);font-size:12px">ドロップイン</span></td>
+          <td><code>CrossFit</code></td>
+          <td>¥4,950</td>
+          <td>6</td>
+          <td>60 min</td>
+          <td>Roppongi Staff</td>
+          <td><span class="badge badge-blue">Calendar</span></td>
+        </tr>
+        <tr>
+          <td><strong>Open Gym</strong><br><span style="color:var(--dim);font-size:12px">オープンジム</span></td>
+          <td><code>Open Gym</code></td>
+          <td>¥4,950</td>
+          <td>6</td>
+          <td>60 min</td>
+          <td>— (no coach)</td>
+          <td><span class="badge badge-blue">Calendar</span></td>
+        </tr>
+        <tr>
+          <td><strong>HYROX Performance</strong><br><span style="color:var(--dim);font-size:12px">ハイロックス</span></td>
+          <td><code>HYROX Class</code></td>
+          <td>¥4,950</td>
+          <td>15</td>
+          <td>75 min</td>
+          <td>Marc Keen</td>
+          <td><span class="badge badge-amber">List view</span></td>
+        </tr>
+        <tr>
+          <td><strong>HYROX Strength</strong><br><span style="color:var(--dim);font-size:12px">HYROXストレングス</span></td>
+          <td><code>Strength Class</code></td>
+          <td>¥4,950</td>
+          <td>16</td>
+          <td>60 min</td>
+          <td>Roppongi Staff</td>
+          <td><span class="badge badge-amber">List view</span></td>
+        </tr>
+        <tr>
+          <td><strong>Spartan</strong><br><span style="color:var(--dim);font-size:12px">スパルタン</span></td>
+          <td><code>Spartan</code></td>
+          <td>¥4,400</td>
+          <td>23</td>
+          <td>60 min</td>
+          <td>Marc Keen</td>
+          <td><span class="badge badge-amber">List view</span></td>
+        </tr>
+        <tr>
+          <td><strong>Foundation</strong><br><span style="color:var(--dim);font-size:12px">ファウンデーション</span></td>
+          <td><code>Foundation</code></td>
+          <td>¥18,500</td>
+          <td>3</td>
+          <td>60 min</td>
+          <td>— (no coach)</td>
+          <td><span class="badge badge-amber">List view</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Drop In 3-Session Pack</div>
+        <p style="font-size:13px">¥11,550 — saves ¥1,350 vs. 3 single sessions.</p>
+        <p style="font-size:13px">Credits valid for <strong style="color:#fff">Drop In</strong> and <strong style="color:#fff">Open Gym</strong>. Expire <strong style="color:#fff">90 days</strong> from purchase.</p>
+        <p style="font-size:13px">Credits stored in <strong style="color:#fff">CFR Credits</strong> sheet tab. Redemption at front desk via <code>admin-credits.html</code>.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Spartan Coupon</div>
+        <p style="font-size:13px">Static coupon codes configured in <code>CONFIG.COUPONS</code> (Apps Script).</p>
+        <p style="font-size:13px">Current active code: <code style="color:var(--green)">LEONIDAS</code> — ¥1,000 off Spartan.</p>
+        <p style="font-size:13px">Add new codes by editing <code>COUPONS</code> block in <code>Code.gs</code> and redeploying.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">ℹ️</div>
+      <div class="alert-body">
+        <strong>Drop In / Open Gym share capacity</strong>
+        Both use the same 6-person cap. A Drop In booking and an Open Gym booking at the same time count toward the same limit of 6. This is by design — they use the same physical space and CrossFit class slot.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3 — MANAGING CLASSES (SCHEDULE)
+  ════════════════════════════════════════════════════════ -->
+  <section id="schedule">
+    <div class="section-header">
+      <div class="section-icon">📅</div>
+      <h2>Managing Classes in Wodify</h2>
+    </div>
+
+    <div class="alert alert-ok">
+      <div class="alert-icon">✅</div>
+      <div class="alert-body">
+        <strong>Wodify is the single source of truth for the class schedule.</strong>
+        Do not edit Google Calendar manually. The website reads the schedule exclusively from Wodify via the API cache.
+      </div>
+    </div>
+
+    <h3>Wodify Program Names — Must Be Exact</h3>
+    <p>The website maps Wodify program names to class types using an exact string match. The program names in Wodify admin must match these exactly (case-sensitive):</p>
+
+    <table>
+      <thead>
+        <tr><th>Wodify Program Name</th><th>Maps To (website)</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>CrossFit</code></td><td>Drop In</td><td><span class="badge badge-green">Active</span></td></tr>
+        <tr><td><code>Open Gym</code></td><td>Open Gym</td><td><span class="badge badge-green">Active</span></td></tr>
+        <tr><td><code>HYROX Class</code></td><td>HYROX Performance</td><td><span class="badge badge-green">Active</span></td></tr>
+        <tr><td><code>Strength Class</code></td><td>HYROX Strength</td><td><span class="badge badge-green">Active</span></td></tr>
+        <tr><td><code>Trial</code></td><td>Trial Class</td><td><span class="badge badge-amber">Create in Wodify admin</span></td></tr>
+        <tr><td><code>Spartan</code></td><td>Spartan</td><td><span class="badge badge-amber">Create or confirm in Wodify admin</span></td></tr>
+        <tr><td><code>Foundation</code></td><td>Foundation</td><td><span class="badge badge-amber">Create in Wodify admin</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-warn">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-body">
+        <strong>Ignored programs — these will NOT appear on the website:</strong>
+        <code>CrossFit Mobility Class</code>, <code>Gymnastics Class</code>, <code>Competitors Class</code>, <code>Olympic Lifting</code>, <code>Games Open</code>. You can still create/run these in Wodify — the website simply ignores them.
+      </div>
+    </div>
+
+    <h3>Workflow: Adding or Editing a Class</h3>
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <strong>In Wodify admin</strong> — create or edit the class under the correct program. Set the date, time, and recurring schedule as needed.
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Run cache update</strong> — open the Apps Script Web App URL with <code>?action=updateWodifyCache</code>. This takes 5–10 seconds and scans the most recent Wodify pages to pick up changes.
+          <div class="url-block">
+            <span class="base">[GAS_URL]</span><span class="param">?action=updateWodifyCache</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Verify</strong> — run <code>?action=listWodifyClasses&amp;date=YYYY-MM-DD</code> to confirm the class appears with the correct program.
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Clear availability cache (optional)</strong> — the booking pages cache availability for 4 hours. If you need the change to appear immediately, run <code>?action=cacheStatus</code> and note that a new <code>_warmCache()</code> run will refresh everything automatically within 4 hours.
+        </div>
+      </li>
+    </ol>
+
+    <h3>Workflow: Deleting or Cancelling a Class</h3>
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <strong>Cancel/delete in Wodify admin.</strong>
+        </div>
+      </li>
+      <li>
+        <div class="step-body">
+          <strong>Run <code>?action=buildWodifyCache</code></strong> — the incremental update only adds new entries. To remove a deleted class, a full rebuild is needed. This takes 3–5 minutes.
+        </div>
+      </li>
+    </ol>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">💡</div>
+      <div class="alert-body">
+        <strong>Full rebuild vs. incremental update:</strong>
+        <code>updateWodifyCache</code> is fast (~5 sec) and handles new classes. Use it for additions.
+        <code>buildWodifyCache</code> scans all 400+ pages of Wodify history (~3–5 min) and is needed only when classes are deleted or the cache is stale/corrupt.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 4 — BOOKING FLOW
+  ════════════════════════════════════════════════════════ -->
+  <section id="bookings">
+    <div class="section-header">
+      <div class="section-icon">🛒</div>
+      <h2>Booking Flow</h2>
+    </div>
+
+    <h3>Customer Journey — Drop In / Trial / Open Gym (Calendar UI)</h3>
+    <div class="flow-wrap">
+      <svg viewBox="0 0 820 100" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif">
+        <defs>
+          <marker id="arr-flow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <path d="M0,0 L0,7 L7,3.5 z" fill="#d4a017"/>
+          </marker>
+        </defs>
+
+        <!-- Steps -->
+        <g transform="translate(10,10)">
+          <!-- 1 -->
+          <rect x="0" y="0" width="110" height="70" rx="6" fill="#1a1a1a" stroke="#d4a017" stroke-width="1.5"/>
+          <text x="55" y="22" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="700">STEP 1</text>
+          <text x="55" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Class Type</text>
+          <text x="55" y="54" text-anchor="middle" fill="#999" font-size="10">Drop In / Open Gym</text>
+
+          <line x1="110" y1="35" x2="135" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow)"/>
+
+          <!-- 2 -->
+          <rect x="135" y="0" width="110" height="70" rx="6" fill="#1a1a1a" stroke="#d4a017" stroke-width="1.5"/>
+          <text x="190" y="22" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="700">STEP 2</text>
+          <text x="190" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Date + Time</text>
+          <text x="190" y="54" text-anchor="middle" fill="#999" font-size="10">Month calendar + slot</text>
+
+          <line x1="245" y1="35" x2="270" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow)"/>
+
+          <!-- 3 -->
+          <rect x="270" y="0" width="110" height="70" rx="6" fill="#1a1a1a" stroke="#555" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="325" y="22" text-anchor="middle" fill="#888" font-size="10" font-weight="700">STEP 3</text>
+          <text x="325" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Pack Option</text>
+          <text x="325" y="54" text-anchor="middle" fill="#999" font-size="10">3-pack upsell (Drop In)</text>
+
+          <line x1="380" y1="35" x2="405" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow)"/>
+
+          <!-- 4 -->
+          <rect x="405" y="0" width="110" height="70" rx="6" fill="#1a1a1a" stroke="#d4a017" stroke-width="1.5"/>
+          <text x="460" y="22" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="700">STEP 4</text>
+          <text x="460" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Customer</text>
+          <text x="460" y="54" text-anchor="middle" fill="#999" font-size="10">Email/phone lookup</text>
+
+          <line x1="515" y1="35" x2="540" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow)"/>
+
+          <!-- 5 -->
+          <rect x="540" y="0" width="110" height="70" rx="6" fill="#1a1a1a" stroke="#d4a017" stroke-width="1.5"/>
+          <text x="595" y="22" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="700">STEP 5</text>
+          <text x="595" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Payment</text>
+          <text x="595" y="54" text-anchor="middle" fill="#999" font-size="10">Square / credits</text>
+
+          <line x1="650" y1="35" x2="675" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow)"/>
+
+          <!-- 6 -->
+          <rect x="675" y="0" width="110" height="70" rx="6" fill="#1e2a1e" stroke="#2ecc71" stroke-width="1.5"/>
+          <text x="730" y="22" text-anchor="middle" fill="#2ecc71" font-size="10" font-weight="700">STEP 6</text>
+          <text x="730" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Confirmation</text>
+          <text x="730" y="54" text-anchor="middle" fill="#999" font-size="10">Booking ID + email</text>
+        </g>
+      </svg>
+    </div>
+
+    <h3>Customer Journey — HYROX / Spartan / Foundation (List UI)</h3>
+    <div class="flow-wrap">
+      <svg viewBox="0 0 700 100" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif">
+        <defs>
+          <marker id="arr-flow2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <path d="M0,0 L0,7 L7,3.5 z" fill="#d4a017"/>
+          </marker>
+        </defs>
+        <g transform="translate(10,10)">
+          <rect x="0" y="0" width="130" height="70" rx="6" fill="#1a1a1a" stroke="#d4a017" stroke-width="1.5"/>
+          <text x="65" y="22" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="700">STEP 1</text>
+          <text x="65" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Class Selection</text>
+          <text x="65" y="54" text-anchor="middle" fill="#999" font-size="10">Upcoming list (90 days)</text>
+
+          <line x1="130" y1="35" x2="155" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow2)"/>
+
+          <rect x="155" y="0" width="130" height="70" rx="6" fill="#1a1a1a" stroke="#d4a017" stroke-width="1.5"/>
+          <text x="220" y="22" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="700">STEP 2</text>
+          <text x="220" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Customer</text>
+          <text x="220" y="54" text-anchor="middle" fill="#999" font-size="10">Email/phone lookup</text>
+
+          <line x1="285" y1="35" x2="310" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow2)"/>
+
+          <rect x="310" y="0" width="130" height="70" rx="6" fill="#1a1a1a" stroke="#d4a017" stroke-width="1.5"/>
+          <text x="375" y="22" text-anchor="middle" fill="#d4a017" font-size="10" font-weight="700">STEP 3</text>
+          <text x="375" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Payment</text>
+          <text x="375" y="54" text-anchor="middle" fill="#999" font-size="10">Square (+ coupon)</text>
+
+          <line x1="440" y1="35" x2="465" y2="35" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr-flow2)"/>
+
+          <rect x="465" y="0" width="130" height="70" rx="6" fill="#1e2a1e" stroke="#2ecc71" stroke-width="1.5"/>
+          <text x="530" y="22" text-anchor="middle" fill="#2ecc71" font-size="10" font-weight="700">STEP 4</text>
+          <text x="530" y="38" text-anchor="middle" fill="#e0e0e0" font-size="11" font-weight="600">Confirmation</text>
+          <text x="530" y="54" text-anchor="middle" fill="#999" font-size="10">Booking ID + email</text>
+        </g>
+      </svg>
+    </div>
+
+    <h3>What Happens on Successful Booking (Backend)</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Immediately</div>
+        <ol style="padding-left:18px; color:var(--text); font-size:13px; line-height:1.9;">
+          <li>Square Order created (catalog variation ID)</li>
+          <li>Payment charged</li>
+          <li>Square Customer created or matched</li>
+          <li>Row appended to <strong style="color:#fff">CFR Bookings</strong> sheet</li>
+          <li>Reservation event written to Google Calendar (staff view only)</li>
+          <li>Wodify placeholder client reserved in that class slot</li>
+          <li>Wodify lead record created (except Foundation)</li>
+          <li>Confirmation email sent to customer</li>
+          <li>Staff notification email sent</li>
+        </ol>
+      </div>
+      <div class="card">
+        <div class="card-title">Booking ID Format</div>
+        <p style="font-size:13px"><code>CFR-{YEAR}-{5-digit sequential}</code></p>
+        <p style="font-size:13px; margin-top:8px;">Example: <code style="color:var(--green)">CFR-2026-00142</code></p>
+        <hr style="margin:14px 0;">
+        <div class="card-title" style="margin-bottom:10px;">Key Policies</div>
+        <ul style="padding-left:18px; color:var(--text); font-size:13px; line-height:1.8;">
+          <li>Non-refundable</li>
+          <li>48-hour change window (one change only)</li>
+          <li>15-minute hold timer during checkout</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Booking Emails</h3>
+    <table>
+      <thead>
+        <tr><th>Email</th><th>Recipient</th><th>Trigger</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Booking confirmation</td>
+          <td>Customer</td>
+          <td>Immediately on successful payment</td>
+        </tr>
+        <tr>
+          <td>Staff notification</td>
+          <td>bookings@, tsujimoto@, sato@, kozukarei@ + cc</td>
+          <td>Immediately on successful payment</td>
+        </tr>
+        <tr>
+          <td>Trial reminder</td>
+          <td>Customer</td>
+          <td>1 day before class (scheduled trigger)</td>
+        </tr>
+        <tr>
+          <td>Foundation reminder</td>
+          <td>Customer</td>
+          <td>1 day before class (scheduled trigger)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">✉️</div>
+      <div class="alert-body">
+        <strong>Editing email templates</strong> — Trial and Foundation reminder bodies live in Google Docs. Edit the docs to update the content; no code changes needed. The Doc IDs are stored in <code>CONFIG.TRIAL_REMINDER_DOC_ID</code> and <code>CONFIG.FOUNDATION_REMINDER_DOC_ID</code>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 5 — 3-PACK CREDITS
+  ════════════════════════════════════════════════════════ -->
+  <section id="credits">
+    <div class="section-header">
+      <div class="section-icon">🎟</div>
+      <h2>Drop In 3-Pack Credits</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Purchase</div>
+        <p style="font-size:13px">Customers buy the 3-pack during Drop In booking (Step 3 upsell). They pay ¥11,550 and receive 3 credits in the <strong style="color:#fff">CFR Credits</strong> sheet tab. Expiry: 90 days from purchase date.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Redemption at Front Desk</div>
+        <p style="font-size:13px">Open <code>admin-credits.html</code> (password protected). Enter customer email or phone to look up their credits. Select a class slot, click Use Credit. Apps Script logs the redemption and decrements the credit count.</p>
+      </div>
+    </div>
+
+    <h3>Credit Rules</h3>
+    <ul style="padding-left:18px; color:var(--text); font-size:13px; line-height:1.8; margin-bottom:16px;">
+      <li>Valid for <strong style="color:#fff">Drop In</strong> and <strong style="color:#fff">Open Gym</strong> only</li>
+      <li>Expire 90 days from purchase</li>
+      <li>Expire whether used or not — non-extendable</li>
+      <li>1 credit = 1 class (any Drop In/Open Gym slot)</li>
+      <li>Front desk redemption logged as <code>source: front_desk</code> in CFR Bookings sheet</li>
+    </ul>
+
+    <div class="alert alert-warn">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-body">
+        <strong>Checking customer credits:</strong> Use the GET action <code>?action=checkCredits&amp;email=CUSTOMER_EMAIL</code> (or phone) to see remaining credits and expiry before redemption.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 6 — APPS SCRIPT ACTIONS
+  ════════════════════════════════════════════════════════ -->
+  <section id="actions">
+    <div class="section-header">
+      <div class="section-icon">⚙️</div>
+      <h2>Apps Script Actions</h2>
+    </div>
+
+    <p>All admin actions are called via the Apps Script Web App URL. Replace <code>[GAS_URL]</code> with the deployed Web App URL from <code>assets/js/config.js</code>.</p>
+
+    <h3>GET Actions (open in browser)</h3>
+    <table>
+      <thead>
+        <tr><th>Action</th><th>Parameters</th><th>Purpose</th><th>Speed</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>updateWodifyCache</code></td>
+          <td>—</td>
+          <td>Incremental cache refresh — picks up new classes added to Wodify</td>
+          <td><span class="badge badge-green">~5 sec</span></td>
+        </tr>
+        <tr>
+          <td><code>buildWodifyCache</code></td>
+          <td>—</td>
+          <td>Full cache rebuild — scans all Wodify pages. Use after deleting classes.</td>
+          <td><span class="badge badge-red">3–5 min</span></td>
+        </tr>
+        <tr>
+          <td><code>listWodifyClasses</code></td>
+          <td><code>date=YYYY-MM-DD</code></td>
+          <td>Show cached classes for a specific date. Verify programs appear correctly.</td>
+          <td><span class="badge badge-green">instant</span></td>
+        </tr>
+        <tr>
+          <td><code>availability</code></td>
+          <td><code>date=YYYY-MM-DD</code><br><code>classType=dropin</code></td>
+          <td>Returns available slots for a single date and class type</td>
+          <td><span class="badge badge-green">instant</span></td>
+        </tr>
+        <tr>
+          <td><code>monthAvailability</code></td>
+          <td><code>year=2026</code><br><code>month=4</code><br><code>classType=dropin</code></td>
+          <td>Returns availability summary for full month (calendar grid)</td>
+          <td><span class="badge badge-blue">1–3 sec</span></td>
+        </tr>
+        <tr>
+          <td><code>upcomingClasses</code></td>
+          <td><code>classType=hyrox_performance</code><br><code>limit=5</code></td>
+          <td>Returns next N upcoming classes (HYROX/Spartan/Foundation list view)</td>
+          <td><span class="badge badge-blue">1–3 sec</span></td>
+        </tr>
+        <tr>
+          <td><code>cacheStatus</code></td>
+          <td>—</td>
+          <td>Shows CacheService occupancy — how many availability entries are preloaded</td>
+          <td><span class="badge badge-green">instant</span></td>
+        </tr>
+        <tr>
+          <td><code>checkCredits</code></td>
+          <td><code>email=…</code> or <code>phone=…</code></td>
+          <td>Look up customer's remaining 3-pack credits</td>
+          <td><span class="badge badge-green">instant</span></td>
+        </tr>
+        <tr>
+          <td><code>testCreateBooking</code></td>
+          <td><code>class_type=dropin</code><br><code>class_date=YYYY-MM-DD</code><br>etc.</td>
+          <td>Simulate full booking without charging — for testing only</td>
+          <td><span class="badge badge-blue">~3 sec</span></td>
+        </tr>
+        <tr>
+          <td><code>probeWodifyDateFilter</code></td>
+          <td><code>date=YYYY-MM-DD</code></td>
+          <td>Diagnostic — check Wodify API response for a specific date</td>
+          <td><span class="badge badge-blue">~5 sec</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Valid classType Values</h3>
+    <div class="tag-row">
+      <code>dropin</code>
+      <code>opengym</code>
+      <code>trial</code>
+      <code>hyrox_performance</code>
+      <code>hyrox_strength</code>
+      <code>spartan</code>
+      <code>foundation</code>
+    </div>
+
+    <h3>Example URLs</h3>
+    <div class="url-block">
+      <span class="base">[GAS_URL]</span><span class="param">?action=updateWodifyCache</span>
+    </div>
+    <div class="url-block">
+      <span class="base">[GAS_URL]</span><span class="param">?action=listWodifyClasses&amp;date=2026-05-15</span>
+    </div>
+    <div class="url-block">
+      <span class="base">[GAS_URL]</span><span class="param">?action=availability&amp;date=2026-05-15&amp;classType=dropin</span>
+    </div>
+    <div class="url-block">
+      <span class="base">[GAS_URL]</span><span class="param">?action=upcomingClasses&amp;classType=hyrox_performance&amp;limit=10</span>
+    </div>
+    <div class="url-block">
+      <span class="base">[GAS_URL]</span><span class="param">?action=monthAvailability&amp;year=2026&amp;month=5&amp;classType=dropin</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 7 — SCHEDULED TRIGGERS
+  ════════════════════════════════════════════════════════ -->
+  <section id="triggers">
+    <div class="section-header">
+      <div class="section-icon">⏰</div>
+      <h2>Scheduled Triggers</h2>
+    </div>
+
+    <p>Apps Script triggers run automatically. They are set up via <code>_setupAllTriggers()</code> and do not require manual action.</p>
+
+    <table>
+      <thead>
+        <tr><th>Function</th><th>Schedule</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>_updateWodifyClassCache</code></td>
+          <td>Daily at 3:00 am JST</td>
+          <td>Pull latest class data from Wodify API and update PropertiesService cache</td>
+        </tr>
+        <tr>
+          <td><code>_warmCache</code></td>
+          <td>Every 4 hours</td>
+          <td>Precompute availability for next 14 days (dropin/opengym/trial) + upcoming classes (hyrox/spartan/foundation). Stores results in CacheService.</td>
+        </tr>
+        <tr>
+          <td><code>_sendReminders</code></td>
+          <td>Daily at 8:00 am JST</td>
+          <td>Send reminder emails to Trial and Foundation customers booked for tomorrow</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">💡</div>
+      <div class="alert-body">
+        <strong>Cache warm-up timing:</strong> The Wodify cache refreshes at 3 am. The availability CacheService then refreshes at 4 am, 8 am, 12 pm, 4 pm, and 8 pm (every 4 hours). The website is never more than 4 hours stale. For immediate updates, run <code>updateWodifyCache</code> manually, which triggers a fresh read on the next request.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 8 — GOOGLE SHEETS
+  ════════════════════════════════════════════════════════ -->
+  <section id="sheets">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <h2>Google Sheets</h2>
+    </div>
+
+    <p>The spreadsheet has 4 tabs. Apps Script writes to all of them; do not edit rows that have booking data or you may corrupt the records.</p>
+
+    <table>
+      <thead>
+        <tr><th>Tab</th><th>Purpose</th><th>Written by</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>CFR Bookings</strong></td>
+          <td>All class bookings — one row per booking. Column AB (index 27) = <code>confirmed</code> / <code>cancelled</code>. Columns G/H (index 6/7) = class date/time used for booking counts.</td>
+          <td><code>_postCreateBooking</code>, <code>_postUseCreditFrontDesk</code></td>
+        </tr>
+        <tr>
+          <td><strong>CFR Forms</strong></td>
+          <td>Contact form submissions from contact.html</td>
+          <td><code>_postSubmitContactForm</code></td>
+        </tr>
+        <tr>
+          <td><strong>CFR Careers</strong></td>
+          <td>Job application submissions from career.html</td>
+          <td><code>_postSubmitCareerForm</code></td>
+        </tr>
+        <tr>
+          <td><strong>CFR Credits</strong></td>
+          <td>Drop In 3-pack credit balances. Each row = one purchase. Credits decremented on redemption.</td>
+          <td><code>_postCreateBooking</code> (purchase), <code>_postUseCreditFrontDesk</code> (redeem)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-warn">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-body">
+        <strong>Do not modify column order or add columns between existing columns</strong> in CFR Bookings. The Apps Script reads by column index, not header name. Adding a column in the middle will silently corrupt all subsequent reads.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 9 — TROUBLESHOOTING
+  ════════════════════════════════════════════════════════ -->
+  <section id="troubleshoot">
+    <div class="section-header">
+      <div class="section-icon">🔧</div>
+      <h2>Troubleshooting</h2>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Class not appearing on website</div>
+      <ol class="steps">
+        <li><div class="step-body">Verify the class exists in Wodify admin under the correct program (check exact name spelling).</div></li>
+        <li><div class="step-body">Run <code>?action=updateWodifyCache</code> and check the response shows <code>"new_entries": N</code> where N &gt; 0.</div></li>
+        <li><div class="step-body">Run <code>?action=listWodifyClasses&amp;date=YYYY-MM-DD</code> to confirm the class appears in the cache with correct program.</div></li>
+        <li><div class="step-body">Run <code>?action=availability&amp;date=YYYY-MM-DD&amp;classType=dropin</code> to confirm it appears in the API response.</div></li>
+        <li><div class="step-body">If still missing after cache update: check the program name in Wodify exactly matches the <code>WODIFY_CLASS_MAP</code> keys (case-sensitive).</div></li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Class shows as full but it shouldn't be</div>
+      <ol class="steps">
+        <li><div class="step-body">Run <code>?action=availability&amp;date=YYYY-MM-DD&amp;classType=dropin</code> — check the <code>booked</code> count in the response.</div></li>
+        <li><div class="step-body">Open <strong>CFR Bookings</strong> sheet and filter for that date + class type. Count rows with status = <code>confirmed</code>.</div></li>
+        <li><div class="step-body">If the sheet count is lower than the API <code>booked</code> count, the CacheService may have stale data. Wait up to 4 hours for <code>_warmCache()</code> to refresh, or restart by running <code>?action=availability</code> directly (bypasses cache on first miss).</div></li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Cache returns 0 entries after buildWodifyCache</div>
+      <p style="font-size:13px; margin-bottom:10px;">This is expected if the cache build was interrupted early. Wodify orders classes by creation time — future classes are on the last pages (459–461 of ~461 pages). The build must complete fully.</p>
+      <p style="font-size:13px">Use <code>?action=updateWodifyCache</code> instead — it scans the last 3 pages and takes ~5 seconds.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Payment succeeded but no confirmation email</div>
+      <ol class="steps">
+        <li><div class="step-body">Check CFR Bookings sheet — does a row exist? If yes, the booking was saved. The email send may have failed independently.</div></li>
+        <li><div class="step-body">Check Apps Script execution logs in the GAS IDE (Executions panel) for GmailApp errors.</div></li>
+        <li><div class="step-body">Check GmailApp daily quota — Apps Script has a limit of ~100 emails/day on consumer accounts. <strong style="color:#fff">Workspace accounts have a higher limit.</strong></div></li>
+        <li><div class="step-body">Forward the booking confirmation manually from bookings@crossfitroppongi.com if needed.</div></li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Booking created with wrong Wodify placeholder client</div>
+      <p style="font-size:13px; margin-bottom:10px;">The Wodify placeholder clients (<code>WODIFY_TRIAL_CLIENT_IDS</code>, <code>WODIFY_DROPIN_CLIENT_IDS</code>) are assigned based on how many confirmed bookings already exist for that slot. If the count is off, check CFR Bookings for duplicate or incorrect status values for that date/time.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Apps Script returns "Server error" or crashes</div>
+      <ol class="steps">
+        <li><div class="step-body">Open Google Apps Script IDE → <strong>Executions</strong> panel to see the full error stack trace.</div></li>
+        <li><div class="step-body">Common causes: Square API timeout, Sheets API quota exceeded (short burst), Wodify API key expired, or PropertiesService size limit hit (50 KB max).</div></li>
+        <li><div class="step-body">If PropertiesService is full, run <code>?action=buildWodifyCache</code> — it rebuilds fresh and will fail if cache exceeds 50 KB. In that case, trim ignored programs from WODIFY_CLASS_MAP or reduce cache window.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 10 — CONTACTS
+  ════════════════════════════════════════════════════════ -->
+  <section id="contacts">
+    <div class="section-header">
+      <div class="section-icon">📬</div>
+      <h2>Contacts &amp; Links</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Staff Email Addresses</div>
+        <table style="margin-bottom:0">
+          <tbody>
+            <tr><td>Bookings (system)</td><td><code>bookings@crossfitroppongi.com</code></td></tr>
+            <tr><td>Alvaro</td><td><code>alvaroaltamirano@</code></td></tr>
+            <tr><td>Tsujimoto</td><td><code>tsujimoto@</code></td></tr>
+            <tr><td>Bruce</td><td><code>bruce@</code></td></tr>
+            <tr><td>Sato</td><td><code>sato@</code></td></tr>
+            <tr><td>Kozuka</td><td><code>kozukarei@</code></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:11px; color:var(--muted); margin-top:8px;">All @crossfitroppongi.com</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Gym Info</div>
+        <p style="font-size:13px; margin-bottom:6px;"><strong style="color:#fff">CrossFit Roppongi</strong></p>
+        <p style="font-size:13px; color:var(--dim);">〒106-0032 東京都港区六本木７−４−８<br>ウインドビル B1F<br>TEL: 03-6438-9813</p>
+        <hr style="margin:12px 0;">
+        <div class="card-title" style="margin-bottom:8px;">External Systems</div>
+        <p style="font-size:13px; line-height:1.8;">
+          Wodify Admin: <code>app.wodify.com</code><br>
+          Square Dashboard: <code>squareup.com/dashboard</code><br>
+          Firebase Console: <code>console.firebase.google.com</code><br>
+          Apps Script: <code>script.google.com</code>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div style="text-align:center; padding: 40px 0 20px; color: var(--muted); font-size: 12px;">
+    CrossFit Roppongi — Internal Use Only — crossfitroppongi.com
+  </div>
+
+</main>
+</body>
+</html>
