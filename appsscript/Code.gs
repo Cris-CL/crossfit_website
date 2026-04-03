@@ -116,7 +116,7 @@ var CONFIG = {
     'HYROX Performance': [{ class_type: 'hyrox_performance', capacity: 15, price: 4950,  has_coach: true,  coach: 'Marc Keen' }],
     'HYROX Strength':    [{ class_type: 'hyrox_strength',    capacity: 16, price: 4950,  has_coach: false, coach: 'Roppongi Staff' }],
     'Spartan':        [{ class_type: 'spartan',           capacity: 23, price: 4400,  has_coach: true,  coach: 'Marc Keen' }],
-    'Foundation':     [{ class_type: 'foundation',        capacity: 3,  price: 18500, has_coach: false, coach: '' }],
+    'Foundations':    [{ class_type: 'foundation',        capacity: 3,  price: 18500, has_coach: false, coach: '' }],
   },
 
   // Minimum hours before class start that a booking is allowed
@@ -171,8 +171,11 @@ function doGet(e) {
     if (action === 'probeWodifyDateFilter')  return _probeWodifyDateFilter(e.parameter.date);
     if (action === 'buildWodifyCache')       return _ok(_buildWodifyClassCache());
     if (action === 'updateWodifyCache')      return _ok(_updateWodifyClassCache());
-    if (action === 'enrichTrialCache')      return _ok(_enrichWodifyTrialCache());
+    if (action === 'enrichClassDetails')      return _ok(_enrichWodifyClassDetails());
+    if (action === 'enrichTrialCache')        return _ok(_enrichWodifyClassDetails()); // backward compat
+    if (action === 'refreshWodifyOccupancy')  return _ok(_refreshWodifyOccupancy());
     if (action === 'probeWodifyLeads')       return _probeWodifyLeads(e.parameter);
+    if (action === 'probeWodifyClassDetail') return _probeWodifyClassDetail(e.parameter.id);
     return _err('Unknown GET action: ' + action);
   } catch (ex) {
     console.error('doGet error', ex);
@@ -248,20 +251,22 @@ function _getWodifySchedule(dateStr, classTypeFilter) {
       if (hoursUntil < cutoff) return;
 
       slots.push({
-        event_id:          entryId,
-        class_type:        ct,
-        class_name_en:     CONFIG.CLASS_NAME_EN[ct] || program,
-        class_name_jp:     CONFIG.CLASS_NAME_JP[ct] || program,
-        coach:             map.coach,  // no fallback — '' means no coach (Open Gym)
-        has_coach:         map.has_coach,
-        time_start:        timeStart,
-        time_end:          timeEnd,
-        start_iso:         dateStr + 'T' + timeStart + ':00',
-        end_iso:           timeEnd ? (dateStr + 'T' + timeEnd + ':00') : '',
-        duration:          duration,
-        capacity:          map.capacity,
-        catalog_object_id: CONFIG.CATALOG[ct] || '',
-        price:             map.price,
+        event_id:           entryId,
+        class_type:         ct,
+        class_name_en:      CONFIG.CLASS_NAME_EN[ct] || program,
+        class_name_jp:      CONFIG.CLASS_NAME_JP[ct] || program,
+        coach:              entry.coach || map.coach,  // prefer Wodify-enriched coach; fall back to map default
+        has_coach:          map.has_coach,
+        time_start:         timeStart,
+        time_end:           timeEnd,
+        start_iso:          dateStr + 'T' + timeStart + ':00',
+        end_iso:            timeEnd ? (dateStr + 'T' + timeEnd + ':00') : '',
+        duration:           duration,
+        capacity:           map.capacity,
+        catalog_object_id:  CONFIG.CATALOG[ct] || '',
+        price:              map.price,
+        wodify_class_limit: (entry.wodify_class_limit != null) ? entry.wodify_class_limit : null,
+        wodify_reserved:    (entry.wodify_reserved    != null) ? entry.wodify_reserved    : null,
       });
     });
   });
@@ -325,6 +330,10 @@ function _getAvailability(params) {
   var slots = rawSlots.map(function(s) {
     var booked    = _getBookedCount(countMap, s.class_type, date, s.time_start);
     var available = Math.max(0, s.capacity - booked);
+    if (s.wodify_class_limit !== null && s.wodify_reserved !== null) {
+      var wodify_remaining = Math.max(0, s.wodify_class_limit - s.wodify_reserved);
+      available = Math.min(available, wodify_remaining);
+    }
     return Object.assign({}, s, { booked: booked, available: available });
   });
 
@@ -396,6 +405,10 @@ function _getUpcomingClasses(params) {
       daySlots.forEach(function(s) {
         var booked    = _getBookedCount(countMap, s.class_type, ds, s.time_start);
         var available = Math.max(0, s.capacity - booked);
+        if (s.wodify_class_limit !== null && s.wodify_reserved !== null) {
+          var wodify_remaining = Math.max(0, s.wodify_class_limit - s.wodify_reserved);
+          available = Math.min(available, wodify_remaining);
+        }
         allSlots.push(Object.assign({}, s, {
           date: ds, day_of_week: dayNames[day.getDay()],
           booked: booked, available: available,
@@ -2113,17 +2126,19 @@ function _findWodifyLastPage() {
 // Run once from Apps Script IDE: _buildWodifyClassCache()
 // Or via URL: ?action=buildWodifyCache  (may take 3–5 min; redeploy first)
 function _buildWodifyClassCache() {
-  var startTime = new Date();
-  var nowMs     = startTime.getTime();
-  var futureMs  = nowMs + 400 * 86400000; // 400 days ahead
-  var lastPage  = _findWodifyLastPage();
-  var cache     = {};
-  var count     = 0;
-  var MAX_MS    = 300000; // 5-minute safety limit — stops before 6-min GAS timeout
+  var startTime    = new Date();
+  var nowMs        = startTime.getTime();
+  var futureMs     = nowMs + 400 * 86400000; // 400 days ahead
+  var pastCutoffMs = nowMs - 30 * 86400000;  // stop scanning when a full page is older than 30 days ago
+  var lastPage     = _findWodifyLastPage();
+  var cache        = {};
+  var count        = 0;
+  var MAX_MS       = 300000; // 5-minute safety limit — stops before 6-min GAS timeout
 
-  for (var pg = 1; pg <= lastPage; pg++) {
+  // Scan from last page backward — future classes are on the highest-numbered pages.
+  // Stop early once an entire page is in the past (all entries older than pastCutoffMs).
+  for (var pg = lastPage; pg >= 1; pg--) {
     if (new Date().getTime() - nowMs > MAX_MS) {
-      // Partial result — save what we have
       PropertiesService.getScriptProperties().setProperties({
         'WODIFY_CLASS_CACHE':          JSON.stringify(cache),
         'WODIFY_CLASS_CACHE_BUILT':    startTime.toISOString(),
@@ -2140,21 +2155,29 @@ function _buildWodifyClassCache() {
       );
       if (resp.getResponseCode() !== 200) continue;
       var res = JSON.parse(resp.getContentText());
-      (res.classes || []).forEach(function(c) {
+      var classes   = res.classes || [];
+      var allInPast = classes.length > 0;
+      classes.forEach(function(c) {
         var clsMs = new Date(c.start_date_time).getTime();
         if (clsMs >= nowMs && clsMs <= futureMs) {
           cache[c.start_date_time] = {
-            id:              c.id,
-            program:         c.program_name || c.program || '',
-            end_time:        c.end_date_time || '',
-            trial_available: (c.has_free_trial_limit !== undefined)
+            id:                 c.id,
+            program:            c.program_name || c.program || '',
+            end_time:           c.end_date_time || '',
+            trial_available:    (c.has_free_trial_limit !== undefined)
               ? ((c.is_free_trial_online === undefined || c.is_free_trial_online === true)
                   && !c.is_free_trial_full && c.free_trial_limit > 0)
               : null,
+            coach:              null, // enriched by _enrichWodifyClassDetails at 3:30am
+            wodify_class_limit: null, // enriched by _enrichWodifyClassDetails / _refreshWodifyOccupancy
+            wodify_reserved:    null,
           };
           count++;
         }
+        if (clsMs >= pastCutoffMs) allInPast = false; // page has recent or future entries
       });
+      // Full page is older than 30 days — no future classes remain, stop scanning
+      if (allInPast) break;
     } catch(e) { /* skip failed page, continue */ }
   }
 
@@ -2210,14 +2233,18 @@ function _updateWodifyClassCache() {
         var clsMs = new Date(c.start_date_time).getTime();
         if (clsMs >= nowMs && clsMs <= futureMs) {
           if (!cache[c.start_date_time]) newCount++;
+          var _ex = cache[c.start_date_time];
           cache[c.start_date_time] = {
-            id:              c.id,
-            program:         c.program_name || c.program || '',
-            end_time:        c.end_date_time || '',
-            trial_available: (c.has_free_trial_limit !== undefined)
+            id:                 c.id,
+            program:            c.program_name || c.program || '',
+            end_time:           c.end_date_time || '',
+            trial_available:    (c.has_free_trial_limit !== undefined)
               ? ((c.is_free_trial_online === undefined || c.is_free_trial_online === true)
                   && !c.is_free_trial_full && c.free_trial_limit > 0)
               : null,
+            coach:              (_ex && _ex.coach              != null) ? _ex.coach              : null,
+            wodify_class_limit: (_ex && _ex.wodify_class_limit != null) ? _ex.wodify_class_limit : null,
+            wodify_reserved:    (_ex && _ex.wodify_reserved    != null) ? _ex.wodify_reserved    : null,
           };
         }
       });
@@ -2237,24 +2264,27 @@ function _updateWodifyClassCache() {
            pages_scanned: newLastPage - startPg + 1, full_rebuild: false };
 }
 
-// Enrich trial availability from GET /classes/{id} detail endpoint.
-// Re-fetches ALL CrossFit/Open Gym classes in next 14 days every run,
-// so staff changes to free_trial settings propagate by next morning.
+// Enrich class details (trial availability + coach) from GET /classes/{id} detail endpoint.
+// Covers ALL known programs in next 14 days — re-fetches every run so staff changes propagate by morning.
+// Trial fields only updated for CrossFit/Open Gym (other programs don't support trials).
+// Coach: only written when Wodify returns a non-empty name; falls back to WODIFY_CLASS_MAP default otherwise.
 // Run daily at 3:30am (after _updateWodifyClassCache at 3am).
-function _enrichWodifyTrialCache() {
+function _enrichWodifyClassDetails() {
   var props = PropertiesService.getScriptProperties();
   var cacheJson = props.getProperty('WODIFY_CLASS_CACHE');
   if (!cacheJson) return { enriched: 0 };
   var cache = JSON.parse(cacheJson);
   var nowMs = Date.now(), horizonMs = nowMs + 14 * 86400000;
-  var trialPrograms = ['CrossFit', 'Open Gym'];
+  var trialPrograms  = ['CrossFit', 'Open Gym'];
+  var knownPrograms  = Object.keys(CONFIG.WODIFY_CLASS_MAP);
   var enriched = 0;
 
   Object.keys(cache).forEach(function(key) {
     var entry = cache[key];
     if (typeof entry !== 'object' || !entry.program) return;
-    if (new Date(key).getTime() < nowMs || new Date(key).getTime() > horizonMs) return;
-    if (trialPrograms.indexOf(entry.program) === -1) return;
+    var keyMs = new Date(key).getTime();
+    if (keyMs < nowMs || keyMs > horizonMs) return;
+    if (knownPrograms.indexOf(entry.program) === -1) return;
 
     try {
       var resp = UrlFetchApp.fetch(
@@ -2263,15 +2293,76 @@ function _enrichWodifyTrialCache() {
       );
       if (resp.getResponseCode() !== 200) return;
       var detail = JSON.parse(resp.getContentText());
-      entry.trial_available = detail.is_free_trial_online === true
-        && !detail.is_free_trial_full
-        && detail.free_trial_limit > 0;
+
+      // Trial availability — CrossFit / Open Gym only
+      if (trialPrograms.indexOf(entry.program) !== -1) {
+        entry.trial_available = detail.is_free_trial_online === true
+          && !detail.is_free_trial_full
+          && detail.free_trial_limit > 0;
+      }
+
+      // Coach name — try coaches[] array first, then top-level coach field
+      var coachName = null;
+      if (detail.coaches && detail.coaches.length > 0) {
+        var cn = detail.coaches[0].name || detail.coaches[0].coach || '';
+        if (cn) coachName = cn;
+      } else if (typeof detail.coach === 'string' && detail.coach) {
+        coachName = detail.coach;
+      }
+      if (coachName !== null) entry.coach = coachName;
+      // If Wodify has no coach, leave entry.coach as null → _getWodifySchedule falls back to map default
+
+      // Wodify occupancy
+      entry.wodify_class_limit = (typeof detail.class_limit === 'number') ? detail.class_limit : null;
+      entry.wodify_reserved    = (typeof detail.reserved    === 'number') ? detail.reserved    : null;
+
       enriched++;
     } catch(e) { /* retry next run */ }
   });
 
   props.setProperty('WODIFY_CLASS_CACHE', JSON.stringify(cache));
   return { enriched: enriched };
+}
+
+// Backward-compat alias — kept so any bookmarked ?action=enrichTrialCache URLs still work
+function _enrichWodifyTrialCache() { return _enrichWodifyClassDetails(); }
+
+// Light occupancy refresh — fetches GET /classes/{id} for all known programs in next 3 days.
+// Updates only wodify_class_limit and wodify_reserved in PropertiesService cache.
+// Called from _warmCache() every 4h so occupancy data is at most 4h stale.
+// Also callable manually: ?action=refreshWodifyOccupancy
+function _refreshWodifyOccupancy() {
+  var props = PropertiesService.getScriptProperties();
+  var cacheJson = props.getProperty('WODIFY_CLASS_CACHE');
+  if (!cacheJson) return { refreshed: 0 };
+  var cache = JSON.parse(cacheJson);
+  var nowMs = Date.now();
+  var horizonMs = nowMs + 3 * 86400000; // next 3 days
+  var knownPrograms = Object.keys(CONFIG.WODIFY_CLASS_MAP);
+  var refreshed = 0;
+
+  Object.keys(cache).forEach(function(key) {
+    var entry = cache[key];
+    if (typeof entry !== 'object' || !entry.program) return;
+    var keyMs = new Date(key).getTime();
+    if (keyMs < nowMs || keyMs > horizonMs) return;
+    if (knownPrograms.indexOf(entry.program) === -1) return;
+
+    try {
+      var resp = UrlFetchApp.fetch(
+        CONFIG.WODIFY_BASE_URL + '/classes/' + entry.id,
+        { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+      );
+      if (resp.getResponseCode() !== 200) return;
+      var detail = JSON.parse(resp.getContentText());
+      entry.wodify_class_limit = (typeof detail.class_limit === 'number') ? detail.class_limit : null;
+      entry.wodify_reserved    = (typeof detail.reserved    === 'number') ? detail.reserved    : null;
+      refreshed++;
+    } catch(e) { /* retry next run */ }
+  });
+
+  props.setProperty('WODIFY_CLASS_CACHE', JSON.stringify(cache));
+  return { refreshed: refreshed };
 }
 
 function _findWodifyClassByDateTime(startDateTimeISO) {
@@ -2703,6 +2794,17 @@ function _listWodifyClasses(pageParam, dateParam) {
 
 // Diagnostic: probe Wodify /leads — search + dry-run create to expose API response structure.
 // Usage: ?action=probeWodifyLeads&email=someone@example.com
+// Diagnostic: fetch raw GET /classes/{id} detail — reveals coach field structure.
+// Usage: ?action=probeWodifyClassDetail&id=163966917
+function _probeWodifyClassDetail(classId) {
+  if (!classId) return _err('id parameter required');
+  var resp = UrlFetchApp.fetch(
+    CONFIG.WODIFY_BASE_URL + '/classes/' + classId,
+    { headers: { 'x-api-key': CONFIG.WODIFY_API_KEY }, muteHttpExceptions: true }
+  );
+  return _ok({ http_code: resp.getResponseCode(), body: JSON.parse(resp.getContentText()) });
+}
+
 function _probeWodifyLeads(params) {
   var email = params.email || '';
   var results = {};
@@ -2793,7 +2895,7 @@ function _getCacheStatus() {
   var triggers = ScriptApp.getProjectTriggers().map(function(t) { return t.getHandlerFunction(); });
   status['_trigger_warmCache']                  = triggers.indexOf('_warmCache')                  >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
   status['_trigger_updateWodifyClassCache']      = triggers.indexOf('_updateWodifyClassCache')      >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
-  status['_trigger_enrichWodifyTrialCache']      = triggers.indexOf('_enrichWodifyTrialCache')      >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
+  status['_trigger_enrichWodifyClassDetails']    = triggers.indexOf('_enrichWodifyClassDetails')    >= 0 ? 'EXISTS' : 'MISSING — run _setupAllTriggers()';
   status['_trigger_sendTrialReminders']          = triggers.indexOf('_sendTrialReminders')          >= 0 ? 'EXISTS' : 'MISSING';
   status['_trigger_sendFoundationReminders']     = triggers.indexOf('_sendFoundationReminders')     >= 0 ? 'EXISTS' : 'MISSING';
   return _ok(status);
@@ -2801,6 +2903,9 @@ function _getCacheStatus() {
 
 // ===== CACHE WARMING — run _setupAllTriggers() once from Apps Script IDE =====
 function _warmCache() {
+  // Refresh Wodify occupancy for next 3 days before computing availability
+  _refreshWodifyOccupancy();
+
   var now = new Date();
   var m1 = now.getMonth() + 1, y1 = now.getFullYear();
   var m2 = m1 === 12 ? 1 : m1 + 1, y2 = m1 === 12 ? y1 + 1 : y1;
@@ -2833,7 +2938,8 @@ function _setupAllTriggers() {
   ScriptApp.getProjectTriggers().forEach(function(t) {
     var fn = t.getHandlerFunction();
     if (fn === '_warmCache' || fn === '_sendTrialReminders' || fn === '_sendFoundationReminders' ||
-        fn === '_buildWodifyClassCache' || fn === '_updateWodifyClassCache' || fn === '_enrichWodifyTrialCache') {
+        fn === '_buildWodifyClassCache' || fn === '_updateWodifyClassCache' ||
+        fn === '_enrichWodifyTrialCache' || fn === '_enrichWodifyClassDetails') {
       ScriptApp.deleteTrigger(t);
     }
   });
@@ -2841,8 +2947,8 @@ function _setupAllTriggers() {
   ScriptApp.newTrigger('_warmCache').timeBased().everyHours(4).create();
   // Wodify class cache — daily incremental update at 3:00am JST
   ScriptApp.newTrigger('_updateWodifyClassCache').timeBased().everyDays(1).atHour(3).inTimezone(CONFIG.TIMEZONE).create();
-  // Wodify trial enrichment — daily at 3:30am JST (after class cache update)
-  ScriptApp.newTrigger('_enrichWodifyTrialCache').timeBased().everyDays(1).atHour(3).nearMinute(30).inTimezone(CONFIG.TIMEZONE).create();
+  // Wodify class detail enrichment (trial availability + coach) — daily at 3:30am JST
+  ScriptApp.newTrigger('_enrichWodifyClassDetails').timeBased().everyDays(1).atHour(3).nearMinute(30).inTimezone(CONFIG.TIMEZONE).create();
   // Daily reminder emails at 9am JST
   ScriptApp.newTrigger('_sendTrialReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
   ScriptApp.newTrigger('_sendFoundationReminders').timeBased().everyDays(1).atHour(9).inTimezone(CONFIG.TIMEZONE).create();
