@@ -170,6 +170,7 @@ function doGet(e) {
     if (action === 'listWodifyClasses')      return _listWodifyClasses(e.parameter.page, e.parameter.date);
     if (action === 'probeWodifyDateFilter')  return _probeWodifyDateFilter(e.parameter.date);
     if (action === 'buildWodifyCache')       return _ok(_buildWodifyClassCache());
+    if (action === 'clearWodifyCache')       return _ok(_clearWodifyCache());
     if (action === 'updateWodifyCache')      return _ok(_updateWodifyClassCache());
     if (action === 'enrichClassDetails')      return _ok(_enrichWodifyClassDetails());
     if (action === 'enrichTrialCache')        return _ok(_enrichWodifyClassDetails()); // backward compat
@@ -2120,6 +2121,18 @@ function _findWodifyLastPage() {
   return lo;
 }
 
+// Delete WODIFY_CLASS_CACHE from PropertiesService to free quota before a full rebuild.
+// Usage: ?action=clearWodifyCache  then immediately ?action=buildWodifyCache
+function _clearWodifyCache() {
+  var props = PropertiesService.getScriptProperties();
+  props.deleteProperty('WODIFY_CLASS_CACHE');
+  props.deleteProperty('WODIFY_CLASS_CACHE_BUILT');
+  props.deleteProperty('WODIFY_CLASS_CACHE_COUNT');
+  props.deleteProperty('WODIFY_CLASS_CACHE_PARTIAL');
+  props.deleteProperty('WODIFY_CLASS_CACHE_LASTPAGE');
+  return { cleared: true };
+}
+
 // Build PropertiesService cache of future Wodify class IDs.
 // Classes are stored by programs in separate creation-order batches — start_date_time is NOT
 // monotonic across pages — so binary search fails. Full scan + cache is the only reliable fix.
@@ -2128,7 +2141,7 @@ function _findWodifyLastPage() {
 function _buildWodifyClassCache() {
   var startTime    = new Date();
   var nowMs        = startTime.getTime();
-  var futureMs     = nowMs + 400 * 86400000; // 400 days ahead
+  var futureMs     = nowMs + 60 * 86400000; // 60 days ahead
   var pastCutoffMs = nowMs - 30 * 86400000;  // stop scanning when a full page is older than 30 days ago
   var lastPage     = _findWodifyLastPage();
   var cache        = {};
@@ -2208,7 +2221,7 @@ function _updateWodifyClassCache() {
 
   var cache    = JSON.parse(cacheJson);
   var nowMs    = Date.now();
-  var futureMs = nowMs + 400 * 86400000;
+  var futureMs = nowMs + 60 * 86400000;
 
   // Prune entries that are now in the past (keep cache lean)
   Object.keys(cache).forEach(function(k) {
