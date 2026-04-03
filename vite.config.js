@@ -42,7 +42,7 @@ export default defineConfig({
         // ── New booking pages (add entries here as pages are created) ──
         'booking-trial':              'booking-trial.html',
         'booking-dropin':             'booking-dropin.html',
-        'booking-hyrox-competitors':  'booking-hyrox-competitors.html',
+        'booking-hyrox-performance':  'booking-hyrox-performance.html',
         'booking-hyrox-strength':     'booking-hyrox-strength.html',
         'booking-spartan':            'booking-spartan.html',
         'booking-foundation':         'booking-foundation.html',

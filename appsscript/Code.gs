@@ -2213,9 +2213,10 @@ function _updateWodifyClassCache() {
   var builtStr  = props.getProperty('WODIFY_CLASS_CACHE_BUILT');
   var savedPage = parseInt(props.getProperty('WODIFY_CLASS_CACHE_LASTPAGE') || '0', 10);
 
-  // Full rebuild if: no cache, no saved page, or cache is > 8 days old
+  // Always do a full rebuild — incremental updates can't detect class deletions in Wodify.
+  // Full rebuild is fast enough (< 5 min) to run daily at 3am.
   var cacheAge = builtStr ? (new Date() - new Date(builtStr)) / 86400000 : 999;
-  if (!cacheJson || !savedPage || cacheAge > 8) {
+  if (!cacheJson || !savedPage || cacheAge >= 0) {
     return Object.assign(_buildWodifyClassCache(), { full_rebuild: true });
   }
 
